@@ -40,11 +40,11 @@
   </entry>
   
   <entry>
-    <title>Hello World</title>
-    <link href="http://yoursite.com/2020/03/02/React%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F%E6%A2%B3%E7%90%86/"/>
-    <id>http://yoursite.com/2020/03/02/React%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F%E6%A2%B3%E7%90%86/</id>
-    <published>2020-03-01T18:01:34.970Z</published>
-    <updated>2020-03-01T16:21:10.915Z</updated>
+    <title>React通信方式梳理（二）</title>
+    <link href="http://yoursite.com/2019/10/26/React%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F%E6%A2%B3%E7%90%86/"/>
+    <id>http://yoursite.com/2019/10/26/React%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F%E6%A2%B3%E7%90%86/</id>
+    <published>2019-10-25T16:00:00.000Z</published>
+    <updated>2020-03-02T13:59:28.075Z</updated>
     
     <summary type="html">
     
@@ -52,13 +52,78 @@
       
         
         
-          &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a
+          &lt;p&gt;Welcome to share creative thoughts!&lt;/p&gt;
+&lt;h1 id=&quot;父组件向子组件通信&quot;&gt;&lt;a href=&quot;#父组件向子组件通信&quot; class=&quot;headerlink&quot;
         
       
     
     </summary>
     
     
+      <category term="打怪升级React" scheme="http://yoursite.com/categories/%E6%89%93%E6%80%AA%E5%8D%87%E7%BA%A7React/"/>
+    
+    
+      <category term="React" scheme="http://yoursite.com/tags/React/"/>
+    
+      <category term="jsx" scheme="http://yoursite.com/tags/jsx/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>React通信方式梳理（二）</title>
+    <link href="http://yoursite.com/2019/10/26/React%E4%B8%AD%E5%AF%B9%E5%8D%95%E5%90%91%E6%95%B0%E6%8D%AE%E6%B5%81%E7%9A%84%E6%80%9D%E8%80%83/"/>
+    <id>http://yoursite.com/2019/10/26/React%E4%B8%AD%E5%AF%B9%E5%8D%95%E5%90%91%E6%95%B0%E6%8D%AE%E6%B5%81%E7%9A%84%E6%80%9D%E8%80%83/</id>
+    <published>2019-10-25T16:00:00.000Z</published>
+    <updated>2020-03-02T13:59:20.523Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Welcome to share creative
+        
+      
+    
+    </summary>
+    
+    
+      <category term="打怪升级React" scheme="http://yoursite.com/categories/%E6%89%93%E6%80%AA%E5%8D%87%E7%BA%A7React/"/>
+    
+    
+      <category term="React" scheme="http://yoursite.com/tags/React/"/>
+    
+      <category term="jsx" scheme="http://yoursite.com/tags/jsx/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>React生命周期（一）</title>
+    <link href="http://yoursite.com/2019/10/22/%E6%B7%B1%E5%85%A5%E6%B5%85%E6%9E%90React/"/>
+    <id>http://yoursite.com/2019/10/22/%E6%B7%B1%E5%85%A5%E6%B5%85%E6%9E%90React/</id>
+    <published>2019-10-21T16:00:00.000Z</published>
+    <updated>2020-03-02T13:59:31.157Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Initialization-初始化阶段。&quot;&gt;&lt;a href=&quot;#Initialization-初始化阶段。&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="打怪升级React" scheme="http://yoursite.com/categories/%E6%89%93%E6%80%AA%E5%8D%87%E7%BA%A7React/"/>
+    
+    
+      <category term="React" scheme="http://yoursite.com/tags/React/"/>
+    
+      <category term="jsx" scheme="http://yoursite.com/tags/jsx/"/>
     
   </entry>
   

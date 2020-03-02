@@ -32,7 +32,7 @@
   <div id="app">
     <main class="content">
       <section class="outer">
-  <article id="post-React" class="article article-type-post" itemscope
+  <article id="post-深入浅析React" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -50,7 +50,7 @@
     
     <div class="article-meta">
       <a href="" class="article-date">
-  <time datetime="2019-08-22T16:00:00.000Z" itemprop="datePublished">2019-08-23</time>
+  <time datetime="2019-10-21T16:00:00.000Z" itemprop="datePublished">2019-10-22</time>
 </a>
       
   <div class="article-category">
@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">478字</span>
+            <span class="post-count">425字</span>
         </span>
     </span>
 
@@ -105,13 +105,14 @@
 <p>举例：render()函数，就是一个生命周期函数，它在state发生改变时自动执行。这就是一个标准的自动执行函数。</p>
 <p>constructor不算生命周期函数。<br>constructor叫构造函数，它是ES6的基本语法。虽然它和生命周期函数的性质一样，但不能认为是生命周期函数。</p>
 <p>我个人把它看成React的Initialization阶段，定义属性（props）和状态(state)。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200302110716424.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>Mounting阶段<br>Mounting阶段叫挂载阶段，伴随着整个虚拟DOM的生成，它里边有三个小的生命周期函数，分别是：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">componentWillMount : 在组件即将被挂载到页面的时刻执行。</span><br><span class="line">render : 页面state或props发生变化时执行。</span><br><span class="line">componentDidMount : 组件挂载完成时被执行。</span><br><span class="line">componentWillMount代码</span><br><span class="line"></span><br><span class="line">componentWillMount()&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'componentWillMount----组件将要挂载到页面的时刻'</span>)</span><br><span class="line">&#125;</span><br><span class="line">componentDidMount代码</span><br><span class="line"></span><br><span class="line">componentDidMount()&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'componentDidMount----组件挂载完成的时刻执行'</span>)</span><br><span class="line">&#125;</span><br><span class="line">render代码</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">render()&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'render---组件挂载中.......'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Mounting阶段<br>Mounting阶段叫挂载阶段，伴随着整个虚拟DOM的生成，它里边有三个小的生命周期函数，分别是：</p>
+<p>componentWillMount : 在组件即将被挂载到页面的时刻执行。<br>render : 页面state或props发生变化时执行。<br>componentDidMount : 组件挂载完成时被执行。<br>componentWillMount代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">    console.log(&#39;componentWillMount----组件将要挂载到页面的时刻&#39;)</span><br><span class="line">&#125;</span><br><span class="line">componentDidMount代码</span><br><span class="line"></span><br><span class="line">componentDidMount()&#123;</span><br><span class="line">    console.log(&#39;componentDidMount----组件挂载完成的时刻执行&#39;)</span><br><span class="line">&#125;</span><br><span class="line">render代码</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">render()&#123;</span><br><span class="line">    console.log(&#39;render---组件挂载中.......&#39;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这时候查看一下控制台，会打出如下提示：</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">componentWillMount<span class="comment">----组件将要挂载到页面的时刻执行</span></span><br><span class="line">render<span class="comment">----开始挂载渲染</span></span><br><span class="line">componentDidMount<span class="comment">----组件挂载完成的时刻执行</span></span><br></pre></td></tr></table></figure>
 
-<p>查看一下控制台，会打出如下提示：</p>
-<p>componentWillMount—-组件将要挂载到页面的时刻执行<br>render—-开始挂载渲染<br>componentDidMount—-组件挂载完成的时刻执行<br>这也是生命周期的顺序。有小伙伴会问我，这个函数书写有顺序吗?哪个在前？哪个在后？其实是没有顺序的，你可以随便改动他们的顺序。</p>
-<p>注意的问题：</p>
-<p>componentWillMount和componentDidMount这两个生命周期函数，只在页面刷新时执行一次，而render函数是只要有state和props变化就会执行，这个一定要注意。</p>
+<p>注意的问题</p>
+<p>componentWillMount和componentDidMount这两个生命周期函数，只在页面刷新时执行一次，而render函数是只要有state和props变化就会执行!</p>
 
       
       <!-- reward -->
@@ -181,7 +182,7 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2019/08/23/React/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2019/10/22/%E6%B7%B1%E5%85%A5%E6%B5%85%E6%9E%90React/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -199,15 +200,20 @@
   
   <nav class="article-nav">
     
-      <a href="../../../10/22/%E6%B7%B1%E5%85%A5%E6%B5%85%E6%9E%90React/" class="article-nav-link">
+      <a href="../../26/React%E4%B8%AD%E5%AF%B9%E5%8D%95%E5%90%91%E6%95%B0%E6%8D%AE%E6%B5%81%E7%9A%84%E6%80%9D%E8%80%83/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            React生命周期（一）
+            React通信方式梳理（二）
           
         </div>
       </a>
     
+    
+      <a href="../../../08/23/React/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">React生命周期（一）</div>
+      </a>
     
   </nav>
 
