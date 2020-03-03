@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+     爱生活，爱前端！
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+  
+<script src="../../js/pace.min.js"></script>
+
+
+  
+
+  
+
+<link rel="alternate" href="atom.xml" title="爱生活，爱前端！" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    <main class="content">
+      
+<section class="cover">
+    
+      
+      <a class="forkMe" href="https://github.com/diamondto.github.io"
+        target="_blank"><img width="149" height="149" src="../../images/forkme.png"
+          class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+    
+  <div class="cover-frame">
+    <div class="bg-box">
+      <img src="/images/cover1.jpg" alt="image frame" />
+    </div>
+    <div class="cover-inner text-center text-white">
+      <h1><a href="../../index.html">爱生活，爱前端！</a></h1>
+      <div id="subtitle-box">
+        
+        <span id="subtitle"></span>
+        
+      </div>
+      <div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="cover-learn-more">
+    <a href="javascript:void(0)" class="anchor"><i class="ri-arrow-down-line"></i></a>
+  </div>
+</section>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js"></script>
+
+<div id="main">
+  <section class="outer">
+  <article class="articles">
+    
+    
+    
+    
+    <article id="post-前端的单页面模式和多页面模式" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="../../2019/08/08/%E5%89%8D%E7%AB%AF%E7%9A%84%E5%8D%95%E9%A1%B5%E9%9D%A2%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%A4%9A%E9%A1%B5%E9%9D%A2%E6%A8%A1%E5%BC%8F/"
+    >前端的单页面模式和多页面模式</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="../../2019/08/08/%E5%89%8D%E7%AB%AF%E7%9A%84%E5%8D%95%E9%A1%B5%E9%9D%A2%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%A4%9A%E9%A1%B5%E9%9D%A2%E6%A8%A1%E5%BC%8F/" class="article-date">
+  <time datetime="2019-08-07T16:00:00.000Z" itemprop="datePublished">2019-08-08</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../categories/SPA/">SPA</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>Welcome to share creative thoughts!</p>
+<h2 id="思考动机"><a href="#思考动机" class="headerlink" title="思考动机"></a>思考动机</h2><p>前端部分的搭建，需要考虑使用哪种模式进行页面之间的跳转交互，<br>而项目内的页面交互，不可避免的需要相互之间的数据共享。</p>
+<h2 id="模式选择"><a href="#模式选择" class="headerlink" title="模式选择"></a>模式选择</h2><p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWFnZXMyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvMTM4MzQ4OC8yMDE4MDcvMTM4MzQ4OC0yMDE4MDcxMjE3NDAwNTA3NS0xMjA1MTA1OTMzLnBuZw?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<blockquote>
+<p>单页面模式（SPA  Single-page Application）：<br>只有一张Web页面的应用，是一种从Web服务器加载的富客户端，单页面跳转仅刷新局部资源 ，公共资源(js、css等)仅需加载一次<br>页面跳转：使用js中的append/remove或者show/hide的方式来进行页面内容的更换,或者使用框架。<br>数据传递：可通过全局变量或者参数传递，进行相关数据交互<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWFnZXMyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvMTM4MzQ4OC8yMDE4MDcvMTM4MzQ4OC0yMDE4MDcxMjE3NDAwNTA3NS0xMjA1MTA1OTMzLnBuZw?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>多页面模式（MPA  Multi-page Application）：<br>多页面跳转需要刷新所有资源，每个公共资源(js、css等)需选择性重新加载<br>页面跳转：使用window.location.href = “./index.html”进行页面间的跳转；<br>数据传递：可以使用path?account=”123”&amp;password=””路径携带数据传递的方式，或者localstorage、cookie等存储方式</p>
+</blockquote>
+<blockquote>
+<p>总结：<br>单页面模式：相对比较有优势，无论在用户体验还是页面切换的数据传递、页面切换动画，都可以有比较大的操作空间<br>多页面模式：比较适用于页面跳转较少，数据传递较少的项目中开发，否则使用cookie，localstorage进行数据传递，性能很不好。</p>
+</blockquote>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/SPA/" rel="tag">SPA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">性能优化</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-谈谈Ajax" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="../../2019/06/10/%E8%B0%88%E8%B0%88Ajax/"
+    >谈谈Ajax</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="../../2019/06/10/%E8%B0%88%E8%B0%88Ajax/" class="article-date">
+  <time datetime="2019-06-09T16:00:00.000Z" itemprop="datePublished">2019-06-10</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../categories/%E5%89%8D%E5%90%8E%E7%AB%AF%E4%BA%A4%E4%BA%92/">前后端交互</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>Welcome to share creative thoughts!</p>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>Asynchronous JavaScript and XML，意思是异步JS和XML。<br>解释下异步，异步是相对于同步来说的，同步即同时进行（累积多了就排队，一个一个执行，必须等上一个结束，才能到下一个），而异步就是执行到我了，我去旁边继续执行等结果，后面排队的不用等我结果出来再执行。<br>这是对于ajax的特点来设计的，<strong>因为ajax对后端数据的请求需要时间，</strong>而这个时间不利用起来就是浪费。当然，如果必须要等前一个的结果怎么办，这就使用到JS中的重要部分——回调函数了，其实回调在JS中应用很多，像点击事件执行的就是回调（先绑定事件，只有在点击发生时，才会执行）。那么ajax也一样，先请求数据，只有在状态改变时才会执行接下来的（这个状态包括请求成功和请求失败）。</p>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><p>AJAX 是一种用于创建快速动态网页的技术，对网页的某部分进行更新，不用刷新整个网页。<br>它可以通过在后台与服务器进行少量数据交换，使网页实现异步更新。这意味着可以在不重新加载整个网页的情况下，对网页的某部分进行更新。传统的网页（不使用 AJAX）如果需要更新内容，必需重载整个页面。</p>
+<h2 id="原理图"><a href="#原理图" class="headerlink" title="原理图"></a>原理图</h2><p>ajax实现的就是浏览器和服务器之间的数据交互。<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWFnZXMyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvMTM4MzQ4OC8yMDE4MDUvMTM4MzQ4OC0yMDE4MDUxMzIzMDQwMTE1NS0xOTMyNDMyMDgzLnBuZw?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<h2 id="核心"><a href="#核心" class="headerlink" title="核心"></a>核心</h2><p>　 XMLHTTPRequest对象，（是对象，就有属性和方法）</p>
+<p>　常用的方法：<br>　open(“method”, “url”, “async”)，</p>
+<p>　method表示通过什么方式进行服务器访问，包括get和post；</p>
+<p>　url表示访问服务器的地址；</p>
+<p>　async表示是否异步，包括true和false（注意：true表示异步）。</p>
+<pre><code>send(content)，</code></pre><p>　content表示向服务器发送的数据。
+　</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">1</span> <span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHTTPRequest();</span><br><span class="line"> <span class="number">2</span> </span><br><span class="line"> <span class="number">3</span> xhr.open(<span class="string">"method"</span>, <span class="string">"url"</span>, <span class="string">"async"</span>);</span><br><span class="line"> <span class="number">4</span> </span><br><span class="line"> <span class="number">5</span> xhr.send(<span class="literal">null</span>);</span><br><span class="line"> <span class="number">6</span> </span><br><span class="line"> <span class="number">7</span> xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"> <span class="number">8</span> </span><br><span class="line"> <span class="number">9</span>     <span class="keyword">if</span>(xhr.readystate == <span class="number">4</span>)&#123;</span><br><span class="line"><span class="number">10</span> </span><br><span class="line"><span class="number">11</span> 　　　<span class="keyword">if</span>(xhr.status == <span class="number">200</span>)&#123;</span><br><span class="line"><span class="number">12</span> </span><br><span class="line"><span class="number">13</span> 　　　　　<span class="built_in">console</span>.log(xhr.responseText)</span><br><span class="line"><span class="number">14</span> </span><br><span class="line"><span class="number">15</span> 　　　&#125;</span><br><span class="line"><span class="number">16</span> </span><br><span class="line"><span class="number">17</span> 　　&#125;</span><br><span class="line"><span class="number">18</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="向服务器请求状态的阶段："><a href="#向服务器请求状态的阶段：" class="headerlink" title="向服务器请求状态的阶段："></a>向服务器请求状态的阶段：</h2><p>　　　onreadystatechange表示请求状态改变的事件触发器，</p>
+<p>　　　readystate表示请求状态，4表示完成，具体如下表：<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWFnZXMyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvMTM4MzQ4OC8yMDE4MDUvMTM4MzQ4OC0yMDE4MDUxMzIzMTk0NDc1Mi0xMzA4MzA2MzU3LnBuZw?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<h2 id="服务器反馈阶段："><a href="#服务器反馈阶段：" class="headerlink" title="服务器反馈阶段："></a>服务器反馈阶段：</h2><p>　　　status表示http请求状态码，200表示成功，具体如下表：<br>　　　<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWFnZXMyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvMTM4MzQ4OC8yMDE4MDUvMTM4MzQ4OC0yMDE4MDUxMzIzMzY1NTI1NC0yMTM2ODM3MDA2LnBuZw?x-oss-process=image/format,png" alt="在这里插入图片描述">
+　　</p>
+<h2 id="避坑"><a href="#避坑" class="headerlink" title="避坑"></a>避坑</h2><p>IE7及其以上版本中支持原生的 XHR 对象，因此可以直接用： var oAjax = new XMLHttpRequest();<br>IE6及其之前的版本中，XHR对象是通过MSXML库中的一个ActiveX对象实现的。使用下面的语句创建： var oAjax=new ActiveXObject(’Microsoft.XMLHTTP’);<br>GET 请求方式是通过<strong>URL参数</strong>将数据提交到服务器的，POST则是通过将数据作为 <strong>send 的参数</strong>提交到服务器；POST 请求中，在发送数据之前，要设置表单提<strong>交的内容类型</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//可以以下步骤代替上面的open、setRequestHeader、send三行，此处对GET和POST做了很好的区分</span></span><br><span class="line">    <span class="keyword">var</span> params = &#123;&#125;;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> key <span class="keyword">in</span> ajaxData.data)&#123;</span><br><span class="line">         params.push(key + <span class="string">"="</span> + ajaxData.data[key]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> sendData = params.join(<span class="string">"&amp;"</span>);</span><br><span class="line">    <span class="keyword">if</span>(ajaxData.type.toUpperCase() == <span class="string">"GET"</span>)&#123;</span><br><span class="line">         xhr.open(ajaxData.type, ajaxData.url + <span class="string">"?"</span> + sendData, ajaxData.async);</span><br><span class="line">         xhr.send(<span class="literal">null</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">         xhr.open(ajaxData.type, ajaxData.url, ajaxData.async);</span><br><span class="line">         xhr.setRequestHeader(<span class="string">"Content-type"</span>, <span class="string">"application/x-www-form-urlencoded; charset=utf-8"</span>);</span><br><span class="line">         xhr.send(sendData);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="JQuery中的封装方法"><a href="#JQuery中的封装方法" class="headerlink" title="JQuery中的封装方法"></a>JQuery中的封装方法</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">    type: <span class="string">"GET"</span>,            　　<span class="comment">//访问服务器的方式，GET/POST</span></span><br><span class="line">    url: <span class="string">"test.json"</span>,       　　<span class="comment">//url表示访问的服务器地址</span></span><br><span class="line">    data: &#123;<span class="attr">username</span>: <span class="string">""</span>,     </span><br><span class="line">           content: <span class="string">""</span>&#125;, 　　　 <span class="comment">//data表示传递到后台的数据，使用键值对形式传递</span></span><br><span class="line">    <span class="keyword">async</span>: <span class="literal">true</span>,            　 <span class="comment">//true表示异步，false表示同步</span></span><br><span class="line">    success: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(data)</span><br><span class="line">    &#125;,</span><br><span class="line">    error: <span class="function"><span class="keyword">function</span>(<span class="params">err</span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(err)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="封装成JQuery的形式"><a href="#封装成JQuery的形式" class="headerlink" title="封装成JQuery的形式"></a>封装成JQuery的形式</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">$Ajax</span>(<span class="params">opt</span>)</span>&#123;</span><br><span class="line">    opt = opt || &#123;&#125;;</span><br><span class="line">    opt.type = opt.type || <span class="string">"post"</span>;</span><br><span class="line">    opt.url = opt.url || <span class="string">""</span>;</span><br><span class="line">    opt.async = opt.async || <span class="literal">true</span>;</span><br><span class="line">    opt.data = opt.data || <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    opt.success = opt.success || <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line">    opt.error = opt.error || <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line">      </span><br><span class="line">    <span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHTTPRequest();</span><br><span class="line">    <span class="keyword">var</span> params = &#123;&#125;;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> key <span class="keyword">in</span> opt.data)&#123;</span><br><span class="line">         params.push(key + <span class="string">"="</span> + opt.data[key]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> sendData = params.join(<span class="string">"&amp;"</span>);</span><br><span class="line">    <span class="keyword">if</span>(opt.type.toUpperCase() == <span class="string">"GET"</span>)&#123;</span><br><span class="line">         xhr.open(opt.type, opt.url + <span class="string">"?"</span> + sendData, opt.async);</span><br><span class="line">         xhr.send(<span class="literal">null</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">         xhr.open(opt.type, opt.url, opt.async);</span><br><span class="line">         xhr.setRequestHeader(<span class="string">"Content-type"</span>, <span class="string">"application/x-www-form-urlencoded; charset=utf-8"</span>);</span><br><span class="line">         xhr.send(sendData);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">         <span class="keyword">if</span>(xhr.readystate == <span class="number">4</span>)&#123;</span><br><span class="line">              <span class="keyword">if</span>(xhr.status == <span class="number">200</span>)&#123;</span><br><span class="line">                    opt.success &amp;&amp; opt.success(xhr.responseText);  </span><br><span class="line">              &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    opt.error &amp;&amp; xhr.error(xhr.status);</span><br><span class="line">              &#125;</span><br><span class="line">         &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Ajax/" rel="tag">Ajax</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Communication/" rel="tag">Communication</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-关于原型的理解" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="../../2019/02/02/%E5%85%B3%E4%BA%8E%E5%8E%9F%E5%9E%8B%E7%9A%84%E7%90%86%E8%A7%A3/"
+    >关于原型的理解</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="../../2019/02/02/%E5%85%B3%E4%BA%8E%E5%8E%9F%E5%9E%8B%E7%9A%84%E7%90%86%E8%A7%A3/" class="article-date">
+  <time datetime="2019-02-01T16:00:00.000Z" itemprop="datePublished">2019-02-02</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../categories/%E6%89%93%E6%80%AA%E5%8D%87%E7%BA%A7JS/">打怪升级JS</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>Welcome to share creative thoughts!</p>
+<h2 id="关于原型的理解"><a href="#关于原型的理解" class="headerlink" title="关于原型的理解"></a>关于原型的理解</h2><p>在这里我解析一下obj.constructor === Array  JS中一切皆对象！<br>注意：JavaScript中没有类（class）的概念，取而代之的是构造函数，两者类似却又有很大的差别。<br>构造函数的prototype指向原型对象，同时，原型对象有constructor指回构造函数对象。<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly90aW1nc2EuYmFpZHUuY29tL3RpbWc_aW1hZ2UmcXVhbGl0eT04MCZzaXplPWI5OTk5XzEwMDAwJnNlYz0xNTgzMjUwNDI5NjY5JmRpPTJjZDEwYmNhZTU0YjY2NzVmMjY3NzQ1N2FjMjViMWQ1JmltZ3R5cGU9MCZzcmM9aHR0cDovL3d3dy5md3F0Zy5uZXQvd3AtY29udGVudC91cGxvYWRzLzIwMTYvMDQvODgzODA1LTIwMTYwNDI2MTYyMTQ2NDg2LTIwODc5NTYxMTkucG5n?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly90aW1nc2EuYmFpZHUuY29tL3RpbWc_aW1hZ2UmcXVhbGl0eT04MCZzaXplPWI5OTk5XzEwMDAwJnNlYz0xNTgzMjUwNDQ0OTgwJmRpPTE0NTJlMjFiMDA2YTc1ZjQ1OGE2OTZjNWU2NzA2ZDI1JmltZ3R5cGU9anBnJnNyYz1odHRwOi8vaW1nMy5pbWd0bi5iZGltZy5jb20vaXQvdT0yNDEyNzA0MjQ4LDEyOTQyNjQzNDYmZm09MjE0JmdwPTAuanBn?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line"> <span class="keyword">this</span>.name = name;</span><br><span class="line"> <span class="keyword">this</span>.age = age;</span><br><span class="line"> <span class="keyword">this</span>.eat= <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; alert(<span class="string">'吃西红柿'</span>) &#125; </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> person1 = <span class="keyword">new</span> Person(<span class="string">'小米'</span>, <span class="number">28</span>);</span><br><span class="line"><span class="keyword">var</span> person2 = <span class="keyword">new</span> Person(<span class="string">'大米'</span>, <span class="number">23</span>);</span><br></pre></td></tr></table></figure>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWcyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvMTM4MzQ4OC8yMDE4MTIvMTM4MzQ4OC0yMDE4MTIyNjIxNTAxMDM4My00NDMyNTAyMzQucG5n?x-oss-process=image/format,png" alt="在这里插入图片描述"><br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWcyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvMTM4MzQ4OC8yMDE4MTIvMTM4MzQ4OC0yMDE4MTIyNjIxNTAzNzM2NC04Mjk4NTA3Ni5wbmc?x-oss-process=image/format,png" alt="在这里插入图片描述"><br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWcyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvMTM4MzQ4OC8yMDE4MTIvMTM4MzQ4OC0yMDE4MTIyNjIxNTEwMDMzMi0xNjAxMjA3MzU1LnBuZw?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>上图分别是：</p>
+<p>图一打印perspn1实例对象，<br>图二打印Person构造函数，<br>图三打印构造函数的prototype（即Person的原型对象）和person1的<strong>proto</strong></p>
+<blockquote>
+<p>实例对象和构造函数一点也不像<br>person1.<strong>proto</strong>和Person.prototype一模一样<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWcyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvMTM4MzQ4OC8yMDE4MTIvMTM4MzQ4OC0yMDE4MTIyNjIzMDAzMzQyMy05NjEwOTc5OTUucG5n?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+</blockquote>
+<p>在java中，类和它的实例对象之间有很紧密的关系，你的（属性和方法）是我的，我的还是我的！<br>可是到了js这里，Person构造函数中并没有体现出他本该有的属性和方法<br>也就是说，无论我们实例化出来多少个person，他们的属性和方法都是不一样的。<br>属性不一样还可以理解，方法不一样就意味着：每个实例出来的person的方法并不是共用的（并不指向同一个地址空间），那我们要构造函数还有什么意义？ </p>
+<blockquote>
+<p>因为构造函数加原型可以达到JAVA中类和实例的优点：能够共享数据，节省内存空间<br>使用原型对象造共用属性和方法<br>构造函数中定义的方法，实例化后并不一样，而原型对象prototype中定义的方法确实相等的（指向同一地址）<br>JS中给同一构造函数的实例对象 添加共用属性和方法，需要使用prototype这一属性，也就是原型对象来实现<br>实例对象的<strong>proto</strong>和构造函数的prototype相等（指向同一地址），完全一样<br>Person.prototype.constructor和person1.<strong>proto</strong>.constructor以及Person一模一样<br>Person.prototype.constructor === Person<br>即：构造函数的原型对象（prototype）的构造器（constructor）指向该构造函数</p>
+</blockquote>
+<p>敲重点！</p>
+<blockquote>
+<p>实例对象中都有<strong>proto</strong>属性，而构造函数中都有prototype属性，<br>prototype和<strong>proto</strong>都有构造器constructor，其实实例对象的<strong>proto</strong>和构造函数的prototype是一样的（Person.prototype === person1.<strong>proto</strong>）<br>构造函数的原型对象（prototype）的构造器（constructor）指向该构造函数（Person.prototype.constructor === Person）<br>！！原型属性和方法统一定义时，需要定义构造器constructor，即将构造函数的原型对象中的构造器指向该构造函数，否则原型属性和方法定义失败</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//添加原型方法</span></span><br><span class="line">Person.prototype.job= <span class="string">"程序员"</span></span><br><span class="line">Person.prototype.address = <span class="string">"苏州"</span> </span><br><span class="line">Person.prototype.study= <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; alert(<span class="string">"学JavaScript"</span>)&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//可以这样定义吗？</span></span><br><span class="line">Person.prototype = &#123;</span><br><span class="line">    job:  <span class="string">"程序员"</span>,</span><br><span class="line">    address: <span class="string">"苏州"</span> ,</span><br><span class="line">    study:  <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; alert(<span class="string">"学JavaScript"</span>)&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//上面的原型对象定义出错，需要加上constructor--手动修改构造器的指向</span></span><br><span class="line">Person.prototype = &#123;</span><br><span class="line">    <span class="keyword">constructor</span>: Person,</span><br><span class="line">    job:  "程序员",</span><br><span class="line">    address: "苏州" ,</span><br><span class="line">    study:  function() &#123; alert(<span class="string">"学JavaScript"</span>)&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWcyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvMTM4MzQ4OC8yMDE4MTIvMTM4MzQ4OC0yMDE4MTIyNzAwMTUxMjcxMi0xNDg0ODc2ODEzLnBuZw?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/prototype/" rel="tag">prototype</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+  </article>
+  
+
+  
+  <nav class="page-nav">
+    
+    <a class="extend prev" rel="prev" href="../../">上一页</a><a class="page-number" href="../../">1</a><span class="page-number current">2</span>
+  </nav>
+  
+</section>
+</div>
+
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2020
+        Wangqiuxia
+      </li>
+      <li>
+        
+        Powered by
+        
+        
+        <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+    <aside class="sidebar">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="../../index.html"><img src="/images/ayer-side.svg" alt="爱生活，爱前端！"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../index.html">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../tags/%E6%8A%80%E6%9C%AF/">小程序</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../http:/shenyu-vip.lofter.com">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../https:/v.xiumi.us/stage/v5/4IeLH/197507179">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="../../atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="../../images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="../../images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="../../js/jquery-2.0.3.min.js"></script>
+
+
+<script src="../../js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="../../js/lazyload.min.js"></script>
+
+
+<script src="../../js/busuanzi-2.3.pure.min.js"></script>
+
+
+<script src="../../js/share.js"></script>
+
+
+
+<script src="../../fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['做一个有情怀的程序媛','业精于勤荒于嬉，行成于思毁于随','越努力越幸运'],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+
+<script src="../../js/ayer.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=518895142&auto=1&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+  </div>
+</body>
+
+</html>

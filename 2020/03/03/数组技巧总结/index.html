@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    数组技巧总结 |  爱生活，爱前端！
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="../../../../css/style.css">
+
+  
+<script src="../../../../js/pace.min.js"></script>
+
+
+  
+
+  
+
+<link rel="alternate" href="atom.xml" title="爱生活，爱前端！" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    <main class="content">
+      <section class="outer">
+  <article id="post-数组技巧总结" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  数组技巧总结
+</h1>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="" class="article-date">
+  <time datetime="2020-03-03T15:52:24.873Z" itemprop="datePublished">2020-03-03</time>
+</a>
+      
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">2.2k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">9分钟</span>
+        </span>
+    </span>
+</div>
+
+      
+    </div>
+    
+
+    
+    
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h2 id="map与for-each"><a href="#map与for-each" class="headerlink" title="map与for each"></a>map与for each</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">			<span class="keyword">let</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line">			<span class="comment">//for each 对数组直接进行循环，相当于直接for循环,没有返回值</span></span><br><span class="line">			<span class="comment">//三个参数是item  index arr不是必须的</span></span><br><span class="line">			<span class="comment">// let result = arr.forEach((item,index,arr)=&gt;&#123;</span></span><br><span class="line">			<span class="comment">// 	console.log(item)</span></span><br><span class="line">			<span class="comment">// 	console.log(index)</span></span><br><span class="line">			<span class="comment">// 	console.log(arr)</span></span><br><span class="line">			<span class="comment">// 	return item</span></span><br><span class="line">			<span class="comment">// &#125;)</span></span><br><span class="line">			<span class="comment">//console.log(result)</span></span><br><span class="line">			</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">let</span> arr2 = [<span class="string">'香蕉'</span>,<span class="string">"苹果"</span>,<span class="string">"雪梨"</span>]</span><br><span class="line">			<span class="comment">//map,对数组每一项进行加工，加工完成之后返回1个新的数组！</span></span><br><span class="line">			<span class="comment">// let result2 = arr2.map((item,index,arr)=&gt;&#123;</span></span><br><span class="line">			<span class="comment">// 	let str = index + item + index</span></span><br><span class="line">			<span class="comment">// 	return str</span></span><br><span class="line">			<span class="comment">// &#125;)</span></span><br><span class="line">			<span class="comment">// console.log(result2)</span></span><br><span class="line">			</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">let</span> arr3 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>];</span><br><span class="line">			<span class="comment">//filter过滤，就是将想要的内容进行筛选，不要内容去除，最终返回想要的内容的数组。</span></span><br><span class="line">			<span class="comment">// let result3 = arr3.filter((item,index)=&gt;&#123;</span></span><br><span class="line">			<span class="comment">// 	if(item%2==0)&#123;</span></span><br><span class="line">			<span class="comment">// 		//通过返回true还是false进行选择，true就是想要，false就是去除。</span></span><br><span class="line">			<span class="comment">// 		return true;</span></span><br><span class="line">			<span class="comment">// 	&#125;else&#123;</span></span><br><span class="line">			<span class="comment">// 		return false;</span></span><br><span class="line">			<span class="comment">// 	&#125;</span></span><br><span class="line">			<span class="comment">// &#125;)</span></span><br><span class="line">			<span class="comment">// console.log(result3)</span></span><br><span class="line">			</span><br><span class="line">			<span class="comment">//reduce,是对整个数组进行整合，比如要将数组里所有的数字进行相加</span></span><br><span class="line">			<span class="comment">//将数组每一项内容整合后，返回1个内容</span></span><br><span class="line">			<span class="keyword">let</span> arr4 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>];</span><br><span class="line">			<span class="keyword">let</span> result4 =arr4.reduce(<span class="function">(<span class="params">pre,next,index</span>)=&gt;</span>&#123;</span><br><span class="line">				<span class="built_in">console</span>.log(pre);</span><br><span class="line">				<span class="built_in">console</span>.log(next);</span><br><span class="line">				<span class="built_in">console</span>.log(index)</span><br><span class="line">				<span class="keyword">return</span> pre+next</span><br><span class="line">			&#125;,<span class="number">0</span>)</span><br><span class="line">			<span class="built_in">console</span>.log(result4)</span><br><span class="line">			</span><br><span class="line">			</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//for...in...主要用于遍历对象的，不适用于遍历数组,for(key in obj),里面的每项是key</span></span><br><span class="line">			<span class="comment">//for...of...可以用来遍历数组，类数组的对象，字符串，set/map,generator。</span></span><br><span class="line">			<span class="comment">//for(item of arr),里面的是每一项</span></span><br><span class="line">			<span class="comment">//map() 方法创建一个新数组，其结果是该数组中的每个元素都调用一个提供的函数后返回的结果。</span></span><br><span class="line">			</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">let</span> obj = &#123;</span><br><span class="line">				name:<span class="string">"老陈"</span>,</span><br><span class="line">				type:<span class="string">"帅"</span>,</span><br><span class="line">				content:<span class="string">"前端"</span></span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">for</span>(key <span class="keyword">in</span> obj)&#123;</span><br><span class="line">				<span class="built_in">console</span>.log(<span class="string">"key："</span>+key+<span class="string">";value:"</span>+obj[key])</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">let</span> arr5 = [<span class="string">"范冰冰"</span>,<span class="string">"李晨"</span>,<span class="string">"鹿晗"</span>]</span><br><span class="line">			<span class="comment">//for of循环的是每一项的内容</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">let</span> item <span class="keyword">of</span> arr5)&#123;</span><br><span class="line">				<span class="built_in">console</span>.log(item)</span><br><span class="line">			&#125;</span><br><span class="line">		&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="数组去重"><a href="#数组去重" class="headerlink" title="数组去重"></a>数组去重</h2><p>这是一个非常流行的关于Javascript数组的采访问题，数组去重。这里有一个快速简单的解决方案，可以使用一个新的Set()。我想向您展示两种可能的方法，一种是使用.from()方法，另一种是使用spread操作符(…)。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fruits = [<span class="string">"banana"</span>, <span class="string">"apple"</span>, <span class="string">"orange"</span>, <span class="string">"watermelon"</span>, <span class="string">"apple"</span>, <span class="string">"orange"</span>, <span class="string">"grape"</span>, <span class="string">"apple"</span>];</span><br><span class="line"> </span><br><span class="line"><span class="comment">// First method</span></span><br><span class="line"><span class="keyword">var</span> uniqueFruits = <span class="built_in">Array</span>.from(<span class="keyword">new</span> <span class="built_in">Set</span>(fruits));</span><br><span class="line"><span class="built_in">console</span>.log(uniqueFruits); </span><br><span class="line"><span class="comment">// returns ["banana", "apple", "orange", "watermelon", "grape"]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Second method</span></span><br><span class="line"><span class="keyword">var</span> uniqueFruits2 = […<span class="keyword">new</span> <span class="built_in">Set</span>(fruits)];</span><br><span class="line"><span class="built_in">console</span>.log(uniqueFruits2); </span><br><span class="line"><span class="comment">// returns ["banana", "apple", "orange", "watermelon", "grape"]</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>替换数组中的特定值<br>有时在创建代码时需要替换数组中的特定值，有一种很好的简单的方法可以做到这一点，我们可以使用.splice(start、valueToRemove、valueToAdd)，并将所有三个参数传递给它，这些参数可以指定我们希望从哪里开始修改、希望修改多少值和新值。</li>
+</ol>
+<p>var fruits = [“banana”, “apple”, “orange”, “watermelon”, “apple”, “orange”, “grape”, “apple”];<br>fruits.splice(0, 2, “potato”, “tomato”);<br>console.log(fruits);<br>// returns [“potato”, “tomato”, “orange”, “watermelon”, “apple”, “orange”, “grape”, “apple”]<br>3. 没有map()的映射数组<br>也许每个人都知道数组的map()方法，但是有一个不同的解决方案，它可以用来获得类似的效果和非常干净的代码。我们可以使用.from()方法。</p>
+<p>var friends = [<br>    { name: “John”, age: 22 },<br>    { name: “Peter”, age: 23 },<br>    { name: “Mark”, age: 24 },<br>    { name: “Maria”, age: 22 },<br>    { name: “Monica”, age: 21 },<br>    { name: “Martha”, age: 19 },<br>]</p>
+<p>var friendsNames = Array.from(friends, ({name}) =&gt; name);<br>console.log(friendsNames);<br>// returns [“John”, “Peter”, “Mark”, “Maria”, “Monica”, “Martha”]<br>4. 空数组<br>您是否有一个满是元素的数组，但是您需要出于任何目的对其进行清理，并且您不想逐个删除项? 很容易就可以在一行代码中完成。要清空一个数组，您需要将数组的长度设置为0，就是这样!</p>
+<p>var fruits = [“banana”, “apple”, “orange”, “watermelon”, “apple”, “orange”, “grape”, “apple”];</p>
+<p>fruits.length = 0;<br>console.log(fruits);<br> // returns []</p>
+<h2 id="将数组转换为对象"><a href="#将数组转换为对象" class="headerlink" title="将数组转换为对象"></a>将数组转换为对象</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">spread运算符(…)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> fruits = [<span class="string">"banana"</span>, <span class="string">"apple"</span>, <span class="string">"orange"</span>, <span class="string">"watermelon"</span>];</span><br><span class="line"><span class="keyword">var</span> fruitsObj = &#123; …fruits &#125;;</span><br><span class="line"><span class="built_in">console</span>.log(fruitsObj);</span><br><span class="line"><span class="comment">// returns &#123;0: "banana", 1: "apple", 2: "orange", 3: "watermelon", 4: "apple", 5: "orange", 6: "grape", 7: "apple"&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="用数据填充数组"><a href="#用数据填充数组" class="headerlink" title="用数据填充数组"></a>用数据填充数组</h2><p>在某些情况下，当创建一个数组时，希望用一些数据来填充它，或者需要一个具有相同值的数组，在这种情况下使用fill()方法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> newArray = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">10</span>).fill(<span class="string">"1"</span>);</span><br><span class="line"><span class="built_in">console</span>.log(newArray); </span><br><span class="line"><span class="comment">// returns ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="合并数组"><a href="#合并数组" class="headerlink" title="合并数组"></a>合并数组</h2><p>.concat()方法或spread操作符(…)在处理数组时非常有用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fruits = [<span class="string">"apple"</span>, <span class="string">"banana"</span>, <span class="string">"orange"</span>];</span><br><span class="line"><span class="keyword">var</span> meat = [<span class="string">"poultry"</span>, <span class="string">"beef"</span>, <span class="string">"fish"</span>];</span><br><span class="line"><span class="keyword">var</span> vegetables = [<span class="string">"potato"</span>, <span class="string">"tomato"</span>, <span class="string">"cucumber"</span>];</span><br><span class="line"><span class="keyword">var</span> food = […fruits, …meat, …vegetables];</span><br><span class="line"><span class="built_in">console</span>.log(food); </span><br><span class="line"><span class="comment">// ["apple", "banana", "orange", "poultry", "beef", "fish", "potato", "tomato", "cucumber"]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="求两个数组的交集"><a href="#求两个数组的交集" class="headerlink" title="求两个数组的交集"></a>求两个数组的交集</h2><blockquote>
+<p>为了找到两个数组的交集，以确保数组中的值不重复，使用.filter方法和.include方法。最后，将得到两个数组的交集。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> numOne = [<span class="number">0</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">8</span>];</span><br><span class="line"><span class="keyword">var</span> numTwo = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>];</span><br><span class="line"><span class="keyword">var</span> duplicatedValues = […<span class="keyword">new</span> <span class="built_in">Set</span>(numOne)].filter(<span class="function"><span class="params">item</span> =&gt;</span> numTwo.includes(item));</span><br><span class="line"><span class="built_in">console</span>.log(duplicatedValues); </span><br><span class="line"><span class="comment">// returns [2, 4, 6]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="从数组中删除假值"><a href="#从数组中删除假值" class="headerlink" title="从数组中删除假值"></a>从数组中删除假值</h2><blockquote>
+<p>在Javascript中，假值是false, 0， “ “， null, NaN, undefined  使用.filter()方法。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> mixedArr = [<span class="number">0</span>, <span class="string">"blue"</span>, <span class="string">""</span>, <span class="literal">NaN</span>, <span class="number">9</span>, <span class="literal">true</span>, <span class="literal">undefined</span>, <span class="string">"white"</span>, <span class="literal">false</span>];</span><br><span class="line"><span class="keyword">var</span> trueArr = mixedArr.filter(<span class="built_in">Boolean</span>);</span><br><span class="line"><span class="built_in">console</span>.log(trueArr); </span><br><span class="line"><span class="comment">// returns ["blue", 9, true, "white"]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="从数组中获取随机值"><a href="#从数组中获取随机值" class="headerlink" title="从数组中获取随机值"></a>从数组中获取随机值</h2><blockquote>
+<p>有时需要从数组中随机选择一个值。要以一种简单、快速、简短的方式创建它，并保持代码整洁，可以根据数组长度获得一个随机索引号。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> colors = [<span class="string">"blue"</span>, <span class="string">"white"</span>, <span class="string">"green"</span>, <span class="string">"navy"</span>, <span class="string">"pink"</span>, <span class="string">"purple"</span>, <span class="string">"orange"</span>, <span class="string">"yellow"</span>, <span class="string">"black"</span>, <span class="string">"brown"</span>];</span><br><span class="line"><span class="keyword">var</span> randomColor = colors[(<span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * (colors.length + <span class="number">1</span>)))]</span><br></pre></td></tr></table></figure>
+
+<h2 id="数组反转"><a href="#数组反转" class="headerlink" title="数组反转"></a>数组反转</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> colors = [<span class="string">"blue"</span>, <span class="string">"white"</span>, <span class="string">"green"</span>, <span class="string">"navy"</span>, <span class="string">"pink"</span>, <span class="string">"purple"</span>, <span class="string">"orange"</span>, <span class="string">"yellow"</span>, <span class="string">"black"</span>, <span class="string">"brown"</span>];</span><br><span class="line"><span class="keyword">var</span> reversedColors = colors.reverse();</span><br><span class="line"><span class="built_in">console</span>.log(reversedColors); </span><br><span class="line"><span class="comment">// returns ["brown", "black", "yellow", "orange", "purple", "pink", "navy", "green", "white", "blue"]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="lastIndexOf-方法"><a href="#lastIndexOf-方法" class="headerlink" title="lastIndexOf()方法"></a>lastIndexOf()方法</h2><blockquote>
+<p>允许查找给定元素的最后一次出现的索引。例如，数组有重复的值，可以找到它最后一次出现的位置。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> nums = [<span class="number">1</span>, <span class="number">5</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">2</span>, <span class="number">7</span>];</span><br><span class="line"><span class="keyword">var</span> lastIndex = nums.lastIndexOf(<span class="number">5</span>);</span><br><span class="line"><span class="built_in">console</span>.log(lastIndex); </span><br><span class="line"><span class="comment">// returns 9</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="将数组中的所有值相加"><a href="#将数组中的所有值相加" class="headerlink" title="将数组中的所有值相加"></a>将数组中的所有值相加</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> nums = [<span class="number">1</span>, <span class="number">5</span>, <span class="number">2</span>, <span class="number">6</span>];</span><br><span class="line"><span class="keyword">var</span> sum = nums.reduce(<span class="function">(<span class="params">x, y</span>) =&gt;</span> x + y);</span><br><span class="line"><span class="built_in">console</span>.log(sum); </span><br><span class="line"><span class="comment">// returns 14</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="易混辨析"><a href="#易混辨析" class="headerlink" title="易混辨析"></a>易混辨析</h2><p>比如有一个数组a=[1,2,3,4]，还有一个对象a={0:1,1:2,2:3,3:4}，然后运行alert(a[1])，两种情况下的运行结果是相同的！这就是说，数据集合既可以用数组表示，也可以用对象表示，那么我到底该用哪一种呢？<br><strong>数组表示有序数据的集合，而对象表示无序数据的集合。如果数据的顺序很重要，就用数组，否则就用对象。</strong><br>当然，数组和对象的另一个区别是，数组的数据没有”名称”（name），对象的数据有”名称”（name）。<br>但是问题是，很多编程语言中，都有一种叫做”关联数组”（associative array）的东西。这种数组中的数据是有名称的。<br>但是在《javascript DOM》中，不推荐我们使用 关联数组！</p>
+<blockquote>
+<p><strong>判断一个对象是不是数组类型最可靠的方法是这两种:<br>Object. prototype.toString.call(obj)===[ object Array]和Array. isArray(obj)。</strong></p>
+</blockquote>
+<p>原因：typeof 检查基本数据类型是可以的，但不准确。<br>Array.isArray() 用于确定传递的值是否是一个 Array。如果对象是 Array，则为true; 否则为false.这个是可以的！<br> <strong>所有 函数的原型对象默认是OBJECT的实例，但OBJECT除外。Function 函数是new自己产生的。</strong><br>但是！bug问题就是研究不深入啊啊啊啊啊啊，作为程序媛，我有点难~<br>A  instance of   B不准确！因为原型链可以改变，只要B构造函数的显示原型对象protptype在左边A的原型链上可以找到就返回TRUE。只要在A 的原型链上找到了B的prototype,，就可以,任何一个就可以说明A是B的一个实例。<br>这种方法有一个问题，就是验证不够严格。 如果对象创建时不是使用数组创建的，但是只要原型链上有数组类型，也认为是数组，如下面一段代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Test</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">Test.prototype = <span class="built_in">Array</span>.prototype;</span><br><span class="line"><span class="keyword">let</span> test = <span class="keyword">new</span> Test();</span><br><span class="line">test <span class="keyword">instanceof</span> <span class="built_in">Array</span>; <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Object. prototype.toString.call(obj)===[ object Array]原理是根据对象的class属性(类属性)，跨原型链调用toString()方法。<br><code>Object.prototype.toString.call(new Date());   //&quot;[object Date]&quot;
+Object.prototype.toString.call(Window);       //&quot;[object window]&quot;
+Object.prototype.toString.call(/./);          //&quot;[object RegExp]&quot;</code></p>
+</blockquote>
+<p>解释一下，在js中一个对象一旦被创建，在内部会携带创建对象的类型名，一旦创建就不能被修改了。那么怎么获取这个对象的类型名呢？所谓”纯粹的对象”，就是说该对象是通过”{}“或”new Object”创建的。<br>js中提供了调用对象原型中的toString方法， Object.prototype.toString.call(obj)。因为很多对象继承的toString（）方法被重写了，为了能够调用正确的toString（）版本，也就是最原始的版本。可以使用Function.call()的方法。<br>其中call可以这么理解，相当于obj去借用这个 Object.prototype.toString()<br><strong>举个栗子~</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;&#125;,</span><br><span class="line">arr = [];</span><br><span class="line"></span><br><span class="line">obj <span class="keyword">instanceof</span> <span class="built_in">Array</span>	<span class="comment">//false</span></span><br><span class="line">obj <span class="keyword">instanceof</span> <span class="built_in">Object</span>	<span class="comment">//true</span></span><br><span class="line">arr <span class="keyword">instanceof</span> <span class="built_in">Array</span>	<span class="comment">//true</span></span><br><span class="line">arr <span class="keyword">instanceof</span> <span class="built_in">Object</span>	<span class="comment">//true</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">constructor</span></span><br><span class="line">var obj = &#123;&#125;,</span><br><span class="line">arr = [];</span><br><span class="line"></span><br><span class="line">obj.constructor === <span class="built_in">Object</span>	<span class="comment">//true</span></span><br><span class="line">arr.constructor === <span class="built_in">Object</span>	<span class="comment">//false</span></span><br><span class="line">obj.constructor === <span class="built_in">Array</span>	<span class="comment">//true！</span></span><br><span class="line">arr.constructor === <span class="built_in">Array</span>	<span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+
+
+      
+      <!-- reward -->
+      
+      <div id="reward-btn">
+        打赏
+      </div>
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong s>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
+                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+        
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/03/03/%E6%95%B0%E7%BB%84%E6%8A%80%E5%B7%A7%E6%80%BB%E7%BB%93/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+    
+      <a href="../Node.js%E7%9A%84%E4%B8%89%E5%A4%A7%E7%89%B9%E7%82%B9/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">Node.js的三大特点</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        notify: 'false',
+        verify: 'false',
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2020
+        Wangqiuxia
+      </li>
+      <li>
+        
+        Powered by
+        
+        
+        <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+    <aside class="sidebar">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="../../../../index.html"><img src="/images/ayer-side.svg" alt="爱生活，爱前端！"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../index.html">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../tags/%E6%8A%80%E6%9C%AF/">小程序</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../http:/shenyu-vip.lofter.com">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../https:/v.xiumi.us/stage/v5/4IeLH/197507179">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="../../../../atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="../../../../images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="../../../../images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="../../../../js/jquery-2.0.3.min.js"></script>
+
+
+<script src="../../../../js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="../../../../js/lazyload.min.js"></script>
+
+
+<script src="../../../../js/busuanzi-2.3.pure.min.js"></script>
+
+
+<script src="../../../../js/share.js"></script>
+
+
+
+<script src="../../../../fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['做一个有情怀的程序媛','业精于勤荒于嬉，行成于思毁于随','越努力越幸运'],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script src="../../../../js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+
+<script src="../../../../js/ayer.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=518895142&auto=1&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+  </div>
+</body>
+
+</html>
