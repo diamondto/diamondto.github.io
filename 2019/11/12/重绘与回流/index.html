@@ -6,7 +6,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    text |  爱生活，爱前端！
+    重绘与回流 |  爱生活，爱前端！
   </title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   
@@ -32,7 +32,7 @@
   <div id="app">
     <main class="content">
       <section class="outer">
-  <article id="post-text" class="article article-type-post" itemscope
+  <article id="post-重绘与回流" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -40,7 +40,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  text
+  重绘与回流
 </h1>
   
 
@@ -50,9 +50,13 @@
     
     <div class="article-meta">
       <a href="" class="article-date">
-  <time datetime="2020-03-03T08:12:23.000Z" itemprop="datePublished">2020-03-03</time>
+  <time datetime="2019-11-11T16:00:00.000Z" itemprop="datePublished">2019-11-12</time>
 </a>
       
+  <div class="article-category">
+    <a class="article-category-link" href="../../../../categories/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96/">前端优化</a>
+  </div>
+
       
       
 <div class="word_count">
@@ -60,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">0字</span>
+            <span class="post-count">635字</span>
         </span>
     </span>
 
@@ -69,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1分钟</span>
+            <span class="post-count">2分钟</span>
         </span>
     </span>
 </div>
@@ -80,6 +84,8 @@
 
     
     
+    <div class="tocbot"></div>
+
 
 
 
@@ -94,7 +100,40 @@
       
 
       
-      
+      <p>Welcome to share creative thoughts!</p>
+<h2 id="重绘与回流的机制"><a href="#重绘与回流的机制" class="headerlink" title="重绘与回流的机制"></a>重绘与回流的机制</h2><p>CSS外部文件的引入要放到头部，加载CSS的时候页面渲染是被阻塞的，JS也是会阻塞页面渲染的，UI渲染和JS引擎线程是互斥的，不是并行的，CSS的性能会让JS变慢，优化性能，layout painting。</p>
+<ol>
+<li><p>当render tree中的一部分(或全部)因为元素的规模尺寸，几何属性，布局，隐藏等改变而需要重新构建。这就称为回流。每个页面至少需要一次回流，就是在页面第一次加载的时候。</p>
+</li>
+<li><p>当render tree中的一些元素需要更新属性，而这些属性只是影响元素的外观，风格，而不会影响布局的，比如background-color。则就叫称为重绘。</p>
+</li>
+</ol>
+<p>注：回流必将引起重绘，而重绘不一定会引起回流。</p>
+<h2 id="哪些情况会发生重绘，回流？"><a href="#哪些情况会发生重绘，回流？" class="headerlink" title="哪些情况会发生重绘，回流？"></a>哪些情况会发生重绘，回流？</h2><p>不同的条件下发生重排的范围及程度会不同 ：</p>
+<p>1.页面初始渲染</p>
+<p>2.改变字体，改变元素尺寸（宽、高、内外边距、边框，改变元素位置等</p>
+<pre><code>各种情况：
+
+         设置 style 属性的值 
+
+         激活 CSS 伪类，比如 :hover
+
+         操作 class 属性
+
+        css3的某些属性（https://csstriggers.com/  结合此链接查看哪些属性会触发重排、哪些属性会触发重绘以及哪些属性会触发合成；）</code></pre><p>（注意：如果修改属性不影响布局则不会发生重排）</p>
+<p>3..改变元素内容（文本或图片等或比如用户在input框中输入文字）</p>
+<p>4.添加/删除可见DOM元素（注意：如果是删除本身就display:none的元素不会发生重排；visibility:hidden的元素显示或隐藏不影响重排）</p>
+<p>5.fixed定位的元素,在拖动滚动条的时候会一直回流</p>
+<ol start="6">
+<li>调整窗口大小（Resizing the window）</li>
+</ol>
+<p>7.计算 offsetWidth 和 offsetHeight 属性【注释2】</p>
+<p>【注释2：flush队列】</p>
+<p>浏览器是聪明的，当对以下属性进行操作的时候：</p>
+<p>包括：offsetTop、offsetLeft、 offsetWidth、offsetHeight、scrollTop、scrollLeft、scrollWidth、scrollHeight、clientTop、clientLeft、clientWidth、clientHeight、getComputedStyle() (currentStyle in IE)。</p>
+<p>浏览器不会马上操作它们，而是会先缓存在队列中，有一定时间顺序去执行这些操作，但是在这过程中我们需要去获取在该队列中的属性时，浏览器为取得正确的值就会触发重排。这样就使得浏览器的优化失效了。</p>
+<p>所以，在多次使用这些值时应进行缓存。</p>
+
       
       <!-- reward -->
       
@@ -163,13 +202,15 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/03/03/text/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2019/11/12/%E9%87%8D%E7%BB%98%E4%B8%8E%E5%9B%9E%E6%B5%81/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E7%B3%BB%E5%88%97/" rel="tag">性能优化系列</a></li></ul>
+
 
     </footer>
 
@@ -179,19 +220,19 @@
   
   <nav class="article-nav">
     
-      <a href="../../04/%E5%89%8D%E7%AB%AF%E7%9A%84%E5%8D%95%E9%A1%B5%E9%9D%A2%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%A4%9A%E9%A1%B5%E9%9D%A2%E6%A8%A1%E5%BC%8F/" class="article-nav-link">
+      <a href="../Node.js%E7%9A%84%E4%B8%89%E5%A4%A7%E7%89%B9%E7%82%B9/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            前端的单页面模式和多页面模式
+            Node.js的三大特点
           
         </div>
       </a>
     
     
-      <a href="../../../../2019/11/14/%E8%AF%A6%E7%BB%86%E5%89%96%E6%9E%90%E5%BC%BA%E7%BC%93%E5%AD%98%E5%92%8C%E5%8D%8F%E5%95%86%E7%BC%93%E5%AD%98/" class="article-nav-link">
+      <a href="../../../10/26/React%E4%B8%AD%E5%AF%B9%E5%8D%95%E5%90%91%E6%95%B0%E6%8D%AE%E6%B5%81%E7%9A%84%E6%80%9D%E8%80%83/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">详细剖析强缓存和协商缓存</div>
+        <div class="article-nav-title">React对单向数据流的思考</div>
       </a>
     
   </nav>

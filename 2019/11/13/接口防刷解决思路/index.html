@@ -6,7 +6,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    text |  爱生活，爱前端！
+    接口防刷解决思路 |  爱生活，爱前端！
   </title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   
@@ -32,7 +32,7 @@
   <div id="app">
     <main class="content">
       <section class="outer">
-  <article id="post-text" class="article article-type-post" itemscope
+  <article id="post-接口防刷解决思路" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -40,7 +40,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  text
+  接口防刷解决思路
 </h1>
   
 
@@ -50,9 +50,13 @@
     
     <div class="article-meta">
       <a href="" class="article-date">
-  <time datetime="2020-03-03T08:12:23.000Z" itemprop="datePublished">2020-03-03</time>
+  <time datetime="2019-11-12T16:00:00.000Z" itemprop="datePublished">2019-11-13</time>
 </a>
       
+  <div class="article-category">
+    <a class="article-category-link" href="../../../../categories/%E6%A1%86%E6%9E%B6%E4%B8%8E%E6%9E%B6%E6%9E%84/">框架与架构</a>
+  </div>
+
       
       
 <div class="word_count">
@@ -60,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">0字</span>
+            <span class="post-count">1.2k字</span>
         </span>
     </span>
 
@@ -69,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1分钟</span>
+            <span class="post-count">4分钟</span>
         </span>
     </span>
 </div>
@@ -80,6 +84,8 @@
 
     
     
+    <div class="tocbot"></div>
+
 
 
 
@@ -94,7 +100,12 @@
       
 
       
-      
+      <p>Welcome to share creative thoughts!</p>
+<h2 id="场景和原因："><a href="#场景和原因：" class="headerlink" title="场景和原因："></a>场景和原因：</h2><p>1.在项目中后台只需要提供一套API接口，就可以接入安卓、小程序、IOS、web等多个应用程序，这样可以节约开发成本。<br>但是一个后台接入这么多应用程序的http请求，必然导致后端的压力非常大。对于这些情况我们需要对用户的访问进行限流访问，我们可以依次对Nginx、tomcat、接口进行限流。<br>2.对于一些请求进行过滤和拦截是非常有必要的，能够有效地减轻后台的压力。<br>3.考虑线上环境 很多接口 如果不做缓存 可能导致有人拿到url  每秒几万次的访问后台程序,导致系统down机。<br>4.短时间接口被大量调用（攻击），出现系统崩溃和系统爬虫问题，怎么样提升服务的可用性？</p>
+<h2 id="商讨解决方法"><a href="#商讨解决方法" class="headerlink" title="商讨解决方法"></a>商讨解决方法</h2><p>1.最简单有效的防护就是图片验证码，采用点触验证，验证滑动或者是第三方验证码服务，普通的图片验证码很容易被破解<br>2.频率，或者叫接口防刷，通过用户具有唯一性的ip验证用户的身份,模拟一个场景，每次用户调用接口，将此用户的ip进行记录，在有效的时间之内，用户每调用一次接口，给调用的次数+1,当超过（次数根据自己的时间情况进行定义）指定的次数时，将调用这个接口的用户ip加入黑名单中，锁定时间到了（锁定时间根据实际情况进行定义）之后移除在黑名单中的用户ip，进行解锁，但是每次用户在短时间内调用接口，实时记录的ip，次数，时间存到什么地方呢？<br>数据库，文件，memcache, redis？<br>最终的方案是redis！<br><strong>redis是一种基于内存的分布式缓存，数据存到数据库，因为redis支持的数据类型更多，支持永久存储，redis有部分数据是存储在了硬盘上</strong><br>3.网关控制流量洪峰，对在一个时间段内出现流量异常，可以拒绝请求。<br>4.源ip请求个数限制。对请求来源的ip请求个数做限制。<br>5.http请求头信息校验；（例如host，User-Agent，Referer）<br>6.对用户唯一身份uid进行限制和校验。例如基本的长度，组合方式，甚至有效性进行判断。或者uid具有一定的时效性<br>7.前后端协议采用二进制方式进行交互或者协议采用签名机制<br>8.人机验证，验证码，短信验证码，滑动图片形式，12306形式<br>9.签名，API接口启用签名策略，签名可以保障请求URL的完整安全，签名匹配再继续下一步操作，<br>10.token，对于重要的API接口，生成token值，做验证</p>
+<h2 id="接口安全问题"><a href="#接口安全问题" class="headerlink" title="接口安全问题"></a>接口安全问题</h2><p>应对接口安全，我们可以对数据进行加密，不明文传输数据，可以选择对称加密（DES 2DES）或者是非对称加密（RSA），虽然说两者都是加密，但是又很大的区别，对称加密的速度快，但是相对非对称加密来说是不安全的，一旦一方泄露密钥，所有的数据将全部泄露，对于加密的长度来说非对称加密有长度限制，密钥的长度是1024，值能加密117个字符，如果长度过长，还需要分段加密，分段解密，效率更低，但是相对来说比较安全。</p>
+<h2 id="怎样解决http频繁请求同一接口，但数据库来不及写入导致数据不一致的问题"><a href="#怎样解决http频繁请求同一接口，但数据库来不及写入导致数据不一致的问题" class="headerlink" title="怎样解决http频繁请求同一接口，但数据库来不及写入导致数据不一致的问题"></a>怎样解决http频繁请求同一接口，但数据库来不及写入导致数据不一致的问题</h2><p>1.这有点类似文件的情况，有一个test.dat文件，很多进程都要读写，为了避免冲突，会在操作文件时创建test.lck文件用于被其他进程发现，该文件已经处于被操作状态，这个过程中的互斥并没有改变目标文件的任何内容，而是通过外部数据加锁。<br>2.令牌算法限流<br>令牌桶算法最初来源于计算机网络。在网络传输数据时，为了防止网络拥塞，需限制流出网络的流量，使流量以比较均匀的速度向外发送。令牌桶算法就实现了这个功能，可控制发送到网络上数据的数目，并允许突发数据的发送。<br>3.限流的常用处理手段有：计数器、滑动窗口、漏桶、令牌。<br>4.总之一句话，让系统的流量，先到队列中排队、限流，不要让流量直接打到系统上。</p>
+
       
       <!-- reward -->
       
@@ -163,13 +174,15 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/03/03/text/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2019/11/13/%E6%8E%A5%E5%8F%A3%E9%98%B2%E5%88%B7%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E9%A1%B9%E7%9B%AE%E6%80%9D%E8%80%83/" rel="tag">项目思考</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E9%AB%98%E5%B9%B6%E5%8F%91/" rel="tag">高并发</a></li></ul>
+
 
     </footer>
 
@@ -179,19 +192,19 @@
   
   <nav class="article-nav">
     
-      <a href="../../04/%E5%89%8D%E7%AB%AF%E7%9A%84%E5%8D%95%E9%A1%B5%E9%9D%A2%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%A4%9A%E9%A1%B5%E9%9D%A2%E6%A8%A1%E5%BC%8F/" class="article-nav-link">
+      <a href="../../14/%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90%E6%87%92%E5%8A%A0%E8%BD%BD%E3%80%81%E9%A2%84%E5%8A%A0%E8%BD%BD/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            前端的单页面模式和多页面模式
+            深入分析懒加载、预加载
           
         </div>
       </a>
     
     
-      <a href="../../../../2019/11/14/%E8%AF%A6%E7%BB%86%E5%89%96%E6%9E%90%E5%BC%BA%E7%BC%93%E5%AD%98%E5%92%8C%E5%8D%8F%E5%95%86%E7%BC%93%E5%AD%98/" class="article-nav-link">
+      <a href="../%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F%E5%AF%B9%E6%AF%94/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">详细剖析强缓存和协商缓存</div>
+        <div class="article-nav-title">浏览器存储方式对比</div>
       </a>
     
   </nav>

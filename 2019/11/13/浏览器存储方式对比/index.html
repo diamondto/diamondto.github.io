@@ -6,7 +6,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    text |  爱生活，爱前端！
+    浏览器存储方式对比 |  爱生活，爱前端！
   </title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   
@@ -32,7 +32,7 @@
   <div id="app">
     <main class="content">
       <section class="outer">
-  <article id="post-text" class="article article-type-post" itemscope
+  <article id="post-浏览器存储方式对比" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -40,7 +40,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  text
+  浏览器存储方式对比
 </h1>
   
 
@@ -50,9 +50,13 @@
     
     <div class="article-meta">
       <a href="" class="article-date">
-  <time datetime="2020-03-03T08:12:23.000Z" itemprop="datePublished">2020-03-03</time>
+  <time datetime="2019-11-12T16:00:00.000Z" itemprop="datePublished">2019-11-13</time>
 </a>
       
+  <div class="article-category">
+    <a class="article-category-link" href="../../../../categories/%E8%B0%88%E8%B0%88%E7%BC%93%E5%AD%98/">谈谈缓存</a>
+  </div>
+
       
       
 <div class="word_count">
@@ -60,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">0字</span>
+            <span class="post-count">1.4k字</span>
         </span>
     </span>
 
@@ -69,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1分钟</span>
+            <span class="post-count">5分钟</span>
         </span>
     </span>
 </div>
@@ -80,6 +84,8 @@
 
     
     
+    <div class="tocbot"></div>
+
 
 
 
@@ -94,7 +100,26 @@
       
 
       
-      
+      <p>Welcome to share creative thoughts!</p>
+<h2 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h2><p>1.因为HTTP请求无状态，所以需要Cookie去维持客户端状态。<br>2.浏览器客户端记录保存Cookie,服务端辨别用户的信息。<br>3.Cookie的生成方式：http response header 中的set-cookie，由服务端生成，客户端把Cookie存储和维护。<br>4.JS中可以通过document.cookie来读写cookie。<br>5..之后的请求都携带Cookie,就像健身房办卡，维护会员的信息。<br><strong>作用：<br>1.用于浏览器和服务器的交互。<br>2.客户端自身数据的存储。</strong><br>Cookie初衷是为了维护客户端的状态<br>存储的限制：大小4KB，需要设置过期时间。<br>Cookie的存储能力被localstorage代替<br>httponly为了保证安全，不支持JS读写，防止黑客攻击。<br>Cookie在相关域名下面会带来CDN的流量损耗，因为只要是这个域名下的信息都会携带cookie<br>对于静态资源来说，每次都在HTTP头部中携带Cookie信息，对大流量来说经济损失很大<br><strong>解决：CDN的域名和主站的域名要分开</strong></p>
+<h2 id="Localstorage"><a href="#Localstorage" class="headerlink" title="Localstorage"></a>Localstorage</h2><p>1.接口封装好<br>2.浏览器的本地缓存方案<br>3.大小在5Mz左右<br>4.仅在客户端存在，不和服务端交互<br>5.场景：网速慢，本地缓存，在网不好的情况下，第一次请求来的信息我会保存，把首屏上的不变的信息存下来，不会有首屏的白屏情况，后期有接口返回的新数据，再重新渲染，提升首屏渲染速度。</p>
+<h2 id="Sessionstorage"><a href="#Sessionstorage" class="headerlink" title="Sessionstorage"></a>Sessionstorage</h2><p>1.大小为5M左右<br>2.会话级别的浏览器存储<br>3.接口封装好<br>4.对于表单信息的维护，将表单信息存储，关闭之后是空的，下一步那种，可以存储。<br>5可以存储数组、数字、对象等可以被序列化为字符串的内容，不通信，仅存储</p>
+<h2 id="IndexedDB"><a href="#IndexedDB" class="headerlink" title="IndexedDB"></a>IndexedDB</h2><p>1.在客户端存储大量结构化数据，使用索引来实现对数据库的高性能搜索。<br>2.为应用创建离线版本。</p>
+<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><p>sessionStorage操作的方法与localStroage是一样的，区别在于 sessionStorage 在关闭页面后即被清空，而 localStorage 则会一直保存。很多时候数据只需要在用户浏览一组页面期间使用，关闭窗口后数据就可以丢弃了，这种情况使用sessionStorage就比较方便。</p>
+<p>注意，刷新页面sessionStorage不会清除，但是打开同域新页面访问不到。</p>
+<p>1.cookie数据始终在同源的http请求中携带（即使不需要），即cookie在浏览器和服务器间来回传递。而sessionStorage和localStorage不会自动把数据发给服务器，仅在本地保存。cookie数据还有路径（path）的概念，可以限制cookie只属于某个路径下。<br>2. 存储大小限制不同，cookie数据不能超过4k，同时因为每次http请求都会携带cookie，所以cookie只适合保存很小的数据，如会话标识。sessionStorage和localStorage 虽然也有存储大小的限制，但比cookie大得多，可以达到5M或更大。<br>3.数据有效期不同，sessionStorage：仅在当前浏览器窗口关闭前有效，自然也就不可能持久保持；<br>localStorage：始终有效，窗口或浏览器关闭也一直保存，因此用作持久数据；<br>cookie只在设置的cookie过期时间之前一直有效，即使窗口或浏览器关闭。<br>4.作用域不同，sessionStorage不在不同的浏览器页面中共享，即使是同一个页面；<br>localStorage 在所有同源窗口中都是共享的；<br>cookie也是在所有同源窗口中都是共享的。<br>Web Storage 支持事件通知机制，可以将数据更新的通知发送给监听者。<br>Web Storage 的 api 接口使用更方便，cookie的原生接口不友好，需要自己封装。<br>5. 安全性<br>需要注意的是，不是什么数据都适合放在 Cookie、localStorage 和 sessionStorage 中的，因为它们保存在本地容易被篡改，使用它们的时候，需要时刻注意是否有代码存在 XSS 注入的风险。所以千万不要用它们存储系统中的敏感数据。</p>
+<h2 id="Service-Workers"><a href="#Service-Workers" class="headerlink" title="Service Workers"></a>Service Workers</h2><p><strong>1.JS是单线程的，JS与UI渲染是互斥的，优化就要调用SW<br>2.避免主线程的阻塞，3D模型很大<br>3.做离线化，与主页面通信</strong><br>SW是由事件驱动的,具有生命周期，可以拦截处理页面的所有网络请求(fetch)，可以访问cache和indexDB，支持推送，并且可以让开发者自己控制管理缓存的内容以及版本，为离线弱网环境下的 web 的运行提供了可能，让 web 在体验上更加贴近 native。<br>换句话说他可以把你应用里的<strong>所有静态动态资源根据不同策略缓存起来</strong>，在你下次打开时不再需要去服务器请求，这样一来就<strong>减少了网络耗时，使得web应用可以秒开</strong>，并且在离线环境下也变得可用。做到这一切你只需要增加一个sw文件，不会对原有的代码产生任何侵入，是不是很perfect？</p>
+<h2 id="Service-Worker基本特征"><a href="#Service-Worker基本特征" class="headerlink" title="Service Worker基本特征"></a>Service Worker基本特征</h2><ul>
+<li>无法操作DOM<pre><code>只能使用HTTPS以及localhost
+可以拦截全站请求从而控制你的应用
+与主线程独立不会被阻塞（不要再应用加载时注册sw）
+完全异步，无法使用XHR和localStorage
+一旦被 install，就永远存在，除非被 uninstall或者dev模式手动删除
+独立上下文
+响应推送
+后台同步</code></pre></li>
+</ul>
+
       
       <!-- reward -->
       
@@ -163,13 +188,15 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/03/03/text/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2019/11/13/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F%E5%AF%B9%E6%AF%94/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/" rel="tag">浏览器缓存</a></li></ul>
+
 
     </footer>
 
@@ -179,19 +206,19 @@
   
   <nav class="article-nav">
     
-      <a href="../../04/%E5%89%8D%E7%AB%AF%E7%9A%84%E5%8D%95%E9%A1%B5%E9%9D%A2%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%A4%9A%E9%A1%B5%E9%9D%A2%E6%A8%A1%E5%BC%8F/" class="article-nav-link">
+      <a href="../%E6%8E%A5%E5%8F%A3%E9%98%B2%E5%88%B7%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            前端的单页面模式和多页面模式
+            接口防刷解决思路
           
         </div>
       </a>
     
     
-      <a href="../../../../2019/11/14/%E8%AF%A6%E7%BB%86%E5%89%96%E6%9E%90%E5%BC%BA%E7%BC%93%E5%AD%98%E5%92%8C%E5%8D%8F%E5%95%86%E7%BC%93%E5%AD%98/" class="article-nav-link">
+      <a href="../%E9%A1%B5%E9%9D%A2%E5%8A%A0%E8%BD%BD%E6%B8%B2%E6%9F%93%E7%9A%84%E4%BC%98%E5%8C%96%EF%BC%88%E4%B8%80%EF%BC%89/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">详细剖析强缓存和协商缓存</div>
+        <div class="article-nav-title">页面加载渲染的优化（一）</div>
       </a>
     
   </nav>

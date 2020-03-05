@@ -6,7 +6,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    text |  爱生活，爱前端！
+    页面加载渲染的优化（一） |  爱生活，爱前端！
   </title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   
@@ -32,7 +32,7 @@
   <div id="app">
     <main class="content">
       <section class="outer">
-  <article id="post-text" class="article article-type-post" itemscope
+  <article id="post-页面加载渲染的优化（一）" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -40,7 +40,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  text
+  页面加载渲染的优化（一）
 </h1>
   
 
@@ -50,9 +50,13 @@
     
     <div class="article-meta">
       <a href="" class="article-date">
-  <time datetime="2020-03-03T08:12:23.000Z" itemprop="datePublished">2020-03-03</time>
+  <time datetime="2019-11-12T16:00:00.000Z" itemprop="datePublished">2019-11-13</time>
 </a>
       
+  <div class="article-category">
+    <a class="article-category-link" href="../../../../categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a>
+  </div>
+
       
       
 <div class="word_count">
@@ -60,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">0字</span>
+            <span class="post-count">734字</span>
         </span>
     </span>
 
@@ -69,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1分钟</span>
+            <span class="post-count">2分钟</span>
         </span>
     </span>
 </div>
@@ -80,6 +84,8 @@
 
     
     
+    <div class="tocbot"></div>
+
 
 
 
@@ -94,7 +100,16 @@
       
 
       
-      
+      <p>Welcome to share creative thoughts!</p>
+<p><img src="https://img-blog.csdnimg.cn/20200304125232265.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<blockquote>
+<p>1.HTML本身是通过网址请求回来的，由字节流转换成字符流，浏览器进行词法分析，分析成词法的token，从上到下，不同  &gt;的标签类型会解析成不同的对象，然后加载到DOM树上。<br>2.HTML中会通过link引入其他资源，这时会并发的请求静态资源，请求回来之后会和CSS资源进行结合，生成渲染树。<br>3.只有DOM树和CSS树都生成之后才会进行渲染，布局，绘制。<br>特点<br>1.顺序执行，并发加载（设3-4个CDN域名去最大化并发加载）<br>2.是否阻塞<br>3.依赖关系<br>4.引入方式</p>
+</blockquote>
+<p>场景：<br>1.页面出来了，样式没有出来，闪退等，是因为没有遵循好依赖关系，如果CSS放在header中去引入，那么页面就会等待CSS加载完毕生成CSS树之后再渲染，就不会出现闪动。<br>2.JS的执行顺序，通过JS 的async标签进行异步加载，梳理好依赖关系。<br>3.方式：JS通过script会有阻塞问题，可以通过defer,async标签更好。<br>3.是否动态引入？判断是不是在需要的时候再去加载。SPA单页应用应该在路由到某个页面的时候再去加载那个路由的内容，要异步动态的去引入内容。</p>
+<h2 id="顺序执行，并发加载"><a href="#顺序执行，并发加载" class="headerlink" title="顺序执行，并发加载"></a>顺序执行，并发加载</h2><p>1.词法分析时，token的获取是从下到下顺序执行的<br>2.并发请求外部资源<br>3.并发上限：某个域名的限制</p>
+<h2 id="CSS阻塞"><a href="#CSS阻塞" class="headerlink" title="CSS阻塞"></a>CSS阻塞</h2><p>1.CSS在head中会阻塞页面的渲染，页面需要link标签里面的样式内容才能去渲染，但为了避免闪动，还是要这样引入。<br>2.CSS阻塞JS的执行，JS去操作DOM，这时可能会有样式的修改，JS要依赖CSS之前加载完的样式效果。<br>3.CSS不阻塞外部脚本的加载，原因是webkit有HTML-preloader-scanner这样一个类，会预先扫描词法，通过预先加载器来请求后期加载所需要的资源。</p>
+<h2 id="JS阻塞"><a href="#JS阻塞" class="headerlink" title="JS阻塞"></a>JS阻塞</h2><p>1.没有通过defer和async的，直接通过script标签的JS 会阻塞页面的渲染。<br>2.JS不会阻塞资源的加载。<strong>因为webkit有预先扫描器，有引用其他资源时，会并发去请求所需的资源，进行预先加载。</strong><br>3.JS顺序执行，阻塞后续JS逻辑的执行。JS有可能会调用document.write的方式，去修改DOM结构，那么由于动态修改了文档，JS会阻塞后面节点的创建。文档结构的分析和渲染会等到JS代码执行完成之后再去调用html.parse进行词法分析。<br>4.JS是顺序执行的，不管返回的情况如何，JS都会保存引入的依赖关系进行单线程加载。</p>
+
       
       <!-- reward -->
       
@@ -163,13 +178,15 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/03/03/text/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2019/11/13/%E9%A1%B5%E9%9D%A2%E5%8A%A0%E8%BD%BD%E6%B8%B2%E6%9F%93%E7%9A%84%E4%BC%98%E5%8C%96%EF%BC%88%E4%B8%80%EF%BC%89/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">前端性能优化</a></li></ul>
+
 
     </footer>
 
@@ -179,19 +196,19 @@
   
   <nav class="article-nav">
     
-      <a href="../../04/%E5%89%8D%E7%AB%AF%E7%9A%84%E5%8D%95%E9%A1%B5%E9%9D%A2%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%A4%9A%E9%A1%B5%E9%9D%A2%E6%A8%A1%E5%BC%8F/" class="article-nav-link">
+      <a href="../%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F%E5%AF%B9%E6%AF%94/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            前端的单页面模式和多页面模式
+            浏览器存储方式对比
           
         </div>
       </a>
     
     
-      <a href="../../../../2019/11/14/%E8%AF%A6%E7%BB%86%E5%89%96%E6%9E%90%E5%BC%BA%E7%BC%93%E5%AD%98%E5%92%8C%E5%8D%8F%E5%95%86%E7%BC%93%E5%AD%98/" class="article-nav-link">
+      <a href="../../12/Node.js%E7%9A%84%E4%B8%89%E5%A4%A7%E7%89%B9%E7%82%B9/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">详细剖析强缓存和协商缓存</div>
+        <div class="article-nav-title">Node.js的三大特点</div>
       </a>
     
   </nav>

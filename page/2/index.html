@@ -71,7 +71,7 @@
     
     
     
-    <article id="post-前端的单页面模式和多页面模式" class="article article-type-post" itemscope
+    <article id="post-浏览器存储方式对比" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -79,8 +79,8 @@
     <header class="article-header">
        
 <h2 itemprop="name">
-  <a class="article-title" href="../../2019/08/08/%E5%89%8D%E7%AB%AF%E7%9A%84%E5%8D%95%E9%A1%B5%E9%9D%A2%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%A4%9A%E9%A1%B5%E9%9D%A2%E6%A8%A1%E5%BC%8F/"
-    >前端的单页面模式和多页面模式</a
+  <a class="article-title" href="../../2019/11/13/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F%E5%AF%B9%E6%AF%94/"
+    >浏览器存储方式对比</a
   >
 </h2>
   
@@ -90,12 +90,12 @@
 
     
     <div class="article-meta">
-      <a href="../../2019/08/08/%E5%89%8D%E7%AB%AF%E7%9A%84%E5%8D%95%E9%A1%B5%E9%9D%A2%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%A4%9A%E9%A1%B5%E9%9D%A2%E6%A8%A1%E5%BC%8F/" class="article-date">
-  <time datetime="2019-08-07T16:00:00.000Z" itemprop="datePublished">2019-08-08</time>
+      <a href="../../2019/11/13/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F%E5%AF%B9%E6%AF%94/" class="article-date">
+  <time datetime="2019-11-12T16:00:00.000Z" itemprop="datePublished">2019-11-13</time>
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="../../categories/SPA/">SPA</a>
+    <a class="article-category-link" href="../../categories/%E8%B0%88%E8%B0%88%E7%BC%93%E5%AD%98/">谈谈缓存</a>
   </div>
 
       
@@ -115,14 +115,24 @@
 
       
       <p>Welcome to share creative thoughts!</p>
-<h2 id="思考动机"><a href="#思考动机" class="headerlink" title="思考动机"></a>思考动机</h2><p>前端部分的搭建，需要考虑使用哪种模式进行页面之间的跳转交互，<br>而项目内的页面交互，不可避免的需要相互之间的数据共享。</p>
-<h2 id="模式选择"><a href="#模式选择" class="headerlink" title="模式选择"></a>模式选择</h2><p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWFnZXMyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvMTM4MzQ4OC8yMDE4MDcvMTM4MzQ4OC0yMDE4MDcxMjE3NDAwNTA3NS0xMjA1MTA1OTMzLnBuZw?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<blockquote>
-<p>单页面模式（SPA  Single-page Application）：<br>只有一张Web页面的应用，是一种从Web服务器加载的富客户端，单页面跳转仅刷新局部资源 ，公共资源(js、css等)仅需加载一次<br>页面跳转：使用js中的append/remove或者show/hide的方式来进行页面内容的更换,或者使用框架。<br>数据传递：可通过全局变量或者参数传递，进行相关数据交互<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWFnZXMyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvMTM4MzQ4OC8yMDE4MDcvMTM4MzQ4OC0yMDE4MDcxMjE3NDAwNTA3NS0xMjA1MTA1OTMzLnBuZw?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>多页面模式（MPA  Multi-page Application）：<br>多页面跳转需要刷新所有资源，每个公共资源(js、css等)需选择性重新加载<br>页面跳转：使用window.location.href = “./index.html”进行页面间的跳转；<br>数据传递：可以使用path?account=”123”&amp;password=””路径携带数据传递的方式，或者localstorage、cookie等存储方式</p>
-</blockquote>
-<blockquote>
-<p>总结：<br>单页面模式：相对比较有优势，无论在用户体验还是页面切换的数据传递、页面切换动画，都可以有比较大的操作空间<br>多页面模式：比较适用于页面跳转较少，数据传递较少的项目中开发，否则使用cookie，localstorage进行数据传递，性能很不好。</p>
-</blockquote>
+<h2 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h2><p>1.因为HTTP请求无状态，所以需要Cookie去维持客户端状态。<br>2.浏览器客户端记录保存Cookie,服务端辨别用户的信息。<br>3.Cookie的生成方式：http response header 中的set-cookie，由服务端生成，客户端把Cookie存储和维护。<br>4.JS中可以通过document.cookie来读写cookie。<br>5..之后的请求都携带Cookie,就像健身房办卡，维护会员的信息。<br><strong>作用：<br>1.用于浏览器和服务器的交互。<br>2.客户端自身数据的存储。</strong><br>Cookie初衷是为了维护客户端的状态<br>存储的限制：大小4KB，需要设置过期时间。<br>Cookie的存储能力被localstorage代替<br>httponly为了保证安全，不支持JS读写，防止黑客攻击。<br>Cookie在相关域名下面会带来CDN的流量损耗，因为只要是这个域名下的信息都会携带cookie<br>对于静态资源来说，每次都在HTTP头部中携带Cookie信息，对大流量来说经济损失很大<br><strong>解决：CDN的域名和主站的域名要分开</strong></p>
+<h2 id="Localstorage"><a href="#Localstorage" class="headerlink" title="Localstorage"></a>Localstorage</h2><p>1.接口封装好<br>2.浏览器的本地缓存方案<br>3.大小在5Mz左右<br>4.仅在客户端存在，不和服务端交互<br>5.场景：网速慢，本地缓存，在网不好的情况下，第一次请求来的信息我会保存，把首屏上的不变的信息存下来，不会有首屏的白屏情况，后期有接口返回的新数据，再重新渲染，提升首屏渲染速度。</p>
+<h2 id="Sessionstorage"><a href="#Sessionstorage" class="headerlink" title="Sessionstorage"></a>Sessionstorage</h2><p>1.大小为5M左右<br>2.会话级别的浏览器存储<br>3.接口封装好<br>4.对于表单信息的维护，将表单信息存储，关闭之后是空的，下一步那种，可以存储。<br>5可以存储数组、数字、对象等可以被序列化为字符串的内容，不通信，仅存储</p>
+<h2 id="IndexedDB"><a href="#IndexedDB" class="headerlink" title="IndexedDB"></a>IndexedDB</h2><p>1.在客户端存储大量结构化数据，使用索引来实现对数据库的高性能搜索。<br>2.为应用创建离线版本。</p>
+<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><p>sessionStorage操作的方法与localStroage是一样的，区别在于 sessionStorage 在关闭页面后即被清空，而 localStorage 则会一直保存。很多时候数据只需要在用户浏览一组页面期间使用，关闭窗口后数据就可以丢弃了，这种情况使用sessionStorage就比较方便。</p>
+<p>注意，刷新页面sessionStorage不会清除，但是打开同域新页面访问不到。</p>
+<p>1.cookie数据始终在同源的http请求中携带（即使不需要），即cookie在浏览器和服务器间来回传递。而sessionStorage和localStorage不会自动把数据发给服务器，仅在本地保存。cookie数据还有路径（path）的概念，可以限制cookie只属于某个路径下。<br>2. 存储大小限制不同，cookie数据不能超过4k，同时因为每次http请求都会携带cookie，所以cookie只适合保存很小的数据，如会话标识。sessionStorage和localStorage 虽然也有存储大小的限制，但比cookie大得多，可以达到5M或更大。<br>3.数据有效期不同，sessionStorage：仅在当前浏览器窗口关闭前有效，自然也就不可能持久保持；<br>localStorage：始终有效，窗口或浏览器关闭也一直保存，因此用作持久数据；<br>cookie只在设置的cookie过期时间之前一直有效，即使窗口或浏览器关闭。<br>4.作用域不同，sessionStorage不在不同的浏览器页面中共享，即使是同一个页面；<br>localStorage 在所有同源窗口中都是共享的；<br>cookie也是在所有同源窗口中都是共享的。<br>Web Storage 支持事件通知机制，可以将数据更新的通知发送给监听者。<br>Web Storage 的 api 接口使用更方便，cookie的原生接口不友好，需要自己封装。<br>5. 安全性<br>需要注意的是，不是什么数据都适合放在 Cookie、localStorage 和 sessionStorage 中的，因为它们保存在本地容易被篡改，使用它们的时候，需要时刻注意是否有代码存在 XSS 注入的风险。所以千万不要用它们存储系统中的敏感数据。</p>
+<h2 id="Service-Workers"><a href="#Service-Workers" class="headerlink" title="Service Workers"></a>Service Workers</h2><p><strong>1.JS是单线程的，JS与UI渲染是互斥的，优化就要调用SW<br>2.避免主线程的阻塞，3D模型很大<br>3.做离线化，与主页面通信</strong><br>SW是由事件驱动的,具有生命周期，可以拦截处理页面的所有网络请求(fetch)，可以访问cache和indexDB，支持推送，并且可以让开发者自己控制管理缓存的内容以及版本，为离线弱网环境下的 web 的运行提供了可能，让 web 在体验上更加贴近 native。<br>换句话说他可以把你应用里的<strong>所有静态动态资源根据不同策略缓存起来</strong>，在你下次打开时不再需要去服务器请求，这样一来就<strong>减少了网络耗时，使得web应用可以秒开</strong>，并且在离线环境下也变得可用。做到这一切你只需要增加一个sw文件，不会对原有的代码产生任何侵入，是不是很perfect？</p>
+<h2 id="Service-Worker基本特征"><a href="#Service-Worker基本特征" class="headerlink" title="Service Worker基本特征"></a>Service Worker基本特征</h2><ul>
+<li>无法操作DOM<pre><code>只能使用HTTPS以及localhost
+可以拦截全站请求从而控制你的应用
+与主线程独立不会被阻塞（不要再应用加载时注册sw）
+完全异步，无法使用XHR和localStorage
+一旦被 install，就永远存在，除非被 uninstall或者dev模式手动删除
+独立上下文
+响应推送
+后台同步</code></pre></li>
+</ul>
 
       
       <!-- reward -->
@@ -135,7 +145,7 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/SPA/" rel="tag">SPA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">性能优化</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/" rel="tag">浏览器缓存</a></li></ul>
 
 
     </footer>
@@ -152,7 +162,7 @@
 
 </article>
     
-    <article id="post-谈谈Ajax" class="article article-type-post" itemscope
+    <article id="post-页面加载渲染的优化（一）" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -160,8 +170,8 @@
     <header class="article-header">
        
 <h2 itemprop="name">
-  <a class="article-title" href="../../2019/06/10/%E8%B0%88%E8%B0%88Ajax/"
-    >谈谈Ajax</a
+  <a class="article-title" href="../../2019/11/13/%E9%A1%B5%E9%9D%A2%E5%8A%A0%E8%BD%BD%E6%B8%B2%E6%9F%93%E7%9A%84%E4%BC%98%E5%8C%96%EF%BC%88%E4%B8%80%EF%BC%89/"
+    >页面加载渲染的优化（一）</a
   >
 </h2>
   
@@ -171,12 +181,12 @@
 
     
     <div class="article-meta">
-      <a href="../../2019/06/10/%E8%B0%88%E8%B0%88Ajax/" class="article-date">
-  <time datetime="2019-06-09T16:00:00.000Z" itemprop="datePublished">2019-06-10</time>
+      <a href="../../2019/11/13/%E9%A1%B5%E9%9D%A2%E5%8A%A0%E8%BD%BD%E6%B8%B2%E6%9F%93%E7%9A%84%E4%BC%98%E5%8C%96%EF%BC%88%E4%B8%80%EF%BC%89/" class="article-date">
+  <time datetime="2019-11-12T16:00:00.000Z" itemprop="datePublished">2019-11-13</time>
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="../../categories/%E5%89%8D%E5%90%8E%E7%AB%AF%E4%BA%A4%E4%BA%92/">前后端交互</a>
+    <a class="article-category-link" href="../../categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a>
   </div>
 
       
@@ -196,29 +206,14 @@
 
       
       <p>Welcome to share creative thoughts!</p>
-<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>Asynchronous JavaScript and XML，意思是异步JS和XML。<br>解释下异步，异步是相对于同步来说的，同步即同时进行（累积多了就排队，一个一个执行，必须等上一个结束，才能到下一个），而异步就是执行到我了，我去旁边继续执行等结果，后面排队的不用等我结果出来再执行。<br>这是对于ajax的特点来设计的，<strong>因为ajax对后端数据的请求需要时间，</strong>而这个时间不利用起来就是浪费。当然，如果必须要等前一个的结果怎么办，这就使用到JS中的重要部分——回调函数了，其实回调在JS中应用很多，像点击事件执行的就是回调（先绑定事件，只有在点击发生时，才会执行）。那么ajax也一样，先请求数据，只有在状态改变时才会执行接下来的（这个状态包括请求成功和请求失败）。</p>
-<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><p>AJAX 是一种用于创建快速动态网页的技术，对网页的某部分进行更新，不用刷新整个网页。<br>它可以通过在后台与服务器进行少量数据交换，使网页实现异步更新。这意味着可以在不重新加载整个网页的情况下，对网页的某部分进行更新。传统的网页（不使用 AJAX）如果需要更新内容，必需重载整个页面。</p>
-<h2 id="原理图"><a href="#原理图" class="headerlink" title="原理图"></a>原理图</h2><p>ajax实现的就是浏览器和服务器之间的数据交互。<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWFnZXMyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvMTM4MzQ4OC8yMDE4MDUvMTM4MzQ4OC0yMDE4MDUxMzIzMDQwMTE1NS0xOTMyNDMyMDgzLnBuZw?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<h2 id="核心"><a href="#核心" class="headerlink" title="核心"></a>核心</h2><p>　 XMLHTTPRequest对象，（是对象，就有属性和方法）</p>
-<p>　常用的方法：<br>　open(“method”, “url”, “async”)，</p>
-<p>　method表示通过什么方式进行服务器访问，包括get和post；</p>
-<p>　url表示访问服务器的地址；</p>
-<p>　async表示是否异步，包括true和false（注意：true表示异步）。</p>
-<pre><code>send(content)，</code></pre><p>　content表示向服务器发送的数据。
-　</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">1</span> <span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHTTPRequest();</span><br><span class="line"> <span class="number">2</span> </span><br><span class="line"> <span class="number">3</span> xhr.open(<span class="string">"method"</span>, <span class="string">"url"</span>, <span class="string">"async"</span>);</span><br><span class="line"> <span class="number">4</span> </span><br><span class="line"> <span class="number">5</span> xhr.send(<span class="literal">null</span>);</span><br><span class="line"> <span class="number">6</span> </span><br><span class="line"> <span class="number">7</span> xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"> <span class="number">8</span> </span><br><span class="line"> <span class="number">9</span>     <span class="keyword">if</span>(xhr.readystate == <span class="number">4</span>)&#123;</span><br><span class="line"><span class="number">10</span> </span><br><span class="line"><span class="number">11</span> 　　　<span class="keyword">if</span>(xhr.status == <span class="number">200</span>)&#123;</span><br><span class="line"><span class="number">12</span> </span><br><span class="line"><span class="number">13</span> 　　　　　<span class="built_in">console</span>.log(xhr.responseText)</span><br><span class="line"><span class="number">14</span> </span><br><span class="line"><span class="number">15</span> 　　　&#125;</span><br><span class="line"><span class="number">16</span> </span><br><span class="line"><span class="number">17</span> 　　&#125;</span><br><span class="line"><span class="number">18</span> &#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="向服务器请求状态的阶段："><a href="#向服务器请求状态的阶段：" class="headerlink" title="向服务器请求状态的阶段："></a>向服务器请求状态的阶段：</h2><p>　　　onreadystatechange表示请求状态改变的事件触发器，</p>
-<p>　　　readystate表示请求状态，4表示完成，具体如下表：<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWFnZXMyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvMTM4MzQ4OC8yMDE4MDUvMTM4MzQ4OC0yMDE4MDUxMzIzMTk0NDc1Mi0xMzA4MzA2MzU3LnBuZw?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<h2 id="服务器反馈阶段："><a href="#服务器反馈阶段：" class="headerlink" title="服务器反馈阶段："></a>服务器反馈阶段：</h2><p>　　　status表示http请求状态码，200表示成功，具体如下表：<br>　　　<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWFnZXMyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvMTM4MzQ4OC8yMDE4MDUvMTM4MzQ4OC0yMDE4MDUxMzIzMzY1NTI1NC0yMTM2ODM3MDA2LnBuZw?x-oss-process=image/format,png" alt="在这里插入图片描述">
-　　</p>
-<h2 id="避坑"><a href="#避坑" class="headerlink" title="避坑"></a>避坑</h2><p>IE7及其以上版本中支持原生的 XHR 对象，因此可以直接用： var oAjax = new XMLHttpRequest();<br>IE6及其之前的版本中，XHR对象是通过MSXML库中的一个ActiveX对象实现的。使用下面的语句创建： var oAjax=new ActiveXObject(’Microsoft.XMLHTTP’);<br>GET 请求方式是通过<strong>URL参数</strong>将数据提交到服务器的，POST则是通过将数据作为 <strong>send 的参数</strong>提交到服务器；POST 请求中，在发送数据之前，要设置表单提<strong>交的内容类型</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//可以以下步骤代替上面的open、setRequestHeader、send三行，此处对GET和POST做了很好的区分</span></span><br><span class="line">    <span class="keyword">var</span> params = &#123;&#125;;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> key <span class="keyword">in</span> ajaxData.data)&#123;</span><br><span class="line">         params.push(key + <span class="string">"="</span> + ajaxData.data[key]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> sendData = params.join(<span class="string">"&amp;"</span>);</span><br><span class="line">    <span class="keyword">if</span>(ajaxData.type.toUpperCase() == <span class="string">"GET"</span>)&#123;</span><br><span class="line">         xhr.open(ajaxData.type, ajaxData.url + <span class="string">"?"</span> + sendData, ajaxData.async);</span><br><span class="line">         xhr.send(<span class="literal">null</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">         xhr.open(ajaxData.type, ajaxData.url, ajaxData.async);</span><br><span class="line">         xhr.setRequestHeader(<span class="string">"Content-type"</span>, <span class="string">"application/x-www-form-urlencoded; charset=utf-8"</span>);</span><br><span class="line">         xhr.send(sendData);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="JQuery中的封装方法"><a href="#JQuery中的封装方法" class="headerlink" title="JQuery中的封装方法"></a>JQuery中的封装方法</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">    type: <span class="string">"GET"</span>,            　　<span class="comment">//访问服务器的方式，GET/POST</span></span><br><span class="line">    url: <span class="string">"test.json"</span>,       　　<span class="comment">//url表示访问的服务器地址</span></span><br><span class="line">    data: &#123;<span class="attr">username</span>: <span class="string">""</span>,     </span><br><span class="line">           content: <span class="string">""</span>&#125;, 　　　 <span class="comment">//data表示传递到后台的数据，使用键值对形式传递</span></span><br><span class="line">    <span class="keyword">async</span>: <span class="literal">true</span>,            　 <span class="comment">//true表示异步，false表示同步</span></span><br><span class="line">    success: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(data)</span><br><span class="line">    &#125;,</span><br><span class="line">    error: <span class="function"><span class="keyword">function</span>(<span class="params">err</span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(err)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<h2 id="封装成JQuery的形式"><a href="#封装成JQuery的形式" class="headerlink" title="封装成JQuery的形式"></a>封装成JQuery的形式</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">$Ajax</span>(<span class="params">opt</span>)</span>&#123;</span><br><span class="line">    opt = opt || &#123;&#125;;</span><br><span class="line">    opt.type = opt.type || <span class="string">"post"</span>;</span><br><span class="line">    opt.url = opt.url || <span class="string">""</span>;</span><br><span class="line">    opt.async = opt.async || <span class="literal">true</span>;</span><br><span class="line">    opt.data = opt.data || <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    opt.success = opt.success || <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line">    opt.error = opt.error || <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line">      </span><br><span class="line">    <span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHTTPRequest();</span><br><span class="line">    <span class="keyword">var</span> params = &#123;&#125;;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> key <span class="keyword">in</span> opt.data)&#123;</span><br><span class="line">         params.push(key + <span class="string">"="</span> + opt.data[key]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> sendData = params.join(<span class="string">"&amp;"</span>);</span><br><span class="line">    <span class="keyword">if</span>(opt.type.toUpperCase() == <span class="string">"GET"</span>)&#123;</span><br><span class="line">         xhr.open(opt.type, opt.url + <span class="string">"?"</span> + sendData, opt.async);</span><br><span class="line">         xhr.send(<span class="literal">null</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">         xhr.open(opt.type, opt.url, opt.async);</span><br><span class="line">         xhr.setRequestHeader(<span class="string">"Content-type"</span>, <span class="string">"application/x-www-form-urlencoded; charset=utf-8"</span>);</span><br><span class="line">         xhr.send(sendData);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">         <span class="keyword">if</span>(xhr.readystate == <span class="number">4</span>)&#123;</span><br><span class="line">              <span class="keyword">if</span>(xhr.status == <span class="number">200</span>)&#123;</span><br><span class="line">                    opt.success &amp;&amp; opt.success(xhr.responseText);  </span><br><span class="line">              &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    opt.error &amp;&amp; xhr.error(xhr.status);</span><br><span class="line">              &#125;</span><br><span class="line">         &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<p><img src="https://img-blog.csdnimg.cn/20200304125232265.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<blockquote>
+<p>1.HTML本身是通过网址请求回来的，由字节流转换成字符流，浏览器进行词法分析，分析成词法的token，从上到下，不同  &gt;的标签类型会解析成不同的对象，然后加载到DOM树上。<br>2.HTML中会通过link引入其他资源，这时会并发的请求静态资源，请求回来之后会和CSS资源进行结合，生成渲染树。<br>3.只有DOM树和CSS树都生成之后才会进行渲染，布局，绘制。<br>特点<br>1.顺序执行，并发加载（设3-4个CDN域名去最大化并发加载）<br>2.是否阻塞<br>3.依赖关系<br>4.引入方式</p>
+</blockquote>
+<p>场景：<br>1.页面出来了，样式没有出来，闪退等，是因为没有遵循好依赖关系，如果CSS放在header中去引入，那么页面就会等待CSS加载完毕生成CSS树之后再渲染，就不会出现闪动。<br>2.JS的执行顺序，通过JS 的async标签进行异步加载，梳理好依赖关系。<br>3.方式：JS通过script会有阻塞问题，可以通过defer,async标签更好。<br>3.是否动态引入？判断是不是在需要的时候再去加载。SPA单页应用应该在路由到某个页面的时候再去加载那个路由的内容，要异步动态的去引入内容。</p>
+<h2 id="顺序执行，并发加载"><a href="#顺序执行，并发加载" class="headerlink" title="顺序执行，并发加载"></a>顺序执行，并发加载</h2><p>1.词法分析时，token的获取是从下到下顺序执行的<br>2.并发请求外部资源<br>3.并发上限：某个域名的限制</p>
+<h2 id="CSS阻塞"><a href="#CSS阻塞" class="headerlink" title="CSS阻塞"></a>CSS阻塞</h2><p>1.CSS在head中会阻塞页面的渲染，页面需要link标签里面的样式内容才能去渲染，但为了避免闪动，还是要这样引入。<br>2.CSS阻塞JS的执行，JS去操作DOM，这时可能会有样式的修改，JS要依赖CSS之前加载完的样式效果。<br>3.CSS不阻塞外部脚本的加载，原因是webkit有HTML-preloader-scanner这样一个类，会预先扫描词法，通过预先加载器来请求后期加载所需要的资源。</p>
+<h2 id="JS阻塞"><a href="#JS阻塞" class="headerlink" title="JS阻塞"></a>JS阻塞</h2><p>1.没有通过defer和async的，直接通过script标签的JS 会阻塞页面的渲染。<br>2.JS不会阻塞资源的加载。<strong>因为webkit有预先扫描器，有引用其他资源时，会并发去请求所需的资源，进行预先加载。</strong><br>3.JS顺序执行，阻塞后续JS逻辑的执行。JS有可能会调用document.write的方式，去修改DOM结构，那么由于动态修改了文档，JS会阻塞后面节点的创建。文档结构的分析和渲染会等到JS代码执行完成之后再去调用html.parse进行词法分析。<br>4.JS是顺序执行的，不管返回的情况如何，JS都会保存引入的依赖关系进行单线程加载。</p>
 
       
       <!-- reward -->
@@ -231,7 +226,7 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Ajax/" rel="tag">Ajax</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Communication/" rel="tag">Communication</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">前端性能优化</a></li></ul>
 
 
     </footer>
@@ -248,7 +243,7 @@
 
 </article>
     
-    <article id="post-关于原型的理解" class="article article-type-post" itemscope
+    <article id="post-Node.js的三大特点" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -256,8 +251,8 @@
     <header class="article-header">
        
 <h2 itemprop="name">
-  <a class="article-title" href="../../2019/02/02/%E5%85%B3%E4%BA%8E%E5%8E%9F%E5%9E%8B%E7%9A%84%E7%90%86%E8%A7%A3/"
-    >关于原型的理解</a
+  <a class="article-title" href="../../2019/11/12/Node.js%E7%9A%84%E4%B8%89%E5%A4%A7%E7%89%B9%E7%82%B9/"
+    >Node.js的三大特点</a
   >
 </h2>
   
@@ -267,12 +262,12 @@
 
     
     <div class="article-meta">
-      <a href="../../2019/02/02/%E5%85%B3%E4%BA%8E%E5%8E%9F%E5%9E%8B%E7%9A%84%E7%90%86%E8%A7%A3/" class="article-date">
-  <time datetime="2019-02-01T16:00:00.000Z" itemprop="datePublished">2019-02-02</time>
+      <a href="../../2019/11/12/Node.js%E7%9A%84%E4%B8%89%E5%A4%A7%E7%89%B9%E7%82%B9/" class="article-date">
+  <time datetime="2019-11-11T16:00:00.000Z" itemprop="datePublished">2019-11-12</time>
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="../../categories/%E6%89%93%E6%80%AA%E5%8D%87%E7%BA%A7JS/">打怪升级JS</a>
+    <a class="article-category-link" href="../../categories/%E6%89%93%E6%80%AA%E5%8D%87%E7%BA%A7Node/">打怪升级Node</a>
   </div>
 
       
@@ -292,24 +287,37 @@
 
       
       <p>Welcome to share creative thoughts!</p>
-<h2 id="关于原型的理解"><a href="#关于原型的理解" class="headerlink" title="关于原型的理解"></a>关于原型的理解</h2><p>在这里我解析一下obj.constructor === Array  JS中一切皆对象！<br>注意：JavaScript中没有类（class）的概念，取而代之的是构造函数，两者类似却又有很大的差别。<br>构造函数的prototype指向原型对象，同时，原型对象有constructor指回构造函数对象。<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly90aW1nc2EuYmFpZHUuY29tL3RpbWc_aW1hZ2UmcXVhbGl0eT04MCZzaXplPWI5OTk5XzEwMDAwJnNlYz0xNTgzMjUwNDI5NjY5JmRpPTJjZDEwYmNhZTU0YjY2NzVmMjY3NzQ1N2FjMjViMWQ1JmltZ3R5cGU9MCZzcmM9aHR0cDovL3d3dy5md3F0Zy5uZXQvd3AtY29udGVudC91cGxvYWRzLzIwMTYvMDQvODgzODA1LTIwMTYwNDI2MTYyMTQ2NDg2LTIwODc5NTYxMTkucG5n?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly90aW1nc2EuYmFpZHUuY29tL3RpbWc_aW1hZ2UmcXVhbGl0eT04MCZzaXplPWI5OTk5XzEwMDAwJnNlYz0xNTgzMjUwNDQ0OTgwJmRpPTE0NTJlMjFiMDA2YTc1ZjQ1OGE2OTZjNWU2NzA2ZDI1JmltZ3R5cGU9anBnJnNyYz1odHRwOi8vaW1nMy5pbWd0bi5iZGltZy5jb20vaXQvdT0yNDEyNzA0MjQ4LDEyOTQyNjQzNDYmZm09MjE0JmdwPTAuanBn?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line"> <span class="keyword">this</span>.name = name;</span><br><span class="line"> <span class="keyword">this</span>.age = age;</span><br><span class="line"> <span class="keyword">this</span>.eat= <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; alert(<span class="string">'吃西红柿'</span>) &#125; </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> person1 = <span class="keyword">new</span> Person(<span class="string">'小米'</span>, <span class="number">28</span>);</span><br><span class="line"><span class="keyword">var</span> person2 = <span class="keyword">new</span> Person(<span class="string">'大米'</span>, <span class="number">23</span>);</span><br></pre></td></tr></table></figure>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWcyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvMTM4MzQ4OC8yMDE4MTIvMTM4MzQ4OC0yMDE4MTIyNjIxNTAxMDM4My00NDMyNTAyMzQucG5n?x-oss-process=image/format,png" alt="在这里插入图片描述"><br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWcyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvMTM4MzQ4OC8yMDE4MTIvMTM4MzQ4OC0yMDE4MTIyNjIxNTAzNzM2NC04Mjk4NTA3Ni5wbmc?x-oss-process=image/format,png" alt="在这里插入图片描述"><br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWcyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvMTM4MzQ4OC8yMDE4MTIvMTM4MzQ4OC0yMDE4MTIyNjIxNTEwMDMzMi0xNjAxMjA3MzU1LnBuZw?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>上图分别是：</p>
-<p>图一打印perspn1实例对象，<br>图二打印Person构造函数，<br>图三打印构造函数的prototype（即Person的原型对象）和person1的<strong>proto</strong></p>
+<h2 id="单线程"><a href="#单线程" class="headerlink" title="单线程"></a>单线程</h2><p>Nodejs跟Nginx一样都是单线程为基础的，这里的单线程指主线程为单线程，所有的阻塞的全部放入一个线程池中，然后主线程通过队列的方式跟线程池来协作。线程池主要由一堆callback回调函数构成的，然后主线程在循环间隙中适当调用，并清空队列。<br>在Java、PHP或者.net等服务器端语言中，会为每一个客户端连接创建一个新的线程。而每个线程需要耗费大约2MB内存。也就是说，理论上，一个8GB内存的服务器可以同时连接的最大用户数为4000个左右。要让Web应用程序支持更多的用户，就需要增加服务器的数量，而Web应用程序的硬件成本当然就上升了。<br><strong>Node.js不为每个客户连接创建一个新的线程，而仅仅使用一个线程。</strong>当有用户连接了，就触发一个内部事件，<strong>通过非阻塞I/O、事件驱动机制，让Node.js程序宏观上也是并行的。</strong>使用Node.js，一个8GB内存的服务器，可以同时处理超过4万用户的连接。</p>
 <blockquote>
-<p>实例对象和构造函数一点也不像<br>person1.<strong>proto</strong>和Person.prototype一模一样<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWcyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvMTM4MzQ4OC8yMDE4MTIvMTM4MzQ4OC0yMDE4MTIyNjIzMDAzMzQyMy05NjEwOTc5OTUucG5n?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>另外，单线程的带来的好处，还有操作系统完全不再有线程创建、销毁的时间开销。<br>坏处，就是一个用户造成了线程的崩溃，整个服务都崩溃了，其他人也崩溃了。</p>
 </blockquote>
-<p>在java中，类和它的实例对象之间有很紧密的关系，你的（属性和方法）是我的，我的还是我的！<br>可是到了js这里，Person构造函数中并没有体现出他本该有的属性和方法<br>也就是说，无论我们实例化出来多少个person，他们的属性和方法都是不一样的。<br>属性不一样还可以理解，方法不一样就意味着：每个实例出来的person的方法并不是共用的（并不指向同一个地址空间），那我们要构造函数还有什么意义？ </p>
+<p>话不多说，上图！<br><img src="https://img-blog.csdn.net/20180526131849738?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0wxMDYxMjU2MjY4/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="在这里插入图片描述">)<img src="https://img-blog.csdn.net/20180526131834846?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0wxMDYxMjU2MjY4/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="在这里插入图片描述"><br>上图说明，单线程也能造成宏观上的“并发”。</p>
+<h2 id="非堵塞I-O"><a href="#非堵塞I-O" class="headerlink" title="非堵塞I/O"></a>非堵塞I/O</h2><p>当用户在访问数据库取得数据的时候，需要一段请求时间。在传统的单线程处理机制中，在执行了访问数据库代码之后，整个线程都将暂停下来，等待数据库返回结果，才能执行后面的代码。也就是说，I/O阻塞了代码的执行，极大地降低了程序的执行效率。<br><strong>由于Node.js中采用了非阻塞型I/O机制，因此在执行了访问数据库的代码之后，将立即转而执行其后面的代码，把数据库返回结果的处理代码放在回调函数中，从而提高了程序的执行效率。</strong><br> <strong>当某个I/O执行完毕时，将以事件的形式通知执行I/O操作的线程，线程执行这个事件的回调函数。为了处理异步I/O，线程必须有事件循环，不断的检查有没有未处理的事件，依次予以处理。</strong><br>阻塞模式下，一个线程只能处理一项任务，要想提高吞吐量必须通过多线程。而非阻塞模式下，一个线程永远在执行计算操作，这个线程的CPU核心利用率永远是100%。Node.js中所有的I/O都是异步的，回调函数套回调函数。所以，这是一种特别有哲理的解决方案：与其人多，但是好多人闲着；还不如一个人玩命干活~</p>
+<p>Node.js文件操作的函数基本都是异步的回调函数。</p>
+<p>一个异步I/O的大致流程：</p>
+<ol>
+<li>发起I/O调用</li>
+</ol>
+<p>①用户通过js代码调用nodejs的核心模块，将回调函数和参数传入核心模块</p>
+<p>②将回调函数和参数封装。</p>
+<ol start="2">
+<li>执行回调</li>
+</ol>
+<p>①操作完成后，将结果储存到请求对象的result属性上，并发出完成通知。</p>
+<p>②循环事件，如果有未完成的，就进入请求对象的I/O观察者队列，之后当做异步事件来处理。</p>
+<h2 id="异步事件驱动"><a href="#异步事件驱动" class="headerlink" title="异步事件驱动"></a>异步事件驱动</h2><p>在Node中，客户端请求建立连接，提交数据等行为，会触发相应的事件。在Node中，在一个时刻，只能执行一个事件回调函数，但是在执行一个事件回调函数的中途，可以转而处理其他事件（比如，又有新用户连接了），然后返回继续执行原事件的回调函数，这种处理机制，称为“事件环”机制。<br>Node.js底层是C++（V8也是C++写的）。<strong>底层代码中，近半数都用于事件队列、回调函数队列的构建。用事件驱动来完成服务器的任务调度。**</strong><br><img src="https://img-blog.csdn.net/20180526131824358?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0wxMDYxMjU2MjY4/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="在这里插入图片描述"></p>
 <blockquote>
-<p>因为构造函数加原型可以达到JAVA中类和实例的优点：能够共享数据，节省内存空间<br>使用原型对象造共用属性和方法<br>构造函数中定义的方法，实例化后并不一样，而原型对象prototype中定义的方法确实相等的（指向同一地址）<br>JS中给同一构造函数的实例对象 添加共用属性和方法，需要使用prototype这一属性，也就是原型对象来实现<br>实例对象的<strong>proto</strong>和构造函数的prototype相等（指向同一地址），完全一样<br>Person.prototype.constructor和person1.<strong>proto</strong>.constructor以及Person一模一样<br>Person.prototype.constructor === Person<br>即：构造函数的原型对象（prototype）的构造器（constructor）指向该构造函数</p>
+<p>单线程的好处，减少了内存开销，操作系统的内存换页。</p>
 </blockquote>
-<p>敲重点！</p>
 <blockquote>
-<p>实例对象中都有<strong>proto</strong>属性，而构造函数中都有prototype属性，<br>prototype和<strong>proto</strong>都有构造器constructor，其实实例对象的<strong>proto</strong>和构造函数的prototype是一样的（Person.prototype === person1.<strong>proto</strong>）<br>构造函数的原型对象（prototype）的构造器（constructor）指向该构造函数（Person.prototype.constructor === Person）<br>！！原型属性和方法统一定义时，需要定义构造器constructor，即将构造函数的原型对象中的构造器指向该构造函数，否则原型属性和方法定义失败</p>
+<p>如果某一个事情，进入了，但是被I/O阻塞了，所以这个线程就阻塞了。</p>
 </blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//添加原型方法</span></span><br><span class="line">Person.prototype.job= <span class="string">"程序员"</span></span><br><span class="line">Person.prototype.address = <span class="string">"苏州"</span> </span><br><span class="line">Person.prototype.study= <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; alert(<span class="string">"学JavaScript"</span>)&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//可以这样定义吗？</span></span><br><span class="line">Person.prototype = &#123;</span><br><span class="line">    job:  <span class="string">"程序员"</span>,</span><br><span class="line">    address: <span class="string">"苏州"</span> ,</span><br><span class="line">    study:  <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; alert(<span class="string">"学JavaScript"</span>)&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//上面的原型对象定义出错，需要加上constructor--手动修改构造器的指向</span></span><br><span class="line">Person.prototype = &#123;</span><br><span class="line">    <span class="keyword">constructor</span>: Person,</span><br><span class="line">    job:  "程序员",</span><br><span class="line">    address: "苏州" ,</span><br><span class="line">    study:  function() &#123; alert(<span class="string">"学JavaScript"</span>)&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWcyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvMTM4MzQ4OC8yMDE4MTIvMTM4MzQ4OC0yMDE4MTIyNzAwMTUxMjcxMi0xNDg0ODc2ODEzLnBuZw?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<blockquote>
+<p>非阻塞I/O， 不会傻等I/O语句结束，而会执行后面的语句。</p>
+</blockquote>
+<blockquote>
+<p>非阻塞就能解决问题了么？比如执行着用户A的业务，执行过程中，用户B的I/O回调完成了，此时怎么办？只能采用事件环的机制来等待调度，就是说不管是新用户的请求，还是老用户的I/O完成，都将以事件方式加入事件环，去等待调度。<br>看上图就是构成一个每分每秒都在调度运行的闭环，这个闭环上只有一个搬运工，但是，人家不用休息！</p>
+</blockquote>
 
       
       <!-- reward -->
@@ -322,7 +330,755 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/prototype/" rel="tag">prototype</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Node/" rel="tag">Node</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-重绘与回流" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="../../2019/11/12/%E9%87%8D%E7%BB%98%E4%B8%8E%E5%9B%9E%E6%B5%81/"
+    >重绘与回流</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="../../2019/11/12/%E9%87%8D%E7%BB%98%E4%B8%8E%E5%9B%9E%E6%B5%81/" class="article-date">
+  <time datetime="2019-11-11T16:00:00.000Z" itemprop="datePublished">2019-11-12</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../categories/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96/">前端优化</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>Welcome to share creative thoughts!</p>
+<h2 id="重绘与回流的机制"><a href="#重绘与回流的机制" class="headerlink" title="重绘与回流的机制"></a>重绘与回流的机制</h2><p>CSS外部文件的引入要放到头部，加载CSS的时候页面渲染是被阻塞的，JS也是会阻塞页面渲染的，UI渲染和JS引擎线程是互斥的，不是并行的，CSS的性能会让JS变慢，优化性能，layout painting。</p>
+<ol>
+<li><p>当render tree中的一部分(或全部)因为元素的规模尺寸，几何属性，布局，隐藏等改变而需要重新构建。这就称为回流。每个页面至少需要一次回流，就是在页面第一次加载的时候。</p>
+</li>
+<li><p>当render tree中的一些元素需要更新属性，而这些属性只是影响元素的外观，风格，而不会影响布局的，比如background-color。则就叫称为重绘。</p>
+</li>
+</ol>
+<p>注：回流必将引起重绘，而重绘不一定会引起回流。</p>
+<h2 id="哪些情况会发生重绘，回流？"><a href="#哪些情况会发生重绘，回流？" class="headerlink" title="哪些情况会发生重绘，回流？"></a>哪些情况会发生重绘，回流？</h2><p>不同的条件下发生重排的范围及程度会不同 ：</p>
+<p>1.页面初始渲染</p>
+<p>2.改变字体，改变元素尺寸（宽、高、内外边距、边框，改变元素位置等</p>
+<pre><code>各种情况：
+
+         设置 style 属性的值 
+
+         激活 CSS 伪类，比如 :hover
+
+         操作 class 属性
+
+        css3的某些属性（https://csstriggers.com/  结合此链接查看哪些属性会触发重排、哪些属性会触发重绘以及哪些属性会触发合成；）</code></pre><p>（注意：如果修改属性不影响布局则不会发生重排）</p>
+<p>3..改变元素内容（文本或图片等或比如用户在input框中输入文字）</p>
+<p>4.添加/删除可见DOM元素（注意：如果是删除本身就display:none的元素不会发生重排；visibility:hidden的元素显示或隐藏不影响重排）</p>
+<p>5.fixed定位的元素,在拖动滚动条的时候会一直回流</p>
+<ol start="6">
+<li>调整窗口大小（Resizing the window）</li>
+</ol>
+<p>7.计算 offsetWidth 和 offsetHeight 属性【注释2】</p>
+<p>【注释2：flush队列】</p>
+<p>浏览器是聪明的，当对以下属性进行操作的时候：</p>
+<p>包括：offsetTop、offsetLeft、 offsetWidth、offsetHeight、scrollTop、scrollLeft、scrollWidth、scrollHeight、clientTop、clientLeft、clientWidth、clientHeight、getComputedStyle() (currentStyle in IE)。</p>
+<p>浏览器不会马上操作它们，而是会先缓存在队列中，有一定时间顺序去执行这些操作，但是在这过程中我们需要去获取在该队列中的属性时，浏览器为取得正确的值就会触发重排。这样就使得浏览器的优化失效了。</p>
+<p>所以，在多次使用这些值时应进行缓存。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E7%B3%BB%E5%88%97/" rel="tag">性能优化系列</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-React中对单向数据流的思考" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="../../2019/10/26/React%E4%B8%AD%E5%AF%B9%E5%8D%95%E5%90%91%E6%95%B0%E6%8D%AE%E6%B5%81%E7%9A%84%E6%80%9D%E8%80%83/"
+    >React对单向数据流的思考</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="../../2019/10/26/React%E4%B8%AD%E5%AF%B9%E5%8D%95%E5%90%91%E6%95%B0%E6%8D%AE%E6%B5%81%E7%9A%84%E6%80%9D%E8%80%83/" class="article-date">
+  <time datetime="2019-10-25T16:00:00.000Z" itemprop="datePublished">2019-10-26</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../categories/%E6%89%93%E6%80%AA%E5%8D%87%E7%BA%A7React/">打怪升级React</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>Welcome to share creative thoughts!</p>
+<p>React的特性中有一个概念叫做“单项数据流”，多数MVVM框架都是单向数据流的框架。传参是业务中要经常使用的，几乎所有框架都是通过props往内层组件传参，props本质是函数执行的参数，然而，复杂类型的数据更新和简单类型的数据更新是不一致的，举个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = &#123;<span class="attr">a</span>:<span class="number">1</span>&#125;</span><br><span class="line"><span class="keyword">var</span> b = a;</span><br><span class="line">b.a=<span class="number">2</span>;</span><br><span class="line"><span class="built_in">console</span>.log(a) <span class="comment">// &#123;a:2&#125;</span></span><br></pre></td></tr></table></figure>
+<p>假设我往一个函数内传递一个对象参数，如果在这个函数里修改了这个对象，那么函数外的对象也是会随着改动的(因为本质是一个内存里的东西)。<br>那么设想这样的情景：假设父组件的数据通过props传递给子组件，而子组件里更新了props，导致父组件更新——毫无疑问，这是会导致数据紊乱的、不可控的操作。因此绝大多数框架在这方面做了处理。<br><strong>而react在这方面的处理，就是直接规定了(对组件而言，它的)props是只读的，而不是可更改的。</strong><br>想对而言，小程序和vue对props的限制上显得更加自由， react的编程思想是严谨且周密的，它约束了花里胡哨的花式操作，这是为了确保在使用react构建复杂项目的时候不会出现太多问题。<br>当然啦，好处也是显而易见的——我在写react项目时，出现过一些问题，根源几乎集中在props和state这俩实例属性上。<br>单向数据流是react规范的数据流向,它的作用呢，极大的降低了我们组件间通信的代码耦合！让组件间的通信更为清晰，debug直接往props中找，数据的流向只能通过props由外层到内层 一层一层往里传递。<br>问题来了，当我想改变父级组件时怎么办呢？看以下代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">this</span>.state.list.map(<span class="function">(<span class="params">item,index</span>)=&gt;</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> (</span><br><span class="line">                &lt;XiaojiejieItem </span><br><span class="line">                key=&#123;index+item&#125;  </span><br><span class="line">                content=&#123;item&#125;</span><br><span class="line">                index=&#123;index&#125;</span><br><span class="line">                list=&#123;<span class="keyword">this</span>.state.list&#125;</span><br><span class="line">                deleteItem=&#123;<span class="keyword">this</span>.deleteItem.bind(<span class="keyword">this</span>)&#125;</span><br><span class="line">                /&gt;</span><br><span class="line">            )</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&lt;<span class="regexp">/ul&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>其实这样传是没有问题的，问题是我只能使用这个值，而不能修改这个值，如果修改了，比如把代码写成这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">handleClick()&#123;</span><br><span class="line">    <span class="comment">//关键代码——---------start</span></span><br><span class="line">    <span class="keyword">this</span>.props.list=[]</span><br><span class="line">    <span class="comment">//关键代码-----------end</span></span><br><span class="line">    <span class="keyword">this</span>.props.deleteItem(<span class="keyword">this</span>.props.index)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>就会报下面的错误；</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">TypeError</span>: Cannot assign to read only property <span class="string">'list'</span> <span class="keyword">of</span> object <span class="string">'#&lt;Object&gt;'</span></span><br></pre></td></tr></table></figure>
+
+<p>意思就是list是只读的单项数据流。那如果要改变这里边的值怎么办?  查阅资料明白了以下的应用场景和方法~</p>
+<p>首先定义一个父组件，名字为Parent</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">Parent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">        <span class="keyword">super</span>(props)</span><br><span class="line">        <span class="keyword">this</span>.state = &#123;</span><br><span class="line">            name: <span class="string">'我是父组件'</span>,</span><br><span class="line">            msg: <span class="string">'父组件传值给子组件'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &lt;h2&gt;&#123; <span class="keyword">this</span>.state.name &#125;&lt;<span class="regexp">/h2&gt;</span></span><br><span class="line"><span class="regexp">            &lt;/</span>div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其次定义一个子组件 ，名字为Children</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">Children</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">        <span class="keyword">super</span>(props)</span><br><span class="line">        <span class="keyword">this</span>.state = &#123;</span><br><span class="line">            name: <span class="string">'我是子组件'</span>,</span><br><span class="line">            msg: <span class="string">'子组件传值给父组件'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &lt;h2&gt;&#123; <span class="keyword">this</span>.state.name &#125;&lt;<span class="regexp">/h2&gt;</span></span><br><span class="line"><span class="regexp">            &lt;/</span>div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在App.js里引入父组件Parent</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> Parent <span class="keyword">from</span> <span class="string">'./component/Parent'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">          &lt;Parent/&gt;</span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">export default App;</span></span><br></pre></td></tr></table></figure>
+<p>父组件Parent引入子组件Children</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">import</span> Children <span class="keyword">from</span> <span class="string">'./Children'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">Parent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">        <span class="keyword">super</span>(props)</span><br><span class="line">        <span class="keyword">this</span>.state = &#123;</span><br><span class="line">            name: <span class="string">'我是父组件'</span>,</span><br><span class="line">            msg: <span class="string">'父组件传值给子组件'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &lt;h2&gt;&#123; <span class="keyword">this</span>.state.name &#125;&lt;<span class="regexp">/h2&gt;</span></span><br><span class="line"><span class="regexp">                &lt;h3&gt;我要引入子组件了：&lt;/</span>h3&gt;</span><br><span class="line">                &lt;hr/&gt;</span><br><span class="line">                &lt;Children/&gt;</span><br><span class="line">            &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        )</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>情况一：下面就来实现子组件Children传值(msg)给父组件Parent~注意这里传的是某一个属性，而不是全部。<br>子组件传值给父组件的步骤：</p>
+<p>1.父组件在调用子组件时，传入一整个组件给子组件。<br>2.父组件中定义一个方法getChildrenMsg(resulet, msg)，用来获取子组件传来的值以及执行其他操作。<br>3.子组件在通过this.props来获取到一整个组件this.props.parent或者this.props[parent]。<br>4.子组件调用父组件步骤2里定义的方法，通过bind绑定传值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">import</span> Children <span class="keyword">from</span> <span class="string">'./Children'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">Parent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">        <span class="keyword">super</span>(props)</span><br><span class="line">        <span class="keyword">this</span>.state = &#123;</span><br><span class="line">            name: <span class="string">'我是父组件'</span>,</span><br><span class="line">            msg: <span class="string">'父组件传值给子组件'</span>,</span><br><span class="line">            childrenMsg: <span class="string">''</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    getChildrenMsg = <span class="function">(<span class="params">result, msg</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// console.log(result, msg)</span></span><br><span class="line">        <span class="comment">// 这里的result就是子组件那bind的第一个参数this，msg是第二个参数</span></span><br><span class="line">        <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">            childrenMsg: msg</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &lt;h2&gt;&#123; <span class="keyword">this</span>.state.name &#125;&lt;<span class="regexp">/h2&gt;</span></span><br><span class="line"><span class="regexp">                &lt;h3&gt;子组件传来的值为：&#123; this.state.childrenMsg &#125;&lt;/</span>h3&gt;</span><br><span class="line">                &lt;h3&gt;我要引入子组件了：&lt;<span class="regexp">/h3&gt;</span></span><br><span class="line"><span class="regexp">                &lt;hr/</span>&gt;</span><br><span class="line">                &lt;Children parent=&#123; <span class="keyword">this</span> &#125; /&gt;</span><br><span class="line">            &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        )</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">Children</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">        <span class="keyword">super</span>(props)</span><br><span class="line">        <span class="keyword">this</span>.state = &#123;</span><br><span class="line">            name: <span class="string">'我是子组件'</span>,</span><br><span class="line">            msg: <span class="string">'子组件传值给父组件'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    toParent = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// console.log(this.props.parent.getChildrenMsg.bind(this, this.state.msg))</span></span><br><span class="line">        <span class="keyword">this</span>.props.parent.getChildrenMsg(<span class="keyword">this</span>, <span class="keyword">this</span>.state.msg)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &lt;h2&gt;&#123; <span class="keyword">this</span>.state.name &#125;&lt;<span class="regexp">/h2&gt;</span></span><br><span class="line"><span class="regexp">                &lt;button onClick=&#123; this.toParent &#125;&gt;子组件传入给父组件&lt;/</span>button&gt;</span><br><span class="line">            &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        )</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>情况二：子组件Children给父组件Parent传一整个组件（父组件获取整个子组件）<br>子组件给父组件传一整个组件（父组件获取整个子组件）的步骤：</p>
+<p>1.父组件在调用子组件时，通过ref属性，拿到整个子组件。<br>2.父组件中通过this.refs.children或者this.refs[children]获取到一整个子组件实例（注意，要在DOM加载后才能获取！）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">import</span> Children <span class="keyword">from</span> <span class="string">'./Children'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">Parent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">        <span class="keyword">super</span>(props)</span><br><span class="line">        <span class="keyword">this</span>.state = &#123;</span><br><span class="line">            name: <span class="string">'我是父组件'</span>,</span><br><span class="line">            msg: <span class="string">'父组件传值给子组件'</span>,</span><br><span class="line">            childrenMsg: <span class="string">''</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    getChildrenMsg = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">            childrenMsg: <span class="keyword">this</span>.refs[<span class="string">'children'</span>].state.msg</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &lt;h2&gt;&#123; <span class="keyword">this</span>.state.name &#125;&lt;<span class="regexp">/h2&gt;</span></span><br><span class="line"><span class="regexp">                &lt;button onClick=&#123; this.getChildrenMsg &#125;&gt;获取更新子组件的msg值&lt;/</span>button&gt;</span><br><span class="line">                &lt;h3&gt;子组件传来的值为：&#123; <span class="keyword">this</span>.state.childrenMsg &#125;&lt;<span class="regexp">/h3&gt;</span></span><br><span class="line"><span class="regexp">                &lt;h3&gt;我要引入子组件了：&lt;/</span>h3&gt;</span><br><span class="line">                &lt;hr/&gt;</span><br><span class="line">                &lt;Children ref=<span class="string">"children"</span> /&gt;</span><br><span class="line">            &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        )</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">Children</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">        <span class="keyword">super</span>(props)</span><br><span class="line">        <span class="keyword">this</span>.state = &#123;</span><br><span class="line">            name: <span class="string">'我是子组件'</span>,</span><br><span class="line">            msg: <span class="string">'子组件传值给父组件'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &lt;h2&gt;&#123; <span class="keyword">this</span>.state.name &#125;&lt;<span class="regexp">/h2&gt;</span></span><br><span class="line"><span class="regexp">                &lt;h3&gt;子组件的msg为：&#123; this.state.msg &#125;&lt;/</span>h3&gt;</span><br><span class="line">            &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        )</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>情景三：子组件Children给父组件Parent传方法<br>在获取到整个组件的前提上，再获取方法！<br><strong>我们写原生js的时候，就是通过：<br>在父函数中定义方法，通过参数传递给子函数，子函数调用这个方法并且把自己数据作为参数，那么父函数就可以通过形参拿到了~</strong><br>其实这里的思路是一样的！<br>父函数的方法传递给子函数，被子函数传参调用。<br>父组件中定义函数，通过props传递给子组件，子组件调用这个函数并传参。***<br>嗯…经过思考，子传父这样的逆向通信，实际也是符合单向数据流的概念。无非就是把函数当做参数传递下去呀，类似函数式编程，这样就符合单向数据流的定义了，所以逆向通信和单向数据流是不冲突的~</p>
+<p>检索一下大脑，在Vue，React中还有ref 这样一个特殊的实例属性呢！可以利用一下吗？<br>概括一下，react中 ref 具备两种作用：<br>  1、标记dom的话，能获取dom实例;<br>  2、标记子组件的话，能获取子组件实例的所有数据(包括子组件的props，state，定义的方法，实例…)。<br> 那么也就是说，父组件通过this.ref就拿到子组件的任何数据了…ref是不是很像中间人这个送情书的人呢~~<br> 但是呢，文档中特意提到了一点：不要轻易用ref，我猜想是要在DOM加载后才能获取，可能会影响通信的性能响应，这一点是个人思考不一定准确。</p>
+<p> 深挖一下，远亲组件的通信怎么实现才能优化性能？<br> 常用思维是：<br>      1、通过缓存  ：  组件A把数据存到缓存中，组件B就可以从中取出;<br>      2、通过url  ：  通过location对象拿到…；<br>      3、通过与后端配合： 组件A把数据扔到接口里去，组件B可以从中拿到…；<br>  以上方式，都是通过第三方媒介的形式。<br>  (想到了redux中的store共享，类似一个中间会话级别的缓存，通过第三方媒介作为一个存储地点，实现数据共享。）<br>  聪明的开发者提供了一个无需为每层组件手动添加 props，就能在组件树间进行数据传递的方法，那就是大名鼎鼎的 <strong>Context!</strong><br>   react中，同系远亲的话(太太爷爷到重重孙子)，就可以通过context，至于不是很远的关系， 利用props一层一层往内传也是可以的，可以测试一下<del>(例如爷爷传到孙子)<br>   虽然官方不推荐使用，还是去研究了一下</del></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">If you want your application to be stable, don’t use context.</span><br><span class="line">If you aren’t familiar <span class="keyword">with</span> state management libraries like Redux or MobX, don’t use context.</span><br><span class="line">If you’re still learning React, don’t use context.</span><br></pre></td></tr></table></figure>
+<p>想象一下，如果没有Context，如何把顶层组件的数据隔若干层传给底层组件？</p>
+<p>要么用prop，一层一层地传，要求每一层都要负责传递prop，丢了一个就完了！要不然，就要利用一个全局性的对象，比如Redux中的Store，那就面临如何管理好全局资源的问题， 所以解决办法难以折中。<br> 新版context的使用步骤和方法更好的解释了生产者和消费者模式。<br> 在组件树中，Provider负责提供context，而Consumer用来消费Provider提供的context，而且，它们之间可以隔着任意层级，依然保留心有灵犀，这就是Context的意义。<br>联系一下典型应用场景！那就是界面中的“主题”（Theme)，主题包括颜色样式等内容，主题的设定可以放在顶层的组件中，在这个顶层组件之下的所有React组件都应该能够很方便地访问主题。实现如下：</p>
+<p>1，先定义全局context对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">const</span> GlobalContext = React.createContext()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> GlobalContext</span><br></pre></td></tr></table></figure>
+<p>2，根组件引入GlobalContext，并使用GlobalContext.Provider（生产者）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;GlobalContext.Provider </span><br><span class="line">  value=&#123;&#123;</span><br><span class="line">    background: <span class="string">'green'</span>, </span><br><span class="line">    color: <span class="string">'white'</span>,</span><br><span class="line">    content:<span class="keyword">this</span>.state.content,</span><br><span class="line">    methodA:<span class="keyword">this</span>.changeStateByChildren</span><br><span class="line">  &#125;&#125;</span><br><span class="line">&gt;</span><br><span class="line"> </span><br><span class="line">&lt;<span class="regexp">/GlobalContext.Provider&gt;</span></span><br></pre></td></tr></table></figure>
+<p>注意：传入的value为根context对象的值，如果是动态的，要使用状态管理。<br>3，组件引入GlobalContext并调用context，使用GlobalContext.Consumer（消费者）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;GlobalContext.Consumer&gt;</span><br><span class="line">        &#123;</span><br><span class="line">          context =&gt; &#123;</span><br><span class="line">            <span class="keyword">return</span> (</span><br><span class="line">              &lt;div&gt;</span><br><span class="line">              &lt;h1 style=&#123;&#123;<span class="attr">background</span>: context.background, <span class="attr">color</span>: context.color&#125;&#125;&gt;</span><br><span class="line">                &#123;context.content&#125;</span><br><span class="line">              &lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">              &lt;Input methodA = &#123;context.methodA&#125; value=&#123;context.content&#125;&gt;&lt;/</span>Input&gt;</span><br><span class="line">              &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">            )</span></span><br><span class="line"><span class="regexp">          &#125;</span></span><br><span class="line"><span class="regexp">        &#125;</span></span><br><span class="line"><span class="regexp">&lt;/</span>GlobalContext.Consumer&gt;</span><br></pre></td></tr></table></figure>
+<p>注意：GlobalContext.Consumer内必须是回调函数，改变context，通过context方法改变根组件状态。</p>
+<p>总结一下Context优缺点：</p>
+<p>优点：跨组件访问数据。</p>
+<p>缺点：react组件树种某个上级组件shouldComponetUpdate 返回false,当context更新时，不会引起下级组件更新。<br>这个Context对象又包含两个属性，一个叫Provider，另一个叫Consumer，这两个属性都是纯种的React组件。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Dataflow/" rel="tag">Dataflow</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/React/" rel="tag">React</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-React通信方式梳理" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="../../2019/10/26/React%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F%E6%A2%B3%E7%90%86/"
+    >React通信方式梳理（二）</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="../../2019/10/26/React%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F%E6%A2%B3%E7%90%86/" class="article-date">
+  <time datetime="2019-10-25T16:00:00.000Z" itemprop="datePublished">2019-10-26</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../categories/%E6%89%93%E6%80%AA%E5%8D%87%E7%BA%A7React/">打怪升级React</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>Welcome to share creative thoughts!</p>
+<h1 id="父组件向子组件通信"><a href="#父组件向子组件通信" class="headerlink" title="父组件向子组件通信"></a>父组件向子组件通信</h1><h1 id="子组件向父组件通信"><a href="#子组件向父组件通信" class="headerlink" title="子组件向父组件通信"></a>子组件向父组件通信</h1><h1 id="跨级组件通信"><a href="#跨级组件通信" class="headerlink" title="跨级组件通信"></a>跨级组件通信</h1><h1 id="没有嵌套关系组件之间的通信"><a href="#没有嵌套关系组件之间的通信" class="headerlink" title="没有嵌套关系组件之间的通信"></a>没有嵌套关系组件之间的通信</h1><p>React数据流动是单向的,父组件向子组件通信也是最常见的;父组件通过props向子组件传递需要的信息Child.jsx</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> PropTypes <span class="keyword">from</span> <span class="string">'prop-types'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">Child</span>(<span class="params">&#123; name &#125;</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello, &#123;name&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Child.propTypes = &#123;</span><br><span class="line">    name: PropTypes.string.isRequired,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> Child <span class="keyword">from</span> <span class="string">'./Child'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &lt;Child name=<span class="string">"Sara"</span> /&gt;</span><br><span class="line">            &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        );</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">export default Parent;</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>子组件向父组件通信<blockquote>
+<p>利用回调函数<br>利用自定义事件机制<br>回调函数<br>实现在子组件中点击隐藏组件按钮可以将自身隐藏的功能</p>
+</blockquote>
+</li>
+</ol>
+<p>观察一下实现方法,可以发现它与传统回调函数的实现方法一样.而且setState一般与回调函数均会成对出现,因为回调函数即是转换内部状态是的常用方法。<br>3. 跨级组件通信</p>
+<blockquote>
+<p>层层组件传递props<br>例如A组件和B组件之间要进行通信,先找到A和B公共的父组件,A先向C组件通信,C组件通过props和B组件通信,此时C组件起的就是中间件的作用<br>使用context<br>context是一个全局变量,像是一个大容器,在任何地方都可以访问到,我们可以把要通信的信息放在context上,然后在其他组件中可以随意取到;<br>但是React官方不建议使用大量context,尽管他可以减少逐层传递,但是当组件结构复杂的时候,我们并不知道context是从哪里传过来的;而且context是一个全局变量,全局变量正是导致应用走向混乱的罪魁祸首.<br>使用context<br>下面例子中的组件关系: ListItem是List的子组件,List是app的子组件</p>
+</blockquote>
+<p>ListItem.jsx</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> PropTypes <span class="keyword">from</span> <span class="string">'prop-types'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListItem</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 子组件声明自己要使用context</span></span><br><span class="line">    <span class="keyword">static</span> contextTypes = &#123;</span><br><span class="line">        color: PropTypes.string,</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> propTypes = &#123;</span><br><span class="line">        value: PropTypes.string,</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123; value &#125; = <span class="keyword">this</span>.props;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;li style=&#123;&#123; <span class="attr">background</span>: <span class="keyword">this</span>.context.color &#125;&#125;&gt;</span><br><span class="line">                &lt;span&gt;&#123;value&#125;&lt;<span class="regexp">/span&gt;</span></span><br><span class="line"><span class="regexp">            &lt;/</span>li&gt;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/React/" rel="tag">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/jsx/" rel="tag">jsx</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-趣谈HTTPS协议" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="../../2019/10/26/%E8%B6%A3%E8%B0%88HTTPS%E5%8D%8F%E8%AE%AE/"
+    >趣谈HTTPS协议</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="../../2019/10/26/%E8%B6%A3%E8%B0%88HTTPS%E5%8D%8F%E8%AE%AE/" class="article-date">
+  <time datetime="2019-10-25T16:00:00.000Z" itemprop="datePublished">2019-10-26</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../categories/%E7%BD%91%E7%BB%9C/">网络</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>Welcome to share creative thoughts!</p>
+<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><h1 id="HTTP传输数据存在的问题"><a href="#HTTP传输数据存在的问题" class="headerlink" title="HTTP传输数据存在的问题"></a>HTTP传输数据存在的问题</h1><h1 id="HTTPS与HTTP的区别"><a href="#HTTPS与HTTP的区别" class="headerlink" title="HTTPS与HTTP的区别"></a>HTTPS与HTTP的区别</h1><h1 id="SSL的加密方式"><a href="#SSL的加密方式" class="headerlink" title="SSL的加密方式"></a>SSL的加密方式</h1><h1 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h1><h1 id="具体配置"><a href="#具体配置" class="headerlink" title="具体配置"></a>具体配置</h1><p>HTTP采用明文传输。明文传输在一些需要保护个人隐私的场景是大忌，比如银行卡卡号和密码的输入，个</p>
+<p>人信息的录入等。才用明文传输分分钟钟被不法分子截取下来。</p>
+<p>HTTP不验证通信双方的身份。HTTP的状态是无请求的，优点在于解放了服务器，每一次请求“点到为止”不会造成不必要连接占用，缺点在于每次请求会传输大量重复的内容信息。</p>
+<p>详细解析一下：无状态指的是任意一个Web请求必须完全与其他请求隔离，当请求端提出请求时，请求本身包含了相应端为相应这一请求所需的全部信息。缺少状态意味着如果后续处理需要前面的信息，则它必须重传，这样可能导致每次连接传送的数据量增大。另一方面，在服务器不需要先前信息时它的应答就较快。 Http协议不像建立了socket连接的两个终端，双方是可以互相通信的，http的客户端只能通过请求服务器来获取相关内容或文件信息。这也是后来为什么后来HTTP2有了服务器推送的原因！</p>
+<p>至于为什么无状态，后面在Cookie和Session中详细分析一下~</p>
+<p>HTTP无法验证报文的完整性，报文可能被篡改。</p>
+<p>升级版！HTTPS：加密算法</p>
+<p>对称加密原理：加密的算法是公开的，密钥来加密数据，对称加密使用一个密钥加密，还要使用相同的密钥才能解密！</p>
+<p>常用的算法有：DES,3DES,AES</p>
+<p>现在用的比较多的是AES，破解难度大，国外用的比较多。</p>
+<p>//使用对称加密，AES加密的时候，密钥长度必须是16个字节，arg0表示要加密的数据，arg1表示要加密的密钥。<br>//解密也是两个参数，arg0和arg1，arg0是要解密的数据，arg1是解密的密钥<br>//方法：AES.decryptFromBase64()</p>
+<p>加密之后是一个字符串，服务器解密，这时用户和服务器都有一把一样的钥匙！</p>
+<p>优点：</p>
+<p>1.计算量较小，加密和解密的速度比较快，适合加密比较大的数据</p>
+<p>2.缺点:在传输数据之前，要先传输公钥，可能被中间人劫持，可能会被泄密。</p>
+<p>3.当用户很多时，一个用户必须要有唯一的密钥，所以管理起来很麻烦，造成服务器压力巨大。</p>
+<p>非对称加密：</p>
+<p> 1.算法是公开的，公钥和私钥是配对的，公钥加密只能私钥解密，私钥加密只能公钥解密，简单理解就是用不同的钥匙去开锁，打开和关闭的钥匙是不一样的，所以称非对称~服务器会保存公钥 和私钥 </p>
+<p>2.公钥和私钥是通过算法生成的，不能随意乱写！</p>
+<p>3.典型方法：RSA  有两个方法   RSA.encrypt     RSA.decrypt  </p>
+<p>流程：</p>
+<p>服务器发送公钥给用户——&gt;用户采用公钥进行加密——&gt;加密之后传输给服务器——&gt;服务器用私钥进行解密</p>
+<p>上述流程中，黑客可能同时拿到公钥和数据，但是公钥是解不了密的！所以黑客解不开这时的数据！</p>
+<p>非对称加密的算法RSA</p>
+<p>优点:   加密和解密采用不同的钥匙，公钥是可以传输的，但不能解开数据</p>
+<p>缺点：计算量比较大，加密和解密的速度比较慢。</p>
+<p>那么HTTPS是怎么结合的呢？</p>
+<p>对称加密+非对称加密(HTTPS采用这种方式)</p>
+<p>使用对称密钥的好处是解密的效率比较快，使用非对称密钥的好处是可以使得传输的内容不能被破解，因为就算你拦截到了数据，但是没有对应的私钥，也是不能破解内容的。</p>
+<p>举个例子：你抢到了一个保险柜，但是没有保险柜的钥匙也不能打开保险柜。那我们就将对称加密与非对称加密结合起来,充分利用两者各自的优势，在交换密钥环节使用非对称加密方式，之后的建立通信交换报文阶段则使用对称加密方式。</p>
+<p>具体做法是：发送密文的一方使用对方的公钥进行加密处理“对称的密钥”，然后对方用自己的私钥解密拿到“对称的密钥”，这样可以确保交换的密钥是安全的前提下，使用对称加密方式进行通信。所以，HTTPS采用对称加密和非对称加密两者并用的混合加密机制。</p>
+<p>但是这样还不够哦！我们聪明的密码学家考虑问题是非常周全的，在实际场景中，会有很多bug~</p>
+<p>比如：网络传输过程中需要经过很多中间节点，虽然数据无法被解密，但可能被篡改，那如何校验数据的完整性呢？</p>
+<p>画押！—–&gt;校验数字签名。</p>
+<p>数字签名有两种功效：</p>
+<p>1.能确定消息确实是由发送方签名并发出来的，因为别人假冒不了发送方的签名。</p>
+<p>2.数字签名能确定消息的完整性,证明数据是否未被篡改过。</p>
+<p>HTTPS工作原理：</p>
+<p>1.服务器有公钥和私钥，公钥是传给客户端的，但是不是直接传输，而是先通过SSL数字证书，证书上标注了公钥和服务器的身份标志信息，客户端收到SSL证书之后，拆包，解析出公钥，这时呢，客户端会检查一下服务器的身份，是不是我想要去请求的那个服务器呢？是不是过期了呢？如果没有问题的话，客户端会生成一个随机码，使用公钥进行加密！传输加密之后的数据</p>
+<p>2.服务器拿到随机码之后（这时已经被公钥加密了！），这个随机码就可以作为对称加密的密钥，这时服务器就有了数据和私钥 </p>
+<p>服务器用私钥进行解密之后，拿到随机码， 这时两端都有了相同的数据，这样的话，双方采用相同的随机码作为对称加密的钥匙！就可以对称的拿到解析之后的数据了，为什么这样？因为传输的时候采用对称加密可以提高速度！</p>
+<p>3.详细说明一下：</p>
+<p>SSL证书包裹这公钥和服务器的身份标志，为什么带上服务器的标志呢？哈哈，这就是为了防止中间人的劫持，如果你不是正规服务器的话，我就不要你的冒牌货的钥匙！这样客户端就可以防止黑客坑骗拐骗拿到我们的信息啦，不过这只是开始~</p>
+<p>假设随机码6666是采用公钥AA加密的，采用对称算法，加密之后生成<strong>***</strong>这种字符串，对称加密保证了传输的速度，但是我们又不想让黑客劫持，所以要引入SSL证书来告诉双方，验证真假美猴王~防止双方都不知道对方身份的情况下，被双向迷惑！猜想一下，黑客是很聪明的，他可能伪装成任何一个角色，如果在客户端这里，他伪装成服务端，采用不正规的钥匙和我们通信，那么我们并不知道身份，会被盗取信息，而在服务端，黑客会假冒成客户端，黑客就是双重身份的冒充人！这样，他获取了双方的信息，随意篡改就很危险！而这个时候我们双方是不知情的，所以SSL很重要！必要要带上身份标志才能辨别好。</p>
+<p>随机码就是对陈加密的密钥，客户端采用随机码6666进行对称加密，传输<strong><strong>，服务端拿到</strong></strong>，使用私钥BB解密，拿到随机码6666，再用随机码解密用户的信息，这样就保证了双方的通信。细想这样安全吗？</p>
+<p>设想一下，刚开始发送SSL的时候，黑客是可以获取公钥AA的，后来传输加密之后的数据时黑客也可以劫持，拿到*****但是这时，公钥是解不开数据的，因为黑客没有私钥BB。</p>
+<p>先发公钥AA给用户—-&gt;用户生成一个随机码6666—–&gt;使用AA加密6666生成<strong><strong>—–&gt;传输</strong></strong>给服务器——&gt;服务器使用私钥BB解密<strong><strong>—–&gt;拿到随机码6666，这个随机码的破解是采用的非对称加密哦，因为都是在双方本地完成解析的，所以相对不用考虑解析算法耗时的问题—–&gt;服务器采用6666随机码解密</strong></strong>，到这里我就明白了，为什么要用随机码来作为对称加密的密钥，这一招厉害了哈哈，这个密钥不仅保证了黑客解不开****，还保证了双方解析用户ID时采用对称算法，减少解密时间的效果~</p>
+<p>配置密钥库</p>
+<p>1.genkey-alias  生成证书别名</p>
+<p>2.keyalg   指定密钥算法，默认RSA</p>
+<p>3.keysize  默认1024位。</p>
+<p>上面就是我的通俗讲解了~密码学家真的很聪明</p>
+<p>官方流程参考：</p>
+<p>首先看看组成HTTPS的协议：HTTP协议和SSL/TLS协议。HTTP协议就不用讲了，而SSL/TLS就是负责加密解密等安全处理的模块，所以HTTPS的核心在SSL/TLS上面。整个通信如下：</p>
+<p>1、浏览器发起往服务器的443端口发起请求，请求携带了浏览器支持的加密算法和哈希算法。</p>
+<p>2、服务器收到请求，选择浏览器支持的加密算法和哈希算法。</p>
+<p>3、服务器下将数字证书返回给浏览器，这里的数字证书可以是向某个可靠机构申请的，也可以是自制的。</p>
+<p>4、浏览器进入数字证书认证环节，这一部分是浏览器内置的TLS完成的：</p>
+<p>4.1 首先浏览器会从内置的证书列表中索引，找到服务器下发证书对应的机构，如果没有找到，此时就会提示用户该证书是不是由权威机构颁发，是不可信任的。如果查到了对应的机构，则取出该机构颁发的公钥。</p>
+<p>4.2 用机构的证书公钥解密得到证书的内容和证书签名，内容包括网站的网址、网站的公钥、证书的有效期等。浏览器会先验证证书签名的合法性（验证过程类似上面Bob和Susan的通信）。签名通过后，浏览器验证证书记录的网址是否和当前网址是一致的，不一致会提示用户。如果网址一致会检查证书有效期，证书过期了也会提示用户。这些都通过认证时，浏览器就可以安全使用证书中的网站公钥了。</p>
+<p>4.3 浏览器生成一个随机数R，并使用网站公钥对R进行加密。</p>
+<p>5、浏览器将加密的R传送给服务器。</p>
+<p>6、服务器用自己的私钥解密得到R。</p>
+<p>7、服务器以R为密钥使用了对称加密算法加密网页内容并传输给浏览器。 </p>
+<p>8、浏览器以R为密钥使用之前约定好的解密算法获取网页内容。</p>
+<p>附上SHA算法供大家有兴趣研究~可以脑补一下著名的哈希冲突</p>
+<p>安全哈希算法（Secure Hash Algorithm）主要适用于数字签名标准（Digital Signature Standard DSS）里面定义的数字签名算法（Digital Signature Algorithm DSA）。对于长度小于2^64位的消息，SHA1会产生一个160位的消息摘要。该算法经过加密专家多年来的发展和改进已日益完善，并被广泛使用。该算法的思想是接收一段明文，然后以一种不可逆的方式将它转换成一段（通常更小）密文，也可以简单的理解为取一串输入码（称为预映射或信息），并把它们转化为长度较短、位数固定的输出序列即散列值（也称为信息摘要或信息认证代码）的过程。散列函数值可以说是对明文的一种”指纹”或是”摘要”所以对散列值的数字签名就可以视为对此明文的数字签名。</p>
+<p>最后补充一下：SSL协议并不是一个应用层协议，它是介于应用层和传输层协议之间的一个安全协议。</p>
+<p>枯燥但科学的总结一下：HTTPS=HTTP+加密+身份认证+完整性保护。HTTPS并不是一种新的协议，在通信接口使用了SSL和TLS协议而已。HTTP通常直接和TCP通信，而HTTPS中HTTP先和SSL通信，再由SSL和TCP进行通信。模型如下</p>
+<p>HTTPS使用两种加密方式的混合加密<br>对称密钥加密方式的优缺点：</p>
+<p>优点：处理速度快<br>缺点：但是容易被第三方盗取<br>非对称密钥加密方式的优缺点：</p>
+<p>优点：更加安全，不容易被盗取<br>缺点：处理效率相比对称密钥加密要慢，如果在通信时用这种方式加密，效率很低<br>于是HTTPS采用了两者的优点，使用了混合加密的方式</p>
+<p>使用非对称密钥加密的方式安全地交换再稍后对称密钥加密中要使用的密钥<br>确保交换的密钥是安全的之后，放弃非对称密钥加密，使用对称密钥加密来进行通信，保证传输效率<br>HTTPS是怎么解决HTTP协议的三大缺点的？<br>防监听：采用对称加密对数据进行加密，采用非对称加密对对称加密的密钥进行加密<br>防伪装：通信双方携带证书，证书有第三方颁发，很难伪造<br>防篡改：采用摘要算法（MD5或是SHA-1），同样的数据由同样的摘要，而只要有一点不同的数据，它的摘要往往不同，只要数据做了篡改，就会被感知到。</p>
+<p>HTTP与HTTPS的区别<br>HTTPS更加安全，因为它有加密，身份认证，验证数据完整性等环节<br>HTTPS需要申请证书，要付费（要钱！一年大概600元）<br>加密通信需要消耗更多的cpu和内存资源，如果每次通信都加密，会消耗很多的资源，当访问量很多的那些网站在进行加密处理时，它们所承担着的负载就很多了，这个时候就需要服务器端实现负载均衡。（有专用的https加解密硬件服务器）<br>使用端口不同，HTTP使用的是80端口，HTTPS使用的是443端口<br>所在层次不同，HTTP运行在TCP之上，HTTPS是运行在SSL/TLS之上的HTTP协议，SSL/TLS运行在TCP之上</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/HTTPS/" rel="tag">HTTPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-深入浅析React" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="../../2019/10/22/%E6%B7%B1%E5%85%A5%E6%B5%85%E6%9E%90React/"
+    >React生命周期（一）</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="../../2019/10/22/%E6%B7%B1%E5%85%A5%E6%B5%85%E6%9E%90React/" class="article-date">
+  <time datetime="2019-10-21T16:00:00.000Z" itemprop="datePublished">2019-10-22</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../categories/%E6%89%93%E6%80%AA%E5%8D%87%E7%BA%A7React/">打怪升级React</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h1 id="Initialization-初始化阶段。"><a href="#Initialization-初始化阶段。" class="headerlink" title="Initialization:初始化阶段。"></a>Initialization:初始化阶段。</h1><h1 id="Mounting-挂载阶段。"><a href="#Mounting-挂载阶段。" class="headerlink" title="Mounting: 挂载阶段。"></a>Mounting: 挂载阶段。</h1><h1 id="Updation-更新阶段。"><a href="#Updation-更新阶段。" class="headerlink" title="Updation: 更新阶段。"></a>Updation: 更新阶段。</h1><h1 id="Unmounting-销毁阶段"><a href="#Unmounting-销毁阶段" class="headerlink" title="Unmounting: 销毁阶段"></a>Unmounting: 销毁阶段</h1><p>什么是生命周期函数？<br>如果非要用一句话把生命周期函数说明白，我觉的可以用这句话来说明：</p>
+<p>生命周期函数指在某一个时刻组件会自动调用执行的函数</p>
+<p>举例：render()函数，就是一个生命周期函数，它在state发生改变时自动执行。这就是一个标准的自动执行函数。</p>
+<p>constructor不算生命周期函数。<br>constructor叫构造函数，它是ES6的基本语法。虽然它和生命周期函数的性质一样，但不能认为是生命周期函数。</p>
+<p>我个人把它看成React的Initialization阶段，定义属性（props）和状态(state)。</p>
+<p>Mounting阶段<br>Mounting阶段叫挂载阶段，伴随着整个虚拟DOM的生成，它里边有三个小的生命周期函数，分别是：</p>
+<p>componentWillMount : 在组件即将被挂载到页面的时刻执行。<br>render : 页面state或props发生变化时执行。<br>componentDidMount : 组件挂载完成时被执行。<br>componentWillMount代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">    console.log(&#39;componentWillMount----组件将要挂载到页面的时刻&#39;)</span><br><span class="line">&#125;</span><br><span class="line">componentDidMount代码</span><br><span class="line"></span><br><span class="line">componentDidMount()&#123;</span><br><span class="line">    console.log(&#39;componentDidMount----组件挂载完成的时刻执行&#39;)</span><br><span class="line">&#125;</span><br><span class="line">render代码</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">render()&#123;</span><br><span class="line">    console.log(&#39;render---组件挂载中.......&#39;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这时候查看一下控制台，会打出如下提示：</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">componentWillMount<span class="comment">----组件将要挂载到页面的时刻执行</span></span><br><span class="line">render<span class="comment">----开始挂载渲染</span></span><br><span class="line">componentDidMount<span class="comment">----组件挂载完成的时刻执行</span></span><br></pre></td></tr></table></figure>
+
+<p>注意的问题</p>
+<p>componentWillMount和componentDidMount这两个生命周期函数，只在页面刷新时执行一次，而render函数是只要有state和props变化就会执行!</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/React/" rel="tag">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/jsx/" rel="tag">jsx</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-React中绑定this并传参的几种方式" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="../../2019/10/10/React%E4%B8%AD%E7%BB%91%E5%AE%9Athis%E5%B9%B6%E4%BC%A0%E5%8F%82%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/"
+    >React中绑定this并传参的几种方式</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="../../2019/10/10/React%E4%B8%AD%E7%BB%91%E5%AE%9Athis%E5%B9%B6%E4%BC%A0%E5%8F%82%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/" class="article-date">
+  <time datetime="2019-10-09T16:00:00.000Z" itemprop="datePublished">2019-10-10</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../categories/%E6%89%93%E6%80%AA%E5%8D%87%E7%BA%A7React/">打怪升级React</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>Welcome to share creative thoughts!</p>
+<blockquote>
+<p>在事件处理函数中，直接使用 bind 绑定 this 并传参<br>在构造函数中绑定并传参<br>利用箭头函数的this指向解决<br>bind的作用：为前面的函数，修改函数内部的 this 指向，让函数内部的this，指向 bind 参数列表中的 第一个参数 </p>
+</blockquote>
+<p>bind 和 call/apply 之间的区别： call/apply 修改完this指向后，会立即调用前面的函数，但是 bind 只是修改this指向，并不会l立即调用，bind会重新返回一个新函数。</p>
+<p>注意： bind 中的第一个参数，是用来修改 this 指向的，第一个参数后面的所有参数，都会当作将来调用 前面函数 时候的参数传递进去</p>
+<p>接下来具体看代码：<br>第一种方式的代码： </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">BindThis</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props)&#123;</span><br><span class="line">    <span class="keyword">super</span>(props)</span><br><span class="line">    <span class="keyword">this</span>.state=&#123;</span><br><span class="line">      msg:<span class="string">'这是默认的msg'</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  render()&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml"> </span></span><br><span class="line"><span class="xml">      &#123;/* 方式1：在 事件处理函数中，直接使用 bind 绑定 this 并传参 */&#125;</span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">'绑定This并传参的方式'</span> <span class="attr">onClick</span>=<span class="string">&#123;this.changeMsg1.bind(this,</span> '🐷', '🍕')&#125;/&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">hr</span>/&gt;</span></span></span><br><span class="line"><span class="xml"> </span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">h3</span>&gt;</span>&#123;this.state.msg&#125;<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"> changeMsg1(arg1, arg2)&#123;</span><br><span class="line">    <span class="comment">//注意：这里的方式，是一个普通的方法，因此，在触发的时候，这里的this是undefined</span></span><br><span class="line">    <span class="comment">// console.log(this);</span></span><br><span class="line">    <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">      msg:<span class="string">'绑定This并传参的方式'</span>+ arg1 + arg2</span><br><span class="line">    &#125;) </span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br><span class="line">第二种方式的代码：</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">BindThis</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props)&#123;</span><br><span class="line">    <span class="keyword">super</span>(props)</span><br><span class="line">    <span class="keyword">this</span>.state=&#123;</span><br><span class="line">      msg:<span class="string">'这是默认的msg'</span></span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 绑定 this 并传参的方式2: 在构造函数中绑定并传参</span></span><br><span class="line">    <span class="comment">// 注意，当一个函数，调用 bind 改变了this指向后，bind 函数调用的结果，有一个返回值，这个值，就是被改变this指向后的函数的引用</span></span><br><span class="line">    <span class="comment">// 注意： bind 不会修改 原函数的 this 指向</span></span><br><span class="line">    <span class="keyword">this</span>.changeMsg2 = <span class="keyword">this</span>.changeMsg2.bind(<span class="keyword">this</span>, <span class="string">'🚗'</span>, <span class="string">'👫'</span>)</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  render()&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"绑定this并传参的方式2"</span> <span class="attr">onClick</span>=<span class="string">&#123;this.changeMsg2&#125;</span> /&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">hr</span>/&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">h3</span>&gt;</span>&#123;this.state.msg&#125;<span class="tag">&lt;/<span class="name">h3</span>&gt;</span>  </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">  changeMsg2(arg1,arg2)&#123;</span><br><span class="line">    <span class="comment">//console.log(this)</span></span><br><span class="line">    <span class="comment">// 注意：这里的方式，是一个普通方法，因此，在触发的时候，这里的 this 是 undefined</span></span><br><span class="line">    <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">      msg: <span class="string">'绑定this并传参的方式2'</span> + arg1 + arg2</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>第二种方式需要注意： 当一个函数，调用 bind 改变了this指向后，bind 函数调用的结果，有一个返回值，这个值，就是被改变this指向后的函数的引用；<br>            bind 不会修改 原函数的 this 指向</p>
+</blockquote>
+<p> 第三种方式代码： </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">BindThis</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props)&#123;</span><br><span class="line">    <span class="keyword">super</span>(props)</span><br><span class="line">    <span class="keyword">this</span>.state=&#123;</span><br><span class="line">      msg:<span class="string">'这是默认的msg'</span></span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  render()&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>     </span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"绑定this并传参的方式3"</span> <span class="attr">onClick</span>=<span class="string">&#123;()</span> =&gt;</span> &#123; this.changeMsg3('😊', '😘') &#125;&#125; /&gt;</span></span><br><span class="line"><span class="xml">     </span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">hr</span>/&gt;</span></span></span><br><span class="line"><span class="xml"> </span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">h3</span>&gt;</span>&#123;this.state.msg&#125;<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span></span><br><span class="line"><span class="xml"> </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  changeMsg3 = <span class="function">(<span class="params">arg1,arg2</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">      msg:<span class="string">'绑定this并传参的方式3'</span> + arg1 + arg2</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;input type=<span class="string">"button"</span> value=<span class="string">"绑定this并传参的方式3"</span> onClick=&#123;<span class="keyword">this</span>.changeMsg3(<span class="string">'😊'</span>, <span class="string">'😘'</span>) &#125;/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>注意： 根据第三种方式得上面这一小段代码出现bug！<br>由于传参，通过this.changeMsg3（arg1,arg2）直接调用了这个函数，就是在没有点击时已经调用了，本身onclick事件里面放的是函数，而不是函数的调用的结果，如果这样写，在页面就会直接显示结果。</p>
+<blockquote>
+<p>解决方式： 就是在onclick事件中放一个箭头函数，在箭头函数内部调用。<br>三种方式都能达到同样的效果，但是性能上还是有很大的差别的。</p>
+</blockquote>
+<p>总结：</p>
+<blockquote>
+<p>每次在render的时候都要去绑定this，是性能最差的！</p>
+<p>使用构造函数的方式：在每一个实例化之后的this 都会定义该方法，但是该方式其实是定义在prototype 上的，各个实例对象共享该方法。<br>定义在原型链上的方法，在实际调用该方法的时候，其查找的过程是这样的：<br>首先检查this 上是否有该方法的定义，如果没有的话，则去prototype 上查找是否有该方法，所以在方法调用的过程中，会经历一次跨原型链的查找，带来额外的消耗。</p>
+</blockquote>
+<blockquote>
+<p>箭头函数的方式，在实际调用的时候，访问的是外层作用缓存的_this， 所以在作用域查找上有一层消耗。</p>
+</blockquote>
+<p>问题延申：React组件的this在不同场景下分别是什么？<br>背景：因为JavaScript函数中的this不是在函数声明的时候定义的，而是在函数调用（即运行）的时候定义的（不包括箭头函数）同样，React组件也遵循JavaScript的这种特性，所以组件方法的‘调用者’不同会导致this的不同（这里的 “调用者” 指的是函数执行时的当前对象。<br>ES6中新增了箭头函数这种语法,箭头函数以其简洁性和方便获取this的特性。<br>下面来总结一下他们之间的区别：</p>
+<blockquote>
+<p>普通函数下的this:<br>在普通函数中的this总是代表它的直接调用者，在默认情况下，this指的是window，<br>在严格模式下,没有直接调用者的函数中的this是 undefined使用<br>call,apply,bind(ES5新增)绑定的,this指的是 绑定的对象<br>箭头函数中的this:<br>箭头函数没有自己的this, 它的this是继承而来; 默认指向在定义它时所处的对象(宿主对象),<br>而不是执行时的对象, 定义它的时候,可能环境是window,也有可能是其他的。</p>
+</blockquote>
+<p>阅读深入浅出React之后的总结：</p>
+<blockquote>
+<p>React组件生命周期函数中的this指向组件实例；<br>自定义组件方法的this会因调用者不同而不同；<br>为了在组件的自定义方法中获取组件实例，需要手动绑定this到组件实例。</p>
+</blockquote>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/React/" rel="tag">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E4%BA%8B%E4%BB%B6%E7%BB%91%E5%AE%9A/" rel="tag">事件绑定</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-React" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="../../2019/08/23/React/"
+    >React生命周期（一）</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="../../2019/08/23/React/" class="article-date">
+  <time datetime="2019-08-22T16:00:00.000Z" itemprop="datePublished">2019-08-23</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../categories/%E6%89%93%E6%80%AA%E5%8D%87%E7%BA%A7React/">打怪升级React</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h1 id="Initialization-初始化阶段。"><a href="#Initialization-初始化阶段。" class="headerlink" title="Initialization:初始化阶段。"></a>Initialization:初始化阶段。</h1><h1 id="Mounting-挂载阶段。"><a href="#Mounting-挂载阶段。" class="headerlink" title="Mounting: 挂载阶段。"></a>Mounting: 挂载阶段。</h1><h1 id="Updation-更新阶段。"><a href="#Updation-更新阶段。" class="headerlink" title="Updation: 更新阶段。"></a>Updation: 更新阶段。</h1><h1 id="Unmounting-销毁阶段"><a href="#Unmounting-销毁阶段" class="headerlink" title="Unmounting: 销毁阶段"></a>Unmounting: 销毁阶段</h1><p>什么是生命周期函数？<br>如果非要用一句话把生命周期函数说明白，我觉的可以用这句话来说明：</p>
+<p>生命周期函数指在某一个时刻组件会自动调用执行的函数</p>
+<p>举例：render()函数，就是一个生命周期函数，它在state发生改变时自动执行。这就是一个标准的自动执行函数。</p>
+<p>constructor不算生命周期函数。<br>constructor叫构造函数，它是ES6的基本语法。虽然它和生命周期函数的性质一样，但不能认为是生命周期函数。</p>
+<p>我个人把它看成React的Initialization阶段，定义属性（props）和状态(state)。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200302110716424.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>Mounting阶段<br>Mounting阶段叫挂载阶段，伴随着整个虚拟DOM的生成，它里边有三个小的生命周期函数，分别是：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">componentWillMount : 在组件即将被挂载到页面的时刻执行。</span><br><span class="line">render : 页面state或props发生变化时执行。</span><br><span class="line">componentDidMount : 组件挂载完成时被执行。</span><br><span class="line">componentWillMount代码</span><br><span class="line"></span><br><span class="line">componentWillMount()&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'componentWillMount----组件将要挂载到页面的时刻'</span>)</span><br><span class="line">&#125;</span><br><span class="line">componentDidMount代码</span><br><span class="line"></span><br><span class="line">componentDidMount()&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'componentDidMount----组件挂载完成的时刻执行'</span>)</span><br><span class="line">&#125;</span><br><span class="line">render代码</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">render()&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'render---组件挂载中.......'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>查看一下控制台，会打出如下提示：</p>
+<p>componentWillMount—-组件将要挂载到页面的时刻执行<br>render—-开始挂载渲染<br>componentDidMount—-组件挂载完成的时刻执行<br>这也是生命周期的顺序。有小伙伴会问我，这个函数书写有顺序吗?哪个在前？哪个在后？其实是没有顺序的，你可以随便改动他们的顺序。</p>
+<p>注意的问题：</p>
+<p>componentWillMount和componentDidMount这两个生命周期函数，只在页面刷新时执行一次，而render函数是只要有state和props变化就会执行，这个一定要注意。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/React/" rel="tag">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/jsx/" rel="tag">jsx</a></li></ul>
 
 
     </footer>
