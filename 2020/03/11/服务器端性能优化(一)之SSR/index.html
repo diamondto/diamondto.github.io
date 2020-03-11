@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    服务器端性能优化(一)之SSR |  爱生活，爱前端！
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="../../../../css/style.css">
+
+  
+<script src="../../../../js/pace.min.js"></script>
+
+
+  
+
+  
+
+<link rel="alternate" href="atom.xml" title="爱生活，爱前端！" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    <main class="content">
+      <section class="outer">
+  <article id="post-服务器端性能优化(一)之SSR" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  服务器端性能优化(一)之SSR
+</h1>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="" class="article-date">
+  <time datetime="2020-03-11T15:59:21.553Z" itemprop="datePublished">2020-03-11</time>
+</a>
+      
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">1.3k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">4分钟</span>
+        </span>
+    </span>
+</div>
+
+      
+    </div>
+    
+
+    
+    
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>前端框架带来了大改变，但是前端业务逻辑变的庞大时，给开发带来了很好的效果，但是！开发效率提升之后，带来的首屏渲染问题也需要我们思考怎么在框架的层面上去提升性能？<br>解决思路：多层次的优化方案：<br>1.构建层模板编译。<br>2.数据无关的页面进行prerender，这种方式适用于用户集群的场景，就是说呢，用户访问的页面时没有太多区别的，对ID和特性定制要求很低，比如某个广告运营页面。<br>3.服务端渲染，涉及到用户特性选择时的方案。</p>
+<h2 id="SSR"><a href="#SSR" class="headerlink" title="SSR"></a>SSR</h2><p>概括一下流程就是将组件或页面通过服务器生成html字符串，再发送到浏览器，最后将静态标记”混合”为客户端上完全交互的应用程序，此篇笔记以 vue为例，后面做了React的项目再记录补充一下~<br>原理：靠vue-server-renderer这个库的createRenderer()，然后调用rendererToString()。</p>
+<h2 id="SSR渲染和客户端渲染的区别"><a href="#SSR渲染和客户端渲染的区别" class="headerlink" title="SSR渲染和客户端渲染的区别"></a>SSR渲染和客户端渲染的区别</h2><p>1、SSR渲染的优势：</p>
+<p>（1）更利于SEO；</p>
+<p>（2）更利于首屏渲染（特别是对于缓慢的网络情况或运行缓慢的设备，内容更快到达）</p>
+<p>2、SSR渲染的缺点：</p>
+<p>（1）服务器压力大，考虑服务器端负载。</p>
+<p>（2）开发条件受限，只会执行到ComponentMount之前的生命周期钩子，引用第三方库不可用其他生命周期钩子，引用库选择产生很大的限制。</p>
+<p>（3）学习成本增大，需要学习构建设置和部署的更多要求。</p>
+<h2 id="从流程角度比较性能"><a href="#从流程角度比较性能" class="headerlink" title="从流程角度比较性能"></a>从流程角度比较性能</h2><p>1.SSR服务端渲染是先向后端服务器请求数据，然后生成完整首屏html返回给浏览器，<br>2.而<strong>客户端渲染是等js代码下载、加载、解析完成后再请求数据渲染</strong>，等待的过程页面是什么都没有的，就是用户看到的白屏！<br>2.服务端<strong>不需要等待js代码下载完成并请求数据</strong>，就可以返回一个已有完整数据的首屏页面<br>2.由服务端请求首屏数据，而不是客户端请求首屏数据，这是“快”的一个主要原因。<br>3.<strong>服务端在内网进行请求，数据响应速度快</strong>。<br>4.客户端在不同网络环境进行数据请求，<strong>外网http请求开销大，导致时间差</strong>。</p>
+<h2 id="构建vue-demo"><a href="#构建vue-demo" class="headerlink" title="构建vue  demo"></a>构建vue  demo</h2><p>具体实现：</p>
+<p>1、创建一个空项目 mkdir vuessr &amp;&amp; cd vuessr</p>
+<p>2、运行 npm init 进行初始化</p>
+<p>3、安装我们需要的依赖 cnpm install vue vue-server-renderer –save</p>
+<p>4、创建index.js代码如下：</p>
+<p>5、运行 node index.js 可以看到在控制台输出了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第 1 步：创建一个 Vue 实例</span></span><br><span class="line"><span class="keyword">const</span> Vue = <span class="built_in">require</span>(<span class="string">'vue'</span>)</span><br><span class="line"><span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  template: <span class="string">`&lt;div&gt;Hello World&lt;/div&gt;`</span></span><br><span class="line">&#125;)</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 第 2 步：创建一个 renderer</span></span><br><span class="line"><span class="keyword">const</span> renderer = <span class="built_in">require</span>(<span class="string">'vue-server-renderer'</span>).createRenderer()</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 第 3 步：将 Vue 实例渲染为 HTML</span></span><br><span class="line">renderer.renderToString(app, (err, html) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (err) <span class="keyword">throw</span> err</span><br><span class="line">  <span class="built_in">console</span>.log(html)</span><br><span class="line">  <span class="comment">// =&gt; &lt;div data-server-rendered="true"&gt;Hello World&lt;/div&gt;</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="我理解的原理"><a href="#我理解的原理" class="headerlink" title="我理解的原理"></a>我理解的原理</h2><p>1.利用服务端Node.js去执行VUE框架的构建逻辑，可以在服务端直接从接口拿到用户的信息，作为首屏渲染的数据源，直接当地解决好渲染，返回一个HTML，在浏览器端和VUE混入。<br>2.不在客户端执行JS逻辑，利用好服务端的运算能力，同时减少了客户端等待VUE框架加载和VUE 代码运行的时间，相当于平衡了两者的算力!<br>3.要考虑服务端的运算能力和压力，集群完备能力，还有内存泄漏问题！</p>
+<h2 id="官方原理图"><a href="#官方原理图" class="headerlink" title="官方原理图"></a>官方原理图</h2><p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zczIuYmRzdGF0aWMuY29tLzcwY0Z2blNoX1ExWW54R2twb1dLMUhGNmhoeS9pdC91PTQwNTU5MDYyNjgsMTMyNDg1NDI3MCZmbT0yNiZncD0wLmpwZw?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>这是尤大牛老师在发布时的讲解图~<br>1.关键是编写针对VUE SSR渲染的组件（UAC）！其实生命周期是不一样的，VUE SSR时没有mounted阶段，因为SSR不存在DOM节点的真实渲染情况。<br>2.APP.JS有两个构建入口，Webpack 会分别构建用于S和C的两个bundle,分别在S和C端用到，首屏的渲染问题已经在Bundle Renderer中解决了！这时HTML包含了首屏的DOM结构和数据，HTML由BR生成，到浏览器之后，还是要通过客户端的VUE框架进行管理，怎么决定混入之后的关联？ <del>由Client Bundle 解决吗？</del> 还是利用serverBundle和clientManifest进行优化<br>？这里还不太明白。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly93d3cubXdjeHMudG9wL3N0YXRpYy91cGxvYWQvcGljcy8yMDE5LzMvMU9iYWVUeHdzc2JEYnhXSnBZSXVUVWptay5wbmc?x-oss-process=image/format,png" alt="在这里插入图片描述"><br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly93d3cubXdjeHMudG9wL3N0YXRpYy91cGxvYWQvcGljcy8yMDE5LzMvMVJnZXUySU1QQ1pJRFY0dDlZRGtNSkVBeS5wbmc?x-oss-process=image/format,png" alt="在这里插入图片描述"><br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly93d3cubXdjeHMudG9wL3N0YXRpYy91cGxvYWQvcGljcy8yMDE5LzMvMWhGUHQxUHhVRDhHOHhhR25QNDFiY08tTy5wbmc?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<h2 id="深入思考"><a href="#深入思考" class="headerlink" title="深入思考"></a>深入思考</h2><blockquote>
+<p>是否可以使用vuex？<br>我也没有准确答案~<br>是否使用SSR就一定好？<br>这个不一定，任何技术都有使用场景。<br>SSR可以帮助提升首页加载速度，优化搜索引擎SEO。<br>但同时它需要在node中渲染整套Vue的模板，会占用服务器负载。<br>并且只会执行beforeCreate和created两个生命周期，对于一些外部扩展库需要做一定处理才可以在SSR中运行。</p>
+</blockquote>
+
+      
+      <!-- reward -->
+      
+      <div id="reward-btn">
+        打赏
+      </div>
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong s>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
+                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+        
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/03/11/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96(%E4%B8%80)%E4%B9%8BSSR/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+    
+      <a href="../JS%E5%BC%82%E6%AD%A5%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B%E4%BB%A5%E5%8F%8A%E4%BC%98%E7%BC%BA%E7%82%B9/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">JS异步解决方案的发展历程以及优缺点</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        notify: 'false',
+        verify: 'false',
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2020
+        Wangqiuxia
+      </li>
+      <li>
+        
+        Powered by
+        
+        
+        <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+    <aside class="sidebar">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="../../../../index.html"><img src="/images/ayer-side.svg" alt="爱生活，爱前端！"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../index.html">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../tags/%E6%8A%80%E6%9C%AF/">小程序</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../http:/shenyu-vip.lofter.com">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../https:/v.xiumi.us/stage/v5/4IeLH/197507179">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="../../../../atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="../../../../images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="../../../../images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="../../../../js/jquery-2.0.3.min.js"></script>
+
+
+<script src="../../../../js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="../../../../js/lazyload.min.js"></script>
+
+
+<script src="../../../../js/busuanzi-2.3.pure.min.js"></script>
+
+
+<script src="../../../../js/share.js"></script>
+
+
+
+<script src="../../../../fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['做一个有情怀的程序媛','业精于勤荒于嬉，行成于思毁于随','越努力越幸运'],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script src="../../../../js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+
+<script src="../../../../js/ayer.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=518895142&auto=1&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+  </div>
+</body>
+
+</html>

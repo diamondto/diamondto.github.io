@@ -71,6 +71,276 @@
     
     
     
+    <article id="post-服务器端性能优化(一)之SSR" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="2020/03/11/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96(%E4%B8%80)%E4%B9%8BSSR/"
+    >服务器端性能优化(一)之SSR</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="2020/03/11/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96(%E4%B8%80)%E4%B9%8BSSR/" class="article-date">
+  <time datetime="2020-03-11T15:59:21.553Z" itemprop="datePublished">2020-03-11</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>前端框架带来了大改变，但是前端业务逻辑变的庞大时，给开发带来了很好的效果，但是！开发效率提升之后，带来的首屏渲染问题也需要我们思考怎么在框架的层面上去提升性能？<br>解决思路：多层次的优化方案：<br>1.构建层模板编译。<br>2.数据无关的页面进行prerender，这种方式适用于用户集群的场景，就是说呢，用户访问的页面时没有太多区别的，对ID和特性定制要求很低，比如某个广告运营页面。<br>3.服务端渲染，涉及到用户特性选择时的方案。</p>
+<h2 id="SSR"><a href="#SSR" class="headerlink" title="SSR"></a>SSR</h2><p>概括一下流程就是将组件或页面通过服务器生成html字符串，再发送到浏览器，最后将静态标记”混合”为客户端上完全交互的应用程序，此篇笔记以 vue为例，后面做了React的项目再记录补充一下~<br>原理：靠vue-server-renderer这个库的createRenderer()，然后调用rendererToString()。</p>
+<h2 id="SSR渲染和客户端渲染的区别"><a href="#SSR渲染和客户端渲染的区别" class="headerlink" title="SSR渲染和客户端渲染的区别"></a>SSR渲染和客户端渲染的区别</h2><p>1、SSR渲染的优势：</p>
+<p>（1）更利于SEO；</p>
+<p>（2）更利于首屏渲染（特别是对于缓慢的网络情况或运行缓慢的设备，内容更快到达）</p>
+<p>2、SSR渲染的缺点：</p>
+<p>（1）服务器压力大，考虑服务器端负载。</p>
+<p>（2）开发条件受限，只会执行到ComponentMount之前的生命周期钩子，引用第三方库不可用其他生命周期钩子，引用库选择产生很大的限制。</p>
+<p>（3）学习成本增大，需要学习构建设置和部署的更多要求。</p>
+<h2 id="从流程角度比较性能"><a href="#从流程角度比较性能" class="headerlink" title="从流程角度比较性能"></a>从流程角度比较性能</h2><p>1.SSR服务端渲染是先向后端服务器请求数据，然后生成完整首屏html返回给浏览器，<br>2.而<strong>客户端渲染是等js代码下载、加载、解析完成后再请求数据渲染</strong>，等待的过程页面是什么都没有的，就是用户看到的白屏！<br>2.服务端<strong>不需要等待js代码下载完成并请求数据</strong>，就可以返回一个已有完整数据的首屏页面<br>2.由服务端请求首屏数据，而不是客户端请求首屏数据，这是“快”的一个主要原因。<br>3.<strong>服务端在内网进行请求，数据响应速度快</strong>。<br>4.客户端在不同网络环境进行数据请求，<strong>外网http请求开销大，导致时间差</strong>。</p>
+<h2 id="构建vue-demo"><a href="#构建vue-demo" class="headerlink" title="构建vue  demo"></a>构建vue  demo</h2><p>具体实现：</p>
+<p>1、创建一个空项目 mkdir vuessr &amp;&amp; cd vuessr</p>
+<p>2、运行 npm init 进行初始化</p>
+<p>3、安装我们需要的依赖 cnpm install vue vue-server-renderer –save</p>
+<p>4、创建index.js代码如下：</p>
+<p>5、运行 node index.js 可以看到在控制台输出了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第 1 步：创建一个 Vue 实例</span></span><br><span class="line"><span class="keyword">const</span> Vue = <span class="built_in">require</span>(<span class="string">'vue'</span>)</span><br><span class="line"><span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  template: <span class="string">`&lt;div&gt;Hello World&lt;/div&gt;`</span></span><br><span class="line">&#125;)</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 第 2 步：创建一个 renderer</span></span><br><span class="line"><span class="keyword">const</span> renderer = <span class="built_in">require</span>(<span class="string">'vue-server-renderer'</span>).createRenderer()</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 第 3 步：将 Vue 实例渲染为 HTML</span></span><br><span class="line">renderer.renderToString(app, (err, html) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (err) <span class="keyword">throw</span> err</span><br><span class="line">  <span class="built_in">console</span>.log(html)</span><br><span class="line">  <span class="comment">// =&gt; &lt;div data-server-rendered="true"&gt;Hello World&lt;/div&gt;</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="我理解的原理"><a href="#我理解的原理" class="headerlink" title="我理解的原理"></a>我理解的原理</h2><p>1.利用服务端Node.js去执行VUE框架的构建逻辑，可以在服务端直接从接口拿到用户的信息，作为首屏渲染的数据源，直接当地解决好渲染，返回一个HTML，在浏览器端和VUE混入。<br>2.不在客户端执行JS逻辑，利用好服务端的运算能力，同时减少了客户端等待VUE框架加载和VUE 代码运行的时间，相当于平衡了两者的算力!<br>3.要考虑服务端的运算能力和压力，集群完备能力，还有内存泄漏问题！</p>
+<h2 id="官方原理图"><a href="#官方原理图" class="headerlink" title="官方原理图"></a>官方原理图</h2><p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zczIuYmRzdGF0aWMuY29tLzcwY0Z2blNoX1ExWW54R2twb1dLMUhGNmhoeS9pdC91PTQwNTU5MDYyNjgsMTMyNDg1NDI3MCZmbT0yNiZncD0wLmpwZw?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>这是尤大牛老师在发布时的讲解图~<br>1.关键是编写针对VUE SSR渲染的组件（UAC）！其实生命周期是不一样的，VUE SSR时没有mounted阶段，因为SSR不存在DOM节点的真实渲染情况。<br>2.APP.JS有两个构建入口，Webpack 会分别构建用于S和C的两个bundle,分别在S和C端用到，首屏的渲染问题已经在Bundle Renderer中解决了！这时HTML包含了首屏的DOM结构和数据，HTML由BR生成，到浏览器之后，还是要通过客户端的VUE框架进行管理，怎么决定混入之后的关联？ <del>由Client Bundle 解决吗？</del> 还是利用serverBundle和clientManifest进行优化<br>？这里还不太明白。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly93d3cubXdjeHMudG9wL3N0YXRpYy91cGxvYWQvcGljcy8yMDE5LzMvMU9iYWVUeHdzc2JEYnhXSnBZSXVUVWptay5wbmc?x-oss-process=image/format,png" alt="在这里插入图片描述"><br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly93d3cubXdjeHMudG9wL3N0YXRpYy91cGxvYWQvcGljcy8yMDE5LzMvMVJnZXUySU1QQ1pJRFY0dDlZRGtNSkVBeS5wbmc?x-oss-process=image/format,png" alt="在这里插入图片描述"><br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly93d3cubXdjeHMudG9wL3N0YXRpYy91cGxvYWQvcGljcy8yMDE5LzMvMWhGUHQxUHhVRDhHOHhhR25QNDFiY08tTy5wbmc?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<h2 id="深入思考"><a href="#深入思考" class="headerlink" title="深入思考"></a>深入思考</h2><blockquote>
+<p>是否可以使用vuex？<br>我也没有准确答案~<br>是否使用SSR就一定好？<br>这个不一定，任何技术都有使用场景。<br>SSR可以帮助提升首页加载速度，优化搜索引擎SEO。<br>但同时它需要在node中渲染整套Vue的模板，会占用服务器负载。<br>并且只会执行beforeCreate和created两个生命周期，对于一些外部扩展库需要做一定处理才可以在SSR中运行。</p>
+</blockquote>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-JS异步解决方案的发展历程以及优缺点" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="2020/03/11/JS%E5%BC%82%E6%AD%A5%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B%E4%BB%A5%E5%8F%8A%E4%BC%98%E7%BC%BA%E7%82%B9/"
+    >JS异步解决方案的发展历程以及优缺点</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="2020/03/11/JS%E5%BC%82%E6%AD%A5%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B%E4%BB%A5%E5%8F%8A%E4%BC%98%E7%BC%BA%E7%82%B9/" class="article-date">
+  <time datetime="2020-03-11T15:59:00.342Z" itemprop="datePublished">2020-03-11</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>JS 异步已经告一段落了，这里来一波小总结~</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> 回调函数（callback）</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// callback 函数体</span></span><br><span class="line">&#125;, <span class="number">1000</span>)</span><br></pre></td></tr></table></figure>
+
+<p>缺点：回调地狱，不能用 try catch 捕获错误，不能 return<br>回调地狱的根本问题在于：<br>缺乏顺序性： 回调地狱导致的调试困难，和大脑的思维方式不符<br>嵌套函数存在耦合性，一旦有所改动，就会牵一发而动全身，即（控制反转）<br>嵌套函数过多的多话，很难处理错误</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ajax(<span class="string">'XXX1'</span>, () =&gt; &#123;</span><br><span class="line">    <span class="comment">// callback 函数体</span></span><br><span class="line">    ajax(<span class="string">'XXX2'</span>, () =&gt; &#123;</span><br><span class="line">        <span class="comment">// callback 函数体</span></span><br><span class="line">        ajax(<span class="string">'XXX3'</span>, () =&gt; &#123;</span><br><span class="line">            <span class="comment">// callback 函数体</span></span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>优点：解决了同步的问题（只要有一个任务耗时很长，后面的任务都必须排队等着，会拖延整个程序的执行。）</p>
+<ol start="2">
+<li>Promise<br>Promise就是为了解决callback的问题而产生的。<br>Promise 实现了链式调用，也就是说每次 then 后返回的都是一个全新 Promise，如果我们在 then 中 return ，return 的结果会被 Promise.resolve() 包装<br>优点：解决了回调地狱的问题</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ajax(<span class="string">'XXX1'</span>)</span><br><span class="line">  .then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// 操作逻辑</span></span><br><span class="line">      <span class="keyword">return</span> ajax(<span class="string">'XXX2'</span>)</span><br><span class="line">  &#125;).then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// 操作逻辑</span></span><br><span class="line">      <span class="keyword">return</span> ajax(<span class="string">'XXX3'</span>)</span><br><span class="line">  &#125;).then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// 操作逻辑</span></span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+<p>缺点：无法取消 Promise ，错误需要通过回调函数来捕获</p>
+<ol start="3">
+<li>Generator<br>特点：可以控制函数的执行，可以配合 co 函数库使用</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> *<span class="title">fetch</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">yield</span> ajax(<span class="string">'XXX1'</span>, () =&gt; &#123;&#125;)</span><br><span class="line">    <span class="keyword">yield</span> ajax(<span class="string">'XXX2'</span>, () =&gt; &#123;&#125;)</span><br><span class="line">    <span class="keyword">yield</span> ajax(<span class="string">'XXX3'</span>, () =&gt; &#123;&#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> it = fetch()</span><br><span class="line"><span class="keyword">let</span> result1 = it.next()</span><br><span class="line"><span class="keyword">let</span> result2 = it.next()</span><br><span class="line"><span class="keyword">let</span> result3 = it.next()</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>Async/await<br>async、await 是异步的终极解决方案</li>
+</ol>
+<p>优点是：代码清晰，不用像 Promise 写一大堆 then 链，处理了回调地狱的问题<br>缺点：await 将异步代码改造成同步代码，如果多个异步操作没有依赖性而使用 await 会导致性能上的降低。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 以下代码没有依赖性的话，完全可以使用 Promise.all 的方式</span></span><br><span class="line">  <span class="comment">// 如果有依赖性的话，其实就是解决回调地狱的例子了</span></span><br><span class="line">  <span class="keyword">await</span> fetch(<span class="string">'XXX1'</span>)</span><br><span class="line">  <span class="keyword">await</span> fetch(<span class="string">'XXX2'</span>)</span><br><span class="line">  <span class="keyword">await</span> fetch(<span class="string">'XXX3'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下面来看一个使用 await 的例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="number">0</span></span><br><span class="line"><span class="keyword">let</span> b = <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  a = a + <span class="keyword">await</span> <span class="number">10</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'2'</span>, a) <span class="comment">// -&gt; '2' 10</span></span><br><span class="line">&#125;</span><br><span class="line">b()</span><br><span class="line">a++</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'1'</span>, a) <span class="comment">// -&gt; '1' 1</span></span><br></pre></td></tr></table></figure>
+<p>对于以上代码你可能会有疑惑，让我来解释下原因</p>
+<p>首先函数 b 先执行，在执行到 await 10 之前变量 a 还是 0，因为 await 内部实现了 generator ，generator 会保留堆栈中东西，所以这时候 a = 0 被保存了下来<br>因为 await 是异步操作，后来的表达式不返回 Promise 的话，就会包装成 Promise.reslove(返回值)，然后会去执行函数外的同步代码<br>同步代码执行完毕后开始执行异步代码，将保存下来的值拿出来使用，这时候 a = 0 + 10<br>上述解释中提到了 await 内部实现了 generator，其实 await 就是 generator 加上 Promise的语法糖，且内部实现了自动执行 generator。<br>在最新的ES7（ES2017）中提出的前端异步特性：async、await。</p>
+<p>什么是async、await？<br>async顾名思义是“异步”的意思，async用于声明一个函数是异步的。而await从字面意思上是“等待”的意思，就是用于等待异步完成。并且await只能在async函数中使用</p>
+<p>通常async、await都是跟随Promise一起使用的。为什么这么说呢？因为async返回的都是一个Promise对象同时async适用于任何类型的函数上。这样await得到的就是一个Promise对象(如果不是Promise对象的话那async返回的是什么 就是什么)；</p>
+<p>await得到Promise对象之后就等待Promise接下来的resolve或者reject。</p>
+<p>来看一段简单的代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">testSync</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">     <span class="keyword">const</span> response = <span class="keyword">await</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">         setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">             resolve(<span class="string">"async await test..."</span>);</span><br><span class="line">          &#125;, <span class="number">1000</span>);</span><br><span class="line">     &#125;);</span><br><span class="line">     <span class="built_in">console</span>.log(response);</span><br><span class="line">&#125;</span><br><span class="line">testSync();<span class="comment">//async await test...</span></span><br></pre></td></tr></table></figure>
+
+<p>就这样一个简单的async、await异步就完成了。使用async、await完成异步操作代码可读与写法上更像是同步的，也更容易让人理解。相对于es6的generator函数，更直观理解。</p>
+<p><strong>async、await串行并行处理<br>串行：等待前面一个await执行后接着执行下一个await，以此类推</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">asyncAwaitFn</span>(<span class="params">str</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">await</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            resolve(str)</span><br><span class="line">        &#125;, <span class="number">1000</span>);</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">const</span> serialFn = <span class="keyword">async</span> () =&gt; &#123; <span class="comment">//串行执行</span></span><br><span class="line"> </span><br><span class="line">    <span class="built_in">console</span>.time(<span class="string">'serialFn'</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">await</span> asyncAwaitFn(<span class="string">'string 1'</span>));</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">await</span> asyncAwaitFn(<span class="string">'string 2'</span>));</span><br><span class="line">    <span class="built_in">console</span>.timeEnd(<span class="string">'serialFn'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>serialFn();<br><strong>并行：将多个promise直接发起请求（先执行async所在函数），然后再进行await操作。</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">asyncAwaitFn</span>(<span class="params">str</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">await</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            resolve(str)</span><br><span class="line">        &#125;, <span class="number">1000</span>);</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> parallel = <span class="keyword">async</span> () =&gt; &#123; <span class="comment">//并行执行</span></span><br><span class="line">    <span class="built_in">console</span>.time(<span class="string">'parallel'</span>)</span><br><span class="line">    <span class="keyword">const</span> parallelOne = asyncAwaitFn(<span class="string">'string 1'</span>);</span><br><span class="line">    <span class="keyword">const</span> parallelTwo = asyncAwaitFn(<span class="string">'string 2'</span>)</span><br><span class="line"> </span><br><span class="line">    <span class="comment">//直接打印</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">await</span> parallelOne)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">await</span> parallelTwo)</span><br><span class="line"> </span><br><span class="line">    <span class="built_in">console</span>.timeEnd(<span class="string">'parallel'</span>)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">&#125;</span><br><span class="line">parallel()</span><br></pre></td></tr></table></figure>
+
+<p>async、await错误处理<br>JavaScript异步请求肯定会有请求失败的情况，上面也说到了async返回的是一个Promise对象。既然是返回一个Promise对象的话那处理当异步请求发生错误的时候我们就要处理reject的状态了。<br>在Promise中当请求reject的时候我们可以使用catch。为了保持代码的健壮性使用async、await的时候我们使用try catch来处理错误。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">catchErr</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">          <span class="keyword">const</span> errRes = <span class="keyword">await</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">                setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                    reject(<span class="string">"http error..."</span>);</span><br><span class="line">                 &#125;, <span class="number">1000</span>);</span><br><span class="line">           );</span><br><span class="line">                <span class="comment">//平常我们也可以在await请求成功后通过判断当前status是不是200来判断请求是否成功</span></span><br><span class="line">                <span class="comment">// console.log(errRes.status, errRes.statusText);</span></span><br><span class="line">        &#125; <span class="keyword">catch</span>(err) &#123;</span><br><span class="line">             <span class="built_in">console</span>.log(err);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line">catchErr(); <span class="comment">//http error...</span></span><br></pre></td></tr></table></figure>
+<p>以上就是async、await使用try catch 处理错误的方式。<br>async/await的使用使得 Promise操作更加方便了！</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-css的优先级和权重问题 以及!important优先级 (1)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="2020/03/11/css%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7%E5%92%8C%E6%9D%83%E9%87%8D%E9%97%AE%E9%A2%98%20%E4%BB%A5%E5%8F%8A!important%E4%BC%98%E5%85%88%E7%BA%A7%20(1)/"
+    >css的优先级和权重问题 以及!important优先级 (1)</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="2020/03/11/css%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7%E5%92%8C%E6%9D%83%E9%87%8D%E9%97%AE%E9%A2%98%20%E4%BB%A5%E5%8F%8A!important%E4%BC%98%E5%85%88%E7%BA%A7%20(1)/" class="article-date">
+  <time datetime="2020-03-11T15:59:00.294Z" itemprop="datePublished">2020-03-11</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>问：有多少种css选择器可以对</p><p>标签样式产生影响呢？</p>
+<p>如果详细的进行分析，排列组合有太多种了，太过麻烦。今天学习到一个好方法。</p>
+<p>行内样式：        即  style = “font-size: 12px”；<br>id选择器：  　   即  #thisId {font-size: 12px;}<br>class选择器：   即 .thisClass {font-size: 12px;}<br>元素选择器：    即  p {font-size: 12px;}<br>如上四种类别都可以对</p><p>标签的样式产生影响，那么谁先谁后，谁打谁小呢？<br>有如下两种解释：</p>
+<p>1.一个selector的权重表示方式：0.0.0.0，按照计算规则给每位填充数字，对应位置相等，则比较下一位；<br>2.分别以1000、100、10、1四个权值系数对CSS选择器进行权重计算。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200303212631153.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<blockquote>
+<p>1.!important 表示强制应用该样式，例如：button{ width: 150px !important;}，与以上的选择器相遇时，强制使用此样式；<br>2.如果比较后权重相同，那么后者覆盖前者，后渲染的胜出；<br>3.内联样式  &gt; id选择器样式 &gt; 类选择器样式 &gt; 元素选择器样式；<br>4.CSS选择器的使用，应该尽量避免使用 !important 和 内联样式；id通常也是与class区分开使用，前者多用于JS中的结点定位，后者多用于CSS选择器。<br>5.重中之重，1000/100/10/1这种权值系数的比较方式只是便于理解，真实情况下10个class并不能逆转1个id。</p>
+</blockquote>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-趣谈HTTPS协议_" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -723,282 +993,13 @@ Object.prototype.toString.call(/./);          //&quot;[object RegExp]&quot;</cod
 
 </article>
     
-    <article id="post-详细剖析强缓存和协商缓存" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="2019/11/14/%E8%AF%A6%E7%BB%86%E5%89%96%E6%9E%90%E5%BC%BA%E7%BC%93%E5%AD%98%E5%92%8C%E5%8D%8F%E5%95%86%E7%BC%93%E5%AD%98/"
-    >详细剖析强缓存和协商缓存</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="2019/11/14/%E8%AF%A6%E7%BB%86%E5%89%96%E6%9E%90%E5%BC%BA%E7%BC%93%E5%AD%98%E5%92%8C%E5%8D%8F%E5%95%86%E7%BC%93%E5%AD%98/" class="article-date">
-  <time datetime="2019-11-13T16:00:00.000Z" itemprop="datePublished">2019-11-14</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>Welcome to share creative thoughts!</p>
-<h2 id="Cache-control"><a href="#Cache-control" class="headerlink" title="Cache-control"></a>Cache-control</h2><p>1.public：<strong>所有内容都将被缓存（客户端和代理服务器都可缓存）</strong>。具体来说响应可被任何中间节点缓存，如 Browser &lt;– proxy1 &lt;– proxy2 &lt;– Server，中间的proxy可以缓存资源，比如下次再请求同一资源proxy1直接把自己缓存的东西给 Browser 而不再向proxy2要。</p>
-<p>private：所有内容<strong>只有客户端可以缓存，Cache-Control的默认取值。</strong>具体来说，表示中间节点不允许缓存，对于Browser &lt;– proxy1 &lt;– proxy2 &lt;– Server，proxy 会老老实实把Server 返回的数据发送给proxy1,自己不缓存任何数据。当下次Browser再次请求时proxy会做好请求转发而不是自作主张给自己缓存的数据。</p>
-<p>no-cache：客户端缓存内容<strong>，是否使用缓存则需要经过协商缓存来验证决定。表</strong>示不使用 Cache-Control的缓存控制方式做前置验证，<strong>而是使用 Etag 或者Last-Modified字段来控制缓存</strong>。需要注意的是，no-cache这个名字有一点误导。设置了no-cache之后，<strong>并不是说浏览器就不再缓存数据，只是浏览器在使用缓存数据时，需要先确认一下数据是否还跟服务器保持一致。</strong></p>
-<p>no-store：所有内容都不会被缓存，即不使用强制缓存，也不使用协商缓存</p>
-<p>max-age：max-age=xxx (xxx is numeric)表示缓存内容将在xxx秒后失效,优先级大于expires</p>
-<p>s-maxage（单位为s)：同max-age作用一样，只在代理服务器中生效（比如CDN缓存）。比如当s-maxage=60时，在这60秒中，即使更新了CDN的内容，浏览器也不会进行请求。max-age用于普通缓存，而s-maxage用于代理缓存。s-maxage的优先级高于max-age。如果存在s-maxage，则会覆盖掉max-age和Expires header。</p>
-<p>max-stale：能容忍的最大过期时间。max-stale指令标示了客户端愿意接收一个已经过期了的响应。如果指定了max-stale的值，则最大容忍时间为对应的秒数。如果没有指定，那么说明浏览器愿意接收任何age的响应（age表示响应由源站生成或确认的时间与当前时间的差值）。</p>
-<p>min-fresh：能够容忍的最小新鲜度。min-fresh标示了客户端不愿意接受新鲜度不多于当前的age加上min-fresh设定的时间之和的响应。<br>Cache-Control 可以在请求头或者响应头中设置，并且可以组合使用多种指令：<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8zMTc0NzAxLThmZjk4MTYwM2NkZmRlZDA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<h2 id="Expires"><a href="#Expires" class="headerlink" title="Expires"></a>Expires</h2><ol>
-<li>Expires 是http1.0的产物，Cache-Control是http1.1的产物，两者同时存在的话，Cache-Control优先级高于Expires<ol start="2">
-<li>在某些不支持HTTP1.1的环境下，Expires就会发挥用处。所以Expires其实是过时的产物，现阶段它的存在只是一种兼容性的写法。</li>
-</ol>
-</li>
-<li><strong>强缓存</strong>判断是否缓存的依据来自于是否超出某个时间或者某个时间段，而不关心服务器端文件是否已经更新，这可能会<strong>导致加载文件不是服务器端最新的内容.</strong></li>
-<li>如何获知服务器端内容是否已经发生了更新呢？此时我们需要用到<strong>协商缓存策略。</strong></li>
-</ol>
-<h2 id="协商缓存"><a href="#协商缓存" class="headerlink" title="协商缓存"></a>协商缓存</h2><p>协商缓存就是强制缓存失效后，浏览器携带缓存标识向服务器发起请求，由服务器根据缓存标识决定是否使用缓存的过程，主要有以下两种情况：<br>1.协商缓存生效，返回304和Not Modified<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8zMTc0NzAxLTY2MGZkMTYzMzI5ZDA4MGI?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>2. 协商缓存失效，返回200和请求结果<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8zMTc0NzAxLTI0OTUzMDc5Y2ZlYmYyYmY?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>协商缓存可以通过设置两种 HTTP Header 实现：Last-Modified 和 ETag 。</p>
-<h2 id="Last-Modified和If-Modified-Since"><a href="#Last-Modified和If-Modified-Since" class="headerlink" title="Last-Modified和If-Modified-Since"></a>Last-Modified和If-Modified-Since</h2><p>浏览器在第一次访问资源时，服务器返回资源的同时，在response header中添加 Last-Modified的header，值是这个资源在服务器上的最后修改时间，浏览器接收后缓存文件和header；<br>浏览器下一次请求这个资源，浏览器检测到有 Last-Modified这个header，于是添加If-Modified-Since这个header，值就是Last-Modified中的值；服务器再次收到这个资源请求，会根据 If-Modified-Since 中的值与服务器中这个资源的最后修改时间对比，<br><strong>如果没有变化，返回304和空的响应体，直接从缓存读取<br>  如果If-Modified-Since的时间小于服务器中这个资源的最后修改时间，说明文件有更新，于是返回新的资源文件和200</strong><br>但是 Last-Modified 存在一些弊端：<br>1.如果本地打开缓存文件，即使没有对文件进行修改，但还是会造成 Last-Modified 被修改，服务端不能命中缓存导致发送相同的资源<br>2.因为 Last-Modified 只能以秒计时，如果在不可感知的时间内修改完成文件，那么服务端会认为资源还是命中了，不会返回正确的资源<br>既然根据文件修改时间来决定是否缓存尚有不足，能否可以直接根据文件内容是否修改来决定缓存策略？<br><strong>所以在 HTTP / 1.1 出现了 ETag 和If-None-Match</strong></p>
-<h2 id="ETag和If-None-Match"><a href="#ETag和If-None-Match" class="headerlink" title=".ETag和If-None-Match"></a>.ETag和If-None-Match</h2><p>1.Etag是服务器响应请求时，返回当前资源文件的一个唯一标识(由服务器生成)，<strong>只要资源有变化，Etag就会重新生成。</strong><br>2.浏览器在下一次加载资源向服务器发送请求时，会将上一次返回的Etag值放到request header里的If-None-Match里，服务器只需要比较客户端传来的I<strong>f-None-Match跟自己服务器上该资源的ETag是否一致，</strong>就能很好地判断资源相对客户端而言是否被修改过了。<br>3.如果服务器发现ETag匹配不上，那么直接以常规GET 200形式将新的资源（当然也包括了新的ETag）发给客户端。<br>4.如果ETag是一致的，则直接返回304知会客户端直接使用本地缓存即可<strong>。</strong></p>
-<h2 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h2><p>1.首先在精确度上，Etag要优于Last-Modified。<br>2.Last-Modified的时间单位是秒，如果某个文件在1秒内改变了多次，那么他们的Last-Modified其实并没有体现出来修改，但是Etag每次都会改变确保了精度；如果是负载均衡的服务器，各个服务器生成的Last-Modified也有可能不一致。<br>3.第二在性能上，Etag要逊于Last-Modified，毕竟Last-Modified只需要记录时间，而Etag需要服务器通过算法来计算出一个hash值。<br>4.第三在优先级上，<strong>服务器校验优先考虑Etag</strong></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
-<p>1.强制缓存优先于协商缓存进行，若强制缓存(Expires和Cache-Control)生效则直接使用缓存，<br> 2.若不生效则进行协商缓存(Last-Modified / If-Modified-Since和Etag / If-None-Match)，<br> 3.协商缓存由服务器决定是否使用缓存，若协商缓存失效，那么代表该请求的缓存失效，返回200，重新返回资源和缓存标   识，再存入浏览器缓存中；<br> 4.生效则返回304，继续使用缓存。</p>
-</blockquote>
-<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>1.对于频繁变动的资源，首先需要使用Cache-Control: no-cache 使浏览器每次都请求服务器，然后配合 ETag 或者 Last-Modified 来验证资源是否有效。这样的做法虽然不能节省请求数量，但是能显著减少响应数据大小。<br>2.不常变化的场景：通常在处理这类资源时，给它们的 Cache-Control 配置一个很大的 max-age，这样浏览器之后请求相同的 URL 会命中强制缓存。</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="tags/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">前端性能优化</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-深入分析懒加载、预加载" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="2019/11/14/%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90%E6%87%92%E5%8A%A0%E8%BD%BD%E3%80%81%E9%A2%84%E5%8A%A0%E8%BD%BD/"
-    >深入分析懒加载、预加载</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="2019/11/14/%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90%E6%87%92%E5%8A%A0%E8%BD%BD%E3%80%81%E9%A2%84%E5%8A%A0%E8%BD%BD/" class="article-date">
-  <time datetime="2019-11-13T16:00:00.000Z" itemprop="datePublished">2019-11-14</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>Welcome to share creative thoughts!</p>
-<h2 id="懒加载的原理（延迟加载）"><a href="#懒加载的原理（延迟加载）" class="headerlink" title="懒加载的原理（延迟加载）"></a>懒加载的原理（延迟加载）</h2><p>1.图片进入<strong>可视区域之后</strong>再去请求图片资源，不要请求无效资源。<br>2.适用于电商等图片很多，页面很长的业务场景。<br>3.减少无效资源的加载。<br>4.并发加载的资源过多会阻塞JS的加载，影响网站的正常使用（浏览器有并发请求上限），图片在JS的上面。<br>5.SRC属性设置之后会请求SRC资源，后面的SRC先不设置，换成占位符。<br>6.监听滚轮事件，当进入相关图片的可视区域之后，才会去动态设置图片的src属性。<br>7.电商产品应用广泛。</p>
-<h2 id="预加载原理（提前加载）"><a href="#预加载原理（提前加载）" class="headerlink" title="预加载原理（提前加载）"></a>预加载原理（提前加载）</h2><p>1.图片等静态资源在使用之前的<strong>提前请求。</strong><br>2.资源使用到时能从缓存中加载，不去网络请求，提升用户体验。<br>3.页面展示的依赖关系维护。比如当前页面会依赖音乐图片等，这样预加载之后页面渲染不会阻塞。<br>4.九宫格抽奖。频繁切换选中和非选中状态，要保障样式的展示。<br>5.动画展示。资源加载完了之后再去页面加载。</p>
-<h2 id="懒加载的方法"><a href="#懒加载的方法" class="headerlink" title="懒加载的方法"></a>懒加载的方法</h2><blockquote>
-<p>先将img标签中的src链接设为同一张图片(空白图片)，将其真正的图片地址存储再img标签的自定义属性中(比如data-img)。</p>
-</blockquote>
-<blockquote>
-<p>当js监听到该图片元素进入可视窗口时，即将自定义属性中的地址存储到src属性中，达到懒加载的效果。</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;li <span class="class"><span class="keyword">class</span></span>=<span class="string">"item"</span>&gt;</span><br><span class="line">    &lt;a href=<span class="string">"javascript:void(0)"</span>&gt;<span class="xml"><span class="tag">&lt;<span class="name">img</span> <span class="attr">data-img</span>=<span class="string">"$&#123;p.pic&#125;"</span> <span class="attr">src</span>=<span class="string">"img/blank.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span></span><br><span class="line">&lt;<span class="regexp">/li&gt;</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//封装懒加载函数</span></span><br><span class="line"><span class="keyword">var</span> lazyLoad = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"><span class="comment">//匿名函数自调，避免全局污染</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">init</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        $(<span class="built_in">window</span>).on(<span class="string">"scroll"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="comment">//监听窗口滚动事件</span></span><br><span class="line">            <span class="keyword">var</span> clock = setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="comment">//启动定时器，加载图片</span></span><br><span class="line">                $(<span class="string">".item img"</span>).each(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                <span class="comment">//遍历每张图片</span></span><br><span class="line">                    <span class="keyword">var</span> $cur = $(<span class="keyword">this</span>);</span><br><span class="line">                    <span class="keyword">if</span>(checkShow($cur))</span><br><span class="line">                    <span class="comment">//调用检查函数，如果元素在可视范围内</span></span><br><span class="line">                        $cur.attr(<span class="string">'src'</span>, $cur.attr(<span class="string">'data-img'</span>));</span><br><span class="line">                        <span class="comment">//显示图片</span></span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;,<span class="number">300</span>);</span><br><span class="line">            <span class="keyword">if</span>(clock) clearTimeout(clock);</span><br><span class="line">            <span class="comment">//停止定时器</span></span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//检查元素是否在可视范围内</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">checkShow</span>(<span class="params">$node</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> scrollH = $(<span class="built_in">window</span>).scrollTop(),</span><br><span class="line">        <span class="comment">//获取窗口滚动高度</span></span><br><span class="line">        winH = $(<span class="built_in">window</span>).height(),</span><br><span class="line">        <span class="comment">//获取窗口高度</span></span><br><span class="line">        top = $node.offset().top;</span><br><span class="line">        <span class="comment">//获取图片距离窗口顶部偏移高度</span></span><br><span class="line">        <span class="keyword">if</span>(top &lt; winH + scrollH)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//返回init函数</span></span><br><span class="line">    <span class="keyword">return</span>&#123;</span><br><span class="line">        load:init;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line"><span class="comment">//调用懒加载函数,首屏要手动调动</span></span><br><span class="line">lazyLoad.load();</span><br></pre></td></tr></table></figure>
-<p>Zepto就是jQuery的移动端版本, 可以看做是一个轻量级的jQuery<br>注意点:<br>Zepto的设计目的是提供 jQuery 的类似的API，但并不是100%覆盖 jQuery<br>jQuery的底层是通过DOM来实现效果的， zepto.js 是用css3 来实现的；<br>官网下载的zepto,就已经包含了官网所述的默认模块了<br>github上下载的zepto模块需要自己导入</p>
-<p>与图片一样，视频同样可以延迟加载，来达到性能优化的目的。</p>
-<p>正常情况下加载视频，都是使用<video>标签，那么对于一些需要用户自己播放的视频，最好指定<video>标签的preload属性为none，这样浏览器就不会预加载任何视频数据。<br>为了占用空间，我们用poster属性为其占位</video></video></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;video controls preload=<span class="string">"none"</span> poster=<span class="string">"占位图"</span>&gt;</span><br><span class="line">	&lt;source src=<span class="string">"视频资源同名.webm"</span> type=<span class="string">"video/webm"</span>&gt;</span><br><span class="line">	&lt;source src=<span class="string">"视频资源名.mp4"</span> type=<span class="string">"video/mp4"</span>&gt;</span><br><span class="line">&lt;<span class="regexp">/video&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="实现预加载的几种办法"><a href="#实现预加载的几种办法" class="headerlink" title="实现预加载的几种办法"></a>实现预加载的几种办法</h2><p>使用HTML标签<br><img src="http://pic26.nipic.com/20121213/6168183 0044449030002.jpg" style="display:none"><br>使用Image对象</p>
-<script src="./myPreload.js"></script>
-<p>使用XMLHttpRequest对象,<strong>虽然存在跨域问题，但会精细控制预加载过程</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> xmlhttprequest=<span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line"> xmlhttprequest.onreadystatechange=callback;</span><br><span class="line"> xmlhttprequest.onprogress=progressCallback;</span><br><span class="line"> xmlhttprequest.open(<span class="string">"GET"</span>,<span class="string">"http://image.baidu.com/mouse,jpg"</span>,<span class="literal">true</span>);</span><br><span class="line"> xmlhttprequest.send();</span><br><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">callback</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">   <span class="keyword">if</span>(xmlhttprequest.readyState==<span class="number">4</span>&amp;&amp; xmlhttprequest.status==<span class="number">200</span>)&#123;</span><br><span class="line">     <span class="keyword">var</span> responseText=xmlhttprequest.responseText;</span><br><span class="line">   &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"Request was unsuccessful:"</span>+xmlhttprequest.status);</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">progressCallback</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line"> e=e || event;</span><br><span class="line"> <span class="keyword">if</span>(e.lengthComputable)&#123;</span><br><span class="line"> <span class="built_in">console</span>.log(<span class="string">"Received"</span>+e.loaded+<span class="string">"of"</span>+e.total+<span class="string">"bytes"</span>)</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p>PreloadJS提供了一种预加载内容的一致方式，以便在HTML应用程序中使用。预加载可以使用HTML标签以及XHR来完成。默认情况下，PreloadJS会尝试使用XHR加载内容，因为它提供了对进度和完成事件的更好支持，但是由于跨域问题，使用基于标记的加载可能更好。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用preload.js</span></span><br><span class="line"><span class="keyword">var</span> queue=<span class="keyword">new</span> createjs.LoadQueue();<span class="comment">//默认是xhr对象，如果是new createjs.LoadQueue(false)是指使用HTML标签，可以跨域</span></span><br><span class="line">queue.on(<span class="string">"complete"</span>,handleComplete,<span class="keyword">this</span>);</span><br><span class="line">queue.loadManifest([</span><br><span class="line">&#123;<span class="attr">id</span>:<span class="string">"myImage"</span>,<span class="attr">src</span>:<span class="string">"http://pic26.nipic.com/20121213/6168183  0044449030002.jpg"</span>&#125;,</span><br><span class="line">&#123;id：<span class="string">"myImage2"</span>，src:<span class="string">"http://pic9.nipic.com/20100814/2839526  1931471581702.jpg"</span>&#125;</span><br><span class="line">]);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleComplete</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> image=queue.getResuLt(<span class="string">"myImage"</span>);<span class="comment">//队列存放资源</span></span><br><span class="line">  <span class="built_in">document</span>.body.appendChild(image);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>两者都是提高页面性能有效的办法，两者主要区别是一个是提前加载，一个是迟缓甚至不加载。<br>懒加载对服务器前端有一定的缓解压力作用，预加载则会增加服务器前端压力。</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="tags/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">前端性能优化</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-接口防刷解决思路" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="2019/11/13/%E6%8E%A5%E5%8F%A3%E9%98%B2%E5%88%B7%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/"
-    >接口防刷解决思路</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="2019/11/13/%E6%8E%A5%E5%8F%A3%E9%98%B2%E5%88%B7%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/" class="article-date">
-  <time datetime="2019-11-12T16:00:00.000Z" itemprop="datePublished">2019-11-13</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="categories/%E6%A1%86%E6%9E%B6%E4%B8%8E%E6%9E%B6%E6%9E%84/">框架与架构</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>Welcome to share creative thoughts!</p>
-<h2 id="场景和原因："><a href="#场景和原因：" class="headerlink" title="场景和原因："></a>场景和原因：</h2><p>1.在项目中后台只需要提供一套API接口，就可以接入安卓、小程序、IOS、web等多个应用程序，这样可以节约开发成本。<br>但是一个后台接入这么多应用程序的http请求，必然导致后端的压力非常大。对于这些情况我们需要对用户的访问进行限流访问，我们可以依次对Nginx、tomcat、接口进行限流。<br>2.对于一些请求进行过滤和拦截是非常有必要的，能够有效地减轻后台的压力。<br>3.考虑线上环境 很多接口 如果不做缓存 可能导致有人拿到url  每秒几万次的访问后台程序,导致系统down机。<br>4.短时间接口被大量调用（攻击），出现系统崩溃和系统爬虫问题，怎么样提升服务的可用性？</p>
-<h2 id="商讨解决方法"><a href="#商讨解决方法" class="headerlink" title="商讨解决方法"></a>商讨解决方法</h2><p>1.最简单有效的防护就是图片验证码，采用点触验证，验证滑动或者是第三方验证码服务，普通的图片验证码很容易被破解<br>2.频率，或者叫接口防刷，通过用户具有唯一性的ip验证用户的身份,模拟一个场景，每次用户调用接口，将此用户的ip进行记录，在有效的时间之内，用户每调用一次接口，给调用的次数+1,当超过（次数根据自己的时间情况进行定义）指定的次数时，将调用这个接口的用户ip加入黑名单中，锁定时间到了（锁定时间根据实际情况进行定义）之后移除在黑名单中的用户ip，进行解锁，但是每次用户在短时间内调用接口，实时记录的ip，次数，时间存到什么地方呢？<br>数据库，文件，memcache, redis？<br>最终的方案是redis！<br><strong>redis是一种基于内存的分布式缓存，数据存到数据库，因为redis支持的数据类型更多，支持永久存储，redis有部分数据是存储在了硬盘上</strong><br>3.网关控制流量洪峰，对在一个时间段内出现流量异常，可以拒绝请求。<br>4.源ip请求个数限制。对请求来源的ip请求个数做限制。<br>5.http请求头信息校验；（例如host，User-Agent，Referer）<br>6.对用户唯一身份uid进行限制和校验。例如基本的长度，组合方式，甚至有效性进行判断。或者uid具有一定的时效性<br>7.前后端协议采用二进制方式进行交互或者协议采用签名机制<br>8.人机验证，验证码，短信验证码，滑动图片形式，12306形式<br>9.签名，API接口启用签名策略，签名可以保障请求URL的完整安全，签名匹配再继续下一步操作，<br>10.token，对于重要的API接口，生成token值，做验证</p>
-<h2 id="接口安全问题"><a href="#接口安全问题" class="headerlink" title="接口安全问题"></a>接口安全问题</h2><p>应对接口安全，我们可以对数据进行加密，不明文传输数据，可以选择对称加密（DES 2DES）或者是非对称加密（RSA），虽然说两者都是加密，但是又很大的区别，对称加密的速度快，但是相对非对称加密来说是不安全的，一旦一方泄露密钥，所有的数据将全部泄露，对于加密的长度来说非对称加密有长度限制，密钥的长度是1024，值能加密117个字符，如果长度过长，还需要分段加密，分段解密，效率更低，但是相对来说比较安全。</p>
-<h2 id="怎样解决http频繁请求同一接口，但数据库来不及写入导致数据不一致的问题"><a href="#怎样解决http频繁请求同一接口，但数据库来不及写入导致数据不一致的问题" class="headerlink" title="怎样解决http频繁请求同一接口，但数据库来不及写入导致数据不一致的问题"></a>怎样解决http频繁请求同一接口，但数据库来不及写入导致数据不一致的问题</h2><p>1.这有点类似文件的情况，有一个test.dat文件，很多进程都要读写，为了避免冲突，会在操作文件时创建test.lck文件用于被其他进程发现，该文件已经处于被操作状态，这个过程中的互斥并没有改变目标文件的任何内容，而是通过外部数据加锁。<br>2.令牌算法限流<br>令牌桶算法最初来源于计算机网络。在网络传输数据时，为了防止网络拥塞，需限制流出网络的流量，使流量以比较均匀的速度向外发送。令牌桶算法就实现了这个功能，可控制发送到网络上数据的数目，并允许突发数据的发送。<br>3.限流的常用处理手段有：计数器、滑动窗口、漏桶、令牌。<br>4.总之一句话，让系统的流量，先到队列中排队、限流，不要让流量直接打到系统上。</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="tags/%E9%A1%B9%E7%9B%AE%E6%80%9D%E8%80%83/" rel="tag">项目思考</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="tags/%E9%AB%98%E5%B9%B6%E5%8F%91/" rel="tag">高并发</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
   </article>
   
 
   
   <nav class="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="page/2/">2</a><a class="extend next" rel="next" href="page/2/">下一页</a>
+    <span class="page-number current">1</span><a class="page-number" href="page/2/">2</a><a class="page-number" href="page/3/">3</a><a class="page-number" href="page/4/">4</a><a class="extend next" rel="next" href="page/2/">下一页</a>
   </nav>
   
 </section>

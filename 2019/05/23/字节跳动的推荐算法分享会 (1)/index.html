@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    字节跳动的推荐算法分享会 |  爱生活，爱前端！
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="../../../../css/style.css">
+
+  
+<script src="../../../../js/pace.min.js"></script>
+
+
+  
+
+  
+
+<link rel="alternate" href="atom.xml" title="爱生活，爱前端！" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    <main class="content">
+      <section class="outer">
+  <article id="post-字节跳动的推荐算法分享会 (1)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  字节跳动的推荐算法分享会
+</h1>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="" class="article-date">
+  <time datetime="2019-05-22T16:00:00.000Z" itemprop="datePublished">2019-05-23</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../../../categories/%E5%A4%A7%E5%9E%8B%E5%88%86%E4%BA%AB%E4%BC%9A%E8%AE%B0%E5%BD%95/">大型分享会记录</a>
+  </div>
+
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">5.8k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">19分钟</span>
+        </span>
+    </span>
+</div>
+
+      
+    </div>
+    
+
+    
+    
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>Welcome to share creative thoughts!</p>
+<p>以下内容来自实习期间曹欢欢博士的算法架构分享，衷心感谢曹博士的分享，获益匪浅，日后要深入研究！</p>
+<p>本次分享将主要介绍今日头条推荐系统概览以及内容分析、用户标签、评估分析，内容安全等原理。</p>
+<h2 id="一、系统概览"><a href="#一、系统概览" class="headerlink" title="一、系统概览"></a>一、系统概览</h2><p>推荐系统，如果用形式化的方式去描述实际上是拟合一个用户对内容满意度的函数，这个函数需要输入三个维度的变量。第一个维度是内容。头条现在已经是一个综合内容平台，图文、视频、UGC小视频、问答、微头条，每种内容有很多自己的特征，需要考虑怎样提取不同内容类型的特征做好推荐。第二个维度是用户特征。包括各种兴趣标签，职业、年龄、性别等，还有很多模型刻划出的隐式用户兴趣等。第三个维度是环境特征。这是移动互联网时代推荐的特点，用户随时随地移动，在工作场合、通勤、旅游等不同的场景，信息偏好有所偏移。结合三方面的维度，模型会给出一个预估，即推测推荐内容在这一场景下对这一用户是否合适。</p>
+<p>这里还有一个问题，如何引入无法直接衡量的目标？</p>
+<p>推荐模型中，点击率、阅读时间、点赞、评论、转发包括点赞都是可以量化的目标，能够用模型直接拟合做预估，看线上提升情况可以知道做的好不好。但一个大体量的推荐系统，服务用户众多，不能完全由指标评估，引入数据指标以外的要素也很重要。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0cUlacVdYVHJGU09Ma3pydlI3TktnVmZPSlo2b0lQQlNiaWNCMnE0UkdoaGliN25iM1JhTWExaEEvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>比如广告和特型内容频控。像问答卡片就是比较特殊的内容形式，其推荐的目标不完全是让用户浏览，还要考虑吸引用户回答为社区贡献内容。这些内容和普通内容如何混排，怎样控制频控都需要考虑。<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0ZUNraWNyVUNaWWhvcWRQUDBKMXQ4bzFWbGhQM01VWmIzS1hpYXg3ZTU5cjkwSENsMXM4ck5ZQlEvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>此外，平台出于内容生态和社会责任的考量，像低俗内容的打压，标题党、低质内容的打压，重要新闻的置顶、加权、强插，低级别账号内容降权都是算法本身无法完成，需要进一步对内容进行干预。</p>
+<p>下面我将简单介绍在上述算法目标的基础上如何对其实现。<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0RDc5bmljenp6cG5IcG1rMUVpYXRhOWM4eE5yWWt4bGljNWFpYm9VRXNBNUF5a2JWbWdjZ2Z3dHU0US8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>前面提到的公式y = F(Xi ,Xu ,Xc)，是一个很经典的监督学习问题。可实现的方法有很多，比如传统的协同过滤模型，监督学习算法Logistic Regression模型，基于深度学习的模型，Factorization Machine和GBDT等。</p>
+<p>一个优秀的工业级推荐系统需要非常灵活的算法实验平台，可以支持多种算法组合，包括模型结构调整。因为很难有一套通用的模型架构适用于所有的推荐场景。现在很流行将LR和DNN结合，前几年Facebook也将LR和GBDT算法做结合。今日头条旗下几款产品都在沿用同一套强大的算法推荐系统，但根据业务场景不同，模型架构会有所调整。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0eEd2Z2hXbzRQeW96ZTJBYzAwdmljT3dXczF0eWtzMHlpYnllVXdObzZoQzNraWFzajdJUE5iU09RLzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0T1hsMElJUmY1YmZpYjlhd2hKWFlpY24yVVZFYXpEc0VkZVNJRDAzdjJjeW9WNGVvTXhWU01JMEEvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>模型之后再看一下典型的推荐特征，主要有四类特征会对推荐起到比较重要的作用。</p>
+<p>第一类是相关性特征，就是评估内容的属性和与用户是否匹配。显性的匹配包括关键词匹配、分类匹配、来源匹配、主题匹配等。像FM模型中也有一些隐性匹配，从用户向量与内容向量的距离可以得出。</p>
+<p>第二类是环境特征，包括地理位置、时间。这些既是bias特征，也能以此构建一些匹配特征。</p>
+<p>第三类是热度特征。包括全局热度、分类热度，主题热度，以及关键词热度等。内容热度信息在大的推荐系统特别在用户冷启动的时候非常有效。</p>
+<p>第四类是协同特征，它可以在部分程度上帮助解决所谓算法越推越窄的问题。协同特征并非考虑用户已有历史。而是通过用户行为分析不同用户间相似性，比如点击相似、兴趣分类相似、主题相似、兴趣词相似，甚至向量相似，从而扩展模型的探索能力。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0RUxDcWdmajBieFJOZHNLbGh3YmZkcDRtYlI3dXppYkl0bm54RmwwamRjVDUzY3h1N3hDZzBvZy8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>模型的训练上，头条系大部分推荐产品采用实时训练。实时训练省资源并且反馈快，这对信息流产品非常重要。用户需要行为信息可以被模型快速捕捉并反馈至下一刷的推荐效果。我们线上目前基于storm集群实时处理样本数据，包括点击、展现、收藏、分享等动作类型。模型参数服务器是内部开发的一套高性能的系统，因为头条数据规模增长太快，类似的开源系统稳定性和性能无法满足，而我们自研的系统底层做了很多针对性的优化，提供了完善运维工具，更适配现有的业务场景。</p>
+<p>目前，头条的推荐算法模型在世界范围内也是比较大的，包含几百亿原始特征和数十亿向量特征。整体的训练过程是线上服务器记录实时特征，导入到Kafka文件队列中，然后进一步导入Storm集群消费Kafka数据，客户端回传推荐的label构造训练样本，随后根据最新样本进行在线训练更新模型参数，最终线上模型得到更新。这个过程中主要的延迟在用户的动作反馈延时，因为文章推荐后用户不一定马上看，不考虑这部分时间，整个系统是几乎实时的。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0TXJtTWJ4RmJpY05TakVNdmttWGljREZvQ0NySUtSZTNXS1h0SmN2U0hUcEZEc1ZmNWhGWk9hdVEvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>但因为头条目前的内容量非常大，加上小视频内容有千万级别，推荐系统不可能所有内容全部由模型预估。所以需要设计一些召回策略，每次推荐时从海量内容中筛选出千级别的内容库。召回策略最重要的要求是性能要极致，一般超时不能超过50毫秒。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0aGxiNnFJUW9RWFVXMHg1UGhLYzZERnFuN0FXM0JHcFAzMXhVbk4zYzh5UDR6STZZbDNpY2hmZy8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>召回策略种类有很多，我们主要用的是倒排的思路。离线维护一个倒排，这个倒排的key可以是分类，topic，实体，来源等，排序考虑热度、新鲜度、动作等。线上召回可以迅速从倒排中根据用户兴趣标签对内容做截断，高效的从很大的内容库中筛选比较靠谱的一小部分内容。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0eVM2S2JXd09uVFdqbGNiTGFvTWFTVldBVHJUQTZqUEo4NDdWem9laWE2T1pXWWxncmFGeHp0US8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>二、内容分析</p>
+<p>内容分析包括文本分析，图片分析和视频分析。头条一开始主要做资讯，今天我们主要讲一下文本分析。文本分析在推荐系统中一个很重要的作用是用户兴趣建模。没有内容及文本标签，无法得到用户兴趣标签。举个例子，只有知道文章标签是互联网，用户看了互联网标签的文章，才能知道用户有互联网标签，其他关键词也一样。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0RDc5bmljenp6cG5IcG1rMUVpYXRhOWM4eE5yWWt4bGljNWFpYm9VRXNBNUF5a2JWbWdjZ2Z3dHU0US8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>另一方面，文本内容的标签可以直接帮助推荐特征，比如魅族的内容可以推荐给关注魅族的用户，这是用户标签的匹配。如果某段时间推荐主频道效果不理想，出现推荐窄化，用户会发现到具体的频道推荐（如科技、体育、娱乐、军事等）中阅读后，再回主feed,推荐效果会更好。因为整个模型是打通的，子频道探索空间较小，更容易满足用户需求。只通过单一信道反馈提高推荐准确率难度会比较大，子频道做的好很重要。而这也需要好的内容分析。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0OTc3eDlJZ0s5bWt3YVJNZjVNeHJQREFMZmVYbHZpYmRLSDFzcTNROXpTamFPQkRrdG1FT2liQkEvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>上图是今日头条的一个实际文本case。可以看到，这篇文章有分类、关键词、topic、实体词等文本特征。当然不是没有文本特征，推荐系统就不能工作，推荐系统最早期应用在Amazon,甚至沃尔玛时代就有，包括Netfilx做视频推荐也没有文本特征直接协同过滤推荐。但对资讯类产品而言，大部分是消费当天内容，没有文本特征新内容冷启动非常困难，协同类特征无法解决文章冷启动问题。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0S0Y3MnJJQU13NnkwZnp0NnEwMVhUYWliUm1qUVFaaEJRTlF4d0xwZVJZd1J2bmJXMWZreEZudy8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>今日头条推荐系统主要抽取的文本特征包括以下几类。首先是语义标签类特征，显式为文章打上语义标签。这部分标签是由人定义的特征，每个标签有明确的意义，标签体系是预定义的。此外还有隐式语义特征，主要是topic特征和关键词特征，其中topic特征是对于词概率分布的描述，无明确意义；而关键词特征会基于一些统一特征描述，无明确集合。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0SGljNWlidkY3c2lic2lheVgyT3JIdFdyQThnN1ZBZGljdHdUa0VQcElLa1c0RTBkZFVWb3JwS2twdkEvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>另外文本相似度特征也非常重要。在头条，曾经用户反馈最大的问题之一就是为什么总推荐重复的内容。这个问题的难点在于，每个人对重复的定义不一样。举个例子，有人觉得这篇讲皇马和巴萨的文章，昨天已经看过类似内容，今天还说这两个队那就是重复。但对于一个重度球迷而言，尤其是巴萨的球迷，恨不得所有报道都看一遍。解决这一问题需要根据判断相似文章的主题、行文、主体等内容，根据这些特征做线上策略。</p>
+<p>同样，还有时空特征，分析内容的发生地点以及时效性。比如武汉限行的事情推给北京用户可能就没有意义。最后还要考虑质量相关特征，判断内容是否低俗，色情，是否是软文，鸡汤？</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0Y2liVDNVb0dSTEpjYmdoNmF6THo1dXRYUnk0WWQxZlN6N0RXNHYzR2M4elBUVWdXbXpXQnRTQS8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>上图是头条语义标签的特征和使用场景。他们之间层级不同，要求不同。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0eHlidHF3UEx0Y1Fyb3lnS0ViQ3pWVnFHYXhWR1ppY3BiOUlZbEhSS0Y0UjVSN0VnM0thT1lldy8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>分类的目标是覆盖全面，希望每篇内容每段视频都有分类；而实体体系要求精准，相同名字或内容要能明确区分究竟指代哪一个人或物，但不用覆盖很全。概念体系则负责解决比较精确又属于抽象概念的语义。这是我们最初的分类，实践中发现分类和概念在技术上能互用，后来统一用了一套技术架构。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0WVRWUGpwU2Fqa0RDUjYyNDJzWFA0dnlVWjNzcDR1UzhtN1ZJNnJaS0dacklxb2hRcEoxeGNnLzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>目前，隐式语义特征已经可以很好的帮助推荐，而语义标签需要持续标注，新名词新概念不断出现，标注也要不断迭代。其做好的难度和资源投入要远大于隐式语义特征，那为什么还需要语义标签？有一些产品上的需要，比如频道需要有明确定义的分类内容和容易理解的文本标签体系。语义标签的效果是检查一个公司NLP技术水平的试金石。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0MGZrbTBLd3V3Q0JvSEV0dnhSMHk5MkxDckVqWmpaeUJ4Z1FXOWFMaWFJWXl6WDJYcWVOWGljbXcvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>今日头条推荐系统的线上分类采用典型的层次化文本分类算法。最上面Root，下面第一层的分类是像科技、体育、财经、娱乐，体育这样的大类，再下面细分足球、篮球、乒乓球、网球、田径、游泳等，足球再细分国际足球、中国足球，中国足球又细分中甲、中超、国家队等，相比单独的分类器，利用层次化文本分类算法能更好地解决数据倾斜的问题。有一些例外是，如果要提高召回，可以看到我们连接了一些飞线。这套架构通用，但根据不同的问题难度，每个元分类器可以异构，像有些分类SVM效果很好，有些要结合CNN，有些要结合RNN再处理一下。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0czlXSkdkMEFHT2JqYnZIY3dMREF6d2g3aWNiUldVblVPTWExNkRLVldWM2liWGxnYVpIMnFuR0EvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>上图是一个实体词识别算法的case。基于分词结果和词性标注选取候选，期间可能需要根据知识库做一些拼接，有些实体是几个词的组合，要确定哪几个词结合在一起能映射实体的描述。如果结果映射多个实体还要通过词向量、topic分布甚至词频本身等去歧，最后计算一个相关性模型。</p>
+<p>三、用户标签</p>
+<p>内容分析和用户标签是推荐系统的两大基石。内容分析涉及到机器学习的内容多一些，相比而言，用户标签工程挑战更大。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0N2FnR0hDWW9TMWFpY1RzN1FrMFJVSDcweFI0TGRKV3hjcXRjUWtmZjBpY0pscmtZNzAxQndSdXcvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>今日头条常用的用户标签包括用户感兴趣的类别和主题、关键词、来源、基于兴趣的用户聚类以及各种垂直兴趣特征（车型，体育球队，股票等）。还有性别、年龄、地点等信息。性别信息通过用户第三方社交账号登录得到。年龄信息通常由模型预测，通过机型、阅读时间分布等预估。常驻地点来自用户授权访问位置信息，在位置信息的基础上通过传统聚类的方法拿到常驻点。常驻点结合其他信息，可以推测用户的工作地点、出差地点、旅游地点。这些用户标签非常有助于推荐。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0V1dCdEhSRGFFVk00TE5ybTR3T3FjT2wwRzBYaWFFOGlhQ29pYkZnbUNxSUVMNGtsVHlyT2ZIdlhnLzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>当然最简单的用户标签是浏览过的内容标签。但这里涉及到一些数据处理策略。主要包括：一、过滤噪声。通过停留时间短的点击，过滤标题党。二、热点惩罚。对用户在一些热门文章（如前段时间PG One的新闻）上的动作做降权处理。理论上，传播范围较大的内容，置信度会下降。三、时间衰减。用户兴趣会发生偏移，因此策略更偏向新的用户行为。因此，随着用户动作的增加，老的特征权重会随时间衰减，新动作贡献的特征权重会更大。四、惩罚展现。如果一篇推荐给用户的文章没有被点击，相关特征（类别，关键词，来源）权重会被惩罚。当然同时，也要考虑全局背景，是不是相关内容推送比较多，以及相关的关闭和dislike信号等。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0STRpYnJWOXRqZGY1YUJNczJEOE9MenBBQWhqU2g2NFRLRWhpY1BCMzV1ODJLZ0NRRlJLOE1pYlN3LzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>用户标签挖掘总体比较简单，主要还是刚刚提到的工程挑战。头条用户标签第一版是批量计算框架，流程比较简单，每天抽取昨天的日活用户过去两个月的动作数据，在Hadoop集群上批量计算结果。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0bTlwUlEzY3lDN3Z4QU1FcDIyUmRTNHVUdlZGZncwYVRjUkNxQklTOEJkQ2ljdWhCVWlhT3JKMUEvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>但问题在于，随着用户高速增长，兴趣模型种类和其他批量处理任务都在增加，涉及到的计算量太大。2014年，批量处理任务几百万用户标签更新的Hadoop任务，当天完成已经开始勉强。集群计算资源紧张很容易影响其它工作，集中写入分布式存储系统的压力也开始增大，并且用户兴趣标签更新延迟越来越高。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0bXFDcmJRMktxTGljNEdlSVdma3IwckhpYXRlWTJybGNOdmtxUFBzSXNQUGZ3eHFlZnh3bEhFdXcvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>面对这些挑战。2014年底今日头条上线了用户标签Storm集群流式计算系统。改成流式之后，只要有用户动作更新就更新标签，CPU代价比较小，可以节省80%的CPU时间，大大降低了计算资源开销。同时，只需几十台机器就可以支撑每天数千万用户的兴趣模型更新，并且特征更新速度非常快，基本可以做到准实时。这套系统从上线一直使用至今。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0b0ozeEFieG9ya2tKY3NnaWFqNTRWbEJxZlA5c2ljNU5RVEh5R0NsWDU3Y1lXWm1ZNklwakliWXcvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>当然，我们也发现并非所有用户标签都需要流式系统。像用户的性别、年龄、常驻地点这些信息，不需要实时重复计算，就仍然保留daily更新。</p>
+<p>四、评估分析</p>
+<p>上面介绍了推荐系统的整体架构，那么如何评估推荐效果好不好？</p>
+<p>有一句我认为非常有智慧的话，“一个事情没法评估就没法优化”。对推荐系统也是一样。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0bGtlT1A2eVphNGthOFlCOW1LYmZ5Mm9DaWI1eGFDSHlzVWN4RjJHV3J3cjRadU9LUGMwelZpYXcvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>事实上，很多因素都会影响推荐效果。比如侯选集合变化，召回模块的改进或增加，推荐特征的增加，模型架构的改进在，算法参数的优化等等，不一一举例。评估的意义就在于，很多优化最终可能是负向效果，并不是优化上线后效果就会改进。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0aklER0dEaWFEbVZBSlF2MmljblRDWld2MUxpYW9BZXMxcXlKbTZRT045NFF5bVlPVzZsUUJ6aWJtUS8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>全面的评估推荐系统，需要完备的评估体系、强大的实验平台以及易用的经验分析工具。所谓完备的体系就是并非单一指标衡量，不能只看点击率或者停留时长等，需要综合评估。过去几年我们一直在尝试，能不能综合尽可能多的指标合成唯一的评估指标，但仍在探索中。目前，我们上线还是要由各业务比较资深的同学组成评审委员会深入讨论后决定。</p>
+<p>很多公司算法做的不好，并非是工程师能力不够，而是需要一个强大的实验平台，还有便捷的实验分析工具，可以智能分析数据指标的置信度。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0QWlhcG5xVHFYYTh3REk2ZmRmSnJta09qbllScDNtZjhvU0NVZGFqZFMxSGJDOVd4UEJuTVRzUS8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>一个良好的评估体系建立需要遵循几个原则，首先是兼顾短期指标与长期指标。我在之前公司负责电商方向的时候观察到，很多策略调整短期内用户觉得新鲜，但是长期看其实没有任何助益。</p>
+<p>其次，要兼顾用户指标和生态指标。今日头条作为内容分创作平台，既要为内容创作者提供价值，让他更有尊严的创作，也有义务满足用户，这两者要平衡。还有广告主利益也要考虑，这是多方博弈和平衡的过程。</p>
+<p>另外，要注意协同效应的影响。实验中严格的流量隔离很难做到，要注意外部效应。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0TGFqQUVyTkppYXQzU25hMDgzcnlvb2FsT0JMQTJIaWFWdFFOMXlWdURTbkVRZ3lpY2pzN1J6QzRBLzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>强大的实验平台非常直接的优点是，当同时在线的实验比较多时，可以由平台自动分配流量，无需人工沟通，并且实验结束流量立即回收，提高管理效率。这能帮助公司降低分析成本，加快算法迭代效应，使整个系统的算法优化工作能够快速往前推进。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0REhSSzF2bEhaRGlhU3BCbXA5VmJMSW9PZnpvM1FUZmJwajAybGdrNEE1Zlo5OXJadmxvSFJudy8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>这是头条A/B Test实验系统的基本原理。首先我们会做在离线状态下做好用户分桶，然后线上分配实验流量，将桶里用户打上标签，分给实验组。举个例子，开一个10%流量的实验，两个实验组各5%，一个5%是基线，策略和线上大盘一样，另外一个是新的策略。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0d0JFZm5FeThuN3dRaWJkSENveGRLdnVUS1A4SmhpY09UUzJkNHNlaWE0cU9Sc0xHSjJUakVMbkd3LzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>实验过程中用户动作会被搜集，基本上是准实时，每小时都可以看到。但因为小时数据有波动，通常是以天为时间节点来看。动作搜集后会有日志处理、分布式统计、写入数据库，非常便捷。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0REp2ODk5Yzg2M2lhdlhGSGh5bE80dVI3MjAxN1ljcHVmclN3TlBBS1BVOEVvM3hpYXdVZlN1MXcvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>在这个系统下工程师只需要设置流量需求、实验时间、定义特殊过滤条件，自定义实验组ID。系统可以自动生成：实验数据对比、实验数据置信度、实验结论总结以及实验优化建议。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0VTlpY2lhcERITG05aWNMUjVZZ2FaVDh3bFpqNVlpYXlYR0RFMjFEczJGQklCYXBVZEkweDdQS3NBQS8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>当然，只有实验平台是远远不够的。线上实验平台只能通过数据指标变化推测用户体验的变化，但数据指标和用户体验存在差异，很多指标不能完全量化。很多改进仍然要通过人工分析，重大改进需要人工评估二次确认。</p>
+<p>五、内容安全</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0QUtoY2xVMFdqMmVRN1dROW92VjZmU2hsZHNrZ1B1WWlhQWlieVgwbmdEZUhVN25tRGRaYmliRk93LzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>最后要介绍今日头条在内容安全上的一些举措。头条现在已经是国内最大的内容创作与分发凭条，必须越来越重视社会责任和行业领导者的责任。如果1%的推荐内容出现问题，就会产生较大的影响。</p>
+<p>因此头条从创立伊始就把内容安全放在公司最高优先级队列。成立之初，已经专门设有审核团队负责内容安全。当时研发所有客户端、后端、算法的同学一共才不到40人，头条非常重视内容审核。</p>
+<p>现在，今日头条的内容主要来源于两部分，一是具有成熟内容生产能力的PGC平台，一是UGC用户内容，如问答、用户评论、微头条。这两部分内容需要通过统一的审核机制。如果是数量相对少的PGC内容，会直接进行风险审核，没有问题会大范围推荐。UGC内容需要经过一个风险模型的过滤，有问题的会进入二次风险审核。审核通过后，内容会被真正进行推荐。这时如果收到一定量以上的评论或者举报负向反馈，还会再回到复审环节，有问题直接下架。整个机制相对而言比较健全，作为行业领先者，在内容安全上，今日头条一直用最高的标准要求自己。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0OVRNbmZvaWNac1IzR2YzU1N4YmljU2liaE9hWVlsSGM2bTg5M0pEakdndTVuUm5MVGhoZTZBY1dBLzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>分享内容识别技术主要鉴黄模型，谩骂模型以及低俗模型。今日头条的低俗模型通过深度学习算法训练，样本库非常大，图片、文本同时分析。这部分模型更注重召回率，准确率甚至可以牺牲一些。谩骂模型的样本库同样超过百万，召回率高达95%+，准确率80%+。如果用户经常出言不讳或者不当的评论，我们有一些惩罚机制。</p>
+<p>泛低质识别涉及的情况非常多，像假新闻、黑稿、题文不符、标题党、内容质量低等等，这部分内容由机器理解是非常难的，需要大量反馈信息，包括其他样本信息比对。目前低质模型的准确率和召回率都不是特别高，还需要结合人工复审，将阈值提高。目前最终的召回已达到95%，这部分其实还有非常多的工作可以做。头条人工智能实验室李航老师目前也在和密歇根大学共建科研项目，设立谣言识别平台。</p>
+
+      
+      <!-- reward -->
+      
+      <div id="reward-btn">
+        打赏
+      </div>
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong s>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
+                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+        
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2019/05/23/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E7%9A%84%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95%E5%88%86%E4%BA%AB%E4%BC%9A%20(1)/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95%E5%88%86%E4%BA%AB/" rel="tag">推荐算法分享</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+      <a href="../../../07/23/%E5%BC%84%E6%BD%AE%E5%84%BFPWA/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            弄潮儿PWA
+          
+        </div>
+      </a>
+    
+    
+      <a href="../../18/%E5%AD%A6%E4%B9%A0%E5%BE%AE%E5%8D%9A%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">学习微博数据库的设计思想</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        notify: 'false',
+        verify: 'false',
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2020
+        Wangqiuxia
+      </li>
+      <li>
+        
+        Powered by
+        
+        
+        <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+    <aside class="sidebar">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="../../../../index.html"><img src="/images/ayer-side.svg" alt="爱生活，爱前端！"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../index.html">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../tags/%E6%8A%80%E6%9C%AF/">小程序</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../http:/shenyu-vip.lofter.com">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../https:/v.xiumi.us/stage/v5/4IeLH/197507179">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="../../../../atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="../../../../images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="../../../../images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="../../../../js/jquery-2.0.3.min.js"></script>
+
+
+<script src="../../../../js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="../../../../js/lazyload.min.js"></script>
+
+
+<script src="../../../../js/busuanzi-2.3.pure.min.js"></script>
+
+
+<script src="../../../../js/share.js"></script>
+
+
+
+<script src="../../../../fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['做一个有情怀的程序媛','业精于勤荒于嬉，行成于思毁于随','越努力越幸运'],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script src="../../../../js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+
+<script src="../../../../js/ayer.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=518895142&auto=1&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+  </div>
+</body>
+
+</html>

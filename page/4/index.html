@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+     爱生活，爱前端！
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+  
+<script src="../../js/pace.min.js"></script>
+
+
+  
+
+  
+
+<link rel="alternate" href="atom.xml" title="爱生活，爱前端！" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    <main class="content">
+      
+<section class="cover">
+    
+      
+      <a class="forkMe" href="https://github.com/diamondto.github.io"
+        target="_blank"><img width="149" height="149" src="../../images/forkme.png"
+          class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+    
+  <div class="cover-frame">
+    <div class="bg-box">
+      <img src="/images/cover1.jpg" alt="image frame" />
+    </div>
+    <div class="cover-inner text-center text-white">
+      <h1><a href="../../index.html">爱生活，爱前端！</a></h1>
+      <div id="subtitle-box">
+        
+        <span id="subtitle"></span>
+        
+      </div>
+      <div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="cover-learn-more">
+    <a href="javascript:void(0)" class="anchor"><i class="ri-arrow-down-line"></i></a>
+  </div>
+</section>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js"></script>
+
+<div id="main">
+  <section class="outer">
+  <article class="articles">
+    
+    
+    
+    
+    <article id="post-字节跳动的推荐算法分享会 (1)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="../../2019/05/23/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E7%9A%84%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95%E5%88%86%E4%BA%AB%E4%BC%9A%20(1)/"
+    >字节跳动的推荐算法分享会</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="../../2019/05/23/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E7%9A%84%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95%E5%88%86%E4%BA%AB%E4%BC%9A%20(1)/" class="article-date">
+  <time datetime="2019-05-22T16:00:00.000Z" itemprop="datePublished">2019-05-23</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../categories/%E5%A4%A7%E5%9E%8B%E5%88%86%E4%BA%AB%E4%BC%9A%E8%AE%B0%E5%BD%95/">大型分享会记录</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>Welcome to share creative thoughts!</p>
+<p>以下内容来自实习期间曹欢欢博士的算法架构分享，衷心感谢曹博士的分享，获益匪浅，日后要深入研究！</p>
+<p>本次分享将主要介绍今日头条推荐系统概览以及内容分析、用户标签、评估分析，内容安全等原理。</p>
+<h2 id="一、系统概览"><a href="#一、系统概览" class="headerlink" title="一、系统概览"></a>一、系统概览</h2><p>推荐系统，如果用形式化的方式去描述实际上是拟合一个用户对内容满意度的函数，这个函数需要输入三个维度的变量。第一个维度是内容。头条现在已经是一个综合内容平台，图文、视频、UGC小视频、问答、微头条，每种内容有很多自己的特征，需要考虑怎样提取不同内容类型的特征做好推荐。第二个维度是用户特征。包括各种兴趣标签，职业、年龄、性别等，还有很多模型刻划出的隐式用户兴趣等。第三个维度是环境特征。这是移动互联网时代推荐的特点，用户随时随地移动，在工作场合、通勤、旅游等不同的场景，信息偏好有所偏移。结合三方面的维度，模型会给出一个预估，即推测推荐内容在这一场景下对这一用户是否合适。</p>
+<p>这里还有一个问题，如何引入无法直接衡量的目标？</p>
+<p>推荐模型中，点击率、阅读时间、点赞、评论、转发包括点赞都是可以量化的目标，能够用模型直接拟合做预估，看线上提升情况可以知道做的好不好。但一个大体量的推荐系统，服务用户众多，不能完全由指标评估，引入数据指标以外的要素也很重要。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0cUlacVdYVHJGU09Ma3pydlI3TktnVmZPSlo2b0lQQlNiaWNCMnE0UkdoaGliN25iM1JhTWExaEEvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>比如广告和特型内容频控。像问答卡片就是比较特殊的内容形式，其推荐的目标不完全是让用户浏览，还要考虑吸引用户回答为社区贡献内容。这些内容和普通内容如何混排，怎样控制频控都需要考虑。<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0ZUNraWNyVUNaWWhvcWRQUDBKMXQ4bzFWbGhQM01VWmIzS1hpYXg3ZTU5cjkwSENsMXM4ck5ZQlEvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>此外，平台出于内容生态和社会责任的考量，像低俗内容的打压，标题党、低质内容的打压，重要新闻的置顶、加权、强插，低级别账号内容降权都是算法本身无法完成，需要进一步对内容进行干预。</p>
+<p>下面我将简单介绍在上述算法目标的基础上如何对其实现。<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0RDc5bmljenp6cG5IcG1rMUVpYXRhOWM4eE5yWWt4bGljNWFpYm9VRXNBNUF5a2JWbWdjZ2Z3dHU0US8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>前面提到的公式y = F(Xi ,Xu ,Xc)，是一个很经典的监督学习问题。可实现的方法有很多，比如传统的协同过滤模型，监督学习算法Logistic Regression模型，基于深度学习的模型，Factorization Machine和GBDT等。</p>
+<p>一个优秀的工业级推荐系统需要非常灵活的算法实验平台，可以支持多种算法组合，包括模型结构调整。因为很难有一套通用的模型架构适用于所有的推荐场景。现在很流行将LR和DNN结合，前几年Facebook也将LR和GBDT算法做结合。今日头条旗下几款产品都在沿用同一套强大的算法推荐系统，但根据业务场景不同，模型架构会有所调整。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0eEd2Z2hXbzRQeW96ZTJBYzAwdmljT3dXczF0eWtzMHlpYnllVXdObzZoQzNraWFzajdJUE5iU09RLzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0T1hsMElJUmY1YmZpYjlhd2hKWFlpY24yVVZFYXpEc0VkZVNJRDAzdjJjeW9WNGVvTXhWU01JMEEvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>模型之后再看一下典型的推荐特征，主要有四类特征会对推荐起到比较重要的作用。</p>
+<p>第一类是相关性特征，就是评估内容的属性和与用户是否匹配。显性的匹配包括关键词匹配、分类匹配、来源匹配、主题匹配等。像FM模型中也有一些隐性匹配，从用户向量与内容向量的距离可以得出。</p>
+<p>第二类是环境特征，包括地理位置、时间。这些既是bias特征，也能以此构建一些匹配特征。</p>
+<p>第三类是热度特征。包括全局热度、分类热度，主题热度，以及关键词热度等。内容热度信息在大的推荐系统特别在用户冷启动的时候非常有效。</p>
+<p>第四类是协同特征，它可以在部分程度上帮助解决所谓算法越推越窄的问题。协同特征并非考虑用户已有历史。而是通过用户行为分析不同用户间相似性，比如点击相似、兴趣分类相似、主题相似、兴趣词相似，甚至向量相似，从而扩展模型的探索能力。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0RUxDcWdmajBieFJOZHNLbGh3YmZkcDRtYlI3dXppYkl0bm54RmwwamRjVDUzY3h1N3hDZzBvZy8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>模型的训练上，头条系大部分推荐产品采用实时训练。实时训练省资源并且反馈快，这对信息流产品非常重要。用户需要行为信息可以被模型快速捕捉并反馈至下一刷的推荐效果。我们线上目前基于storm集群实时处理样本数据，包括点击、展现、收藏、分享等动作类型。模型参数服务器是内部开发的一套高性能的系统，因为头条数据规模增长太快，类似的开源系统稳定性和性能无法满足，而我们自研的系统底层做了很多针对性的优化，提供了完善运维工具，更适配现有的业务场景。</p>
+<p>目前，头条的推荐算法模型在世界范围内也是比较大的，包含几百亿原始特征和数十亿向量特征。整体的训练过程是线上服务器记录实时特征，导入到Kafka文件队列中，然后进一步导入Storm集群消费Kafka数据，客户端回传推荐的label构造训练样本，随后根据最新样本进行在线训练更新模型参数，最终线上模型得到更新。这个过程中主要的延迟在用户的动作反馈延时，因为文章推荐后用户不一定马上看，不考虑这部分时间，整个系统是几乎实时的。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0TXJtTWJ4RmJpY05TakVNdmttWGljREZvQ0NySUtSZTNXS1h0SmN2U0hUcEZEc1ZmNWhGWk9hdVEvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>但因为头条目前的内容量非常大，加上小视频内容有千万级别，推荐系统不可能所有内容全部由模型预估。所以需要设计一些召回策略，每次推荐时从海量内容中筛选出千级别的内容库。召回策略最重要的要求是性能要极致，一般超时不能超过50毫秒。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0aGxiNnFJUW9RWFVXMHg1UGhLYzZERnFuN0FXM0JHcFAzMXhVbk4zYzh5UDR6STZZbDNpY2hmZy8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>召回策略种类有很多，我们主要用的是倒排的思路。离线维护一个倒排，这个倒排的key可以是分类，topic，实体，来源等，排序考虑热度、新鲜度、动作等。线上召回可以迅速从倒排中根据用户兴趣标签对内容做截断，高效的从很大的内容库中筛选比较靠谱的一小部分内容。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0eVM2S2JXd09uVFdqbGNiTGFvTWFTVldBVHJUQTZqUEo4NDdWem9laWE2T1pXWWxncmFGeHp0US8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>二、内容分析</p>
+<p>内容分析包括文本分析，图片分析和视频分析。头条一开始主要做资讯，今天我们主要讲一下文本分析。文本分析在推荐系统中一个很重要的作用是用户兴趣建模。没有内容及文本标签，无法得到用户兴趣标签。举个例子，只有知道文章标签是互联网，用户看了互联网标签的文章，才能知道用户有互联网标签，其他关键词也一样。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0RDc5bmljenp6cG5IcG1rMUVpYXRhOWM4eE5yWWt4bGljNWFpYm9VRXNBNUF5a2JWbWdjZ2Z3dHU0US8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>另一方面，文本内容的标签可以直接帮助推荐特征，比如魅族的内容可以推荐给关注魅族的用户，这是用户标签的匹配。如果某段时间推荐主频道效果不理想，出现推荐窄化，用户会发现到具体的频道推荐（如科技、体育、娱乐、军事等）中阅读后，再回主feed,推荐效果会更好。因为整个模型是打通的，子频道探索空间较小，更容易满足用户需求。只通过单一信道反馈提高推荐准确率难度会比较大，子频道做的好很重要。而这也需要好的内容分析。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0OTc3eDlJZ0s5bWt3YVJNZjVNeHJQREFMZmVYbHZpYmRLSDFzcTNROXpTamFPQkRrdG1FT2liQkEvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>上图是今日头条的一个实际文本case。可以看到，这篇文章有分类、关键词、topic、实体词等文本特征。当然不是没有文本特征，推荐系统就不能工作，推荐系统最早期应用在Amazon,甚至沃尔玛时代就有，包括Netfilx做视频推荐也没有文本特征直接协同过滤推荐。但对资讯类产品而言，大部分是消费当天内容，没有文本特征新内容冷启动非常困难，协同类特征无法解决文章冷启动问题。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0S0Y3MnJJQU13NnkwZnp0NnEwMVhUYWliUm1qUVFaaEJRTlF4d0xwZVJZd1J2bmJXMWZreEZudy8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>今日头条推荐系统主要抽取的文本特征包括以下几类。首先是语义标签类特征，显式为文章打上语义标签。这部分标签是由人定义的特征，每个标签有明确的意义，标签体系是预定义的。此外还有隐式语义特征，主要是topic特征和关键词特征，其中topic特征是对于词概率分布的描述，无明确意义；而关键词特征会基于一些统一特征描述，无明确集合。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0SGljNWlidkY3c2lic2lheVgyT3JIdFdyQThnN1ZBZGljdHdUa0VQcElLa1c0RTBkZFVWb3JwS2twdkEvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>另外文本相似度特征也非常重要。在头条，曾经用户反馈最大的问题之一就是为什么总推荐重复的内容。这个问题的难点在于，每个人对重复的定义不一样。举个例子，有人觉得这篇讲皇马和巴萨的文章，昨天已经看过类似内容，今天还说这两个队那就是重复。但对于一个重度球迷而言，尤其是巴萨的球迷，恨不得所有报道都看一遍。解决这一问题需要根据判断相似文章的主题、行文、主体等内容，根据这些特征做线上策略。</p>
+<p>同样，还有时空特征，分析内容的发生地点以及时效性。比如武汉限行的事情推给北京用户可能就没有意义。最后还要考虑质量相关特征，判断内容是否低俗，色情，是否是软文，鸡汤？</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0Y2liVDNVb0dSTEpjYmdoNmF6THo1dXRYUnk0WWQxZlN6N0RXNHYzR2M4elBUVWdXbXpXQnRTQS8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>上图是头条语义标签的特征和使用场景。他们之间层级不同，要求不同。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0eHlidHF3UEx0Y1Fyb3lnS0ViQ3pWVnFHYXhWR1ppY3BiOUlZbEhSS0Y0UjVSN0VnM0thT1lldy8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>分类的目标是覆盖全面，希望每篇内容每段视频都有分类；而实体体系要求精准，相同名字或内容要能明确区分究竟指代哪一个人或物，但不用覆盖很全。概念体系则负责解决比较精确又属于抽象概念的语义。这是我们最初的分类，实践中发现分类和概念在技术上能互用，后来统一用了一套技术架构。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0WVRWUGpwU2Fqa0RDUjYyNDJzWFA0dnlVWjNzcDR1UzhtN1ZJNnJaS0dacklxb2hRcEoxeGNnLzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>目前，隐式语义特征已经可以很好的帮助推荐，而语义标签需要持续标注，新名词新概念不断出现，标注也要不断迭代。其做好的难度和资源投入要远大于隐式语义特征，那为什么还需要语义标签？有一些产品上的需要，比如频道需要有明确定义的分类内容和容易理解的文本标签体系。语义标签的效果是检查一个公司NLP技术水平的试金石。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0MGZrbTBLd3V3Q0JvSEV0dnhSMHk5MkxDckVqWmpaeUJ4Z1FXOWFMaWFJWXl6WDJYcWVOWGljbXcvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>今日头条推荐系统的线上分类采用典型的层次化文本分类算法。最上面Root，下面第一层的分类是像科技、体育、财经、娱乐，体育这样的大类，再下面细分足球、篮球、乒乓球、网球、田径、游泳等，足球再细分国际足球、中国足球，中国足球又细分中甲、中超、国家队等，相比单独的分类器，利用层次化文本分类算法能更好地解决数据倾斜的问题。有一些例外是，如果要提高召回，可以看到我们连接了一些飞线。这套架构通用，但根据不同的问题难度，每个元分类器可以异构，像有些分类SVM效果很好，有些要结合CNN，有些要结合RNN再处理一下。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0czlXSkdkMEFHT2JqYnZIY3dMREF6d2g3aWNiUldVblVPTWExNkRLVldWM2liWGxnYVpIMnFuR0EvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>上图是一个实体词识别算法的case。基于分词结果和词性标注选取候选，期间可能需要根据知识库做一些拼接，有些实体是几个词的组合，要确定哪几个词结合在一起能映射实体的描述。如果结果映射多个实体还要通过词向量、topic分布甚至词频本身等去歧，最后计算一个相关性模型。</p>
+<p>三、用户标签</p>
+<p>内容分析和用户标签是推荐系统的两大基石。内容分析涉及到机器学习的内容多一些，相比而言，用户标签工程挑战更大。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0N2FnR0hDWW9TMWFpY1RzN1FrMFJVSDcweFI0TGRKV3hjcXRjUWtmZjBpY0pscmtZNzAxQndSdXcvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>今日头条常用的用户标签包括用户感兴趣的类别和主题、关键词、来源、基于兴趣的用户聚类以及各种垂直兴趣特征（车型，体育球队，股票等）。还有性别、年龄、地点等信息。性别信息通过用户第三方社交账号登录得到。年龄信息通常由模型预测，通过机型、阅读时间分布等预估。常驻地点来自用户授权访问位置信息，在位置信息的基础上通过传统聚类的方法拿到常驻点。常驻点结合其他信息，可以推测用户的工作地点、出差地点、旅游地点。这些用户标签非常有助于推荐。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0V1dCdEhSRGFFVk00TE5ybTR3T3FjT2wwRzBYaWFFOGlhQ29pYkZnbUNxSUVMNGtsVHlyT2ZIdlhnLzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>当然最简单的用户标签是浏览过的内容标签。但这里涉及到一些数据处理策略。主要包括：一、过滤噪声。通过停留时间短的点击，过滤标题党。二、热点惩罚。对用户在一些热门文章（如前段时间PG One的新闻）上的动作做降权处理。理论上，传播范围较大的内容，置信度会下降。三、时间衰减。用户兴趣会发生偏移，因此策略更偏向新的用户行为。因此，随着用户动作的增加，老的特征权重会随时间衰减，新动作贡献的特征权重会更大。四、惩罚展现。如果一篇推荐给用户的文章没有被点击，相关特征（类别，关键词，来源）权重会被惩罚。当然同时，也要考虑全局背景，是不是相关内容推送比较多，以及相关的关闭和dislike信号等。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0STRpYnJWOXRqZGY1YUJNczJEOE9MenBBQWhqU2g2NFRLRWhpY1BCMzV1ODJLZ0NRRlJLOE1pYlN3LzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>用户标签挖掘总体比较简单，主要还是刚刚提到的工程挑战。头条用户标签第一版是批量计算框架，流程比较简单，每天抽取昨天的日活用户过去两个月的动作数据，在Hadoop集群上批量计算结果。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0bTlwUlEzY3lDN3Z4QU1FcDIyUmRTNHVUdlZGZncwYVRjUkNxQklTOEJkQ2ljdWhCVWlhT3JKMUEvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>但问题在于，随着用户高速增长，兴趣模型种类和其他批量处理任务都在增加，涉及到的计算量太大。2014年，批量处理任务几百万用户标签更新的Hadoop任务，当天完成已经开始勉强。集群计算资源紧张很容易影响其它工作，集中写入分布式存储系统的压力也开始增大，并且用户兴趣标签更新延迟越来越高。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0bXFDcmJRMktxTGljNEdlSVdma3IwckhpYXRlWTJybGNOdmtxUFBzSXNQUGZ3eHFlZnh3bEhFdXcvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>面对这些挑战。2014年底今日头条上线了用户标签Storm集群流式计算系统。改成流式之后，只要有用户动作更新就更新标签，CPU代价比较小，可以节省80%的CPU时间，大大降低了计算资源开销。同时，只需几十台机器就可以支撑每天数千万用户的兴趣模型更新，并且特征更新速度非常快，基本可以做到准实时。这套系统从上线一直使用至今。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0b0ozeEFieG9ya2tKY3NnaWFqNTRWbEJxZlA5c2ljNU5RVEh5R0NsWDU3Y1lXWm1ZNklwakliWXcvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>当然，我们也发现并非所有用户标签都需要流式系统。像用户的性别、年龄、常驻地点这些信息，不需要实时重复计算，就仍然保留daily更新。</p>
+<p>四、评估分析</p>
+<p>上面介绍了推荐系统的整体架构，那么如何评估推荐效果好不好？</p>
+<p>有一句我认为非常有智慧的话，“一个事情没法评估就没法优化”。对推荐系统也是一样。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0bGtlT1A2eVphNGthOFlCOW1LYmZ5Mm9DaWI1eGFDSHlzVWN4RjJHV3J3cjRadU9LUGMwelZpYXcvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>事实上，很多因素都会影响推荐效果。比如侯选集合变化，召回模块的改进或增加，推荐特征的增加，模型架构的改进在，算法参数的优化等等，不一一举例。评估的意义就在于，很多优化最终可能是负向效果，并不是优化上线后效果就会改进。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0aklER0dEaWFEbVZBSlF2MmljblRDWld2MUxpYW9BZXMxcXlKbTZRT045NFF5bVlPVzZsUUJ6aWJtUS8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>全面的评估推荐系统，需要完备的评估体系、强大的实验平台以及易用的经验分析工具。所谓完备的体系就是并非单一指标衡量，不能只看点击率或者停留时长等，需要综合评估。过去几年我们一直在尝试，能不能综合尽可能多的指标合成唯一的评估指标，但仍在探索中。目前，我们上线还是要由各业务比较资深的同学组成评审委员会深入讨论后决定。</p>
+<p>很多公司算法做的不好，并非是工程师能力不够，而是需要一个强大的实验平台，还有便捷的实验分析工具，可以智能分析数据指标的置信度。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0QWlhcG5xVHFYYTh3REk2ZmRmSnJta09qbllScDNtZjhvU0NVZGFqZFMxSGJDOVd4UEJuTVRzUS8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>一个良好的评估体系建立需要遵循几个原则，首先是兼顾短期指标与长期指标。我在之前公司负责电商方向的时候观察到，很多策略调整短期内用户觉得新鲜，但是长期看其实没有任何助益。</p>
+<p>其次，要兼顾用户指标和生态指标。今日头条作为内容分创作平台，既要为内容创作者提供价值，让他更有尊严的创作，也有义务满足用户，这两者要平衡。还有广告主利益也要考虑，这是多方博弈和平衡的过程。</p>
+<p>另外，要注意协同效应的影响。实验中严格的流量隔离很难做到，要注意外部效应。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0TGFqQUVyTkppYXQzU25hMDgzcnlvb2FsT0JMQTJIaWFWdFFOMXlWdURTbkVRZ3lpY2pzN1J6QzRBLzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>强大的实验平台非常直接的优点是，当同时在线的实验比较多时，可以由平台自动分配流量，无需人工沟通，并且实验结束流量立即回收，提高管理效率。这能帮助公司降低分析成本，加快算法迭代效应，使整个系统的算法优化工作能够快速往前推进。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0REhSSzF2bEhaRGlhU3BCbXA5VmJMSW9PZnpvM1FUZmJwajAybGdrNEE1Zlo5OXJadmxvSFJudy8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>这是头条A/B Test实验系统的基本原理。首先我们会做在离线状态下做好用户分桶，然后线上分配实验流量，将桶里用户打上标签，分给实验组。举个例子，开一个10%流量的实验，两个实验组各5%，一个5%是基线，策略和线上大盘一样，另外一个是新的策略。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0d0JFZm5FeThuN3dRaWJkSENveGRLdnVUS1A4SmhpY09UUzJkNHNlaWE0cU9Sc0xHSjJUakVMbkd3LzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>实验过程中用户动作会被搜集，基本上是准实时，每小时都可以看到。但因为小时数据有波动，通常是以天为时间节点来看。动作搜集后会有日志处理、分布式统计、写入数据库，非常便捷。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0REp2ODk5Yzg2M2lhdlhGSGh5bE80dVI3MjAxN1ljcHVmclN3TlBBS1BVOEVvM3hpYXdVZlN1MXcvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>在这个系统下工程师只需要设置流量需求、实验时间、定义特殊过滤条件，自定义实验组ID。系统可以自动生成：实验数据对比、实验数据置信度、实验结论总结以及实验优化建议。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0VTlpY2lhcERITG05aWNMUjVZZ2FaVDh3bFpqNVlpYXlYR0RFMjFEczJGQklCYXBVZEkweDdQS3NBQS8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>当然，只有实验平台是远远不够的。线上实验平台只能通过数据指标变化推测用户体验的变化，但数据指标和用户体验存在差异，很多指标不能完全量化。很多改进仍然要通过人工分析，重大改进需要人工评估二次确认。</p>
+<p>五、内容安全</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0QUtoY2xVMFdqMmVRN1dROW92VjZmU2hsZHNrZ1B1WWlhQWlieVgwbmdEZUhVN25tRGRaYmliRk93LzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>最后要介绍今日头条在内容安全上的一些举措。头条现在已经是国内最大的内容创作与分发凭条，必须越来越重视社会责任和行业领导者的责任。如果1%的推荐内容出现问题，就会产生较大的影响。</p>
+<p>因此头条从创立伊始就把内容安全放在公司最高优先级队列。成立之初，已经专门设有审核团队负责内容安全。当时研发所有客户端、后端、算法的同学一共才不到40人，头条非常重视内容审核。</p>
+<p>现在，今日头条的内容主要来源于两部分，一是具有成熟内容生产能力的PGC平台，一是UGC用户内容，如问答、用户评论、微头条。这两部分内容需要通过统一的审核机制。如果是数量相对少的PGC内容，会直接进行风险审核，没有问题会大范围推荐。UGC内容需要经过一个风险模型的过滤，有问题的会进入二次风险审核。审核通过后，内容会被真正进行推荐。这时如果收到一定量以上的评论或者举报负向反馈，还会再回到复审环节，有问题直接下架。整个机制相对而言比较健全，作为行业领先者，在内容安全上，今日头条一直用最高的标准要求自己。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0OVRNbmZvaWNac1IzR2YzU1N4YmljU2liaE9hWVlsSGM2bTg5M0pEakdndTVuUm5MVGhoZTZBY1dBLzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>分享内容识别技术主要鉴黄模型，谩骂模型以及低俗模型。今日头条的低俗模型通过深度学习算法训练，样本库非常大，图片、文本同时分析。这部分模型更注重召回率，准确率甚至可以牺牲一些。谩骂模型的样本库同样超过百万，召回率高达95%+，准确率80%+。如果用户经常出言不讳或者不当的评论，我们有一些惩罚机制。</p>
+<p>泛低质识别涉及的情况非常多，像假新闻、黑稿、题文不符、标题党、内容质量低等等，这部分内容由机器理解是非常难的，需要大量反馈信息，包括其他样本信息比对。目前低质模型的准确率和召回率都不是特别高，还需要结合人工复审，将阈值提高。目前最终的召回已达到95%，这部分其实还有非常多的工作可以做。头条人工智能实验室李航老师目前也在和密歇根大学共建科研项目，设立谣言识别平台。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95%E5%88%86%E4%BA%AB/" rel="tag">推荐算法分享</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-学习微博数据库的设计思想" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="../../2019/05/18/%E5%AD%A6%E4%B9%A0%E5%BE%AE%E5%8D%9A%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3/"
+    >学习微博数据库的设计思想</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="../../2019/05/18/%E5%AD%A6%E4%B9%A0%E5%BE%AE%E5%8D%9A%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3/" class="article-date">
+  <time datetime="2019-05-17T16:00:00.000Z" itemprop="datePublished">2019-05-18</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../categories/%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E6%96%B9%E6%A1%88/">系统架构方案</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>Welcome to share creative thoughts!</p>
+<h2 id="初创阶段"><a href="#初创阶段" class="headerlink" title="初创阶段"></a>初创阶段</h2><p>   初期微博作为一个内部创新产品，功能比较简洁，数据库架构采用的是标准 1M/2S/1MB 结构，按照读写分离设计，主库承担写入，而从库承担访问。如果访问压力过大，可以从库的数量 获得 scale out 的能力。 在初期，这种架构其实就可以满足业务的增长了，没有必要进行过度设计，开始就搞得过于复杂可能会导致丧失敏捷的可能。 </p>
+<h2 id="爆发阶段"><a href="#爆发阶段" class="headerlink" title="爆发阶段"></a>爆发阶段</h2><p>   随着微博上线之后用户活跃度的增高，数据库的压力也与日俱增，这时要通过采购高性能的硬件设备来对单机性能进行 scale up，以达到支撑业务高速发展的需求。然后，通过使用高性能设备争取来的时间对微博进行整体上的业务垂直拆分，将用户、关系、博文、转发、评论等功能模块分别独立存储，并在垂直拆分的基础上，对于一些预期会产生海量数据的业务模块再次进行二次拆分。<br>  由于微博最开始的时候就出现了一个很高的用户增长峰值，在这个阶段技术上的积累不是很丰富，而且最主要的是没有时间进行架构改造，所以通过购买 PCIE­ Flash 设备来支持的很多核心业务，最开始的 feed 系统是重度依赖 MySQL 的。 虽然看上去高性能硬件的价格会比普通硬件高很多，但是争取来的时间是最宝贵的，很有可能在产品生命的初期由于一些性能上的问题引发产品故障，直接导致用户流失，更加得不偿失。所以在前期的爆发阶段，暴力投入资金解决问题反而是最划算的。<br>  博文是微博用户主要产生的内容，随着时间维度不断增 大，最终会变得非常巨大，如何在满足业务性能需求的情况下，尽可能地使用较少的成本存储，是一个比较有挑战性的问题。<br>  因为索引所需存储空间较少，而内容存储所需空间较大， 且这两者的使用需求也不尽相同，访问频次也会不同，需要区别对待。解决方案有分别对索引和内容采用先 hash，再按照时间维度拆分的方式进行水平拆分，尽量保障每张表的容量在可控范围之内，以保证查询的性能指标。 最后，业务先通过索引获得实际所需内容的 id，再通过内容库获得实际的内容，并通过部署 memcached 来加速整个过程，虽然看上去步骤变多，但实际效果完全可以满足业务需求。<br>  微博中的索引和内容各自分了很多的端口，每个端口中又分了很多的 DB，每个 DB 下的表先 hash 后按照时间维度进行了拆分，这样就可以在后期遇到容量瓶颈或者性能瓶颈的时候，选择做归档或者调整部署结构，无论选择哪种都非常的方便。另外，在做归档之后，还可以选择使用不同的硬件来承担不同业务，提高硬件的利用率、降低成本。<br>  在这个阶段，肖鹏老师对很多的微博功能进行了拆分改造，比如用户、关系、博文、转发、评论、赞 等，基本上将核心的功能都进行了数据拆分，以保障在遇到瓶颈的时候可以按照预案进行改造和调整。</p>
+<h2 id="沉淀阶段"><a href="#沉淀阶段" class="headerlink" title="沉淀阶段"></a>沉淀阶段</h2><p>  在上一个阶段，微博的数据库经历了很多的拆分改造，这也就直接造成了规模成倍增长的状况，而业务经历了高速增长之后，也开始趋于稳定。在这个阶段，微博开始着重进行自动化的建设，将之前在快速扩张期间积攒下来的经验用自动化工具加以实现，对外形成标准化和流程化的平台服务。 相继建设改造了备份系统、监控系统、AutoDDL 系统、MHA 系统、巡检系统、慢查系统、 maya 中间件系统。并且为了提高业务使用效率、降低沟通成倍，相对于内部管理系统，重新开发 了 iDB 系统供数据库平台的用户使用。通过 iDB 系统，用户可以很便捷地了解自己业务数据库的运行状态，并可以直接提交对数据库的 DDL 修改需求，DBA 仅需点击审核通过，即可交由 Robot 处理。<br>    其实个人理解，在产品发展到一定阶段之后 无论如何运维都会进入到自动化阶段，因为前期活儿少，人工足够支持变更和其中操作，且有很多特殊情况需要人，尤其是人脑的介入判断和处理。以 MySQL 开发规范来说，如果提前做好约定，并进行好限制，虽然开发人员在使用的过程中会感觉受到的约束，但是这可以避免线上发生完全不可控的故障，并且有些问题由于规范的存在就永远不会发生了。<br>    举个例子，MySQL 的慢查是导致线上性能慢的罪魁祸首，但是很多时候并不是没有 index，只是由于代码写得有问题，引起了隐式转换等问题。在这种情况下，一般建议所有的 where 条件都加上双引号，这样就可以直接消除隐式转换的可能性了，开发人员在写代码的时候也不用刻意去考虑到底是字符型还是 int 型。 继续说自动化。过了初期阶段、规模扩大之后，就会出现活多人少的情况，这种压力会促使大家自 动去寻求解决方案，也就自然而然地进行了自动化改造了。<br>     自动化分为两个阶段。第一个阶段是机器替代人工，也就是将大部分机械劳动交给程序来 实现，解决的是批量操作，重复性劳动的问题；第二个阶段是机器替人，也就是机器可以替人进行一定的判断之后进行自我选择，解放的是人力。<br>     不过第二个阶段是企业一直追求的理想状态，至今也仅完成了很简单的一些小功能，比如动态调整 max mem 等逻辑非常简单的功能。  数据库平台并不仅有 MySQL 还有 Redis、Memcached、HBase 等数据库服务，而在缓存为王的趋势下，微博 2015 年重点将研发精力投入在 Redis 上。 微博使用 Redis 的时间较早，并且一开始量就很大，于是在实际使用过程中会遇到很多实际的问题，内部分支版本要针对这些实际问题进行优化，</p>
+<blockquote>
+<p>增加基于 pos 位同步功能。在 2.4 版本中，Redis 的同步一旦出现中断就会重新将主库的数据”全 部”传输到从库上，这会造成瞬时的网络带宽峰值，并且对于数据量较大的业务来说，从库恢复的时间较慢,借鉴 MySQL 的主从同步复制机制，将 Redis 的 aof 改造 为记录 pos 位，并让从库记录已经同步的 pos 位，这样在网络出现波动的时候即使重传，也仅是一部分数据，并不会影响业务。<br>在线热升级。在使用初期，由于很多新功能的加入，Redis 版本不断升级，为了不影响业务, 每次 升级都需要进行主库切换，给运维带来了很大的挑战，于是开发了热升级机制，通过动态加载 libredis.so 来实现版本的改变，不再需要进行主库切换，极大地提升了运维效率，也降低了变更带来的风险。<br>定制化改造。在使用 Redis 的后期，由于微博产品上技术类的需求非常多，为此专门开发了兼容 Redis 的 redisscounter，用以专门存储技术类数据，通过使用 array 替换 hash table 极大地降低 内存占用。而在此之后，开发了基于 bloom filter 的 phantom 解决判断类场景需求。 Redis 中间件 在 2015 年肖鹏老师自研的 Redis 中间件 tribe 系统完成了开发和上线，tribe 采用有中心节点的 proxy 架构设计，通过configer server 管理集群节点，并借鉴官方 Redis cluster 的 slot 分片的设计思路来完成数据存储，最终实现了路由、分片、自动迁移、fail over 等功能，并且预留了操作和监控 的 API 接口，以便同其他的自动化运维系统对接。</p>
+</blockquote>
+<p>  关于重复造轮子，个人认为每个公司都有自己的场景，开源软件可以给我们提供一个很好的解决思路，但并不能百分百适应应用场景，所以重构并不是坚决不可接受的，有些事情要借鉴老祖宗的折衷思想。<br> 微博后期开发了 Databus，可以基于 MySQL 的 binlog 将数据同步到其他异构的数据库中，并且支持自定义业务逻辑。目前已经实现了 MySQL 到 Redis 和 MySQL 到 HBase 的数据流向，下一步计划开发 Redis 到 MySQL 的数据流向。开发 databus 最初的初衷是解决写Redis 的问题，由于有些数据即需要写入 MySQL 中，也需要写入 Redis 中。如果在前端开启双写也是可以解决的，但是这会造成代码复杂现象；如果在后端 实现一个数据链路，会让代码更加清晰，同时也可以保障数据的最终一致性。后来在实际应用中， databus 慢慢也开始承担导数据的功能。<br>    下面说一下目前微博积累下来的数据库的设计习惯。通常来说我们都会采用一些“反范式”的设计思路，而“反范式“设计带来便利的同时确实也带来了一些问题，尤其是在数据规模变大之后。有如下几种解决方案。<br>    预拆分。在接到需求的时候提前针对于容量进行评估，并按照先垂直后水平进行拆分，如果可以按照时间维度设计，那就纳入归档机制。通过数据库的库表拆分，解决容量存储问题。<br>    引入消息队列。利用队列的一写多读特性或多队列来满足冗余数据的多份写入需求，但仅能保障最终一致性，中间可能会出现数据延迟。         引入接口层。通过不同业务模块的接口将数据进行汇总之后再返回给应用层，降低应用层开发的编码复杂度。 另外一点就是，如果数据库预估量比较大的话，要参考博文的设计思路，在最开始的时候进行索引和内容的分离，并设计好 hash 和时间维度的分表，最大可能地减少后续拆分时可能遇到的问题和困难。<br>    总之，要尝试利用各大云计算资源，实现 cache 层的动态扩缩容，充分利用云计算的弹性资源，解决业务访问波动的问题。<br>    下面是一些问题与思考的收集，来自肖鹏老师答疑，后期来深入学习理解。</p>
+<h2 id="Q-amp-A"><a href="#Q-amp-A" class="headerlink" title="Q &amp; A"></a>Q &amp; A</h2><pre><code>1. 数据和索引分离是业务层做还是中间件做？感觉中间件做了很多工作，这部分能不能稍微展开一 下？由于在当初拆分改造的时候并没有考虑中间件的方案，故目前是业务逻辑上实现的索引和内容的分离。
+  以我个人的经验来看，即使使用中间件的解决方案，依然应该在业务逻辑层将索引和内容分割。中间件最核心的功能就是让程序和后端资源隔离，后端不管有多少资源，对于程序来说都是一个统 一的入口，所以中间件解决的是水平拆分的问题，而索引和内容分离属于垂直拆分的范围，个人认为不应该由中间件解决。 
+  2. 印象最深的一次数据库服务故障能否回忆并说几点注意事项？ 
+  要说印象最深的一次就是数据库服务的故障，当时有个同事不小心执行了 drop table 命令，了解数 据库的人都知道这个命令有多大的威力，我们利用架构上面争取来的时候紧急进行了单表恢复，虽然降级了一段时间，但是整体上并没有影响用户。 对此我要说的注意事项就是规范。自那之后，我们修改了所有删表需求的流程，并保证严格执行， 无论多么紧急的删除需求都必须进行24小时的冷却，具体如下。 执行 rename table 操作，将 table rename 成 table—will­drop。 等待 24 小时之后再执行 drop 操作。 
+  3. 在微博暴涨阶段，对表进行拆分的部分，“对索引和内容进行hash，之后再按着时间纬度进行拆 分”，这个做hash的部分是否能展开说一下？ 这个其实没有那么复杂。首先我们会预估一下一年大概的数量级别，然后计算需要拆分的表数目， 并且尽量将每个表控制在 3 千万行记录以内（当然这只是希望，现实证明计划赶不上变化）。比如我们使用模 1024 的办法，根据博文 id 将所有产生的博文分到 1024 张表中（这个博文 id 又涉及我 们的 uuid 全局发号器就不展开了）。 由于微博大部分用户产生的内容都会和时间挂钩，所以时间维度对我们来说是强属性，基本都会 有，假设每个月都建表，这样就等于每个月会生产 1024 张表。如果数据库的容量出现瓶颈了，我 们就可以根据时间维度来解决，比如将 2010 年的所有表都迁移到其他的数据库中。 
+2. 问题 1 中说的索引是指什么，如何找到对应内容的算法？ 索引其实指的并不是内容的算法，举个例子，如果你需要存储博文，那么必然会存储一个唯一的 id 来进行区分，然后会存储一些这个博文发表时候的状态，比如谁发的、什么时候发的、我们认为这些状态和 id 都是索引；而博文内容就是实际的内容，由于内容比较大，和索引存储在一起会导致 MySQL 的性能下降，而且很多查询只需要最终拿到博文 id 其实就等于拿到了实际的博文。 我们可以对索引进行各种过滤之后得到一个最终要输出给用户的索引 list，再根据这个 list 从内容库 中查找实际内容，这样就符合 MySQL 的返回结果集越小性能越高的规律，从而起到优化的效果。 
+3. NoSQL发挥着哪些作用？ 在微博NoSQL发挥了越来越重要的作用，比如说 rediscounter，我们自研的计数服务，当初计数存 贮在 MySQL 中，由于所有计数都是 update set count = count +1 这种高并发对单行数据的写操 作，会引发MySQL多种锁，而且并发越高锁得越厉害。 由下图可见，如果对单行的并发操作达到500 以上，tps就会从上万变成几百，所以MySQL无论怎么 优化都无法很好地支持这个业务场景，而Redis就可以。 我个人认为，NoSQL 就像瑞士军刀，在最适合的地方它就是最优的方案，个人认为这也是 NoSQL 未来发展的方向，每一个都有一个最佳场景。
+4.我们公司将来会有很多智能设备，今年或许就两万个以上的设备，一年后可能再翻很多倍，要收 集数据，都是 JSON 报文格式，JSON 里字段标识不同类型的报文，看似不太适合以字符串存进 varchar 或 longtext 字段，DB 存储是否可充分利用 MYSQL 的原生JSON，存一列就搞定，而 不必用无法扩展的“宽列”进行存储，或者POSTGRES 还是其他的 DB 能提供更方便的存储吗？前 期还用的时候，MySQL 5.7 还没 FINAL, 利用 mariadb 多主分担N多设备接进来，DB 写入层的负 载，对这种大量设备一直要传数据的写入场景有什么指导？ 我们其实也在看 MySQL 5.7 的新特性，其中 JSON 对于数据库设计会带来比较大的冲击，按照你 的说法，确实不应该使用 varchar 或者 text 之类的字段，不过我个人建议智能设备这种场景，如果 有可能，最好直接上 HBase，因为迟早数据量会变得 MySQL 难以支撑，这属于天生没有优势。 
+5. “数据和索引分离”是什么意思呢，是数据文件和索引文件分开存放到不同机器上吗？ 应该是内容和索引，这样更好理解，大家把这个理解为业务层上的垂直拆分就好。由于进行了垂直 拆分，必然存在于不同的数据库实例中，所以可以放在一台物理机上，也可以放到不同的物理机 上，我们按照习惯都是放在不同的物理机上的，以避免互相干扰。 9. 哪些信息存MySQL？哪些存NoSQL？用的是哪种NoSQL？ 这就涉及一个分层存储的问题了，目前我们主流是 MySQL + Redis+mc，mc 和 Redis 都用来抗热 点和峰值，而 MySQL 则为数据落地，保障最终有原始数据可查。大部分请求会到 mc 或者 Redis 层就返回了，只有不到 1% 的数据会到 MySQL上。</code></pre><p>2016/3/8 微博数据库那些事儿：3个变迁阶段背后的设计思想 <a href="http://weibo.com/ttarticle/p/show?id=2309403948901471268848" target="_blank" rel="noopener">http://weibo.com/ttarticle/p/show?id=2309403948901471268848</a> 7/8 作者其他文章 查看全部 当然也有特殊的，比如之前说的计数服务，我们就把 rediscounter 当初落地存储使用，后面并没有 在 MySQL 中再存储一份数据了。<br>     最后，个人认为 NoSQL 最大的优势是开发的便捷性，开发人员使用 NoSQL 会比使用 MySQL 更简 单，因为就是 KV 结构，所有查询都是主键查询，不用考虑 index 优化的问题，也不用考虑如何建 表，这对于现在的互联网速度来说是有致命诱惑的。<br>      10. 请问全局唯一发号器和自动生成id对业务来说优劣分别是什么？ 全局唯一发号器有很多实现的方案，我们是用 mc 协议改的 Redis，主要追求性能。我也见过使用 MySQL 的自增 id 作为发号器，但是由于 MySQL 的锁太重，业务起量之后经常会出现问题，所以就放弃了。<br>再说另外一个好处，全局唯一发号器的开发难度并不高，可以将一些你想要的属性封装到 uuid 中， 比如 id 的格式可以是这样“时间戳 + 业务flog + 自增序列数”，这样你拿到这个 id 的时候直接就可以 知道时间和对应的业务了，与 MySQL 自身发出来的简单的一个没意义的序列号相比，可以做更多的事情。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%86%E6%9E%90/" rel="tag">数据库分析</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-产品经理实习生复盘总结 (1)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="../../2018/12/12/%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%E5%AE%9E%E4%B9%A0%E7%94%9F%E5%A4%8D%E7%9B%98%E6%80%BB%E7%BB%93%20(1)/"
+    >产品经理实习生复盘总结</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="../../2018/12/12/%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%E5%AE%9E%E4%B9%A0%E7%94%9F%E5%A4%8D%E7%9B%98%E6%80%BB%E7%BB%93%20(1)/" class="article-date">
+  <time datetime="2018-12-11T16:00:00.000Z" itemprop="datePublished">2018-12-12</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../categories/%E5%AE%9E%E4%B9%A0%E6%80%BB%E7%BB%93/">实习总结</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>Welcome to share creative thoughts!</p>
+<h2 id="1-背景介绍"><a href="#1-背景介绍" class="headerlink" title="1.背景介绍"></a>1.背景介绍</h2><p>坐标：北京<br>时长：三个月<br>岗位描述：<br>1、负责泡泡圈子开通、圈子关联、圈子管理团队上任等相关事项；<br>2、负责泡泡明星、KOL等账号处理、认证等账号相关工作；<br>3、负责综艺IP项目功能运营、活动策划等IP相关工作；<br>4、负责泡泡专题h5页面规划、上线、推广等H5相关工作；<br>5、参与明星VLOG项目规划及落地。<br>我的工作概述： 在一位资深PMleader的带领下负责爱奇艺泡泡的运营推广工作，很荣幸参与了产品全流程，团队协作负责了8余次产品迭代的落地，感谢大家的认可，让我在充实紧张的节奏中飞快成长！</p>
+<p>近段对工作内容作了梳理总结，相较于实习前通过网络渠道自学构建的PM理论体系，我得到了许多新的启发和见解</p>
+<p>在此整理复盘，希望在PM道路上坚持不懈地迭代自己，砥砺前行！</p>
+<h2 id="2-具体负责的工作"><a href="#2-具体负责的工作" class="headerlink" title="2.具体负责的工作"></a>2.具体负责的工作</h2><p>做总结前，首先要清楚自己做过哪些事，无论结果好坏，不要漏掉，完整的经历参考会使总结价值更准确全面。</p>
+<p>实习初期，我用了两周时间熟悉产品和团队磨合，后在导师带领下开始负责项目。</p>
+<p>中后期我的工作日常即为一个或数个需求线并推，就是大家常说的从0到1实现流程，具体环节如下：</p>
+<p>需求收集：收集内外部需求，答复客户需求，筛选有价值的汇到需求池中。<br>需求设计：排期的需求转化为产品方案。<br>需求落地：协调UI、UE、RD资源，兼职QA，推动上线。<br>上线推广：主要通过业务培训会，产品操作文档，日常答疑三种形式，给运营、客服、销售团队传达产品理念。<br>需求维护：处理线上产品bug，整理数据和用户反馈查验需求上线效果。</p>
+<h2 id="主观真实感受"><a href="#主观真实感受" class="headerlink" title="主观真实感受"></a>主观真实感受</h2><p>一、关于压力<br>刚入职的时候不太熟悉流程和业务，有一段时间会陷入焦虑和自我否定的漩涡（不确定是不是每个人都会经历一段时间的焦虑和自我否定？）但只要找到合适的方式解脱出来就好啦！<br>不过入职时间久了，看着业绩和评价慢慢起步，导师隐约的肯定，渐渐的这种压力就减少了~<br>二、关于日常<br>实习生最好的状态就是不把自己当实习生，不把自己当学生<br>因为换部门，接触过两块业务，包括爱奇艺基线端的，独立app端的，除去业务本身逻辑不一致，还有工作节奏（比如几周一个版本等）、目标用户（有的针对二次元用户，有的针对粉丝用户）不一致以外，对于交互设计师来说，工作内容还是大同小异。<br>日常就是和产品沟通需求（这一点我后面要重点说hh），梳理场景，出草图流程方案，然后写规则说明，细化细节方案……然后就是不停的修改方案，不停的写邮件，不停的开会，不停的验收，提bug……好在我两个部门都有向导带，还是避免了很多坑der，不过大家都比较忙的时候，只能自己慢慢摸索啦～<br>我觉得爱奇艺相对其他互联网公司，加班算是很少的了，除非真的有的项目比较大并且很紧急的时候，偶尔会加班到9点半，其他时间就比较正常啦～（现在我依旧相信加班的原因还是效率低hhh，还是努力提高自己工作效率）<br>当然，最有成就感的事情就是等自己做的需求上线后，看到满意的数据反馈，<br>三、关于沟通<br>我现在发现，工作中的沟通真的真的真的特别重要，和产品，UI，开发的沟通，和leader的汇报，还有其他有关联业务的交互设计师沟通都是不一样的。<br>大部分时候，UI会是和自己在一个组内，所以日常沟通会更多啦（目前好像还没有碰到过和UI小哥哥小姐姐沟通出问题的时候）～<br>和leader的汇报，这个时候一定要清楚自己需求的背景，目标，还有自己设计方案的细节（为什么要这么设计），还有是否所有场景都考虑在内等，以及是否和产品有不确定的地方一定要提前了解。<br>和其他业务的交互设计师沟通，我现在接触的业务就经常会涉及到小组外其他的业务。这一点产品他们内部会先沟通好，但很多时候，他们沟通的只是业务层面的东西，具体实现方式，细节等问题的考虑，还是自己亲自和对应业务的交互设计师沟通比较好（踩过坑的教训～）<br>四、关于趣事<br>我特别喜欢的是双周会，每两周会有几位前辈同事分享一些专业知识，然后大家一起探讨交流，比如之前了解的不同产品适合哪种类型评论结构的分析，可以收获很多。另外还有月会，月末会有主题游戏活动，可以给工作增添很多乐趣呀，除了会员内购外，经常会有一些礼品小福利，有时候可以见到小明星hhh。<br>五、几点教训（以下都是自己踩过的坑，经历的血泪教训总结出来的）<br>1，学会解决问题，而不是制造问题<br>很多时候不要只给leader提问题，或者只说自己发现了什么什么问题。可以在说自己发现了什么什么问题后，补充一下自己的解决方案，以及补充要这么解决的原因<br>2，适当的时候坚持自己的想法<br>就像前面讲过的，如果对方让你改就改，那就宛如一个工具了，用自己的专业能力为自己的设计埋单吧～（我现在觉得只要能力足够强，足以让对方相信自己的专业能力，改方案的次数会减少很多，orz还在努力阶段）<br>3，在做的事情一定要同步给leader<br>很多事情不是leader直接安排给自己的，大部分是自己直接和产品对接后了解到的，所以一般自己会比leader更先知道需求，不要等到deadline的时候再把方案给leader过目，一定要及时同步（包括需求内容，是否增加功能或者大改版，以及哪个版本，是否入版，当前进度，是否delay，每个关键节点都及时同步）<br>4，安排好优先级<br>我最多的时候是对接了3个产品，每个产品都有3个需求左右，所以总量会比较大，有些还是新增的大功能，不过每个产品自己会给自己的需求排优先级，最好的处理方式是让他们汇总排一个相对优先级。另外，在自己这边也需要排一个优先级，可以根据复杂程度以及了解到的信息先大致估算每个需求花的时间，然后再衡量一下性价比，再自己给自己排一个优先级<br>5，没有人是不可替代的（划重点）<br>6，学会复盘总结<br>在周会或者双周会上会起到很多作用的<br>7，学会主动沟通<br>学会主动去找产品，开发，测试，和大家熟络起来后，效率真的提高了很多～<br>8，对自己工作负责，主动提需求<br>我在的第一部门会有收集用户体验团队提的需求的习惯（排不排得进去就另说啦），我们会把整个产品业务需要优化体验或者可以增加情感化设计的地方提给产品，然后产品再来排优先级。我还是挺喜欢这个过程的，当自己的idea被采纳的时候会很有成就感hhh。<br>9，别忘了学习和补充知识<br>“事情得做，也别忘了自我提高”。上周双周会部门里一个实习生分享了自己做的一个产品分析报告，看得出来是业余时间花心思整理的，所以业余时间别忘了学习，遇到了困惑点可以周会上抛出来大家一起脑暴讨论。</p>
+<h2 id="3-理性分析PM技能篇"><a href="#3-理性分析PM技能篇" class="headerlink" title="3.理性分析PM技能篇"></a>3.理性分析PM技能篇</h2><p>每天的工作经历和成果，通过周期总结和项目复盘的形式，可以直观检验PM技能是否得当，技能具体内容不再赘述（例如AT的PM能力模型），硬实力也好软实力也罢，都是为了更好地打磨自己负责的产品而服务的。</p>
+<p>对于初级PM而言，更加注重于执行层面，即需求的转化效果。通过项目的高速迭代给予需求线每个环节的反馈，不断改进有问题的环节，用更完善的PM技能体系解决后续问题，进而实现自我迭代。</p>
+<p>下面是我思考的一些技能点（资历尚浅不可妄称方法论）<br>1、需求收集</p>
+<p>Boss的需求一般是从战略维度或者商业价值（例如承接合作方需求）考虑，结合公司利益和战略发展从宏观角度思考需求的背景和原因，想不明白就请教leader，有助于培养格局和眼界（外行拍脑袋Boss不在此列）</p>
+<p>针对客户，内部同事或者PM自身挖掘的需求（通过运营数据，竞品分析，或者纯脑洞），通常使用Kano模型筛选，重要紧急象限法排期，同时也要考虑开发成本和预估收益，例如C端商城页面改版优化，可一定程度增加客流转化率，开发周期短，优先级就高。<br>2、需求设计</p>
+<p>作为B2C产品，既要满足B端业务场景和后台易操作性，也要重视C端使用体验。故设计时需先定框架，再完善界面，最后查验原型。</p>
+<p>框架方面：</p>
+<p>设想为用户，遍历使用场景，功能是否满足所有需求细节。<br>参考（不是copy）成熟的竞品很有必要性，但需搞清竞品的产品逻辑和优点，再考虑是否要借鉴。<br>所有业务流程+异常流程的页面方案，确保逻辑闭环。<br>粗略估计开发可行性和成本（开发周期、服务器压力、存储成本）。</p>
+<p>体验方面：</p>
+<p>向研发了解常用功能模块，相同功能复用，使页面风格统一，也利于后续研发和维护。<br>重视引导文案，针对B端的引导文案要简明无歧义，优秀的文案可降低后台操作门槛，是最好的操作文档。C端的引导文案相较而言就要更有亲和力和感染力，强调鼓动效果。好文案需要PM的经验、同理心、文字功底，作为软实力需要不断积累。</p>
+<p>原型回溯：</p>
+<p>原型设计完成后，分别从用户和测试角度，模拟所有流程，确保满足业务和逻辑完整，尽量避免后期来源于PM的需求改动。否则既增加了设计研发的工作量，也会降低团队对PM自身的信任，不利于后面后续工作的推进。</p>
+<p>我在实习初期负责的项目，在上面的地方上都踩了很多坑，有些需求改动甚至造成返工，浪费了大家不少时间。</p>
+<p>3、需求落地</p>
+<p>设计环节：原型尽量走线框图+文字说明（演示除外），速度快，逻辑清晰。按钮、字体、色系等可以与设计讨论，但浪费过多时间纠结于表现层，得不偿失。PM是服务于业务的，若产品业务性都不完整，陶醉在交互和界面问题上就没意义。业务本质搞清楚后，有空可再琢磨表现层。</p>
+<p>研发环节：和研发的沟通是产品推动的关键，这点感触很深，除了研发评审会时把需求用流程化语言表述之外，我改进了几点方式。</p>
+<p>主动询问研发进度，是否有理解偏差或言研发障碍，保持研发方向处在正轨。<br>和研发存在分歧时，从产品角度阐述设计原因和功能价值点，坚持自己的产品原则，确保需求无变更。<br>由于需求设计失误或外界因素（如Boss要变更需求），先承认问题，语气诚恳，再用奶茶零食、请客吃饭等“伎俩”说服开发，相较于吵架互撕对产品推动效果更好。<br>跨部门合作实现需求时，要想着为自己产品争取资源，必要时可搬领导出面，假如PM对自己的产品都不上心，产品是不可能做好的。<br>4、上线推广</p>
+<p>将产品理念（主要包括需求的功能点、业务点、价值点，我理解为产品理念）准确传达给其他团队，需要PM站在对方立场上，用对方话术去沟通，这也是同理心运用的体现。</p>
+<p>例如针对客服团队主讲实现功能，操作方式，方便商家售后答疑；针对运营团队，则要谈客流转化、复购、拉新、促活这些能给商家带来业务增长的手段，让运营推给商家和潜在客户；针对销售团队，主要内容则需要围绕产品的价值点（为什么能卖这个价钱）、较其他竞品的优势、满足哪类客户何种使用场景这三部分展开。</p>
+<p>做到准确地推广，可谓产品想法完整的实现了，用大话讲则是这个产品迭代属于PM的意志，且有流量，有市场去检验。</p>
+<p>5、上线反馈</p>
+<p>东西做的好不好，用户的反馈和上线后一定周期的运营数据不会说谎。每一次成功经验或失败教训都是耗费公司资源和团队的辛劳砸出来的，是PM无论怎样谈理论都得不到的，弥足珍贵，复盘的重要性有时甚至大于实现，所以对项目的复盘和个人的总结就尤为关键，无论公司是否有复盘要求，自己最好在上线一周内趁热打铁，完成此工作。</p>
+<p>项目复盘：个人推荐@杨福伟老师的《产品经理的能力进阶——做好复盘》，比较细致，操作性较强。</p>
+<p>个人复盘：一般是对需求线环节的检验，一看“我的PM技能体系”哪些地方还需要“知识升级”，二看工作态度和习惯上需要完善地方，完成自我迭代的过程。</p>
+<p>6、时间管理</p>
+<p>实习时负责100+团队的产品答疑工作，聊天窗口每天都闪烁不停，为保证手上事情及时完成同时处理沟通，我采用了番茄工作法，先腾出25分钟用来专注处理问题，然后5-10分钟处理外部事务，40分钟一组循环（开会等场合除外）。论坛也有很多大牛推荐其他针对PM的时间管理方案，选择适合自己工作节奏的就好。</p>
+<p>个人推荐@枯叶老师的《时间管理：在产品管理中如何获取更多时间》</p>
+<p> 3.针对PM的职业道路的思考 </p>
+<p>看了很多文章、前辈们的问题回答、公开课等等关于PM道路的探讨，实习下来有几点感触颇深。</p>
+<p>1、源自内心的热爱</p>
+<p>产品实现过程中，想尽办法解决每个问题，而不是草草尝试觉得无解就放弃。即使解决，思考是否有更高效的方案。PM领域需要深耕，而坚持的动力就源自内心的热爱，有种不达目的不罢休的“狠劲”。</p>
+<p>2、成本和体验</p>
+<p>从张小龙在微信公开课的讲述可以看出，微信这个工具深深地印着他的产品思维，产品体验重视到近乎偏执。但是大多数PM，为了商业价值和公司利益，会更多从性价比角度定夺，假设这个功能一定程度增加体验，但实现成本很高，基本会被砍。但这种妥协是否一定是正确的，平衡点在哪，这里希望能得到各位前辈指导。</p>
+<p>3、系统思维</p>
+<p>用户、场景、需求千千万，产品方案千千万，但构建思维是相通的，一个模块可以形成一个需求设计的轮子（例如注册模块，常用的就几种场景），轮子结合具体业务就能运行，数个轮子调整结合就是业务方案。PM在初期可以通过大量实践掌握自己的轮子库，个人感觉有点像七巧板，怎么组合地更精巧，给产品做减法，更好地服务于业务目标，是PM要持续修炼的内功。</p>
+<p>4、可以心怀改变世界的理想</p>
+<p>对于PM特别是新人而言，不能把“改变世界”的空话挂在嘴边。但是这个作为初心，作为最终目标，没有错。拆分目标为职业规划，做好执行，应付眼前的苟且的同时，也不忘诗和远方，做好实力的准备，等待机会的到来，没准真能“改变世界”。如人所言：仰望星空，脚踏实地。</p>
+<p> 5.针对初入职场的实习生而言</p>
+<p>我认为对于实习生或新入门PM而言，总的来讲是三件事情：</p>
+<p>保质保时完成leader给的每一个任务。证明可以出色完成已有任务的基础上，找leader要额外的任务，同样做好。学习人（同事和leader），学习事（通过这些任务学到了什么），高速迭代自己。几个关键点在于：<br>1、向上管理</p>
+<p>老生常谈的话题，但工作中还是容易忽略。第一点，手上任务节点主动汇报，让上级知晓进度，保持信息同步。第二点，需要上级确认拍板的及时催促，上级都很忙，不及时催，耽搁的是自己任务的进度。</p>
+<p>2、请教上级的是经过细致考虑的方案</p>
+<p>任务中遇到问题，自己查资料，想出清晰的方案（不是拍脑袋、凭空想的那种）A、B、C给到上级，再分别补充对每个方案的想法和依据，给出自己的选择。之后上级拍板，阐明理由并讨论，切忌抛给上级一堆问题。</p>
+<p>3、主动沟通</p>
+<p>不要一天都坐在工位上做自己的事，等别人来问。跟进手上每一个任务，主动询问进度，卡在哪个部门就及时出面，想办法解决（即使问题不是自己的），这样项目才能推起来。调用其他部门的资源及时告知其部门领导。</p>
+<p>4、克服情绪化</p>
+<p>作为团队的协调者，遇到各种障碍和阻力在所难免。自认情绪管理做的不错，但有时还是会控制不住，在工位上抱怨bug多，研发延期等等。虽然当时火大，但在工作中发泄这种消极情绪只会传染给团队，带来消极影响。所以即使有也别表现出来，将精力都投入解决问题中。</p>
+<p>5、眼界和格局</p>
+<p>作为新手，确实更注重执行层面，但不意味着放弃对问题的上层化思考。思考做的每一个功能对用户的价值，对公司的价值，对PM的价值。有时间刷刷行业动态，思考发展战略不是中高级PM的特权，趁上级空闲时多请教。</p>
+<p>6、持续学习</p>
+<p>途径和方法枚不胜举，重要的是阅读过他人分享的干货后，加以思考，并执行，执行的具体手段可以是运用到产品工作中，也可以写成总结文档做输出。仅仅停留在看完觉得好然后点个收藏的层面是远远不够的，吸收率很低，必须消化为自己的知识体系。</p>
+<p> 写在最后 </p>
+<p>互联网行业大都倡导敏捷原则，其实我这篇实习复盘总结也如此。由于资历尚浅，积累还远远不够，主要结合了踩过的坑，同事和领导传授的经验，自我认知与思考来写的，内容偏主观和片面，更像是工作笔记。而且受限篇幅，许多点没有详细举例说明。若有机会在未来接触更多高增长性的业务（俞军老师的定义），得到更系统的实战锻炼和指导，通过实践反馈—修正认知—反馈，小步快跑，才可能形成自己淬炼出来的，扎实可靠的产品方法论。</p>
+<p>拥抱变化，迭代自我，向着一个个细分的目标迈进，与诸位共勉。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E5%A4%8D%E7%9B%98%E6%96%B9%E6%B3%95%E8%AE%BA/" rel="tag">复盘方法论</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+  </article>
+  
+
+  
+  <nav class="page-nav">
+    
+    <a class="extend prev" rel="prev" href="../3/">上一页</a><a class="page-number" href="../../">1</a><a class="page-number" href="../2/">2</a><a class="page-number" href="../3/">3</a><span class="page-number current">4</span>
+  </nav>
+  
+</section>
+</div>
+
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2020
+        Wangqiuxia
+      </li>
+      <li>
+        
+        Powered by
+        
+        
+        <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+    <aside class="sidebar">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="../../index.html"><img src="/images/ayer-side.svg" alt="爱生活，爱前端！"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../index.html">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../tags/%E6%8A%80%E6%9C%AF/">小程序</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../http:/shenyu-vip.lofter.com">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../https:/v.xiumi.us/stage/v5/4IeLH/197507179">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="../../atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="../../images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="../../images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="../../js/jquery-2.0.3.min.js"></script>
+
+
+<script src="../../js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="../../js/lazyload.min.js"></script>
+
+
+<script src="../../js/busuanzi-2.3.pure.min.js"></script>
+
+
+<script src="../../js/share.js"></script>
+
+
+
+<script src="../../fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['做一个有情怀的程序媛','业精于勤荒于嬉，行成于思毁于随','越努力越幸运'],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+
+<script src="../../js/ayer.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=518895142&auto=1&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+  </div>
+</body>
+
+</html>
