@@ -155,7 +155,7 @@
 
 </article>
     
-    <article id="post-字节跳动的推荐算法分享会 (1)" class="article article-type-post" itemscope
+    <article id="post-推荐算法笔复盘整理" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -163,8 +163,8 @@
     <header class="article-header">
        
 <h2 itemprop="name">
-  <a class="article-title" href="../../2019/05/23/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E7%9A%84%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95%E5%88%86%E4%BA%AB%E4%BC%9A%20(1)/"
-    >字节跳动的推荐算法分享会</a
+  <a class="article-title" href="../../2019/07/02/%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95%E7%AC%94%E5%A4%8D%E7%9B%98%E6%95%B4%E7%90%86/"
+    >推荐算法笔记复盘整理</a
   >
 </h2>
   
@@ -174,12 +174,12 @@
 
     
     <div class="article-meta">
-      <a href="../../2019/05/23/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E7%9A%84%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95%E5%88%86%E4%BA%AB%E4%BC%9A%20(1)/" class="article-date">
-  <time datetime="2019-05-22T16:00:00.000Z" itemprop="datePublished">2019-05-23</time>
+      <a href="../../2019/07/02/%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95%E7%AC%94%E5%A4%8D%E7%9B%98%E6%95%B4%E7%90%86/" class="article-date">
+  <time datetime="2019-07-01T16:00:00.000Z" itemprop="datePublished">2019-07-02</time>
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="../../categories/%E5%A4%A7%E5%9E%8B%E5%88%86%E4%BA%AB%E4%BC%9A%E8%AE%B0%E5%BD%95/">大型分享会记录</a>
+    <a class="article-category-link" href="../../categories/%E5%AE%9E%E4%B9%A0%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/">实习项目总结</a>
   </div>
 
       
@@ -199,96 +199,36 @@
 
       
       <p>Welcome to share creative thoughts!</p>
-<p>以下内容来自实习期间曹欢欢博士的算法架构分享，衷心感谢曹博士的分享，获益匪浅，日后要深入研究！</p>
-<p>本次分享将主要介绍今日头条推荐系统概览以及内容分析、用户标签、评估分析，内容安全等原理。</p>
-<h2 id="一、系统概览"><a href="#一、系统概览" class="headerlink" title="一、系统概览"></a>一、系统概览</h2><p>推荐系统，如果用形式化的方式去描述实际上是拟合一个用户对内容满意度的函数，这个函数需要输入三个维度的变量。第一个维度是内容。头条现在已经是一个综合内容平台，图文、视频、UGC小视频、问答、微头条，每种内容有很多自己的特征，需要考虑怎样提取不同内容类型的特征做好推荐。第二个维度是用户特征。包括各种兴趣标签，职业、年龄、性别等，还有很多模型刻划出的隐式用户兴趣等。第三个维度是环境特征。这是移动互联网时代推荐的特点，用户随时随地移动，在工作场合、通勤、旅游等不同的场景，信息偏好有所偏移。结合三方面的维度，模型会给出一个预估，即推测推荐内容在这一场景下对这一用户是否合适。</p>
-<p>这里还有一个问题，如何引入无法直接衡量的目标？</p>
-<p>推荐模型中，点击率、阅读时间、点赞、评论、转发包括点赞都是可以量化的目标，能够用模型直接拟合做预估，看线上提升情况可以知道做的好不好。但一个大体量的推荐系统，服务用户众多，不能完全由指标评估，引入数据指标以外的要素也很重要。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0cUlacVdYVHJGU09Ma3pydlI3TktnVmZPSlo2b0lQQlNiaWNCMnE0UkdoaGliN25iM1JhTWExaEEvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>比如广告和特型内容频控。像问答卡片就是比较特殊的内容形式，其推荐的目标不完全是让用户浏览，还要考虑吸引用户回答为社区贡献内容。这些内容和普通内容如何混排，怎样控制频控都需要考虑。<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0ZUNraWNyVUNaWWhvcWRQUDBKMXQ4bzFWbGhQM01VWmIzS1hpYXg3ZTU5cjkwSENsMXM4ck5ZQlEvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>此外，平台出于内容生态和社会责任的考量，像低俗内容的打压，标题党、低质内容的打压，重要新闻的置顶、加权、强插，低级别账号内容降权都是算法本身无法完成，需要进一步对内容进行干预。</p>
-<p>下面我将简单介绍在上述算法目标的基础上如何对其实现。<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0RDc5bmljenp6cG5IcG1rMUVpYXRhOWM4eE5yWWt4bGljNWFpYm9VRXNBNUF5a2JWbWdjZ2Z3dHU0US8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>前面提到的公式y = F(Xi ,Xu ,Xc)，是一个很经典的监督学习问题。可实现的方法有很多，比如传统的协同过滤模型，监督学习算法Logistic Regression模型，基于深度学习的模型，Factorization Machine和GBDT等。</p>
-<p>一个优秀的工业级推荐系统需要非常灵活的算法实验平台，可以支持多种算法组合，包括模型结构调整。因为很难有一套通用的模型架构适用于所有的推荐场景。现在很流行将LR和DNN结合，前几年Facebook也将LR和GBDT算法做结合。今日头条旗下几款产品都在沿用同一套强大的算法推荐系统，但根据业务场景不同，模型架构会有所调整。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0eEd2Z2hXbzRQeW96ZTJBYzAwdmljT3dXczF0eWtzMHlpYnllVXdObzZoQzNraWFzajdJUE5iU09RLzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0T1hsMElJUmY1YmZpYjlhd2hKWFlpY24yVVZFYXpEc0VkZVNJRDAzdjJjeW9WNGVvTXhWU01JMEEvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>模型之后再看一下典型的推荐特征，主要有四类特征会对推荐起到比较重要的作用。</p>
-<p>第一类是相关性特征，就是评估内容的属性和与用户是否匹配。显性的匹配包括关键词匹配、分类匹配、来源匹配、主题匹配等。像FM模型中也有一些隐性匹配，从用户向量与内容向量的距离可以得出。</p>
-<p>第二类是环境特征，包括地理位置、时间。这些既是bias特征，也能以此构建一些匹配特征。</p>
-<p>第三类是热度特征。包括全局热度、分类热度，主题热度，以及关键词热度等。内容热度信息在大的推荐系统特别在用户冷启动的时候非常有效。</p>
-<p>第四类是协同特征，它可以在部分程度上帮助解决所谓算法越推越窄的问题。协同特征并非考虑用户已有历史。而是通过用户行为分析不同用户间相似性，比如点击相似、兴趣分类相似、主题相似、兴趣词相似，甚至向量相似，从而扩展模型的探索能力。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0RUxDcWdmajBieFJOZHNLbGh3YmZkcDRtYlI3dXppYkl0bm54RmwwamRjVDUzY3h1N3hDZzBvZy8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>模型的训练上，头条系大部分推荐产品采用实时训练。实时训练省资源并且反馈快，这对信息流产品非常重要。用户需要行为信息可以被模型快速捕捉并反馈至下一刷的推荐效果。我们线上目前基于storm集群实时处理样本数据，包括点击、展现、收藏、分享等动作类型。模型参数服务器是内部开发的一套高性能的系统，因为头条数据规模增长太快，类似的开源系统稳定性和性能无法满足，而我们自研的系统底层做了很多针对性的优化，提供了完善运维工具，更适配现有的业务场景。</p>
-<p>目前，头条的推荐算法模型在世界范围内也是比较大的，包含几百亿原始特征和数十亿向量特征。整体的训练过程是线上服务器记录实时特征，导入到Kafka文件队列中，然后进一步导入Storm集群消费Kafka数据，客户端回传推荐的label构造训练样本，随后根据最新样本进行在线训练更新模型参数，最终线上模型得到更新。这个过程中主要的延迟在用户的动作反馈延时，因为文章推荐后用户不一定马上看，不考虑这部分时间，整个系统是几乎实时的。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0TXJtTWJ4RmJpY05TakVNdmttWGljREZvQ0NySUtSZTNXS1h0SmN2U0hUcEZEc1ZmNWhGWk9hdVEvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>但因为头条目前的内容量非常大，加上小视频内容有千万级别，推荐系统不可能所有内容全部由模型预估。所以需要设计一些召回策略，每次推荐时从海量内容中筛选出千级别的内容库。召回策略最重要的要求是性能要极致，一般超时不能超过50毫秒。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0aGxiNnFJUW9RWFVXMHg1UGhLYzZERnFuN0FXM0JHcFAzMXhVbk4zYzh5UDR6STZZbDNpY2hmZy8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>召回策略种类有很多，我们主要用的是倒排的思路。离线维护一个倒排，这个倒排的key可以是分类，topic，实体，来源等，排序考虑热度、新鲜度、动作等。线上召回可以迅速从倒排中根据用户兴趣标签对内容做截断，高效的从很大的内容库中筛选比较靠谱的一小部分内容。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0eVM2S2JXd09uVFdqbGNiTGFvTWFTVldBVHJUQTZqUEo4NDdWem9laWE2T1pXWWxncmFGeHp0US8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>二、内容分析</p>
-<p>内容分析包括文本分析，图片分析和视频分析。头条一开始主要做资讯，今天我们主要讲一下文本分析。文本分析在推荐系统中一个很重要的作用是用户兴趣建模。没有内容及文本标签，无法得到用户兴趣标签。举个例子，只有知道文章标签是互联网，用户看了互联网标签的文章，才能知道用户有互联网标签，其他关键词也一样。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0RDc5bmljenp6cG5IcG1rMUVpYXRhOWM4eE5yWWt4bGljNWFpYm9VRXNBNUF5a2JWbWdjZ2Z3dHU0US8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>另一方面，文本内容的标签可以直接帮助推荐特征，比如魅族的内容可以推荐给关注魅族的用户，这是用户标签的匹配。如果某段时间推荐主频道效果不理想，出现推荐窄化，用户会发现到具体的频道推荐（如科技、体育、娱乐、军事等）中阅读后，再回主feed,推荐效果会更好。因为整个模型是打通的，子频道探索空间较小，更容易满足用户需求。只通过单一信道反馈提高推荐准确率难度会比较大，子频道做的好很重要。而这也需要好的内容分析。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0OTc3eDlJZ0s5bWt3YVJNZjVNeHJQREFMZmVYbHZpYmRLSDFzcTNROXpTamFPQkRrdG1FT2liQkEvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>上图是今日头条的一个实际文本case。可以看到，这篇文章有分类、关键词、topic、实体词等文本特征。当然不是没有文本特征，推荐系统就不能工作，推荐系统最早期应用在Amazon,甚至沃尔玛时代就有，包括Netfilx做视频推荐也没有文本特征直接协同过滤推荐。但对资讯类产品而言，大部分是消费当天内容，没有文本特征新内容冷启动非常困难，协同类特征无法解决文章冷启动问题。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0S0Y3MnJJQU13NnkwZnp0NnEwMVhUYWliUm1qUVFaaEJRTlF4d0xwZVJZd1J2bmJXMWZreEZudy8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>今日头条推荐系统主要抽取的文本特征包括以下几类。首先是语义标签类特征，显式为文章打上语义标签。这部分标签是由人定义的特征，每个标签有明确的意义，标签体系是预定义的。此外还有隐式语义特征，主要是topic特征和关键词特征，其中topic特征是对于词概率分布的描述，无明确意义；而关键词特征会基于一些统一特征描述，无明确集合。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0SGljNWlidkY3c2lic2lheVgyT3JIdFdyQThnN1ZBZGljdHdUa0VQcElLa1c0RTBkZFVWb3JwS2twdkEvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>另外文本相似度特征也非常重要。在头条，曾经用户反馈最大的问题之一就是为什么总推荐重复的内容。这个问题的难点在于，每个人对重复的定义不一样。举个例子，有人觉得这篇讲皇马和巴萨的文章，昨天已经看过类似内容，今天还说这两个队那就是重复。但对于一个重度球迷而言，尤其是巴萨的球迷，恨不得所有报道都看一遍。解决这一问题需要根据判断相似文章的主题、行文、主体等内容，根据这些特征做线上策略。</p>
-<p>同样，还有时空特征，分析内容的发生地点以及时效性。比如武汉限行的事情推给北京用户可能就没有意义。最后还要考虑质量相关特征，判断内容是否低俗，色情，是否是软文，鸡汤？</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0Y2liVDNVb0dSTEpjYmdoNmF6THo1dXRYUnk0WWQxZlN6N0RXNHYzR2M4elBUVWdXbXpXQnRTQS8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>上图是头条语义标签的特征和使用场景。他们之间层级不同，要求不同。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0eHlidHF3UEx0Y1Fyb3lnS0ViQ3pWVnFHYXhWR1ppY3BiOUlZbEhSS0Y0UjVSN0VnM0thT1lldy8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>分类的目标是覆盖全面，希望每篇内容每段视频都有分类；而实体体系要求精准，相同名字或内容要能明确区分究竟指代哪一个人或物，但不用覆盖很全。概念体系则负责解决比较精确又属于抽象概念的语义。这是我们最初的分类，实践中发现分类和概念在技术上能互用，后来统一用了一套技术架构。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0WVRWUGpwU2Fqa0RDUjYyNDJzWFA0dnlVWjNzcDR1UzhtN1ZJNnJaS0dacklxb2hRcEoxeGNnLzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>目前，隐式语义特征已经可以很好的帮助推荐，而语义标签需要持续标注，新名词新概念不断出现，标注也要不断迭代。其做好的难度和资源投入要远大于隐式语义特征，那为什么还需要语义标签？有一些产品上的需要，比如频道需要有明确定义的分类内容和容易理解的文本标签体系。语义标签的效果是检查一个公司NLP技术水平的试金石。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0MGZrbTBLd3V3Q0JvSEV0dnhSMHk5MkxDckVqWmpaeUJ4Z1FXOWFMaWFJWXl6WDJYcWVOWGljbXcvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>今日头条推荐系统的线上分类采用典型的层次化文本分类算法。最上面Root，下面第一层的分类是像科技、体育、财经、娱乐，体育这样的大类，再下面细分足球、篮球、乒乓球、网球、田径、游泳等，足球再细分国际足球、中国足球，中国足球又细分中甲、中超、国家队等，相比单独的分类器，利用层次化文本分类算法能更好地解决数据倾斜的问题。有一些例外是，如果要提高召回，可以看到我们连接了一些飞线。这套架构通用，但根据不同的问题难度，每个元分类器可以异构，像有些分类SVM效果很好，有些要结合CNN，有些要结合RNN再处理一下。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0czlXSkdkMEFHT2JqYnZIY3dMREF6d2g3aWNiUldVblVPTWExNkRLVldWM2liWGxnYVpIMnFuR0EvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>上图是一个实体词识别算法的case。基于分词结果和词性标注选取候选，期间可能需要根据知识库做一些拼接，有些实体是几个词的组合，要确定哪几个词结合在一起能映射实体的描述。如果结果映射多个实体还要通过词向量、topic分布甚至词频本身等去歧，最后计算一个相关性模型。</p>
-<p>三、用户标签</p>
-<p>内容分析和用户标签是推荐系统的两大基石。内容分析涉及到机器学习的内容多一些，相比而言，用户标签工程挑战更大。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0N2FnR0hDWW9TMWFpY1RzN1FrMFJVSDcweFI0TGRKV3hjcXRjUWtmZjBpY0pscmtZNzAxQndSdXcvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>今日头条常用的用户标签包括用户感兴趣的类别和主题、关键词、来源、基于兴趣的用户聚类以及各种垂直兴趣特征（车型，体育球队，股票等）。还有性别、年龄、地点等信息。性别信息通过用户第三方社交账号登录得到。年龄信息通常由模型预测，通过机型、阅读时间分布等预估。常驻地点来自用户授权访问位置信息，在位置信息的基础上通过传统聚类的方法拿到常驻点。常驻点结合其他信息，可以推测用户的工作地点、出差地点、旅游地点。这些用户标签非常有助于推荐。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0V1dCdEhSRGFFVk00TE5ybTR3T3FjT2wwRzBYaWFFOGlhQ29pYkZnbUNxSUVMNGtsVHlyT2ZIdlhnLzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>当然最简单的用户标签是浏览过的内容标签。但这里涉及到一些数据处理策略。主要包括：一、过滤噪声。通过停留时间短的点击，过滤标题党。二、热点惩罚。对用户在一些热门文章（如前段时间PG One的新闻）上的动作做降权处理。理论上，传播范围较大的内容，置信度会下降。三、时间衰减。用户兴趣会发生偏移，因此策略更偏向新的用户行为。因此，随着用户动作的增加，老的特征权重会随时间衰减，新动作贡献的特征权重会更大。四、惩罚展现。如果一篇推荐给用户的文章没有被点击，相关特征（类别，关键词，来源）权重会被惩罚。当然同时，也要考虑全局背景，是不是相关内容推送比较多，以及相关的关闭和dislike信号等。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0STRpYnJWOXRqZGY1YUJNczJEOE9MenBBQWhqU2g2NFRLRWhpY1BCMzV1ODJLZ0NRRlJLOE1pYlN3LzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>用户标签挖掘总体比较简单，主要还是刚刚提到的工程挑战。头条用户标签第一版是批量计算框架，流程比较简单，每天抽取昨天的日活用户过去两个月的动作数据，在Hadoop集群上批量计算结果。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0bTlwUlEzY3lDN3Z4QU1FcDIyUmRTNHVUdlZGZncwYVRjUkNxQklTOEJkQ2ljdWhCVWlhT3JKMUEvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>但问题在于，随着用户高速增长，兴趣模型种类和其他批量处理任务都在增加，涉及到的计算量太大。2014年，批量处理任务几百万用户标签更新的Hadoop任务，当天完成已经开始勉强。集群计算资源紧张很容易影响其它工作，集中写入分布式存储系统的压力也开始增大，并且用户兴趣标签更新延迟越来越高。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0bXFDcmJRMktxTGljNEdlSVdma3IwckhpYXRlWTJybGNOdmtxUFBzSXNQUGZ3eHFlZnh3bEhFdXcvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>面对这些挑战。2014年底今日头条上线了用户标签Storm集群流式计算系统。改成流式之后，只要有用户动作更新就更新标签，CPU代价比较小，可以节省80%的CPU时间，大大降低了计算资源开销。同时，只需几十台机器就可以支撑每天数千万用户的兴趣模型更新，并且特征更新速度非常快，基本可以做到准实时。这套系统从上线一直使用至今。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0b0ozeEFieG9ya2tKY3NnaWFqNTRWbEJxZlA5c2ljNU5RVEh5R0NsWDU3Y1lXWm1ZNklwakliWXcvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>当然，我们也发现并非所有用户标签都需要流式系统。像用户的性别、年龄、常驻地点这些信息，不需要实时重复计算，就仍然保留daily更新。</p>
-<p>四、评估分析</p>
-<p>上面介绍了推荐系统的整体架构，那么如何评估推荐效果好不好？</p>
-<p>有一句我认为非常有智慧的话，“一个事情没法评估就没法优化”。对推荐系统也是一样。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0bGtlT1A2eVphNGthOFlCOW1LYmZ5Mm9DaWI1eGFDSHlzVWN4RjJHV3J3cjRadU9LUGMwelZpYXcvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>事实上，很多因素都会影响推荐效果。比如侯选集合变化，召回模块的改进或增加，推荐特征的增加，模型架构的改进在，算法参数的优化等等，不一一举例。评估的意义就在于，很多优化最终可能是负向效果，并不是优化上线后效果就会改进。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0aklER0dEaWFEbVZBSlF2MmljblRDWld2MUxpYW9BZXMxcXlKbTZRT045NFF5bVlPVzZsUUJ6aWJtUS8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>全面的评估推荐系统，需要完备的评估体系、强大的实验平台以及易用的经验分析工具。所谓完备的体系就是并非单一指标衡量，不能只看点击率或者停留时长等，需要综合评估。过去几年我们一直在尝试，能不能综合尽可能多的指标合成唯一的评估指标，但仍在探索中。目前，我们上线还是要由各业务比较资深的同学组成评审委员会深入讨论后决定。</p>
-<p>很多公司算法做的不好，并非是工程师能力不够，而是需要一个强大的实验平台，还有便捷的实验分析工具，可以智能分析数据指标的置信度。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0QWlhcG5xVHFYYTh3REk2ZmRmSnJta09qbllScDNtZjhvU0NVZGFqZFMxSGJDOVd4UEJuTVRzUS8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>一个良好的评估体系建立需要遵循几个原则，首先是兼顾短期指标与长期指标。我在之前公司负责电商方向的时候观察到，很多策略调整短期内用户觉得新鲜，但是长期看其实没有任何助益。</p>
-<p>其次，要兼顾用户指标和生态指标。今日头条作为内容分创作平台，既要为内容创作者提供价值，让他更有尊严的创作，也有义务满足用户，这两者要平衡。还有广告主利益也要考虑，这是多方博弈和平衡的过程。</p>
-<p>另外，要注意协同效应的影响。实验中严格的流量隔离很难做到，要注意外部效应。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0TGFqQUVyTkppYXQzU25hMDgzcnlvb2FsT0JMQTJIaWFWdFFOMXlWdURTbkVRZ3lpY2pzN1J6QzRBLzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>强大的实验平台非常直接的优点是，当同时在线的实验比较多时，可以由平台自动分配流量，无需人工沟通，并且实验结束流量立即回收，提高管理效率。这能帮助公司降低分析成本，加快算法迭代效应，使整个系统的算法优化工作能够快速往前推进。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0REhSSzF2bEhaRGlhU3BCbXA5VmJMSW9PZnpvM1FUZmJwajAybGdrNEE1Zlo5OXJadmxvSFJudy8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>这是头条A/B Test实验系统的基本原理。首先我们会做在离线状态下做好用户分桶，然后线上分配实验流量，将桶里用户打上标签，分给实验组。举个例子，开一个10%流量的实验，两个实验组各5%，一个5%是基线，策略和线上大盘一样，另外一个是新的策略。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0d0JFZm5FeThuN3dRaWJkSENveGRLdnVUS1A4SmhpY09UUzJkNHNlaWE0cU9Sc0xHSjJUakVMbkd3LzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>实验过程中用户动作会被搜集，基本上是准实时，每小时都可以看到。但因为小时数据有波动，通常是以天为时间节点来看。动作搜集后会有日志处理、分布式统计、写入数据库，非常便捷。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0REp2ODk5Yzg2M2lhdlhGSGh5bE80dVI3MjAxN1ljcHVmclN3TlBBS1BVOEVvM3hpYXdVZlN1MXcvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>在这个系统下工程师只需要设置流量需求、实验时间、定义特殊过滤条件，自定义实验组ID。系统可以自动生成：实验数据对比、实验数据置信度、实验结论总结以及实验优化建议。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0VTlpY2lhcERITG05aWNMUjVZZ2FaVDh3bFpqNVlpYXlYR0RFMjFEczJGQklCYXBVZEkweDdQS3NBQS8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>当然，只有实验平台是远远不够的。线上实验平台只能通过数据指标变化推测用户体验的变化，但数据指标和用户体验存在差异，很多指标不能完全量化。很多改进仍然要通过人工分析，重大改进需要人工评估二次确认。</p>
-<p>五、内容安全</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0QUtoY2xVMFdqMmVRN1dROW92VjZmU2hsZHNrZ1B1WWlhQWlieVgwbmdEZUhVN25tRGRaYmliRk93LzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>最后要介绍今日头条在内容安全上的一些举措。头条现在已经是国内最大的内容创作与分发凭条，必须越来越重视社会责任和行业领导者的责任。如果1%的推荐内容出现问题，就会产生较大的影响。</p>
-<p>因此头条从创立伊始就把内容安全放在公司最高优先级队列。成立之初，已经专门设有审核团队负责内容安全。当时研发所有客户端、后端、算法的同学一共才不到40人，头条非常重视内容审核。</p>
-<p>现在，今日头条的内容主要来源于两部分，一是具有成熟内容生产能力的PGC平台，一是UGC用户内容，如问答、用户评论、微头条。这两部分内容需要通过统一的审核机制。如果是数量相对少的PGC内容，会直接进行风险审核，没有问题会大范围推荐。UGC内容需要经过一个风险模型的过滤，有问题的会进入二次风险审核。审核通过后，内容会被真正进行推荐。这时如果收到一定量以上的评论或者举报负向反馈，还会再回到复审环节，有问题直接下架。整个机制相对而言比较健全，作为行业领先者，在内容安全上，今日头条一直用最高的标准要求自己。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0OVRNbmZvaWNac1IzR2YzU1N4YmljU2liaE9hWVlsSGM2bTg5M0pEakdndTVuUm5MVGhoZTZBY1dBLzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<p>分享内容识别技术主要鉴黄模型，谩骂模型以及低俗模型。今日头条的低俗模型通过深度学习算法训练，样本库非常大，图片、文本同时分析。这部分模型更注重召回率，准确率甚至可以牺牲一些。谩骂模型的样本库同样超过百万，召回率高达95%+，准确率80%+。如果用户经常出言不讳或者不当的评论，我们有一些惩罚机制。</p>
-<p>泛低质识别涉及的情况非常多，像假新闻、黑稿、题文不符、标题党、内容质量低等等，这部分内容由机器理解是非常难的，需要大量反馈信息，包括其他样本信息比对。目前低质模型的准确率和召回率都不是特别高，还需要结合人工复审，将阈值提高。目前最终的召回已达到95%，这部分其实还有非常多的工作可以做。头条人工智能实验室李航老师目前也在和密歇根大学共建科研项目，设立谣言识别平台。</p>
+<h2 id="1-引入"><a href="#1-引入" class="headerlink" title="1.引入"></a>1.引入</h2><p>   目前推荐系统研究的主要趋势是从单一的、独立的推荐系统算法逐渐向组合多种推荐算法形成混合式的综合推荐算法方向发展，越来越多的结合用户标签数据、社交网络数据、上下文信息、地理位置信息。<br>   群体推荐也成为一个目前非常热门的主题。并且有些也用到了推荐系统领域之外的算法，如模糊集概念、人工智能领域的遗传算法，贝叶斯网络等。<br>   当然也有一些研究还在不断深入挖掘传统、经典的如基于内容过滤、协同过滤等算法可能的改进算法。<br>   注意：互联网上的很多数据分布都属于长尾分布，即大部分数据的使用频率很低，只有少部分的数据被广泛使用，这小部分数据其实就是热门数据，但如果把热门数据和冷门数据的使用量作对比，会发现冷门数据的使用量远远大于热门数据的使用量，这也许和人们想象中相反，但这是经过长时间的统计分析得出的结论。<br>   用户的行为数据其实也符合这一规律，无论从物品角度的物品流行度，还是用户角度的用户流行度都符合长尾分布。</p>
+<h2 id="2-推荐系统算法概述"><a href="#2-推荐系统算法概述" class="headerlink" title="2.推荐系统算法概述"></a>2.推荐系统算法概述</h2><p>   推荐系统的研究大致可以分为三个阶段。<br>   第一阶段是基于传统的服务，第二阶段是基于目前的社交网络的服务，第三阶段是即将到来的物联网。<br>   这其中产生了很多基础和重要的算法，例如协同过滤（包括基于用户的和基于物品的）、基于内容的推荐算法、混合式的推荐算法、基于统计理论的推荐算法、基于社交网络信息（关注、被关注、信任、知名度、信誉度等）的过滤推荐算法、群体推荐算法、基于位置的推荐算法。<br>   其中基于邻域的协同过滤推荐算法是推荐系统中最基础、最核心、最重要的算法，该算法不仅在学术界得到较为深入的研究，而且在业界也得到非常广泛的应用。<br>   基于邻域的算法主要分为两大类，一类是基于用户的协同过滤算法，另一类是基于物品的协同过滤算法。<br>   除此之外，基于物品的推荐算法应用也非常广泛，所以下面我将对这三种基础算法进行系统学习之后的比较总结。</p>
+<h2 id="3-基于用户的协同过滤算法"><a href="#3-基于用户的协同过滤算法" class="headerlink" title="3.基于用户的协同过滤算法"></a>3.基于用户的协同过滤算法</h2><p>   基于用户的协同过滤算法其简单应用情景是：当用户需要个性化推荐时，可以先找到与他相似其他用户（通过兴趣、爱好或行为习惯等，然后把那些用户喜欢的并且自己不知道的物品推荐给用户。</p>
+<p>注：两个用户对流行物品的有相似兴趣，丝毫不能说明他们有相似的兴趣，此时要增加惩罚力度。</p>
+<h2 id="4-基于物品的协同过滤算法"><a href="#4-基于物品的协同过滤算法" class="headerlink" title="4.基于物品的协同过滤算法"></a>4.基于物品的协同过滤算法</h2><p>   基于物品的协同过滤算法其简单应用情景是：当一个用户需要个性化推荐时，例如由于他之前购买过金庸的《射雕英雄传》这本书，所以会给他推荐《神雕侠侶》，因为其他用户很多都同时购买了这两本书。</p>
+<p>注：1、如果是热门物品，很多人都喜欢，就会接近1，就会造成很多物品都和热门物品相似，此时要增加惩罚力度。</p>
+<pre><code>2、活跃用户对物品相似度的贡献小于不活跃的用户。</code></pre><h2 id="5-基于内容的推荐算法"><a href="#5-基于内容的推荐算法" class="headerlink" title="5.基于内容的推荐算法"></a>5.基于内容的推荐算法</h2><p>   虽然协同过滤是目前较为流行的推荐算法，在学术界和工业界都有广泛的研究和使用，但同样作为推荐系统领域的基础算法一一基于内容的推荐也是很重要的，其他它还是最早出现的推荐算法。<br>   其基本原理是根据用户之前对物品的历史行为（如用户购买过什么物品、对什么物品收藏过、评分过等等，然后再根据计算与这些物品相似的物品，并把它们推荐给用户。例如用户之前购买过金庸的武侠小说，这可以说明用户可能是一个金庸迷或武侠迷，这时就可以给用户推荐一些金庸的其他武侠小说。<br>   基于内容的推荐算法之前也成为基于内容的过滤（搜索）算法，早期主要应用在信息检索</p>
+<p>   基于内容的推荐算法一般包括以下三步：</p>
+<p>1、为每个物品抽取一些特征用来表示这个物品。</p>
+<p>2、使用用户的历史行为数据分析物品的这些特征，从而学习出用户的喜好特征或者说兴趣。</p>
+<p>3、通过比较上一步得到的用户兴趣和待推荐物品的特征，确定一组相关性最大的物品作为推荐列表。</p>
+<h2 id="6-推荐系统基础算法对比"><a href="#6-推荐系统基础算法对比" class="headerlink" title="6. 推荐系统基础算法对比"></a>6. 推荐系统基础算法对比</h2><p>  协同过滤是目前应用最广泛的推荐算法，它仅仅通过了解用户与物品之间的关系进行推荐，而根本不会考虑到物品本身的属性。<br>可分成两类：<br>1、基于用户（user-based）的协同过滤<br>2、基于商品（item-based）的协同过滤</p>
+<p>1.1.1.基于用户的协同过滤<br>基本思想：<br>基于用户对物品的偏好找到邻居用户（相似用户），然后将邻居用户（相似用户）喜欢的东西推荐给当前用户。</p>
+<p>计算方法：<br>将一个用户对所有物品的偏好作为一个向量，计算用户之间的相似度。找到邻居后，根据邻居的相似度权重以及他们对物品的偏好，预测当前用户未涉及的物品，计算得到一个排序的物品列表作为推荐。<br>相似度即为两个向量之间的距离。距离越小相似度越大。</p>
+<p>例子：<br>比如：用户A与用户C相似，那么就会给用户A推荐“用户A未涉及但是用户C喜欢的东西”，也就是物品D了。<br>缺点：<br>基于用户的协同过滤难以形成有意义的邻居集合。<br>在很多时候，很多用户两两之间只有很少几个共同评分，也就是用户之间的重合度并不高。而仅有的共同打了分的物品，往往是一些很常见的物品（如票房大片，如生活必需品）。<br>再者，用户之间的距离可能变得很快，这种离线算法难以瞬间更新推荐结果。</p>
+<p>1.1.2.基于物品的协同过滤<br>算法思想：<br>基于用户对物品的偏好找到相似的物品，然后根据用户的历史偏好，推荐相似的物品。</p>
+<p>计算方法：<br>将所有用户对某个物品的偏好作为一个向量来计算物品之间的相似度。<br>得到物品的相似物品后，根据用户历史的偏好预测当前用户还没有涉及的物品的偏好，计算得到一个排序的物品列表作为推荐。</p>
+<p>例子：<br>比如：物品A和物品C都被用户A和用户B所查看，所以物品A和物品C比较相似。又由于用户C看了物品A，所以我们就会推荐与之相似的物品C给用户C。</p>
+<p>优点：<br>物品之间的距离可能是根据成百上千万的用户的评分计算得出，往往能在一段时间内保持稳定。因此，这种算法可以预先计算距离，其在线部分能更快地生产推荐列表。</p>
+<p>缺点：<br>不同领域的最热门物品之间经常具有较高的相似度。比如，基于本算法，我们可能会给喜欢《算法导论》的同学推荐《哈利波特》，也就是推荐不同领域的畅销作品，这样的推荐结果可能并不是我们想要的。</p>
+<p>1.1.3.实现协同过滤的步骤<br>1、收集用户偏好</p>
+<p>2、找到相似的用户或物品<br>计算相似度的方式（此部分了解方法即可，考试时并不会要求直接计算）：<br>（1）欧氏距离<br>（2）余弦距离<br>（3）Tanimoto 系数<br>（4）k近邻或基于相似度门槛</p>
+<p>3、计算推荐</p>
+<p>额外考虑时间因素：<br>1、在基于商品的协同过滤中：<br>（1）同一个用户在间隔很短的时间内喜欢的两件商品之间，可以给予更高的相似度。<br>（2）在描述目标用户偏好时，给其最近喜欢的商品较高权重。<br>2、在基于用户的协同过滤中：<br>（1）如果两个用户同时喜欢了相同的物品，那么可以给这两个用户更高的相似度。<br>（2）在描述邻居用户的偏好时，给其最近喜欢的物品较高权重。</p>
+<p>额外考虑空间因素：<br>1、在基于商品的协同过滤中：<br>（1）同一个用户在同一个地域内喜欢的两件商品之间，可以给予更高的相似度。<br>2、在基于用户的协同过滤中：<br>（2）把类似地域用户的行为作为推荐的主要依据。</p>
+<p>1.2.基于内容的推荐<br>基本思想：<br>根据推荐物品或内容的元数据，发现物品或者内容的相关性，然后基于用户以往的喜好记录，推荐给用户相似的物品。</p>
+<p>例子：<br>电影A和C的类型都是爱情和浪漫，那么就会给看过电影A的人推荐电影C</p>
+<p><strong>基于用户的协同过滤：</strong><br>适于物品比用户多、物品时效性较强的情形，否则计算慢。<br>推荐结果的个性化较弱、较宽泛，但能实现跨领域、惊喜度高的结果。</p>
+<p><strong>基于物品的协同过滤：</strong><br>应用最广泛，尤其以电商行业为典型。<br>适于用户多、物品少的情形，否则计算慢<br>在物品冷启动、数据稀疏时效果不佳<br>推荐精度高，更具个性化<br>倾向于推荐同类商品，推荐的多样性不足，形成信息闭环</p>
+<p><strong>基于内容的推荐：</strong><br>是最直观的算法<br>容易受限于对文本、图像、音视频的内容进行描述的详细程度<br>常借助文本相似度计算<br>不存在冷启动问题<br>但推荐精度通常垫底<br>主题过于集中，惊喜度不足</p>
 
       
       <!-- reward -->
@@ -301,7 +241,200 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95%E5%88%86%E4%BA%AB/" rel="tag">推荐算法分享</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E5%A4%8D%E7%9B%98%E6%80%BB%E7%BB%93/" rel="tag">复盘总结</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/" rel="tag">推荐系统</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-字节跳动推荐算法------学习笔记与思考" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="../../2019/05/25/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95------%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8E%E6%80%9D%E8%80%83/"
+    >推荐算法------学习笔记与思考</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="../../2019/05/25/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95------%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8E%E6%80%9D%E8%80%83/" class="article-date">
+  <time datetime="2019-05-24T16:00:00.000Z" itemprop="datePublished">2019-05-25</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../categories/%E6%A1%86%E6%9E%B6%E4%B8%8E%E6%9E%B6%E6%9E%84/">框架与架构</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>Welcome to share creative thoughts!</p>
+<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>  最近在字节实习，对字节的推荐算法着实感兴趣，于是乎，百忙之中还是记录了这篇文章，一切来自喜欢折腾和研究，出于好奇和锻炼，去了字节实习，气氛挺好的，很有趣的面试体验，只可惜没有合适的产品岗了，无奈去了运营组，对面是很多销售小姐姐和小哥哥，工作比较单一流程化，有点类似销售enenen，leader很忙，每周汇报绩效就好了，每个人都有自己的KPI指标 ，本周计划是打通5到13楼，全方面了解一下字节这个活跃的小鲜肉，hhh，学校还有很多目标检测的实验没有做完，每天回实验室都很晚了，但是还是想看推荐算法的论文和源码，希望导师不要发现吼吼吼，很累但是很满足！平凡的工作毕竟是一个好产品的基石嘛，如果能把销售玩出新鲜和花样，也是一种很好的成长和升华呢！<br>  此次实习的目标：<br>  1.理解好推荐算法。<br>  2.全方面锻炼沟通能力。</p>
+<h2 id="一、好奇心"><a href="#一、好奇心" class="headerlink" title="一、好奇心"></a>一、好奇心</h2><p>  俞军老师曾说：人是灵长类动物，为了生存，它会选择一种付出代价最低的生活方式，而且是尽他能力所能发现到效用最大化的生存方式。最好就是不用动、不用思考、不要早起，懒着就挺好。当他面前摆着几个选项的时候，他会通过货比三四五六七家而得出，哪个才是个人总效用最大化的方式。但效用这种东西很神奇，它是用各种各样的行为成本加总计算的。俞军老师的话总是简洁精辟，深入浅出，常读常新，老师的产品方法论，我每天晚上睡觉都要捧读一阵，慢慢吸收其中的思想精髓~<br>  老师举的例子：<br> 以前没有网络的时候，获取信息要靠看报纸、看电视，否则你啥也不知道，那个时候没人会想着做所谓的自媒体，毕竟渠道宣传费用高，信息推送效率低下。相对于用户来说，这个时候个人效用最大化的，就是买报纸或者买电视机。<br>但后来网络发展起来，新技术的出现导致消息推送效率大大提升，渠道宣传的成本急剧下降，去中心化的内容家喻户晓。<br>这个时候，同样是一件事，但供给的重心变了，导致用户个人效用最大化的方式也变了，现在基本很少人通过报纸和电视来获取信息了。<br>竞争的本质是影响用户决策，用户决策的约束力，来自于市场上什么东西贵了，什么东西便宜了，这才是突破口。<br>所以以上分析表明：<strong>抖音的成功来自：商业策略和强大算法算力。</strong></p>
+<h2 id="二、初步理解"><a href="#二、初步理解" class="headerlink" title="二、初步理解"></a>二、初步理解</h2><p> 以下文段来自曹博士的PPT分享~在此手动大点赞。<br> 推荐系统，如果用形式化的方式去描述，实际上是拟合一个用户对内容满意度的函数，这个函数需要输入三个维度的变量。<br> 第一个维度是<strong>内容</strong>。头条现在已经是一个综合内容平台，<strong>图文、视频、UGC小视频、问答、微头条，</strong>每种内容有很多自己的特征，需要考虑怎样提取不同内容类型的特征做好推荐。<br> 第二个维度是<strong>用户特征</strong>。包括各种兴趣<strong>标签，职业、年龄、性别</strong>等，还有很多模型刻划出的<strong>隐式用户兴趣</strong>等。第三个维度是<strong>环境特征</strong>。这是移动互联网时代推荐的特点，用户随时随地移动，在工作场合、通勤、旅游等不同的场景，信息偏好有所偏移。<br> 结合三方面的维度，模型会给出一个预估，即<strong>推测推荐内容在这一场景下</strong>对这一用户是否合适。</p>
+<h2 id="三、文本分析"><a href="#三、文本分析" class="headerlink" title="三、文本分析"></a>三、文本分析</h2><p> <strong>这里还有一个问题，如何引入无法直接衡量的目标？</strong><br>推荐模型中，<strong>点击率、阅读时间、点赞、评论、转发</strong>都是可以量化的目标，能够用模型直接拟合做预估，看线上提升情况可以知道做的好不好。<strong>但一个大体量的推荐系统，服务用户众多，不能完全由指标评估，引入数据指标以外的要素也很重要。</strong><br>这一点我有个疑问，就是用户第一次登录的时候冷启动的问题，当我们还没有对用户的ID和地址定位做出推理判断时，如何打造开篇之战呢？下次想去请教一下！<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0cUlacVdYVHJGU09Ma3pydlI3TktnVmZPSlo2b0lQQlNiaWNCMnE0UkdoaGliN25iM1JhTWExaEEvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>曹博士举的例子：比如广告和特型内容频控。像问答卡片就是比较特殊的内容形式，其推荐的目标不完全是让用户浏览，还要考虑吸引用户回答为社区贡献内容。这些内容和普通内容如何混排，怎样控制频控都需要考虑。<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0ZUNraWNyVUNaWWhvcWRQUDBKMXQ4bzFWbGhQM01VWmIzS1hpYXg3ZTU5cjkwSENsMXM4ck5ZQlEvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>此外，平台出于内容生态和社会责任的考量，像低俗内容的打压，标题党、低质内容的打压，重要新闻的置顶、加权、强插，低级别账号内容降权都是算法本身无法完成，需要进一步对内容进行干预。毕竟营造安全干净的环境是抖音的一大重任，现在的策略是优质内容输出，所以这一点的重要性毋庸置疑。</p>
+<p>那么上述算法目标到底怎么实现呢？<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0RDc5bmljenp6cG5IcG1rMUVpYXRhOWM4eE5yWWt4bGljNWFpYm9VRXNBNUF5a2JWbWdjZ2Z3dHU0US8w?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>前面提到的公式y = F(Xi ,Xu ,Xc)，是一个很经典的监督学习问题。<br>可实现的方法有很多，比如传统的协同过滤模型，监督学习算法Logistic Regression模型，基于深度学习的模型，Factorization Machine和GBDT等。这些传统算法都可以不同施以不同的参数和算力，通过数据监控和调参达到目标，但是真正落地还有考虑很多因素。<br><strong>一个优秀的工业级推荐系统需要非常灵活的算法实验平台，可以支持多种算法组合，包括模型结构调整</strong>。因为很难有一套通用的模型架构适用于所有的推荐场景。现在很流行将LR和DNN结合，前几年Facebook也将LR和GBDT算法做结合。<br>今日头条旗下几款产品都在沿用同一套强大的算法推荐系统，但根据业务场景不同，模型架构会有所调整。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0eEd2Z2hXbzRQeW96ZTJBYzAwdmljT3dXczF0eWtzMHlpYnllVXdObzZoQzNraWFzajdJUE5iU09RLzA?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>主要有四类特征会对推荐起到比较重要的作用。<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0T1hsMElJUmY1YmZpYjlhd2hKWFlpY24yVVZFYXpEc0VkZVNJRDAzdjJjeW9WNGVvTXhWU01JMEEvMA?x-oss-process=image/format,png" alt="在这里插入图片描述">第一类是相关性特征，就是评估内容的属性和与用户是否匹配。<br>显性的匹配包括关键词匹配、分类匹配、来源匹配、主题匹配等。像FM模型中也有一些隐性匹配，从用户向量与内容向量的距离可以得出。<br>第二类是环境特征，包括地理位置、时间。这些既是bias特征，也能以此构建一些匹配特征。<br>第三类是热度特征。包括全局热度、分类热度，主题热度，以及关键词热度等。内容热度信息在大的推荐系统特别在用户冷启动的时候非常有效。<strong>到这里竟然解决了我的疑惑enenen…….但是这个权重和比例怎么调整呢？</strong><br>第四类是协同特征，它可以在部分程度上帮助解决所谓算法越推越窄的问题。协同特征并非考虑用户已有历史。而是通过用户行为分析不同用户间相似性，比如点击相似、兴趣分类相似、主题相似、兴趣词相似，甚至向量相似，从而扩展模型的探索能力。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0RUxDcWdmajBieFJOZHNLbGh3YmZkcDRtYlI3dXppYkl0bm54RmwwamRjVDUzY3h1N3hDZzBvZy8w?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>模型的训练上，头条系大部分推荐产品采用实时训练。<br>实时训练省资源并且反馈快，这对信息流产品非常重要。用户需要行为信息可以被模型快速捕捉并反馈至下一刷的推荐效果。<br>头条线上目前基于storm集群实时处理样本数据，包括点击、展现、收藏、分享等动作类型。<br>模型参数服务器是内部开发的一套高性能的系统，因为头条数据规模增长太快，类似的开源系统稳定性和性能无法满足，所以其实头条内部做了很多优化，大量的研发哥哥们对自研的系统底层做了很多针对性的优化，提供了完善运维工具，更适配现有的业务场景。</p>
+<p>目前来看呢，头条的推荐算法模型在世界范围内也是比较大的，包含几百亿原始特征和数十亿向量特征。<br>整体的训练过程是线上服务器记录实时特征，导入到Kafka文件队列中，然后进一步导入Storm集群消费Kafka数据，客户端回传推荐的label构造训练样本，随后根据最新样本进行在线训练更新模型参数，最终线上模型得到更新。<br><strong>这个过程中主要的延迟在用户的动作反馈延时，因为文章推荐后用户不一定马上看，不考虑这部分时间，整个系统是几乎实时的。</strong>我听到这里的时候，认为这里是很重要的，学习前端的时候，大部分课程比较注重性能优化，什么减少首屏时间啦，增加缓存啦，SEO啥的，前端主要是从异步加载文件资源和懒加载、预加载等角度入手，当前现在vue和React底层的diff算法也将时间复杂度从ON<em>3降到了ON级别，这是框架的作用。<br>特别是*</em>在5G普及的现在，快、准、狠 简直就是推荐算法的三大利器！**</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0TXJtTWJ4RmJpY05TakVNdmttWGljREZvQ0NySUtSZTNXS1h0SmN2U0hUcEZEc1ZmNWhGWk9hdVEvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>因为头条目前的内容量非常大，加上小视频内容有千万级别，推荐系统不可能所有内容全部由模型预估。所以需要设计一些召回策略，<br>每次推荐时从海量内容中筛选出千级别的内容库。召回策略最重要的要求是性能要极致，一般超时不能超过50毫秒。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0aGxiNnFJUW9RWFVXMHg1UGhLYzZERnFuN0FXM0JHcFAzMXhVbk4zYzh5UDR6STZZbDNpY2hmZy8w?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>召回策略种类有很多，头条主要用的是倒排的思路。离线维护一个倒排，这个倒排的key可以是分类，topic，实体，来源等，排序考虑热度、新鲜度、动作等。线上召回可以迅速从倒排中根据用户兴趣标签对内容做截断，高效的从很大的内容库中筛选比较靠谱的一小部分内容。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0eVM2S2JXd09uVFdqbGNiTGFvTWFTVldBVHJUQTZqUEo4NDdWem9laWE2T1pXWWxncmFGeHp0US8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<h2 id="四、内容分析"><a href="#四、内容分析" class="headerlink" title="四、内容分析"></a>四、内容分析</h2><p>内容分析包括文本分析，图片分析和视频分析。<br>头条一开始主要做资讯，文本分析在推荐系统中一个很重要的作用是用户兴趣建模。没有内容及文本标签，无法得到用户兴趣标签。<br>举个例子，只有知道文章标签是互联网，用户看了互联网标签的文章，才能知道用户有互联网标签，其他关键词也一样。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0RDc5bmljenp6cG5IcG1rMUVpYXRhOWM4eE5yWWt4bGljNWFpYm9VRXNBNUF5a2JWbWdjZ2Z3dHU0US8w?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>另一方面，文本内容的标签可以直接帮助推荐特征，比如魅族的内容可以推荐给关注魅族的用户，这是用户标签的匹配。<br>如果某段时间推荐主频道效果不理想，出现推荐窄化，用户会发现到具体的频道推荐（如科技、体育、娱乐、军事等）中阅读后，再回主feed,推荐效果会更好。<br>因为整个模型是打通的，子频道探索空间较小，更容易满足用户需求。只<br>通过单一信道反馈提高推荐准确率难度会比较大，子频道做的好很重要。而这也需要好的内容分析。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0OTc3eDlJZ0s5bWt3YVJNZjVNeHJQREFMZmVYbHZpYmRLSDFzcTNROXpTamFPQkRrdG1FT2liQkEvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>上图是今日头条的一个实际文本case。曹博士指出，这篇文章有分类、关键词、topic、实体词等文本特征。当然不是没有文本特征，推荐系统就不能工作，推荐系统最早期应用在Amazon,甚至沃尔玛时代就有，包括Netfilx做视频推荐也没有文本特征直接协同过滤推荐。但对资讯类产品而言，大部分是消费当天内容，没有文本特征新内容冷启动非常困难，协同类特征无法解决文章冷启动问题。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0S0Y3MnJJQU13NnkwZnp0NnEwMVhUYWliUm1qUVFaaEJRTlF4d0xwZVJZd1J2bmJXMWZreEZudy8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>今日头条推荐系统主要抽取的文本特征包括以下几类。<br>首先是语义标签类特征，显式为文章打上语义标签。<br>这部分标签是由人定义的特征，每个标签有明确的意义，标签体系是预定义的。<br>此外还有隐式语义特征，主要是topic特征和关键词特征，其中topic特征是对于词概率分布的描述，无明确意义。<br>而关键词特征会基于一些统一特征描述，无明确集合。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0SGljNWlidkY3c2lic2lheVgyT3JIdFdyQThnN1ZBZGljdHdUa0VQcElLa1c0RTBkZFVWb3JwS2twdkEvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>另外文本相似度特征也非常重要。在头条，曾经用户反馈最大的问题之一就是为什么总推荐重复的内容。<br><strong>这个问题的难点在于，每个人对重复的定义不一样。</strong>举个例子，有人觉得这篇讲皇马和巴萨的文章，昨天已经看过类似内容，今天还说这两个队那就是重复。但对于一个重度球迷而言，尤其是巴萨的球迷，恨不得所有报道都看一遍。<br><strong>解决这一问题需要根据判断相似文章的主题、行文、主体等内容，根据这些特征做线上策略。</strong></p>
+<p>同样，还有时空特征，分析内容的发生地点以及时效性。比如武汉限行的事情推给北京用户可能就没有意义。<br>最后还要考虑质量相关特征，判断内容是否低俗，色情，是否是软文，鸡汤？</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0Y2liVDNVb0dSTEpjYmdoNmF6THo1dXRYUnk0WWQxZlN6N0RXNHYzR2M4elBUVWdXbXpXQnRTQS8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>上图是头条语义标签的特征和使用场景。<strong>他们之间层级不同，要求不同。</strong></p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0eHlidHF3UEx0Y1Fyb3lnS0ViQ3pWVnFHYXhWR1ppY3BiOUlZbEhSS0Y0UjVSN0VnM0thT1lldy8w?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>分类的目标是覆盖全面，希望每篇内容每段视频都有分类；<br>而实体体系要求精准，相同名字或内容要能明确区分究竟指代哪一个人或物，但不用覆盖很全。<br>概念体系则负责解决比较精确又属于抽象概念的语义。<br>实践中头条总部发现分类和概念在技术上能互用，后来统一用了一套技术架构。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0WVRWUGpwU2Fqa0RDUjYyNDJzWFA0dnlVWjNzcDR1UzhtN1ZJNnJaS0dacklxb2hRcEoxeGNnLzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>目前，隐式语义特征已经可以很好的帮助推荐，而语义标签需要持续标注，新名词新概念不断出现，标注也要不断迭代。<br>其做好的难度和资源投入要远大于隐式语义特征，那为什么还需要语义标签？<br>有一些产品上的需要，比如频道需要有明确定义的分类内容和容易理解的文本标签体系。<br>语义标签的效果是检查一个公司NLP技术水平的试金石。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0MGZrbTBLd3V3Q0JvSEV0dnhSMHk5MkxDckVqWmpaeUJ4Z1FXOWFMaWFJWXl6WDJYcWVOWGljbXcvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>今日头条推荐系统的线上分类采用典型的层次化文本分类算法。<br>最上面Root，下面第一层的分类是像科技、体育、财经、娱乐，体育这样的大类，再下面细分足球、篮球、乒乓球、网球、田径、游泳等，足球再细分国际足球、中国足球，中国足球又细分中甲、中超、国家队等，相比单独的分类器，利用层次化文本分类算法能更好地解决数据倾斜的问题。<br>有一些例外是，如果要提高召回，可以看到我们连接了一些飞线。这套架构通用，但根据不同的问题难度，每个元分类器可以异构，像有些分类SVM效果很好，有些要结合CNN，有些要结合RNN再处理一下。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0czlXSkdkMEFHT2JqYnZIY3dMREF6d2g3aWNiUldVblVPTWExNkRLVldWM2liWGxnYVpIMnFuR0EvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>上图是一个实体词识别算法的case。<br>基于分词结果和词性标注选取候选，期间可能需要根据知识库做一些拼接，有些实体是几个词的组合，要确定哪几个词结合在一起能映射实体的描述。<br>如果结果映射多个实体还要通过词向量、topic分布甚至词频本身等去歧，最后计算一个相关性模型。</p>
+<h2 id="五、用户标签"><a href="#五、用户标签" class="headerlink" title="五、用户标签"></a>五、用户标签</h2><p>内容分析和用户标签是推荐系统的两大基石。内容分析涉及到机器学习的内容多一些，相比而言，用户标签工程挑战更大。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0N2FnR0hDWW9TMWFpY1RzN1FrMFJVSDcweFI0TGRKV3hjcXRjUWtmZjBpY0pscmtZNzAxQndSdXcvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>今日头条常用的用户标签包括用户感兴趣的类别和主题、关键词、来源、基于兴趣的用户聚类以及各种垂直兴趣特征（车型，体育球队，股票等）。<br>还有性别、年龄、地点等信息。<br>性别信息通过用户第三方社交账号登录得到。<br>年龄信息通常由模型预测，通过机型、阅读时间分布等预估。<br>常驻地点来自用户授权访问位置信息，在位置信息的基础上通过传统聚类的方法拿到常驻点。<br>常驻点结合其他信息，可以推测用户的工作地点、出差地点、旅游地点。这些用户标签非常有助于推荐。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0V1dCdEhSRGFFVk00TE5ybTR3T3FjT2wwRzBYaWFFOGlhQ29pYkZnbUNxSUVMNGtsVHlyT2ZIdlhnLzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>当然最简单的用户标签是浏览过的内容标签。<br>但这里涉及到一些数据处理策略。<br>主要包括：<br>一、过滤噪声。通过停留时间短的点击，过滤标题党。<br>二、热点惩罚。对用户在一些热门文章（如前段时间PG One的新闻）上的动作做降权处理。<br>理论上，传播范围较大的内容，置信度会下降。<br>三、时间衰减。用户兴趣会发生偏移，因此策略更偏向新的用户行为。因此，随着用户动作的增加，老的特征权重会随时间衰减，新动作贡献的特征权重会更大。<br>四、惩罚展现。如果一篇推荐给用户的文章没有被点击，相关特征（类别，关键词，来源）权重会被惩罚。<br>当然同时，也要考虑全局背景，是不是相关内容推送比较多，以及相关的关闭和dislike信号等。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0STRpYnJWOXRqZGY1YUJNczJEOE9MenBBQWhqU2g2NFRLRWhpY1BCMzV1ODJLZ0NRRlJLOE1pYlN3LzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>用户标签挖掘总体比较简单，主要还是刚刚提到的工程挑战。<br>头条用户标签第一版是批量计算框架，流程比较简单，每天抽取昨天的日活用户过去两个月的动作数据，在Hadoop集群上批量计算结果。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0bTlwUlEzY3lDN3Z4QU1FcDIyUmRTNHVUdlZGZncwYVRjUkNxQklTOEJkQ2ljdWhCVWlhT3JKMUEvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>但问题在于，随着用户高速增长，兴趣模型种类和其他批量处理任务都在增加，涉及到的计算量太大。<br>2014年，批量处理任务几百万用户标签更新的Hadoop任务，当天完成已经开始勉强。集群计算资源紧张很容易影响其它工作，集中写入分布式存储系统的压力也开始增大，并且用户兴趣标签更新延迟越来越高。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0bXFDcmJRMktxTGljNEdlSVdma3IwckhpYXRlWTJybGNOdmtxUFBzSXNQUGZ3eHFlZnh3bEhFdXcvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>面对这些挑战。<br>2014年底今日头条上线了用户标签Storm集群流式计算系统。<br>改成流式之后，只要有用户动作更新就更新标签，CPU代价比较小，可以节省80%的CPU时间，大大降低了计算资源开销。<br>同时，只需几十台机器就可以支撑每天数千万用户的兴趣模型更新，并且特征更新速度非常快，基本可以做到准实时。这套系统从上线一直使用至今。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0b0ozeEFieG9ya2tKY3NnaWFqNTRWbEJxZlA5c2ljNU5RVEh5R0NsWDU3Y1lXWm1ZNklwakliWXcvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>当然，并非所有用户标签都需要流式系统。像用户的性别、年龄、常驻地点这些信息，不需要实时重复计算，就仍然保留daily更新。</p>
+<h2 id="六、评估分析"><a href="#六、评估分析" class="headerlink" title="六、评估分析"></a>六、评估分析</h2><p>上面介绍了推荐系统的整体架构，那么如何评估推荐效果好不好？</p>
+<p>有一句我认为非常有智慧的话，“一个事情没法评估就没法优化”。对推荐系统也是一样。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0bGtlT1A2eVphNGthOFlCOW1LYmZ5Mm9DaWI1eGFDSHlzVWN4RjJHV3J3cjRadU9LUGMwelZpYXcvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>事实上，很多因素都会影响推荐效果。<br>比如侯选集合变化，召回模块的改进或增加，推荐特征的增加，模型架构的改进在，算法参数的优化等等，不一一举例。<br>评估的意义就在于，很多优化最终可能是负向效果，并不是优化上线后效果就会改进。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0aklER0dEaWFEbVZBSlF2MmljblRDWld2MUxpYW9BZXMxcXlKbTZRT045NFF5bVlPVzZsUUJ6aWJtUS8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>全面的评估推荐系统，需要完备的评估体系、强大的实验平台以及易用的经验分析工具。<br>所谓完备的体系就是并非单一指标衡量，不能只看点击率或者停留时长等，需要综合评估。过去几年我们一直在尝试，能不能综合尽可能多的指标合成唯一的评估指标，但仍在探索中。<br>目前，头条上线还是要由各业务比较资深的同学组成评审委员会深入讨论后决定。<br>很多公司算法做的不好，并非是工程师能力不够，而是需要一个强大的实验平台，还有便捷的实验分析工具，可以智能分析数据指标的置信度。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0QWlhcG5xVHFYYTh3REk2ZmRmSnJta09qbllScDNtZjhvU0NVZGFqZFMxSGJDOVd4UEJuTVRzUS8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>一个良好的评估体系建立需要遵循几个原则，首先是兼顾短期指标与长期指标。<br>很多策略调整短期内用户觉得新鲜，但是长期看其实没有任何助益。<br>其次，要兼顾用户指标和生态指标。今日头条作为内容分创作平台，既要为内容创作者提供价值，让他更有尊严的创作，也有义务满足用户，这两者要平衡。还有广告主利益也要考虑，这是多方博弈和平衡的过程。<br>另外，要注意协同效应的影响。实验中严格的流量隔离很难做到，要注意外部效应。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0TGFqQUVyTkppYXQzU25hMDgzcnlvb2FsT0JMQTJIaWFWdFFOMXlWdURTbkVRZ3lpY2pzN1J6QzRBLzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>强大的实验平台非常直接的优点是，当同时在线的实验比较多时，可以由平台自动分配流量，无需人工沟通，并且实验结束流量立即回收，提高管理效率。<br>这能帮助公司降低分析成本，加快算法迭代效应，使整个系统的算法优化工作能够快速往前推进。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0REhSSzF2bEhaRGlhU3BCbXA5VmJMSW9PZnpvM1FUZmJwajAybGdrNEE1Zlo5OXJadmxvSFJudy8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>这是头条A/B Test实验系统的基本原理。<br>首先工程师会在离线状态下做好用户分桶，然后线上分配实验流量，将桶里用户打上标签，分给实验组。<br>举个例子，开一个10%流量的实验，两个实验组各5%，一个5%是基线，策略和线上大盘一样，另外一个是新的策略。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0d0JFZm5FeThuN3dRaWJkSENveGRLdnVUS1A4SmhpY09UUzJkNHNlaWE0cU9Sc0xHSjJUakVMbkd3LzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>实验过程中用户动作会被搜集，基本上是准实时，每小时都可以看到。<br>但因为小时数据有波动，通常是以天为时间节点来看。动作搜集后会有日志处理、分布式统计、写入数据库，非常便捷。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0REp2ODk5Yzg2M2lhdlhGSGh5bE80dVI3MjAxN1ljcHVmclN3TlBBS1BVOEVvM3hpYXdVZlN1MXcvMA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>在这个系统下工程师只需要设置流量需求、实验时间、定义特殊过滤条件，自定义实验组ID。<br>系统可以自动生成：实验数据对比、实验数据置信度、实验结论总结以及实验优化建议。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0VTlpY2lhcERITG05aWNMUjVZZ2FaVDh3bFpqNVlpYXlYR0RFMjFEczJGQklCYXBVZEkweDdQS3NBQS8w?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>当然，只有实验平台是远远不够的。<br>线上实验平台只能通过数据指标变化推测用户体验的变化，但数据指标和用户体验存在差异，很多指标不能完全量化。<br>很多改进仍然要通过人工分析，重大改进需要人工评估二次确认。</p>
+<h2 id="七、内容安全"><a href="#七、内容安全" class="headerlink" title="七、内容安全"></a>七、内容安全</h2><p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0QUtoY2xVMFdqMmVRN1dROW92VjZmU2hsZHNrZ1B1WWlhQWlieVgwbmdEZUhVN25tRGRaYmliRk93LzA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<p>最后是曹博士介绍今日头条在内容安全上的一些举措。<br>头条现在已经是国内最大的内容创作与分发凭条，必须越来越重视社会责任和行业领导者的责任。如果1%的推荐内容出现问题，就会产生较大的影响。<br>因此头条从创立伊始就把内容安全放在公司最高优先级队列。成立之初，已经专门设有审核团队负责内容安全。当时研发所有客户端、后端、算法的同学一共才不到40人，头条非常重视内容审核。<br>现在，今日头条的内容主要来源于两部分:<br>一是具有成熟内容生产能力的PGC平台，一是UGC用户内容，如问答、用户评论、微头条。<br>这两部分内容需要通过统一的审核机制。如果是数量相对少的PGC内容，会直接进行风险审核，没有问题会大范围推荐。<br>UGC内容需要经过一个风险模型的过滤，有问题的会进入二次风险审核。<br>审核通过后，内容会被真正进行推荐。这时如果收到一定量以上的评论或者举报负向反馈，还会再回到复审环节，有问题直接下架。<br>整个机制相对而言比较健全，作为行业领先者，在内容安全上，今日头条一直用最高的标准要求自己。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL21tYml6LnFwaWMuY24vbW1iaXpfanBnL3djN1lOUG0zWXhXSkJiZ0tsV3dZNXZTaFpvSDZQNkd0OVRNbmZvaWNac1IzR2YzU1N4YmljU2liaE9hWVlsSGM2bTg5M0pEakdndTVuUm5MVGhoZTZBY1dBLzA?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>   分享内容识别技术主要鉴黄模型，谩骂模型以及低俗模型。今日头条的低俗模型通过深度学习算法训练，样本库非常大，图片、文本同时分析。这部分模型更注重召回率，准确率甚至可以牺牲一些。<br>谩骂模型的样本库同样超过百万，召回率高达95%+，准确率80%+。如果用户经常出言不讳或者不当的评论，会有一些惩罚机制。<br>泛低质识别涉及的情况非常多，像假新闻、黑稿、题文不符、标题党、内容质量低等等，这部分内容由机器理解是非常难的，需要大量反馈信息，包括其他样本信息比对。目<br>前低质模型的准确率和召回率都不是特别高，还需要结合人工复审，将阈值提高。目前最终的召回已达到95%，这部分其实还有非常多的工作可以做。头条人工智能实验室李航老师目前也在和密歇根大学共建科研项目，设立谣言识别平台。</p>
+<h2 id="八、我的思考与体会"><a href="#八、我的思考与体会" class="headerlink" title="八、我的思考与体会"></a>八、我的思考与体会</h2><p>1.推荐算法的实际落地场景真的要考虑很多因素，这次实习，接触到了很多架构应用和优化，虽然很多业务不能亲自体验，但我也从分享会和日常的观察中学到了很多知识，看到了AI的影响力，想要做好AI产品经理，除了之前积累的沟通技巧、对用户的同理心、运营策略、产品sense，还有有深厚的背景知识和架构理论。原来我们在实验室做的那一套深度学习网络，在实际大厂中，要反复迭代这么多版本~<br>水能载舟，亦能覆舟，AI就好像神奇的精灵，把AI驯服掌控在人力的盘查和监控下，才能正向反馈，激活商业策略的原动力！<br>2.从用户的角度来思考：我们一方面规避不了人性的懒惰，不自觉的被动接受社会提供之物，一方面又渴求感兴趣的猎物，想要自己的圈子和需求，人性真是个复杂又奇妙的前一种侧重于自觉地主动搜寻个体需求之物，后一种侧重于不自觉地被动接受社会提供之物。</p>
+<p>体现在现实的经济社会中，就是我们现在不仅通过搜索引擎主动地查询搜索购买商品，查询收集浏览新闻信息和广告资讯；而且我们更是被动地接受了由机器深度学习进行系统自动化推荐算法所计算出来的，为个体量身定做而提供的各种推荐商品，信息和广告等个性化服务。</p>
+<p>当然，也正如同古希腊大哲学家苏格拉底所说的那样，人最难认识的是自己，有时用户很难用恰当的关键词语来描述自己的需求和想法，又或是无法对自己未知而又可能感兴趣的信息做出描述而显得无所适从或者说无可选择。因此，通过机器算法的推荐系统能得到进一步的发展和应用就成为顺理成章的事情了。</p>
+<p>虽然这种基于机器各种算法而产生的商品、信息和广告推荐成为各大互联网服务平台的标配，尤其是通过主打算法的个性化推荐类新闻app在近一两年的崛起和称霸，更是成为中国互联网界有目共睹的辉煌成就。</p>
+<p>但隐藏在这些热闹表象身后所体现出来的实质上更多地是社会科学技术发展到一定程度所必然出现的结果，即AI技术中有关深度学习技术手段在历史上几次起起落落后应用于推荐系统中的重新崛起和发展。因此，近几年推荐系统的风生水起，与其说是互联网界的成就，不如说是中国科技界，尤其是AI技术的进步。</p>
+<p>很明显，深度学习是AI体系中技术层面上的一种运算方法和手段，而推荐系统则是深度学习在具体细分领域的一种技术层面应用，它的重新崛起是社会发展到一定阶段后，人类所形成新的需求矛盾与科技进步发展所形成新的生产力相互结合的必然结果。</p>
+<p>它与各种互联网服务平台结合而成的实际应用就是我们现在的个性化推荐商品（电商），新闻（资讯分发），广告以及其他各种个性化服务平台，如下图。</p>
+<p>推荐算法历史与种类<br>实际上，推荐这二个字对我们来说并不陌生，遍布于生活、工作、学习等各个方面，如学习中的三好生推荐，高考中的保送生推荐；工作中的优秀员工推荐，选举时的候选人推荐；生活中的超市购物店长推荐，畅品推荐等等。</p>
+<p>而从其纵向的发展历史来看，我们也经历了从毛遂自荐，口碑相传的个体推荐形式，逐步过渡到1/2或者2/3简单多数规则的群体推荐形式，以及进一步转化到涉及各种权重、混合、360度全方位等复杂规则的群体推荐形式。</p>
+<p>然而，不管是个体自荐和推荐，还是群体推荐；抑或不论是简单多数规则，还是复杂规则；本质上都属于一种人为推荐形式。而人为推荐则必然不同程度地存在着诸多如暗箱操作、感情用事、趋利避害、标准不一的主观性意见缺陷，导致难以得到客观化的满意结果。</p>
+<p>为使推荐的结果更加合乎实际和更加客观化，通过计算机采取一定技术方法的算法推荐系统就应运产生了。与人为推荐系统的发展历程一样，早期计算机推荐系统中的算法和技术也是十分简单和粗糙的，如打分预测，即通过用户（User）对物品（Item）的打分（Rating）进行评分预测推荐；或相似评估，即通过对用户和物品一些较为粗糙简单的明显属性进行分析评判推荐。</p>
+<p>只是在进入互联网时代后，随着云计算和大数据分析等技术的发展，在运算和存储能力跃入新的层级之后，推荐算法不仅在数量的广度上，而且在技术的深度上都达到了前所未有的一个水平。</p>
+<p>目前各种具体推荐算法很多，而且分类标准也不尽相同，但万变不离其宗，由于推荐系统本质是向用户推荐合适物品的个性化服务，主要涉及到用户和物品二个对象。因此，从大的方向来看，可以划分为基于用户的“人以群分”推荐算法和基于物品的“物以类聚 ”推荐算法，简述如下：</p>
+<p>1、以人为中心的“人以群分”推荐算法<br>这种推荐系统的内在原理有一个假设前提，即相同群体中的成员拥有共同的兴趣爱好，因此同类人喜欢什么就推荐什么。很明显在这种推荐系统中，关键点是如何全面准确地划定人“群”的属性，即“群”的相似度和近似度对个体的影响力权重程度。一般地，最常见的是基于人口统计学中个体自然的基本属性而推荐。</p>
+<p>因此，根据个体的基本属性在理论上就会出现很多推荐子系统，如基于性别的，基于年龄的，基于学历的，基于地域的等等推荐系统，这里的关于人的推荐系统是平行关系的，与下面的物品推荐系统层级关系有所不同。当然在实际经济中，并不是所有的推荐系统都是有用或者说有效的，因此就必须根据个体和物品进行有目的的筛选淘汰了。</p>
+<p>栗子：基于年龄的推荐系统</p>
+<p>这里的“群”就是年龄，而且假设年龄对物品和用户的影响力权重占第一位。推荐原理如下：</p>
+<p>第一步：机器通过大数据以“年龄”为关键属性搜寻找到各个用户之间的相似度和邻近度。<br>第二步：对不同用户A,B,C的相似度进行排序。<br>第三步：选出与当前用户A最相近的用户C。<br>第四步：将用户A喜欢的物品a推荐给没有接触过的用户C。</p>
+<p>这是较为通俗易懂的基于用户简单推荐方式，当然在实际经济生活中，“群”属性确定，推荐方式和具体运算过程则要复杂得多，但基本原理相似。</p>
+<p>2、以物为中心的“物以类聚”推荐算法<br>与“人以群分”的推荐方式相类似，它是以物品的相似度代替了用户的相似度。这种推荐系统也有一个假设前提，即同一用户对相同类型的物品具有共同的兴趣爱好或者说吸引力，因此用户喜欢什么就推荐相同类型的物品。一样的道理，在这种推荐系统中，关键点是如何全面准确地划定物品的“类”的属性，即物品的“类”属性相似度和近似度对个体的影响力权重程度。</p>
+<p>与“人以群分”推荐算法中“群”的各个属性划分是基于横向平行关系不同，在“物以类聚”推荐算法中物品的“类”是基于纵向层级关系而划定。而且由于大千世界各种物品成千上万，因此首先必须确定一个物品分门别类的划分标准，或者说确定一个比较合适的划分标准就显得十分重要。</p>
+<p>物品具有自然属性和商品属性，因此可以按生物标准进行自然属性分类，也可以按经济属性进行商品属性分类；但由于我们都处于经济社会中，因此一般地，我们将物品的类别划分确定为以商品经济属性为主，兼顾生物自然属性进行划分。第一层先划分为有形产品和无形服务；第二层再根据惯例按国民经济行业有关第一产业、第二产业、第三产业进行行业分类。然后每一层按照从大到小，结合物品的品类、品种等自然生物属性和功能、用途、产地等商品属性逐层进行细分，直至分解到最后的最底层每一个单品sku。</p>
+<p>相应地，根据物品类别在理论上也存在着很多推荐系统，对于有形产品来说，有基于价格的，基于用途的，基于产地的；对于无形服务来说，有基于年代的，基于等级的，基于提供者的等等细分推荐系统。当然也要根据需要进行筛选。</p>
+<p>栗子：基于产地的物品推荐系统</p>
+<p>这里的“类”就是产地，而且假设产地对用户的影响力权重占第一位。推荐原理如下：</p>
+<p>第一步：机器通过大数据以“产地”为关键属性搜寻找到各个物品之间的相似度和邻近度。<br>第二步：对不同物品a,b,c的相似度进行排序。<br>第三步：选出与当前物品a最相近的物品c。<br>第四步：将物品c推荐给没有接触过的用户A。</p>
+<p>以上介绍的二种方法是推荐领域最基本的，也是最简单的的方法。但在实际的经济生活中和现实的真实案例推荐中，往往不是那么简单，需要面临着许多复杂多变的情景和任务，因此，在这二种基本推荐基础上的各种混合推荐系统就应运而生了。主要有</p>
+<p>3、基于协同过滤推荐系统：这又分为基于用户协同过滤和基于物品协同过滤二种推荐方法<br>基于用户的协同过滤推荐方法原理与基于以人为中心的“人以群分”推荐算法相同，都是通过计算用户的相似度，利用相似，邻近和邻居进行计算推荐；它们的区别是如何计算用户的相似度，基 于以人为中心的“人以群分”推荐算法只考虑个体用户本身的基本特征，而基于用户的协同过滤机制则是在用户的历史偏好数据上计算用户的相似，即考虑用户的历史行为特征。</p>
+<p>同样，基于物品的协同过滤方法与基于以物为中心的“物以类聚”推荐算法工作原理相似，都是基于物品相似度预测推荐；它们的区别也是物品相似度计算的方法不一样，前者是从用户历史的偏好推断，即物品有关的购买，收藏，评论，点赞等信息，而后者是基于物品本身的基本属性信息。</p>
+<p>4、基于关联规则的推荐：就是找不同商品之间的相关性，假设用户喜欢A，A和B有紧密联系，就推荐B。主要指一些互补关系的产品，如香烟与打火机，复印机和色粉盒，也指一些在用途、渠道、购买者等方面相同的一些产品，如奶粉与尿不湿购买者可能为同一人，买了面包的人可能会买牛奶，零食与饮料可互补，海边的五金小店售卖啤酒等等。</p>
+<p>5、基于背景的推荐：即找寻发现物品的行业特征以及物品在购买场景、展示场景和使用场景时的一些规律进行合适的推荐，如展示场景推荐系统就是表示如何将推荐产品合理地展示在电商页面的各个部分，以及明确各个部分的大小，顺序，色彩，主次等属性，从而达到重点区域突出，个性化推荐加强，进而提高销量的结果。</p>
+<p>还有一些推荐算法，如标签的流行度推荐算法，基于效用的推荐，基于知识的推荐，组合推荐，加权推荐系统，模型推荐等；现归纳如图。</p>
+<p>推荐算法应用：精打细算才是出路<br>理论的最终目的是为了应用，是为了更好地指导我们的实践。因此，各种推荐算法在实际经济生活中的运用才是我们所需要考虑的核心问题。算法无好坏，适合是王道。</p>
+<p>由于每个推荐算法都不是完美的，都有着不同程度的各自优缺点；因此理想的状态是使用所有推荐算法，取长补短，通过给不同算法的结果加权，从而达到完美的结果。但在实际应用中，基于企业的技术能力，成本压力和时间约束等因素，较为实际的步骤是：</p>
+<p>根据所处行业，企业主要产品和主流用户的属性，确定以一个推荐算法为主计算结果，其他1-2个算法为辅论证和调整结果的混合推荐算法系统。<br>具体计算时，兼顾技术上的可能性，经济上的可行性和时间上的可控性三原则，实现推荐算法在技术、经济和效率的有机结合。<br>时空因素的影响：包括时间上有明显淡旺季区别的企业，有某些特定大事影响原有业务和产品运作方式的，如图原先体育栏目中，按项目、国别、球队、球员等维度逐层进行计算，然而在奥运会或者世界杯时期，可能在体育栏目中，就要变成奥运会、国家、运动员这几个维度进行计算了；空间上如交通企业，地域性明显的o2o、风景区和旅行社等。<br>4.不断迭代调整，提高计算准确率，实现更切合实际和满意的结果。</p>
+<p>那么，在电商行业、资讯信息广告行业和各种交互服务行业应用时，如何实现推荐算法的精打细算呢？具体的做法是：</p>
+<p>电商行业：按大众化和小众化商品划分</p>
+<p>对于那些大众化，老小皆宜的消费品，尤其是快消品，宜采用基于用户为中心的“人以群分”的User  RS 推荐算法，强调用户存在的买点和痛点，兼顾企业的优点和竞争点，也适合于那些选购性的耐用物品。</p>
+<p>对于小众化，专业性强，特定品，以及工业品等物品，则应采用基于物品为中心的“物以类聚”的Item RS 推荐算法，强调物品自身的新奇特优等卖点，兼顾企业的优点和竞争点；从而进行精准化推荐，也适合于一些长尾物品以及没有用户画像的新产品冷启动情景。</p>
+<p>资讯信息广告行业：按社会化和专业化划分</p>
+<p>对于以娱乐消遣休闲为目的社会化新闻和一些常识谈资分享类信息，侧重于User  RS推荐算法。</p>
+<p>以科技类，冷知识等专业知识，提高生活、学习和工作水平和能力为目的，侧重于Item RS推荐算法。</p>
+<p>至于如何对互联网中其他各种交互服务（包括无形服务）的平台，进行推荐算法的精打细算，可能会在《推荐算法：why比how和what更重要》中进行思考。</p>
+<p> ​电商环境下的个性化推荐，主要包含三大维度的模块，针对用户的候选召回（Match），候选商品的精排（Rank），以及线上的策略调控（Re-rank）。<br>一、Match<br>Match即有效和丰富的召回，从全量商品（还包括feed和视频等）集合中根据用户行为和属性信息触发尽可能多正确的结果，并将结果返回给Rank。</p>
+<p>推荐不同与搜索，在没有明确Query触达的情况下，用户的Match召回就显得尤为重要，希望相关性的信息尽可能的丰富。</p>
+<p>因此Match面对的是整个商品库集合，需要保留尽可能多的相关结果，剔除相关性较弱的结果，降低对后面链路的压力。</p>
+<p>由此需综合利用多种信息，比如用户信息（年龄、性能、购买力等）、类目信息、店铺信息、文本信息等。从而既保证高召回率，又要保证高的准确率。Match结果的好坏，对整个结果有重要的影响。</p>
+<p>Match召回策略主要包含两大类：基于内容匹配的召回和基于协同过滤的召回。</p>
+<p>前者主要是基于用户的画像信息和商品的内容信息进行匹配召回。这种方式召回率较高，但精度较差，比较适用于冷启动的语义环境。</p>
+<p>后者主要是基于用户和商品之间的行为矩阵，通过一系列策略得到用户和候选商品之间的相关性；这种方式精度较高，但存在一定程度的冷启动问题。协同过滤是当前推荐依赖的基础策略。</p>
+<p>二、Rank<br>Rank即精排，通过一个准确的预估模型对Match阶段海选的商品进行精准打分，并根据打分结果进行排序截断，决定最终向用户展示的结果顺序。</p>
+<p>Rank模型两大要素为特征抽取和打分模型学习训练。</p>
+<p>特征抽取的第一步也是最为重要的一步就是清洗日志，曝光日志可以通过日志埋点进行过滤，并结合更准确的搜索、点击、收藏等用户行为日志，进行User_id和Item_id维度的聚合，最终将两份日志Join在一起构造为用户特征样本。</p>
+<p>特征抽取除了基本属性特征，如user_id,item_id,user的年龄性别等人群特征，有小时级或分钟级回流的准实时反馈特征，还包括user端和item端双向交叉特征，如user在不同类目下的偏好程度，item在不同性别年龄购买力人群下的ctr等。</p>
+<p>除了用户实时特征外，还会进行离线模型的日志及特征的接入、预处理以及离线特征的统计工作，作为实时特征的补充，这里处理长期兴趣的统计类特征的准备以及各种平滑过滤逻辑，在数据侧提供了保障。</p>
+<p>打分模型主要分为CTR与CVR预估模型，在展示商品前，结合用户历史行为&amp;商品&amp;场景信息，预估展示商品之后用户是否会点，或点击之后是否会购买，从而在Rank时有不同的CTR与CVR倾向。</p>
+<p>目前，成熟的排序模型都是多维度分数融合排序，获取多个维度的预估分，包括CTR预估，CVR预估，笔单价和商品毛利润，根据业务指标进行调控，计算最终的RankScore。</p>
+<p>三、End<br>推荐算法是Match与Rank的联动协同。当用户Match模型，召回的内容较少时，Rank排序则无较大的发挥空间。当用户的行为丰富，更容易获取召回了，Rank排序则能发挥更大的效用。<br>推荐算法背景</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/AI%E4%BA%A7%E5%93%81%E7%9A%84%E6%80%9D%E8%80%83/" rel="tag">AI产品的思考</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95/" rel="tag">推荐算法</a></li></ul>
 
 
     </footer>
@@ -459,60 +592,6 @@
 <p>中后期我的工作日常即为一个或数个需求线并推，就是大家常说的从0到1实现流程，具体环节如下：</p>
 <p>需求收集：收集内外部需求，答复客户需求，筛选有价值的汇到需求池中。<br>需求设计：排期的需求转化为产品方案。<br>需求落地：协调UI、UE、RD资源，兼职QA，推动上线。<br>上线推广：主要通过业务培训会，产品操作文档，日常答疑三种形式，给运营、客服、销售团队传达产品理念。<br>需求维护：处理线上产品bug，整理数据和用户反馈查验需求上线效果。</p>
 <h2 id="主观真实感受"><a href="#主观真实感受" class="headerlink" title="主观真实感受"></a>主观真实感受</h2><p>一、关于压力<br>刚入职的时候不太熟悉流程和业务，有一段时间会陷入焦虑和自我否定的漩涡（不确定是不是每个人都会经历一段时间的焦虑和自我否定？）但只要找到合适的方式解脱出来就好啦！<br>不过入职时间久了，看着业绩和评价慢慢起步，导师隐约的肯定，渐渐的这种压力就减少了~<br>二、关于日常<br>实习生最好的状态就是不把自己当实习生，不把自己当学生<br>因为换部门，接触过两块业务，包括爱奇艺基线端的，独立app端的，除去业务本身逻辑不一致，还有工作节奏（比如几周一个版本等）、目标用户（有的针对二次元用户，有的针对粉丝用户）不一致以外，对于交互设计师来说，工作内容还是大同小异。<br>日常就是和产品沟通需求（这一点我后面要重点说hh），梳理场景，出草图流程方案，然后写规则说明，细化细节方案……然后就是不停的修改方案，不停的写邮件，不停的开会，不停的验收，提bug……好在我两个部门都有向导带，还是避免了很多坑der，不过大家都比较忙的时候，只能自己慢慢摸索啦～<br>我觉得爱奇艺相对其他互联网公司，加班算是很少的了，除非真的有的项目比较大并且很紧急的时候，偶尔会加班到9点半，其他时间就比较正常啦～（现在我依旧相信加班的原因还是效率低hhh，还是努力提高自己工作效率）<br>当然，最有成就感的事情就是等自己做的需求上线后，看到满意的数据反馈，<br>三、关于沟通<br>我现在发现，工作中的沟通真的真的真的特别重要，和产品，UI，开发的沟通，和leader的汇报，还有其他有关联业务的交互设计师沟通都是不一样的。<br>大部分时候，UI会是和自己在一个组内，所以日常沟通会更多啦（目前好像还没有碰到过和UI小哥哥小姐姐沟通出问题的时候）～<br>和leader的汇报，这个时候一定要清楚自己需求的背景，目标，还有自己设计方案的细节（为什么要这么设计），还有是否所有场景都考虑在内等，以及是否和产品有不确定的地方一定要提前了解。<br>和其他业务的交互设计师沟通，我现在接触的业务就经常会涉及到小组外其他的业务。这一点产品他们内部会先沟通好，但很多时候，他们沟通的只是业务层面的东西，具体实现方式，细节等问题的考虑，还是自己亲自和对应业务的交互设计师沟通比较好（踩过坑的教训～）<br>四、关于趣事<br>我特别喜欢的是双周会，每两周会有几位前辈同事分享一些专业知识，然后大家一起探讨交流，比如之前了解的不同产品适合哪种类型评论结构的分析，可以收获很多。另外还有月会，月末会有主题游戏活动，可以给工作增添很多乐趣呀，除了会员内购外，经常会有一些礼品小福利，有时候可以见到小明星hhh。<br>五、几点教训（以下都是自己踩过的坑，经历的血泪教训总结出来的）<br>1，学会解决问题，而不是制造问题<br>很多时候不要只给leader提问题，或者只说自己发现了什么什么问题。可以在说自己发现了什么什么问题后，补充一下自己的解决方案，以及补充要这么解决的原因<br>2，适当的时候坚持自己的想法<br>就像前面讲过的，如果对方让你改就改，那就宛如一个工具了，用自己的专业能力为自己的设计埋单吧～（我现在觉得只要能力足够强，足以让对方相信自己的专业能力，改方案的次数会减少很多，orz还在努力阶段）<br>3，在做的事情一定要同步给leader<br>很多事情不是leader直接安排给自己的，大部分是自己直接和产品对接后了解到的，所以一般自己会比leader更先知道需求，不要等到deadline的时候再把方案给leader过目，一定要及时同步（包括需求内容，是否增加功能或者大改版，以及哪个版本，是否入版，当前进度，是否delay，每个关键节点都及时同步）<br>4，安排好优先级<br>我最多的时候是对接了3个产品，每个产品都有3个需求左右，所以总量会比较大，有些还是新增的大功能，不过每个产品自己会给自己的需求排优先级，最好的处理方式是让他们汇总排一个相对优先级。另外，在自己这边也需要排一个优先级，可以根据复杂程度以及了解到的信息先大致估算每个需求花的时间，然后再衡量一下性价比，再自己给自己排一个优先级<br>5，没有人是不可替代的（划重点）<br>6，学会复盘总结<br>在周会或者双周会上会起到很多作用的<br>7，学会主动沟通<br>学会主动去找产品，开发，测试，和大家熟络起来后，效率真的提高了很多～<br>8，对自己工作负责，主动提需求<br>我在的第一部门会有收集用户体验团队提的需求的习惯（排不排得进去就另说啦），我们会把整个产品业务需要优化体验或者可以增加情感化设计的地方提给产品，然后产品再来排优先级。我还是挺喜欢这个过程的，当自己的idea被采纳的时候会很有成就感hhh。<br>9，别忘了学习和补充知识<br>“事情得做，也别忘了自我提高”。上周双周会部门里一个实习生分享了自己做的一个产品分析报告，看得出来是业余时间花心思整理的，所以业余时间别忘了学习，遇到了困惑点可以周会上抛出来大家一起脑暴讨论。</p>
-<h2 id="3-理性分析PM技能篇"><a href="#3-理性分析PM技能篇" class="headerlink" title="3.理性分析PM技能篇"></a>3.理性分析PM技能篇</h2><p>每天的工作经历和成果，通过周期总结和项目复盘的形式，可以直观检验PM技能是否得当，技能具体内容不再赘述（例如AT的PM能力模型），硬实力也好软实力也罢，都是为了更好地打磨自己负责的产品而服务的。</p>
-<p>对于初级PM而言，更加注重于执行层面，即需求的转化效果。通过项目的高速迭代给予需求线每个环节的反馈，不断改进有问题的环节，用更完善的PM技能体系解决后续问题，进而实现自我迭代。</p>
-<p>下面是我思考的一些技能点（资历尚浅不可妄称方法论）<br>1、需求收集</p>
-<p>Boss的需求一般是从战略维度或者商业价值（例如承接合作方需求）考虑，结合公司利益和战略发展从宏观角度思考需求的背景和原因，想不明白就请教leader，有助于培养格局和眼界（外行拍脑袋Boss不在此列）</p>
-<p>针对客户，内部同事或者PM自身挖掘的需求（通过运营数据，竞品分析，或者纯脑洞），通常使用Kano模型筛选，重要紧急象限法排期，同时也要考虑开发成本和预估收益，例如C端商城页面改版优化，可一定程度增加客流转化率，开发周期短，优先级就高。<br>2、需求设计</p>
-<p>作为B2C产品，既要满足B端业务场景和后台易操作性，也要重视C端使用体验。故设计时需先定框架，再完善界面，最后查验原型。</p>
-<p>框架方面：</p>
-<p>设想为用户，遍历使用场景，功能是否满足所有需求细节。<br>参考（不是copy）成熟的竞品很有必要性，但需搞清竞品的产品逻辑和优点，再考虑是否要借鉴。<br>所有业务流程+异常流程的页面方案，确保逻辑闭环。<br>粗略估计开发可行性和成本（开发周期、服务器压力、存储成本）。</p>
-<p>体验方面：</p>
-<p>向研发了解常用功能模块，相同功能复用，使页面风格统一，也利于后续研发和维护。<br>重视引导文案，针对B端的引导文案要简明无歧义，优秀的文案可降低后台操作门槛，是最好的操作文档。C端的引导文案相较而言就要更有亲和力和感染力，强调鼓动效果。好文案需要PM的经验、同理心、文字功底，作为软实力需要不断积累。</p>
-<p>原型回溯：</p>
-<p>原型设计完成后，分别从用户和测试角度，模拟所有流程，确保满足业务和逻辑完整，尽量避免后期来源于PM的需求改动。否则既增加了设计研发的工作量，也会降低团队对PM自身的信任，不利于后面后续工作的推进。</p>
-<p>我在实习初期负责的项目，在上面的地方上都踩了很多坑，有些需求改动甚至造成返工，浪费了大家不少时间。</p>
-<p>3、需求落地</p>
-<p>设计环节：原型尽量走线框图+文字说明（演示除外），速度快，逻辑清晰。按钮、字体、色系等可以与设计讨论，但浪费过多时间纠结于表现层，得不偿失。PM是服务于业务的，若产品业务性都不完整，陶醉在交互和界面问题上就没意义。业务本质搞清楚后，有空可再琢磨表现层。</p>
-<p>研发环节：和研发的沟通是产品推动的关键，这点感触很深，除了研发评审会时把需求用流程化语言表述之外，我改进了几点方式。</p>
-<p>主动询问研发进度，是否有理解偏差或言研发障碍，保持研发方向处在正轨。<br>和研发存在分歧时，从产品角度阐述设计原因和功能价值点，坚持自己的产品原则，确保需求无变更。<br>由于需求设计失误或外界因素（如Boss要变更需求），先承认问题，语气诚恳，再用奶茶零食、请客吃饭等“伎俩”说服开发，相较于吵架互撕对产品推动效果更好。<br>跨部门合作实现需求时，要想着为自己产品争取资源，必要时可搬领导出面，假如PM对自己的产品都不上心，产品是不可能做好的。<br>4、上线推广</p>
-<p>将产品理念（主要包括需求的功能点、业务点、价值点，我理解为产品理念）准确传达给其他团队，需要PM站在对方立场上，用对方话术去沟通，这也是同理心运用的体现。</p>
-<p>例如针对客服团队主讲实现功能，操作方式，方便商家售后答疑；针对运营团队，则要谈客流转化、复购、拉新、促活这些能给商家带来业务增长的手段，让运营推给商家和潜在客户；针对销售团队，主要内容则需要围绕产品的价值点（为什么能卖这个价钱）、较其他竞品的优势、满足哪类客户何种使用场景这三部分展开。</p>
-<p>做到准确地推广，可谓产品想法完整的实现了，用大话讲则是这个产品迭代属于PM的意志，且有流量，有市场去检验。</p>
-<p>5、上线反馈</p>
-<p>东西做的好不好，用户的反馈和上线后一定周期的运营数据不会说谎。每一次成功经验或失败教训都是耗费公司资源和团队的辛劳砸出来的，是PM无论怎样谈理论都得不到的，弥足珍贵，复盘的重要性有时甚至大于实现，所以对项目的复盘和个人的总结就尤为关键，无论公司是否有复盘要求，自己最好在上线一周内趁热打铁，完成此工作。</p>
-<p>项目复盘：个人推荐@杨福伟老师的《产品经理的能力进阶——做好复盘》，比较细致，操作性较强。</p>
-<p>个人复盘：一般是对需求线环节的检验，一看“我的PM技能体系”哪些地方还需要“知识升级”，二看工作态度和习惯上需要完善地方，完成自我迭代的过程。</p>
-<p>6、时间管理</p>
-<p>实习时负责100+团队的产品答疑工作，聊天窗口每天都闪烁不停，为保证手上事情及时完成同时处理沟通，我采用了番茄工作法，先腾出25分钟用来专注处理问题，然后5-10分钟处理外部事务，40分钟一组循环（开会等场合除外）。论坛也有很多大牛推荐其他针对PM的时间管理方案，选择适合自己工作节奏的就好。</p>
-<p>个人推荐@枯叶老师的《时间管理：在产品管理中如何获取更多时间》</p>
-<p> 3.针对PM的职业道路的思考 </p>
-<p>看了很多文章、前辈们的问题回答、公开课等等关于PM道路的探讨，实习下来有几点感触颇深。</p>
-<p>1、源自内心的热爱</p>
-<p>产品实现过程中，想尽办法解决每个问题，而不是草草尝试觉得无解就放弃。即使解决，思考是否有更高效的方案。PM领域需要深耕，而坚持的动力就源自内心的热爱，有种不达目的不罢休的“狠劲”。</p>
-<p>2、成本和体验</p>
-<p>从张小龙在微信公开课的讲述可以看出，微信这个工具深深地印着他的产品思维，产品体验重视到近乎偏执。但是大多数PM，为了商业价值和公司利益，会更多从性价比角度定夺，假设这个功能一定程度增加体验，但实现成本很高，基本会被砍。但这种妥协是否一定是正确的，平衡点在哪，这里希望能得到各位前辈指导。</p>
-<p>3、系统思维</p>
-<p>用户、场景、需求千千万，产品方案千千万，但构建思维是相通的，一个模块可以形成一个需求设计的轮子（例如注册模块，常用的就几种场景），轮子结合具体业务就能运行，数个轮子调整结合就是业务方案。PM在初期可以通过大量实践掌握自己的轮子库，个人感觉有点像七巧板，怎么组合地更精巧，给产品做减法，更好地服务于业务目标，是PM要持续修炼的内功。</p>
-<p>4、可以心怀改变世界的理想</p>
-<p>对于PM特别是新人而言，不能把“改变世界”的空话挂在嘴边。但是这个作为初心，作为最终目标，没有错。拆分目标为职业规划，做好执行，应付眼前的苟且的同时，也不忘诗和远方，做好实力的准备，等待机会的到来，没准真能“改变世界”。如人所言：仰望星空，脚踏实地。</p>
-<p> 5.针对初入职场的实习生而言</p>
-<p>我认为对于实习生或新入门PM而言，总的来讲是三件事情：</p>
-<p>保质保时完成leader给的每一个任务。证明可以出色完成已有任务的基础上，找leader要额外的任务，同样做好。学习人（同事和leader），学习事（通过这些任务学到了什么），高速迭代自己。几个关键点在于：<br>1、向上管理</p>
-<p>老生常谈的话题，但工作中还是容易忽略。第一点，手上任务节点主动汇报，让上级知晓进度，保持信息同步。第二点，需要上级确认拍板的及时催促，上级都很忙，不及时催，耽搁的是自己任务的进度。</p>
-<p>2、请教上级的是经过细致考虑的方案</p>
-<p>任务中遇到问题，自己查资料，想出清晰的方案（不是拍脑袋、凭空想的那种）A、B、C给到上级，再分别补充对每个方案的想法和依据，给出自己的选择。之后上级拍板，阐明理由并讨论，切忌抛给上级一堆问题。</p>
-<p>3、主动沟通</p>
-<p>不要一天都坐在工位上做自己的事，等别人来问。跟进手上每一个任务，主动询问进度，卡在哪个部门就及时出面，想办法解决（即使问题不是自己的），这样项目才能推起来。调用其他部门的资源及时告知其部门领导。</p>
-<p>4、克服情绪化</p>
-<p>作为团队的协调者，遇到各种障碍和阻力在所难免。自认情绪管理做的不错，但有时还是会控制不住，在工位上抱怨bug多，研发延期等等。虽然当时火大，但在工作中发泄这种消极情绪只会传染给团队，带来消极影响。所以即使有也别表现出来，将精力都投入解决问题中。</p>
-<p>5、眼界和格局</p>
-<p>作为新手，确实更注重执行层面，但不意味着放弃对问题的上层化思考。思考做的每一个功能对用户的价值，对公司的价值，对PM的价值。有时间刷刷行业动态，思考发展战略不是中高级PM的特权，趁上级空闲时多请教。</p>
-<p>6、持续学习</p>
-<p>途径和方法枚不胜举，重要的是阅读过他人分享的干货后，加以思考，并执行，执行的具体手段可以是运用到产品工作中，也可以写成总结文档做输出。仅仅停留在看完觉得好然后点个收藏的层面是远远不够的，吸收率很低，必须消化为自己的知识体系。</p>
-<p> 写在最后 </p>
-<p>互联网行业大都倡导敏捷原则，其实我这篇实习复盘总结也如此。由于资历尚浅，积累还远远不够，主要结合了踩过的坑，同事和领导传授的经验，自我认知与思考来写的，内容偏主观和片面，更像是工作笔记。而且受限篇幅，许多点没有详细举例说明。若有机会在未来接触更多高增长性的业务（俞军老师的定义），得到更系统的实战锻炼和指导，通过实践反馈—修正认知—反馈，小步快跑，才可能形成自己淬炼出来的，扎实可靠的产品方法论。</p>
-<p>拥抱变化，迭代自我，向着一个个细分的目标迈进，与诸位共勉。</p>
 
       
       <!-- reward -->
@@ -526,6 +605,82 @@
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E5%A4%8D%E7%9B%98%E6%96%B9%E6%B3%95%E8%AE%BA/" rel="tag">复盘方法论</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-第三周实习复盘总结---灵活多维度拉新" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="../../2018/06/20/%E7%AC%AC%E4%B8%89%E5%91%A8%E5%AE%9E%E4%B9%A0%E5%A4%8D%E7%9B%98%E6%80%BB%E7%BB%93---%E7%81%B5%E6%B4%BB%E5%A4%9A%E7%BB%B4%E5%BA%A6%E6%8B%89%E6%96%B0/"
+    >第三周实习复盘总结---灵活多维度拉新</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="../../2018/06/20/%E7%AC%AC%E4%B8%89%E5%91%A8%E5%AE%9E%E4%B9%A0%E5%A4%8D%E7%9B%98%E6%80%BB%E7%BB%93---%E7%81%B5%E6%B4%BB%E5%A4%9A%E7%BB%B4%E5%BA%A6%E6%8B%89%E6%96%B0/" class="article-date">
+  <time datetime="2018-06-19T16:00:00.000Z" itemprop="datePublished">2018-06-20</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../categories/%E5%AE%9E%E4%B9%A0%E9%A1%B9%E7%9B%AE%E6%8F%90%E6%A1%88/">实习项目提案</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>Welcome to share creative thoughts!</p>
+<p>实习第三周<del>经过无数次的头脑风暴、研讨优化、版本修改、迭代管理之后，泡泡小程序的运营方案终于新鲜出炉！<br>看着改了N次的运营流程图，想起昨天凌晨两点还在思考的优化细节，我露出了老母亲般的笑容，终于明白为什么leader说产品就是自己的孩子了</del> 当然，苦累都是值得的，在困难和思考中才能让自己迅速成长！</p>
+<h2 id="底层需求-有效闭环"><a href="#底层需求-有效闭环" class="headerlink" title="底层需求+有效闭环"></a>底层需求+有效闭环</h2><p>   想到了勒庞在《乌合之众》中描述的群体心理，这个万金油一般神奇的心理战术用在社区运营上再恰当不过了<del>真理似乎一直在不断地被循环印证。古老的心理学加上流行元素的碰撞，让我们像古代的魔法师一般，操控着蠢蠢欲动的集结群体。<br>  勒庞认为：“自觉地个性的消失，以及感情和思想转向一个不同的方向，是就要变成组织化群体的人所表现出的首要特征。”比如，在五四运动初期，“民主和自由”的口号指导着人民去救亡图存，当运动如火如荼的开展后，个人情绪在群体中被格外放大，口号与主题的分化不明确，让群体做出了类似“火烧赵家楼”的事件。<br>  <strong>群体的基本特征可以大致归为两方面，一是个性的消失，二是感情的强化。再者便是“无意识品质占上风”</strong>，当群众聚集时往往都会情绪高涨，使个人的感情不分青红皂白的归顺集体思想，从而不自觉地进入到集体意识中去，群体行为脱离理性的的最明显体现就在于群体的无意识行为代替了个人的有意识行为。<br>  在我看来，泡泡模块的拉新方案是打造一个影视、明星、粉丝的密切互动平台，囊括 了明星、影视、文化、兴趣等各种交流圈。通过引入并不断夸大私域流量池的方法，奠定后续留存与促活的群体基础。<strong>拉新的首要是精确刻画用户画像和一丝不苟的、滴水不漏的分析用户需求！</strong>需求对了，就可以很轻松地实现用户无限裂变拉新，就好像茫茫沙漠中的一场及时雨，一出场就迎来饥肠辘辘、求贤若渴的大批用户。正所谓：思路对了，事半功倍。所以我认为“用户拉新”方案的最高境界就是从用户的底层需求出发，探寻人性最深处的弱点。一个点足够，但是一定要保证是足够精准的，且绝对符合用户底层需求的，然后用它来作为贯穿整场活动的连接点。在刻画用户画像的时候，我认为要具体到个人，世上没有两片完全相同的叶子，同理，也没有完全一致的需求。社区是一切相似需求的集合体，要想引入私域流量，有两点很重要。<br>  <strong>1.以个体的眼光去观察最真实最细微的需求，具体到这个需求的频次与场景，类型和大小。充分利用用户的异质性和产品的情景性去打造流量池的入口！</strong><br>  <strong>2.以群体的策略去营销，用户的需求大小不一，主次不同，</strong>就算是调查问卷上清清楚楚的圈点与钩叉，也只是某一个情景下用户不假思索的反应，它的来源具有参考性但不具备完全正确性，但是呢，人是很奇妙的动物，流量池的原理就是利用了人性的从众、贪婪、趋利避害和虚荣心。从这个角度来说，用户是具有可塑性的，<strong>流量池的初衷就是把一个个具象的需求同治化、抽离最核心的要素，包装成一个大众需求的模样，就像过滤器一样，筛选出可以划分在一个集合的大众需求，再通过整形、转化、把不同的需求变成具有同样诉求的心理渴望，再充分利用人性的可塑性、脆弱性和同理心，弱化甄别需求，求同存异，</strong>在同化的过程中顺藤摸瓜，让用户以为这就是她的归属和家，这就是她苦苦追寻的精神家园</del>最终，以群体的角度去拉新促活。仔细思考一下，吃播文化的兴起，Papi酱的爆红，粉丝后援会的建立不都是利用了《乌合之众》里面的心理学战术吗？直播带货其实也就是网红与自己的私域流量进行物理经营、情感交互，最终使他们心甘情愿的掏出腰包的过程。<br>  <strong>这一点，很像算法里面的分治与归并，先切分、细化、再汇总、同治！</strong><br>思路对了，更重要的就是数据来源了，爱奇艺泡泡社区圈就像一种另类的订阅制电商，明星追踪就相当于个人订阅的某种服务。这种类似订阅模式通常具备较高的回购率，可以持续吸引用户付费，获取较好的现金流。通过明星圈、影视圈的互动，让用户及时了解爱豆动态，观看爱豆参与的综艺， 电影或者电视剧并在相关圈子群聊、发帖以及评论点赞，为爱豆打榜。这也符合泡泡社区 “泡圈、泡剧、泡 idol”的定位以及打通视频-明星-粉丝关系链的目标。和竞品比较，比较出新的一点就是线下的粉丝后援见面会活动，当我向leader提出这个方案时，一开始是被否定的，但是我经过大量的统计和调查之后，向leader说明了这种方案的可行性和必要性，最终被采用还是感到非常荣幸和有成就感的~<br><strong>我提出这个需求的背景是：</strong><br>我们几个实习生确定好了调研方向、设计调查问卷之后、通过实地访谈，朋友圈、泡泡圈发帖以及微博发放，收集了300余份的有效问卷之后，我分析得出用户的线<strong>下情感诉求很强烈。</strong>这个逻辑很简单，如果没有差异化优势，就会出现腾讯视频、优酷视频和爱奇艺视频三足鼎立的局面，毕竟功能和界面的改造不会拉开太大差距，<strong>如果功能相同、设计slogan相似，用户就会纠结于哪种渠道，当用户产生犹豫时，从那一刻起，我们就失去了焦点和热度。</strong><br>品牌的影响力就是提到什么，用户就能不假思索的想到并参与使用。<br>1.如果仅仅是线上的打卡问候与花絮回看，<strong>用户触摸不到最真实的场景和最新鲜的热度，自然就不会高效率地促进留存和转化环节</strong>。毕竟，亲自参与花絮拍摄、探班送祝福、粉丝机场见面会都能让用户真实真切的参与其中，<strong>通过这种肌肉型的强化记忆和亲身体验，提高用户粘性。</strong>当流量入口过于依赖单一平台时，一旦遇到不可抗力影响，就只能沦为待宰的羔羊。<strong>因此，我的思路是依托于平台的“点”、“面”、“线”主动去寻找更多元化的方式。泡泡圈建立，不是为了立刻就有转化。</strong>很多时候是为了建立社区关系或者是单纯的品牌形象维护，接下来才有可能进一步构建深层次的社区商务关系。销售活动的结果是销量，营销活动的结果是深化联系。线下见面会的根本目的就是为了深化联系、扩大社群影响力。<br>2.这条生态链的拉新和促动还可以带来很多流量引擎，在线下的见面会活动中，品牌赞助、运营商入驻、广告宣传、通过一系列的明星效应可以带动整个生态的资金流量，这也是商家盈利的契机。<strong>《大连接》里写道：连接行为本身就是自然选择的结果。我们必须与他人合作，判断他们的意图，影响他们或者被他们所影响。</strong>品牌、KOC与流量之间必须要在需求维度、交互维度、兴趣维度、信任维度上建立联系，这四个维度叠加在一起就是成交量的增加。<strong>缺乏感情色彩的泡泡圈很难走的健壮而长远。</strong>对比一下基于圈层文化的社群营销，他们有共同的爱好，彼此之间相互信任，相关产品自带感情色彩。这类群体往往会主动给别人“种草”的机会，就像一些喜欢二次元的人群会关注一些手办、漫画，然后会为这些东西赴约、买单是一个道理。<br>3.既然爱奇艺的slogan是悦享品质，用户画像是爱奇艺泡泡圈粉丝和热衷追剧追星的人群，偏女性和年轻化<strong>，那我们的主打方案就是高配服务，线上打榜，线下互动集群，开展见面会，打通线上线下、视频–花絮–明星追踪–粉丝见面的强大生态链。</strong>除了广告平台、头部品牌商，还有许多小微电商商家、线下零售商、饭店、酒店都可以在这条生态链中盈利，获取自己私域流量池的价值。<br><strong>我提出这个需求的灵感来源：</strong><br>1.<strong>私域流量没有“万能钥匙”：普遍玩法解决不了特殊难题。</strong>在流量质量大于流量数量，留存大于拉新的场景下，<strong>只有人、货、场这三者都对了，才能形成有效的成交和转化。</strong>爱奇艺每种类型圈子粉丝的活跃程度不同，有些圈子特别活跃而有些就相对冷清，这说明服务类别、消费频次、人群定位、范围定位的重要性。当入群成为一种常态，新鲜感不再的时候，我们就要抢占先机，最大程度激活用户的兴趣和痛点，在线下环节做到天时地利人和，让用户自主自愿的为爱豆买单。<br>2.“唯流量论”在各个领域生根发芽，但有了流量还有考虑高转化率，互联网平台不缺流量，腾讯视频、优酷视频背靠强大的流量引擎，在产品同质化、多元化的情况下，扩大私域流量池、下沉距离用户才是爱奇艺的出路。从认知心理学的思维来看，人是一个处理信息的系统。信息过少不敷使用，过多同样有害。各种爆料新闻、花絮追踪发放的频率要根据数据做好监控，实时修改发布策略。普遍真理就是欲速则不达，<strong>线上线下就是一个节奏调节器，通过这种物理上的缓存作用，让用户真实感受到泡泡圈的美好存在，延长粉丝生命周期才是应对竞争对手和流量变化不确定性的关键。</strong><br>3.我从新零售的思路想到了这个打通链接的方式。首先，“新零售”是指“以消费者体验为中心的数据驱动的泛零售形态”。大润发中国董事长黄明瑞认为，新零售是一种流程再构成，<strong>是线上线下融合</strong>，但它不仅是新技术的应用，同时也是新的思维方式。新零售意味着要对零售商业的产业价值链进行重新构造。而苏宁董事长张进东曾经说过：新零售是运用互联网、物联网技术，<strong>感知消费习惯，预测消费趋势，引导生产制造，为消费者提供多样化、个性化的产品和服务。</strong>我向leader提出爱奇艺泡泡的线下活动方案就是来源于这种新的思维方式，虽然初期不一定对，但是从目前的日活指数和粉丝入驻数量来看，方向是对的并且大有火热趋势。因为新零售的核心是以人为本，利用当下发达的数字技术充分逼近消费者的内心需求，重构人货场，实现“以消费者体验为中心”，所以作为链接明星和粉丝的品牌方，我们要做的就是打通双向渠道，充分给与双方表达的平台，为明星强力助势，为粉丝优化体验，形成一个良性发展的有效闭环！</p>
+<h2 id="情感共鸣-个性化表达"><a href="#情感共鸣-个性化表达" class="headerlink" title="情感共鸣+个性化表达"></a>情感共鸣+个性化表达</h2><p>除了上文的开展线下流程，打造全联通方案之后，我提出了一个很大胆的想法，那就是在爱奇艺的泡泡圈子中，开通明星的个人vlog，分享明星认为有趣、好玩、有价值的视频，有点类似花絮和个人真人秀，但是时长要短，并且要更新迭代快，这样可以促进日活，让用户感觉自己每天在追踪爱豆行踪，形成一种打卡似的登录习惯！在这个圈子中，粉丝可以通过写信和打榜爱心助力明星的火热等级排序，可以点赞、评论、设置爱豆加油包和加油话题圈，明星可以全方位多时空与粉丝交流见面，打通这个链路的思路是拿出终极的情感好牌~<br>我提出这个需求的原因如下：<br>1.用户对于喜爱的产品会爱不释手，而对于一般喜欢的产品则很容易“见异思迁”。情感化设计的指导思想就是：<strong>要让用户在使用产品的过程中产生强烈的情感共鸣，从而培养用户的忠诚度</strong>。人的基本情绪分别是：生气（Anger）、厌恶（Disgust）、恐惧（Fear）、悲伤（Sadness）、期待（Anticipation）、快乐（Joy）、惊讶（Surprise）、信任（Trust）。情绪的定义是生物体在进化过程中出现的、对环境变化的反馈行为，其目的是为了使生物体更好的解决生存适应问题。虽然在不同的生物体中，情绪反应的出现条件和表现形式各有不同，但是有一些基本的情绪元素是普遍存在于不同物种之间的。仔细调查一下我们周围的APP，一个小图标的风格，一个触摸屏的设计，甚至是一个界面的底色，都可以会触发用户的情感体验。<br>2.<strong>用户追星的本质需求是什么 ？<br>（1）</strong>逃离现实生活的琐碎和苦难，在明星的光环下构想美丽人生。正如每个女生都渴望自己拥有白马王子，生活富裕，生命有趣一样，明星就是理想生活的假设和精神寄托，其实每一个人都是双重性格的，一方面我们渴望成功和金钱，想要特立独行，仗剑天涯，希望活出不一样的自己。<br>（2）但是另外一个方面，我们又不得不向世界妥协，在现实的打击中踌躇满志，窝藏舒适圈。人的生活和生存，就是在这两个模式中左右切换，只是很多时候我们没有发掘罢了。追星的本质需求是在自己喜欢的明星上找到当年那个怀揣梦想、不惧年龄勇敢追梦的自己的影子。明星可以通过流量、热度、外貌、人设火热一时，但是我发现，真正的脑残粉僵尸粉一定是把自身的精神需求和假设寄托在某一个明星的特质上的。所以明星写故事、明星真人秀才能真正触动用户的精神诉求，让追星升华成个人价值认同和同化的情感诉求。营销最本质的，就是找准人设、个人标签，然后通过合适的渠道，投放到对口的平台，只要输入和输出的入口找准了，不火都难。<br>基于以上分析，我提出了这个互动模块的方案，不过评审和迭代还在讨论中，不管最后的结果能否通过，我都想坚持一下这个想法，也希望能和前辈们多学习怎样强化个性化表达产品方案！<br>总之，第三周，仍然是不停的改版本改方案，楼上楼下沟通交流，不过我很喜欢这种工作节奏和状态，也觉得自己每天都在成长，当我全身心去思考优化的时候，就像解数学题那样惊心动魄又酣畅淋漓，在和UI、研发小哥哥沟通的过程中，我也慢慢找到了谈话的技巧和交流的要素，这种感觉真的很棒！看着自己的头脑风暴在讨论会上评估、投票，真滴很开心，哈哈，如果以后不考研，我就要在PM的道路上坚定不移的走下去啦！<br><strong>不畏艰难!  不留遗憾  ! 追踪梦想<br>   以热爱的态度对待一切就是对自己的温柔<br>   秋霞小朋友，坚持热爱你的，  和你所热爱的一切！</strong></p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E4%BA%BA%E6%80%A7%E9%9C%80%E6%B1%82/" rel="tag">人性需求</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E5%A4%8D%E7%9B%98%E6%80%BB%E7%BB%93/" rel="tag">复盘总结</a></li></ul>
 
 
     </footer>
