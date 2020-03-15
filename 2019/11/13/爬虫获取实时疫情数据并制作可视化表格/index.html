@@ -6,7 +6,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    爬虫获取实时疫情数据并制作可视化表格 |  爱产品，爱前端！
+    接口防刷解决思路 |  爱产品，爱前端！
   </title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   
@@ -40,7 +40,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  爬虫获取实时疫情数据并制作可视化表格
+  接口防刷解决思路
 </h1>
   
 
@@ -50,9 +50,13 @@
     
     <div class="article-meta">
       <a href="" class="article-date">
-  <time datetime="2020-03-03T19:01:15.896Z" itemprop="datePublished">2020-03-04</time>
+  <time datetime="2019-11-12T16:00:00.000Z" itemprop="datePublished">2019-11-13</time>
 </a>
       
+  <div class="article-category">
+    <a class="article-category-link" href="../../../../categories/%E6%A1%86%E6%9E%B6%E4%B8%8E%E6%9E%B6%E6%9E%84/">框架与架构</a>
+  </div>
+
       
       
 <div class="word_count">
@@ -60,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">652字</span>
+            <span class="post-count">657字</span>
         </span>
     </span>
 
@@ -94,7 +98,7 @@
       
 
       
-      <p>学校的服务器连不上了，实验跑不起来，回顾一下学习的知识，结合爬虫技术，制作一下疫情数据可视化表格，希望疫情快点好起来吧！我想早点做实验，马上要找实习了，时间太紧张啦！</p>
+      <p>Welcome to share creative thoughts!学校的服务器连不上了，实验跑不起来，回顾一下学习的知识，结合爬虫技术，制作一下疫情数据可视化表格，希望疫情快点好起来吧！我想早点做实验，马上要找实习了，时间太紧张啦！</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">'react-dom'</span>;</span><br><span class="line"><span class="keyword">import</span> jsonData <span class="keyword">from</span> <span class="string">'./feiyan.json'</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'./06style.css'</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(jsonData)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> provincesObj = &#123;</span><br><span class="line">    <span class="comment">//做一个数组列表，格式化得到的信息，每个省份是一个对象，设置里面的属性和值</span></span><br><span class="line">    <span class="comment">// "湖北省":&#123;</span></span><br><span class="line">    <span class="comment">//     confirm:0,</span></span><br><span class="line">    <span class="comment">//     suspect:0,</span></span><br><span class="line">    <span class="comment">//     heal:0,</span></span><br><span class="line">    <span class="comment">//     deal:0,</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line">&#125;<span class="comment">//数组循环遍历，有索引值和元素，统计数据，拿province作为key,初始化为0，统计确诊，痊愈，死亡人数</span></span><br><span class="line"></span><br><span class="line">jsonData.data.list.forEach(<span class="function">(<span class="params">item,i</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(provincesObj[item.province]==<span class="literal">undefined</span>)&#123;</span><br><span class="line">        provincesObj[item.province] = &#123;</span><br><span class="line">            confirm:<span class="number">0</span>,</span><br><span class="line">            heal:<span class="number">0</span>,</span><br><span class="line">            dead:<span class="number">0</span>,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">     <span class="comment">//初始化之后，加入数据，一开始是undefined,默认为0,判断这个省份是否存在</span></span><br><span class="line">     <span class="comment">//为null就设为0</span></span><br><span class="line">    item.confirm = item.confirm?item.confirm:<span class="number">0</span>;</span><br><span class="line">    item.heal = item.heal?item.heal:<span class="number">0</span>;</span><br><span class="line">    item.dead = item.dead?item.dead:<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    provincesObj[item.province] = &#123;</span><br><span class="line">        confirm:provincesObj[item.province].confirm+item.confirm,</span><br><span class="line">        heal:provincesObj[item.province].heal+item.heal,</span><br><span class="line">        dead:provincesObj[item.province].dead+item.dead</span><br><span class="line">    &#125;<span class="comment">//累加</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> provinceList = []<span class="comment">//加入数据，</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> provincesObj) &#123;</span><br><span class="line">    provincesObj[key].province = key;<span class="comment">//哪个省份</span></span><br><span class="line">    provinceList.push(provincesObj[key])<span class="comment">//具体人数</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//放入数据</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(provincesObj)</span><br><span class="line"><span class="built_in">console</span>.log(provinceList)</span><br><span class="line"></span><br><span class="line"><span class="comment">//排序</span></span><br><span class="line"><span class="keyword">let</span> provinceListSort = provinceList.sort(<span class="function">(<span class="params">a,b</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(a.confirm&lt;b.confirm)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)<span class="comment">//保证确证人数在最顶端，生成新的列表有顺序</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(provinceListSort)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bili</span>  <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props)&#123;</span><br><span class="line">        <span class="keyword">super</span>(props)</span><br><span class="line">    &#125;</span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="comment">//渲染模板</span></span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &lt;h1&gt;中国病例&lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">                &lt;ul&gt;</span></span><br><span class="line"><span class="regexp">                    &lt;li&gt;</span></span><br><span class="line"><span class="regexp">                        &lt;span&gt;地区&lt;/</span>span&gt;</span><br><span class="line">                        &lt;span&gt;确诊&lt;<span class="regexp">/span&gt;</span></span><br><span class="line"><span class="regexp">                        &lt;span&gt;死亡&lt;/</span>span&gt;</span><br><span class="line">                        &lt;span&gt;治愈&lt;<span class="regexp">/span&gt;</span></span><br><span class="line"><span class="regexp">                    &lt;/</span>li&gt;</span><br><span class="line"></span><br><span class="line">                    &#123;<span class="comment">//传入数据，返回最终的表格</span></span><br><span class="line">                        <span class="keyword">this</span>.props.list.map(<span class="function">(<span class="params">item,index</span>)=&gt;</span>&#123;</span><br><span class="line">                            <span class="keyword">return</span> (</span><br><span class="line">                                &lt;li&gt;</span><br><span class="line">                                    &lt;span&gt;&#123;item.province&#125;&lt;<span class="regexp">/span&gt;</span></span><br><span class="line"><span class="regexp">                                    &lt;span&gt;&#123;item.confirm&#125;&lt;/</span>span&gt;</span><br><span class="line">                                    &lt;span&gt;&#123;item.dead&#125;&lt;<span class="regexp">/span&gt;</span></span><br><span class="line"><span class="regexp">                                    &lt;span&gt;&#123;item.heal&#125;&lt;/</span>span&gt;</span><br><span class="line">                                &lt;<span class="regexp">/li&gt; </span></span><br><span class="line"><span class="regexp">                            )</span></span><br><span class="line"><span class="regexp">                        &#125;)</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">                    &#125;</span></span><br><span class="line"><span class="regexp">                &lt;/u</span>l&gt;</span><br><span class="line">            &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        )</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">ReactDOM.render(</span></span><br><span class="line"><span class="regexp">    &lt;Bili list=&#123;provinceListSort&#125;&gt;&lt;/</span>Bili&gt;,</span><br><span class="line">    <span class="built_in">document</span>.querySelector(<span class="string">'#root'</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 <p>CSS部分</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">ul,li&#123;</span><br><span class="line">    list-style: none;</span><br><span class="line">    margin: <span class="number">0</span>;</span><br><span class="line">    padding: <span class="number">5</span>px <span class="number">5</span>px;</span><br><span class="line">&#125;</span><br><span class="line">li&#123;</span><br><span class="line">    display: flex;</span><br><span class="line">    <span class="comment">/*设置flex布局*/</span></span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line">span&#123;</span><br><span class="line">    flex: <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">li:nth-child(odd)&#123;<span class="comment">/*奇数选择器*/</span></span><br><span class="line">    background-color: #efefef;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -170,13 +174,15 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/03/04/%E7%88%AC%E8%99%AB%E8%8E%B7%E5%8F%96%E5%AE%9E%E6%97%B6%E7%96%AB%E6%83%85%E6%95%B0%E6%8D%AE%E5%B9%B6%E5%88%B6%E4%BD%9C%E5%8F%AF%E8%A7%86%E5%8C%96%E8%A1%A8%E6%A0%BC/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2019/11/13/%E7%88%AC%E8%99%AB%E8%8E%B7%E5%8F%96%E5%AE%9E%E6%97%B6%E7%96%AB%E6%83%85%E6%95%B0%E6%8D%AE%E5%B9%B6%E5%88%B6%E4%BD%9C%E5%8F%AF%E8%A7%86%E5%8C%96%E8%A1%A8%E6%A0%BC/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E9%A1%B9%E7%9B%AE%E6%80%9D%E8%80%83/" rel="tag">项目思考</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E9%AB%98%E5%B9%B6%E5%8F%91/" rel="tag">高并发</a></li></ul>
+
 
     </footer>
 
@@ -186,19 +192,19 @@
   
   <nav class="article-nav">
     
-      <a href="../%E8%B0%88%E8%B0%88Ajax/" class="article-nav-link">
+      <a href="../../14/%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90%E6%87%92%E5%8A%A0%E8%BD%BD%E3%80%81%E9%A2%84%E5%8A%A0%E8%BD%BD/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            谈谈Ajax
+            深入分析懒加载、预加载
           
         </div>
       </a>
     
     
-      <a href="../%E6%95%B0%E7%BB%84%E6%8A%80%E5%B7%A7%E6%80%BB%E7%BB%93/" class="article-nav-link">
+      <a href="../%E6%8E%A5%E5%8F%A3%E9%98%B2%E5%88%B7%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">数组技巧总结</div>
+        <div class="article-nav-title">接口防刷解决思路</div>
       </a>
     
   </nav>
