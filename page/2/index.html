@@ -71,6 +71,88 @@
     
     
     
+    <article id="post-多人姿态估计研究进展报告" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="../../2020/02/18/%E5%A4%9A%E4%BA%BA%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1%E7%A0%94%E7%A9%B6%E8%BF%9B%E5%B1%95%E6%8A%A5%E5%91%8A/"
+    >多人姿态估计研究进展报告</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="../../2020/02/18/%E5%A4%9A%E4%BA%BA%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1%E7%A0%94%E7%A9%B6%E8%BF%9B%E5%B1%95%E6%8A%A5%E5%91%8A/" class="article-date">
+  <time datetime="2020-02-17T16:00:00.000Z" itemprop="datePublished">2020-02-18</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../categories/Artificial-Intelligence/">Artificial Intelligence</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>Welcome to share creative thoughts!</p>
+<h2 id="SimplePose-Rethinking-and-Improving-a-Bottom-upApproach-for-Multi-Person-Pose-Estimation"><a href="#SimplePose-Rethinking-and-Improving-a-Bottom-upApproach-for-Multi-Person-Pose-Estimation" class="headerlink" title="SimplePose:Rethinking and Improving a Bottom-upApproach for Multi-Person Pose Estimation"></a>SimplePose:Rethinking and Improving a Bottom-upApproach for Multi-Person Pose Estimation</h2><h2 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的:"></a>实验目的:</h2><p> 1.将Spatial Attention Mechanism和Channel Attention Mechanism融 合到Stacked Hourglass中，使用多尺度监督学习的方法引导网络生成高质 量高分辨率的热图，并且提高网络检测人体姿态的尺度变化的鲁棒性。<br><img src="https://img-blog.csdnimg.cn/20200311232601643.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>                                                                                         整体网络模型架构（图一）<br>                                                          导入空间注意力机制和渠道注意力机制的具体分支（图二）</p>
+<h2 id="实验原理："><a href="#实验原理：" class="headerlink" title="实验原理："></a>实验原理：</h2><p>  让网络直接预测输入图像空间下的gaussian peak的采样。在下文的网络模 型和实验流程、难点中会详细推导。<br>  网络模型解析：<br>  1.从图一每个沙漏模块中提取5个不同尺度的特征图，这里的特征图指的是 所有下采样路径中被蓝色虚线框包围的特征图，用于生成不同尺度的热图。<br>   2.举例来说：图一中抽离了1/4比例尺的热图回归，前一阶段的回归特征图 和热图将在下一阶段根据身份ID来映射，通过 element-wise addition 的方法进行融合和复用。<br>  3.图二分为上下两个分支，提取了不同尺度的空间特征，生成Hourglass Network整个结构中所有分辨率的ground truth heatmap，网络内部在低 分辨率下做了多次前向推理，生成某个通道下的body part heatmap在各 个尺度的标签，实验结果中展示了5个scale下的热图。 </p>
+<h2 id="实验对比"><a href="#实验对比" class="headerlink" title="实验对比:"></a>实验对比:</h2><p>1.在低分辨率下生成精确热度图的难度是很大的，先前的工作都是重新生成 在其他分辨率下的精确热图，采用特征金字塔的架构构建高级语义特征图。<br> 2.而本次实验方案是：汲取空间注意力机制的思想，使用自适应平均池化后 的“热度图”作为关键点定位信息的引导，先生成平均池化后的热度图，再 放置到网络输出的不同分辨率特征空间下做直接监督。 </p>
+<h2 id="实验难点（一）"><a href="#实验难点（一）" class="headerlink" title="实验难点（一）"></a>实验难点（一）</h2><p>1.要对所引入的不同分辨率特征的监督损失做好平衡，否则容易出现训练失败（主要是梯度爆炸或者某个分辨率下学习不良）的情况。<br> 解决方案 : 1.对不同尺度下的损失进行加权，依据是根据输出特征图的面积进行数值上 的超参数调节。</p>
+<h2 id="实验难点（二）"><a href="#实验难点（二）" class="headerlink" title="实验难点（二）"></a>实验难点（二）</h2><p> 2.解决数据预处理、坐标点变换和生成ground truth heatmap过程中的中 心点对齐问题，只有解决了这个问题才能让网络直接预测输入图像空间下的 gaussian peak的采样。 解决方案: 2.按照经典的图像缩放原则(比如opencv和PIL的resize函数)，将像素当作 是位于一个1*1单元格(cell)的中心，最终的目的是为了得出缩放前后某个像 素位置和原始位置的精确坐标值，这时候就需要考虑几何中心点对齐。 缩放过程中，必须要为目标图像dstImg上的每个像素位置找到与之对应的 原图像srcImg的位置，并把原图像srcImg上对应的像素值填入目标图像 dstImg的该坐标位置处。 注意：如果映射回原图srcImg的坐标位置不是整数，那么就需要做插值， 算出映射回去的非整数坐标位置上的原图上的像素值是多少，所以在缩放过 程中要选择使用几阶的插值算法 。<br> 实验中生成keypoint Gaussian heatmap和body part Gaussian heatmap的核心代码： </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1 # x, y coordinates of centers of bigger grid, stride / 2 ‐0.5是为了在计算 响应图时，使用grid的中心 2 self.grid_x = np.arange(width) * stride + stride / 2 ‐ 0.5 # x ‐&gt; width</span><br><span class="line">3 self.grid_y = np.arange(height) * stride + stride / 2 ‐ 0.5 # y ‐&gt; heigh t4 # x ,y indexes (type: int) of heatmap feature maps 5 self.Y, self.X = np.mgrid[0:self.config.height:stride, 0:self.config.wid th:stride] 6 # 对&lt;numpy.lib.index_tricks.MGridClass object&gt; slice操作，比如L[:10:2]前1 0个数，每隔两个取一个 7 # # basically we should use center of grid, but in this place classic im plementation uses left‐top point. 8 self.X = self.X + stride / 2 ‐ 0.5 9 self.Y = self.Y + stride / 2 ‐ 0.5</span><br></pre></td></tr></table></figure>
+
+<p> 实验难点（三）<br> 3.有多少个limb,就有多少个connection,相对应地就有多少个 paf channel。在处理某一个channel上limb的响应热图前，要保证它的长 宽与原始输入图片大小一致，必须要经过resize处理，具体处理时标号默认 从0开始而不是1。<br> 最终从收集的peaks中取出某类关键点（part)的集合。当出现不同节点相 互覆盖在同一个位置上时，代码中要做特殊边界处理，跳出本次检测的循 环。<br>实验结果： <img src="https://img-blog.csdnimg.cn/20200311232837586.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200311232853418.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="实验小结："><a href="#实验小结：" class="headerlink" title="实验小结："></a>实验小结：</h2><p>1.测试发现这种网络架构使用自适应平均池化后的“热度图”作为关键点定 位信息，将减少网络多尺度监督学习的难度，在低分辨率特征空间下只预测 关键点响应的大致区域。<br>2.实验结果显示：在多尺度特征融合的基础上，加入Spatial Attention Mechanism引导机制后，带来了1+%AP的精度提升。 实验改进方向： 对于预测body part area和keypoint area，回归gaussian peak比直接回 归两个相邻关键点之间的offset更加容易，但是要进一步提高AP，就要不 断优化不同关键点之间连接信息的挖掘策略，在代码中设计好逻辑判断，优 化预测limb的置信度迭代方案</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Human-Pose-Estimination/" rel="tag">Human  Pose  Estimination</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-webpack学习笔记" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -983,111 +1065,6 @@
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Node/" rel="tag">Node</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-重绘与回流" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="../../2019/11/12/%E9%87%8D%E7%BB%98%E4%B8%8E%E5%9B%9E%E6%B5%81/"
-    >重绘与回流</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="../../2019/11/12/%E9%87%8D%E7%BB%98%E4%B8%8E%E5%9B%9E%E6%B5%81/" class="article-date">
-  <time datetime="2019-11-11T16:00:00.000Z" itemprop="datePublished">2019-11-12</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="../../categories/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96/">前端优化</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>Welcome to share creative thoughts!</p>
-<h2 id="重绘与回流的机制"><a href="#重绘与回流的机制" class="headerlink" title="重绘与回流的机制"></a>重绘与回流的机制</h2><p>CSS外部文件的引入要放到头部，加载CSS的时候页面渲染是被阻塞的，JS也是会阻塞页面渲染的，UI渲染和JS引擎线程是互斥的，不是并行的，CSS的性能会让JS变慢，优化性能，layout painting。</p>
-<ol>
-<li><p>当render tree中的一部分(或全部)因为元素的规模尺寸，几何属性，布局，隐藏等改变而需要重新构建。这就称为回流。每个页面至少需要一次回流，就是在页面第一次加载的时候。</p>
-</li>
-<li><p>当render tree中的一些元素需要更新属性，而这些属性只是影响元素的外观，风格，而不会影响布局的，比如background-color。则就叫称为重绘。</p>
-</li>
-</ol>
-<p>注：回流必将引起重绘，而重绘不一定会引起回流。</p>
-<h2 id="哪些情况会发生重绘，回流？"><a href="#哪些情况会发生重绘，回流？" class="headerlink" title="哪些情况会发生重绘，回流？"></a>哪些情况会发生重绘，回流？</h2><p>不同的条件下发生重排的范围及程度会不同 ：</p>
-<p>1.页面初始渲染</p>
-<p>2.改变字体，改变元素尺寸（宽、高、内外边距、边框，改变元素位置等</p>
-<pre><code>各种情况：
-
-         设置 style 属性的值 
-
-         激活 CSS 伪类，比如 :hover
-
-         操作 class 属性
-
-        css3的某些属性（https://csstriggers.com/  结合此链接查看哪些属性会触发重排、哪些属性会触发重绘以及哪些属性会触发合成；）</code></pre><p>（注意：如果修改属性不影响布局则不会发生重排）</p>
-<p>3..改变元素内容（文本或图片等或比如用户在input框中输入文字）</p>
-<p>4.添加/删除可见DOM元素（注意：如果是删除本身就display:none的元素不会发生重排；visibility:hidden的元素显示或隐藏不影响重排）</p>
-<p>5.fixed定位的元素,在拖动滚动条的时候会一直回流</p>
-<ol start="6">
-<li>调整窗口大小（Resizing the window）</li>
-</ol>
-<p>7.计算 offsetWidth 和 offsetHeight 属性【注释2】</p>
-<p>【注释2：flush队列】</p>
-<p>浏览器是聪明的，当对以下属性进行操作的时候：</p>
-<p>包括：offsetTop、offsetLeft、 offsetWidth、offsetHeight、scrollTop、scrollLeft、scrollWidth、scrollHeight、clientTop、clientLeft、clientWidth、clientHeight、getComputedStyle() (currentStyle in IE)。</p>
-<p>浏览器不会马上操作它们，而是会先缓存在队列中，有一定时间顺序去执行这些操作，但是在这过程中我们需要去获取在该队列中的属性时，浏览器为取得正确的值就会触发重排。这样就使得浏览器的优化失效了。</p>
-<p>所以，在多次使用这些值时应进行缓存。</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E7%B3%BB%E5%88%97/" rel="tag">性能优化系列</a></li></ul>
 
 
     </footer>

@@ -71,6 +71,111 @@
     
     
     
+    <article id="post-重绘与回流" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="../../2019/11/12/%E9%87%8D%E7%BB%98%E4%B8%8E%E5%9B%9E%E6%B5%81/"
+    >重绘与回流</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="../../2019/11/12/%E9%87%8D%E7%BB%98%E4%B8%8E%E5%9B%9E%E6%B5%81/" class="article-date">
+  <time datetime="2019-11-11T16:00:00.000Z" itemprop="datePublished">2019-11-12</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../categories/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96/">前端优化</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>Welcome to share creative thoughts!</p>
+<h2 id="重绘与回流的机制"><a href="#重绘与回流的机制" class="headerlink" title="重绘与回流的机制"></a>重绘与回流的机制</h2><p>CSS外部文件的引入要放到头部，加载CSS的时候页面渲染是被阻塞的，JS也是会阻塞页面渲染的，UI渲染和JS引擎线程是互斥的，不是并行的，CSS的性能会让JS变慢，优化性能，layout painting。</p>
+<ol>
+<li><p>当render tree中的一部分(或全部)因为元素的规模尺寸，几何属性，布局，隐藏等改变而需要重新构建。这就称为回流。每个页面至少需要一次回流，就是在页面第一次加载的时候。</p>
+</li>
+<li><p>当render tree中的一些元素需要更新属性，而这些属性只是影响元素的外观，风格，而不会影响布局的，比如background-color。则就叫称为重绘。</p>
+</li>
+</ol>
+<p>注：回流必将引起重绘，而重绘不一定会引起回流。</p>
+<h2 id="哪些情况会发生重绘，回流？"><a href="#哪些情况会发生重绘，回流？" class="headerlink" title="哪些情况会发生重绘，回流？"></a>哪些情况会发生重绘，回流？</h2><p>不同的条件下发生重排的范围及程度会不同 ：</p>
+<p>1.页面初始渲染</p>
+<p>2.改变字体，改变元素尺寸（宽、高、内外边距、边框，改变元素位置等</p>
+<pre><code>各种情况：
+
+         设置 style 属性的值 
+
+         激活 CSS 伪类，比如 :hover
+
+         操作 class 属性
+
+        css3的某些属性（https://csstriggers.com/  结合此链接查看哪些属性会触发重排、哪些属性会触发重绘以及哪些属性会触发合成；）</code></pre><p>（注意：如果修改属性不影响布局则不会发生重排）</p>
+<p>3..改变元素内容（文本或图片等或比如用户在input框中输入文字）</p>
+<p>4.添加/删除可见DOM元素（注意：如果是删除本身就display:none的元素不会发生重排；visibility:hidden的元素显示或隐藏不影响重排）</p>
+<p>5.fixed定位的元素,在拖动滚动条的时候会一直回流</p>
+<ol start="6">
+<li>调整窗口大小（Resizing the window）</li>
+</ol>
+<p>7.计算 offsetWidth 和 offsetHeight 属性【注释2】</p>
+<p>【注释2：flush队列】</p>
+<p>浏览器是聪明的，当对以下属性进行操作的时候：</p>
+<p>包括：offsetTop、offsetLeft、 offsetWidth、offsetHeight、scrollTop、scrollLeft、scrollWidth、scrollHeight、clientTop、clientLeft、clientWidth、clientHeight、getComputedStyle() (currentStyle in IE)。</p>
+<p>浏览器不会马上操作它们，而是会先缓存在队列中，有一定时间顺序去执行这些操作，但是在这过程中我们需要去获取在该队列中的属性时，浏览器为取得正确的值就会触发重排。这样就使得浏览器的优化失效了。</p>
+<p>所以，在多次使用这些值时应进行缓存。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E7%B3%BB%E5%88%97/" rel="tag">性能优化系列</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-用户鉴权场景" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -1049,90 +1154,6 @@ Object.prototype.toString.call(/./);          //&quot;[object RegExp]&quot;</cod
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Javascript/" rel="tag">Javascript</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-React" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="../../2019/08/23/React/"
-    >React生命周期（一）</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="../../2019/08/23/React/" class="article-date">
-  <time datetime="2019-08-22T16:00:00.000Z" itemprop="datePublished">2019-08-23</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="../../categories/%E6%89%93%E6%80%AA%E5%8D%87%E7%BA%A7React/">打怪升级React</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h1 id="Initialization-初始化阶段。"><a href="#Initialization-初始化阶段。" class="headerlink" title="Initialization:初始化阶段。"></a>Initialization:初始化阶段。</h1><h1 id="Mounting-挂载阶段。"><a href="#Mounting-挂载阶段。" class="headerlink" title="Mounting: 挂载阶段。"></a>Mounting: 挂载阶段。</h1><h1 id="Updation-更新阶段。"><a href="#Updation-更新阶段。" class="headerlink" title="Updation: 更新阶段。"></a>Updation: 更新阶段。</h1><h1 id="Unmounting-销毁阶段"><a href="#Unmounting-销毁阶段" class="headerlink" title="Unmounting: 销毁阶段"></a>Unmounting: 销毁阶段</h1><p>什么是生命周期函数？<br>如果非要用一句话把生命周期函数说明白，我觉的可以用这句话来说明：</p>
-<p>生命周期函数指在某一个时刻组件会自动调用执行的函数</p>
-<p>举例：render()函数，就是一个生命周期函数，它在state发生改变时自动执行。这就是一个标准的自动执行函数。</p>
-<p>constructor不算生命周期函数。<br>constructor叫构造函数，它是ES6的基本语法。虽然它和生命周期函数的性质一样，但不能认为是生命周期函数。</p>
-<p>我个人把它看成React的Initialization阶段，定义属性（props）和状态(state)。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200302110716424.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>Mounting阶段<br>Mounting阶段叫挂载阶段，伴随着整个虚拟DOM的生成，它里边有三个小的生命周期函数，分别是：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">componentWillMount : 在组件即将被挂载到页面的时刻执行。</span><br><span class="line">render : 页面state或props发生变化时执行。</span><br><span class="line">componentDidMount : 组件挂载完成时被执行。</span><br><span class="line">componentWillMount代码</span><br><span class="line"></span><br><span class="line">componentWillMount()&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'componentWillMount----组件将要挂载到页面的时刻'</span>)</span><br><span class="line">&#125;</span><br><span class="line">componentDidMount代码</span><br><span class="line"></span><br><span class="line">componentDidMount()&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'componentDidMount----组件挂载完成的时刻执行'</span>)</span><br><span class="line">&#125;</span><br><span class="line">render代码</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">render()&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'render---组件挂载中.......'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>查看一下控制台，会打出如下提示：</p>
-<p>componentWillMount—-组件将要挂载到页面的时刻执行<br>render—-开始挂载渲染<br>componentDidMount—-组件挂载完成的时刻执行<br>这也是生命周期的顺序。有小伙伴会问我，这个函数书写有顺序吗?哪个在前？哪个在后？其实是没有顺序的，你可以随便改动他们的顺序。</p>
-<p>注意的问题：</p>
-<p>componentWillMount和componentDidMount这两个生命周期函数，只在页面刷新时执行一次，而render函数是只要有state和props变化就会执行，这个一定要注意。</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/React/" rel="tag">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/jsx/" rel="tag">jsx</a></li></ul>
 
 
     </footer>
