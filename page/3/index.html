@@ -71,6 +71,87 @@
     
     
     
+    <article id="post-页面加载渲染的优化（一）" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="../../2019/11/13/%E9%A1%B5%E9%9D%A2%E5%8A%A0%E8%BD%BD%E6%B8%B2%E6%9F%93%E7%9A%84%E4%BC%98%E5%8C%96%EF%BC%88%E4%B8%80%EF%BC%89/"
+    >页面加载渲染的优化（一）</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="../../2019/11/13/%E9%A1%B5%E9%9D%A2%E5%8A%A0%E8%BD%BD%E6%B8%B2%E6%9F%93%E7%9A%84%E4%BC%98%E5%8C%96%EF%BC%88%E4%B8%80%EF%BC%89/" class="article-date">
+  <time datetime="2019-11-12T16:00:00.000Z" itemprop="datePublished">2019-11-13</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>Welcome to share creative thoughts!</p>
+<p><img src="https://img-blog.csdnimg.cn/20200304125232265.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<blockquote>
+<p>1.HTML本身是通过网址请求回来的，由字节流转换成字符流，浏览器进行词法分析，分析成词法的token，从上到下，不同  &gt;的标签类型会解析成不同的对象，然后加载到DOM树上。<br>2.HTML中会通过link引入其他资源，这时会并发的请求静态资源，请求回来之后会和CSS资源进行结合，生成渲染树。<br>3.只有DOM树和CSS树都生成之后才会进行渲染，布局，绘制。<br>特点<br>1.顺序执行，并发加载（设3-4个CDN域名去最大化并发加载）<br>2.是否阻塞<br>3.依赖关系<br>4.引入方式</p>
+</blockquote>
+<p>场景：<br>1.页面出来了，样式没有出来，闪退等，是因为没有遵循好依赖关系，如果CSS放在header中去引入，那么页面就会等待CSS加载完毕生成CSS树之后再渲染，就不会出现闪动。<br>2.JS的执行顺序，通过JS 的async标签进行异步加载，梳理好依赖关系。<br>3.方式：JS通过script会有阻塞问题，可以通过defer,async标签更好。<br>3.是否动态引入？判断是不是在需要的时候再去加载。SPA单页应用应该在路由到某个页面的时候再去加载那个路由的内容，要异步动态的去引入内容。</p>
+<h2 id="顺序执行，并发加载"><a href="#顺序执行，并发加载" class="headerlink" title="顺序执行，并发加载"></a>顺序执行，并发加载</h2><p>1.词法分析时，token的获取是从下到下顺序执行的<br>2.并发请求外部资源<br>3.并发上限：某个域名的限制</p>
+<h2 id="CSS阻塞"><a href="#CSS阻塞" class="headerlink" title="CSS阻塞"></a>CSS阻塞</h2><p>1.CSS在head中会阻塞页面的渲染，页面需要link标签里面的样式内容才能去渲染，但为了避免闪动，还是要这样引入。<br>2.CSS阻塞JS的执行，JS去操作DOM，这时可能会有样式的修改，JS要依赖CSS之前加载完的样式效果。<br>3.CSS不阻塞外部脚本的加载，原因是webkit有HTML-preloader-scanner这样一个类，会预先扫描词法，通过预先加载器来请求后期加载所需要的资源。</p>
+<h2 id="JS阻塞"><a href="#JS阻塞" class="headerlink" title="JS阻塞"></a>JS阻塞</h2><p>1.没有通过defer和async的，直接通过script标签的JS 会阻塞页面的渲染。<br>2.JS不会阻塞资源的加载。<strong>因为webkit有预先扫描器，有引用其他资源时，会并发去请求所需的资源，进行预先加载。</strong><br>3.JS顺序执行，阻塞后续JS逻辑的执行。JS有可能会调用document.write的方式，去修改DOM结构，那么由于动态修改了文档，JS会阻塞后面节点的创建。文档结构的分析和渲染会等到JS代码执行完成之后再去调用html.parse进行词法分析。<br>4.JS是顺序执行的，不管返回的情况如何，JS都会保存引入的依赖关系进行单线程加载。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">前端性能优化</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-Node.js的三大特点" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -1011,120 +1092,6 @@
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E4%BA%91%E8%AE%A1%E7%AE%97/" rel="tag">云计算</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-React中绑定this并传参的几种方式" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="../../2019/10/10/React%E4%B8%AD%E7%BB%91%E5%AE%9Athis%E5%B9%B6%E4%BC%A0%E5%8F%82%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/"
-    >React中绑定this并传参的几种方式</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="../../2019/10/10/React%E4%B8%AD%E7%BB%91%E5%AE%9Athis%E5%B9%B6%E4%BC%A0%E5%8F%82%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/" class="article-date">
-  <time datetime="2019-10-09T16:00:00.000Z" itemprop="datePublished">2019-10-10</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="../../categories/%E6%89%93%E6%80%AA%E5%8D%87%E7%BA%A7React/">打怪升级React</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>Welcome to share creative thoughts!</p>
-<blockquote>
-<p>在事件处理函数中，直接使用 bind 绑定 this 并传参<br>在构造函数中绑定并传参<br>利用箭头函数的this指向解决<br>bind的作用：为前面的函数，修改函数内部的 this 指向，让函数内部的this，指向 bind 参数列表中的 第一个参数 </p>
-</blockquote>
-<p>bind 和 call/apply 之间的区别： call/apply 修改完this指向后，会立即调用前面的函数，但是 bind 只是修改this指向，并不会l立即调用，bind会重新返回一个新函数。</p>
-<p>注意： bind 中的第一个参数，是用来修改 this 指向的，第一个参数后面的所有参数，都会当作将来调用 前面函数 时候的参数传递进去</p>
-<p>接下来具体看代码：<br>第一种方式的代码： </p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">BindThis</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props)&#123;</span><br><span class="line">    <span class="keyword">super</span>(props)</span><br><span class="line">    <span class="keyword">this</span>.state=&#123;</span><br><span class="line">      msg:<span class="string">'这是默认的msg'</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  render()&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml"> </span></span><br><span class="line"><span class="xml">      &#123;/* 方式1：在 事件处理函数中，直接使用 bind 绑定 this 并传参 */&#125;</span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">'绑定This并传参的方式'</span> <span class="attr">onClick</span>=<span class="string">&#123;this.changeMsg1.bind(this,</span> '🐷', '🍕')&#125;/&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">hr</span>/&gt;</span></span></span><br><span class="line"><span class="xml"> </span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">h3</span>&gt;</span>&#123;this.state.msg&#125;<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"> changeMsg1(arg1, arg2)&#123;</span><br><span class="line">    <span class="comment">//注意：这里的方式，是一个普通的方法，因此，在触发的时候，这里的this是undefined</span></span><br><span class="line">    <span class="comment">// console.log(this);</span></span><br><span class="line">    <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">      msg:<span class="string">'绑定This并传参的方式'</span>+ arg1 + arg2</span><br><span class="line">    &#125;) </span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br><span class="line">第二种方式的代码：</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">BindThis</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props)&#123;</span><br><span class="line">    <span class="keyword">super</span>(props)</span><br><span class="line">    <span class="keyword">this</span>.state=&#123;</span><br><span class="line">      msg:<span class="string">'这是默认的msg'</span></span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 绑定 this 并传参的方式2: 在构造函数中绑定并传参</span></span><br><span class="line">    <span class="comment">// 注意，当一个函数，调用 bind 改变了this指向后，bind 函数调用的结果，有一个返回值，这个值，就是被改变this指向后的函数的引用</span></span><br><span class="line">    <span class="comment">// 注意： bind 不会修改 原函数的 this 指向</span></span><br><span class="line">    <span class="keyword">this</span>.changeMsg2 = <span class="keyword">this</span>.changeMsg2.bind(<span class="keyword">this</span>, <span class="string">'🚗'</span>, <span class="string">'👫'</span>)</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  render()&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"绑定this并传参的方式2"</span> <span class="attr">onClick</span>=<span class="string">&#123;this.changeMsg2&#125;</span> /&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">hr</span>/&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">h3</span>&gt;</span>&#123;this.state.msg&#125;<span class="tag">&lt;/<span class="name">h3</span>&gt;</span>  </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">  changeMsg2(arg1,arg2)&#123;</span><br><span class="line">    <span class="comment">//console.log(this)</span></span><br><span class="line">    <span class="comment">// 注意：这里的方式，是一个普通方法，因此，在触发的时候，这里的 this 是 undefined</span></span><br><span class="line">    <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">      msg: <span class="string">'绑定this并传参的方式2'</span> + arg1 + arg2</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<blockquote>
-<p>第二种方式需要注意： 当一个函数，调用 bind 改变了this指向后，bind 函数调用的结果，有一个返回值，这个值，就是被改变this指向后的函数的引用；<br>            bind 不会修改 原函数的 this 指向</p>
-</blockquote>
-<p> 第三种方式代码： </p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">BindThis</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props)&#123;</span><br><span class="line">    <span class="keyword">super</span>(props)</span><br><span class="line">    <span class="keyword">this</span>.state=&#123;</span><br><span class="line">      msg:<span class="string">'这是默认的msg'</span></span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  render()&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>     </span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"绑定this并传参的方式3"</span> <span class="attr">onClick</span>=<span class="string">&#123;()</span> =&gt;</span> &#123; this.changeMsg3('😊', '😘') &#125;&#125; /&gt;</span></span><br><span class="line"><span class="xml">     </span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">hr</span>/&gt;</span></span></span><br><span class="line"><span class="xml"> </span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">h3</span>&gt;</span>&#123;this.state.msg&#125;<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span></span><br><span class="line"><span class="xml"> </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  changeMsg3 = <span class="function">(<span class="params">arg1,arg2</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">      msg:<span class="string">'绑定this并传参的方式3'</span> + arg1 + arg2</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;input type=<span class="string">"button"</span> value=<span class="string">"绑定this并传参的方式3"</span> onClick=&#123;<span class="keyword">this</span>.changeMsg3(<span class="string">'😊'</span>, <span class="string">'😘'</span>) &#125;/&gt;</span><br></pre></td></tr></table></figure>
-
-<p>注意： 根据第三种方式得上面这一小段代码出现bug！<br>由于传参，通过this.changeMsg3（arg1,arg2）直接调用了这个函数，就是在没有点击时已经调用了，本身onclick事件里面放的是函数，而不是函数的调用的结果，如果这样写，在页面就会直接显示结果。</p>
-<blockquote>
-<p>解决方式： 就是在onclick事件中放一个箭头函数，在箭头函数内部调用。<br>三种方式都能达到同样的效果，但是性能上还是有很大的差别的。</p>
-</blockquote>
-<p>总结：</p>
-<blockquote>
-<p>每次在render的时候都要去绑定this，是性能最差的！</p>
-<p>使用构造函数的方式：在每一个实例化之后的this 都会定义该方法，但是该方式其实是定义在prototype 上的，各个实例对象共享该方法。<br>定义在原型链上的方法，在实际调用该方法的时候，其查找的过程是这样的：<br>首先检查this 上是否有该方法的定义，如果没有的话，则去prototype 上查找是否有该方法，所以在方法调用的过程中，会经历一次跨原型链的查找，带来额外的消耗。</p>
-</blockquote>
-<blockquote>
-<p>箭头函数的方式，在实际调用的时候，访问的是外层作用缓存的_this， 所以在作用域查找上有一层消耗。</p>
-</blockquote>
-<p>问题延申：React组件的this在不同场景下分别是什么？<br>背景：因为JavaScript函数中的this不是在函数声明的时候定义的，而是在函数调用（即运行）的时候定义的（不包括箭头函数）同样，React组件也遵循JavaScript的这种特性，所以组件方法的‘调用者’不同会导致this的不同（这里的 “调用者” 指的是函数执行时的当前对象。<br>ES6中新增了箭头函数这种语法,箭头函数以其简洁性和方便获取this的特性。<br>下面来总结一下他们之间的区别：</p>
-<blockquote>
-<p>普通函数下的this:<br>在普通函数中的this总是代表它的直接调用者，在默认情况下，this指的是window，<br>在严格模式下,没有直接调用者的函数中的this是 undefined使用<br>call,apply,bind(ES5新增)绑定的,this指的是 绑定的对象<br>箭头函数中的this:<br>箭头函数没有自己的this, 它的this是继承而来; 默认指向在定义它时所处的对象(宿主对象),<br>而不是执行时的对象, 定义它的时候,可能环境是window,也有可能是其他的。</p>
-</blockquote>
-<p>阅读深入浅出React之后的总结：</p>
-<blockquote>
-<p>React组件生命周期函数中的this指向组件实例；<br>自定义组件方法的this会因调用者不同而不同；<br>为了在组件的自定义方法中获取组件实例，需要手动绑定this到组件实例。</p>
-</blockquote>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/React/" rel="tag">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E4%BA%8B%E4%BB%B6%E7%BB%91%E5%AE%9A/" rel="tag">事件绑定</a></li></ul>
 
 
     </footer>
