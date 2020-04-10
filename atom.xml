@@ -335,6 +335,34 @@
   </entry>
   
   <entry>
+    <title>弄潮儿PWA</title>
+    <link href="http://yoursite.com/2020/02/23/%E5%BC%84%E6%BD%AE%E5%84%BFPWA/"/>
+    <id>http://yoursite.com/2020/02/23/%E5%BC%84%E6%BD%AE%E5%84%BFPWA/</id>
+    <published>2020-02-22T16:00:00.000Z</published>
+    <updated>2020-04-10T14:05:55.878Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Welcome to share creative thoughts!&lt;/p&gt;
+&lt;h2 id=&quot;PWA产生背景&quot;&gt;&lt;a href=&quot;#PWA产生背景&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="PWA" scheme="http://yoursite.com/categories/PWA/"/>
+    
+    
+      <category term="Web开发" scheme="http://yoursite.com/tags/Web%E5%BC%80%E5%8F%91/"/>
+    
+  </entry>
+  
+  <entry>
     <title>多人姿态估计研究进展报告</title>
     <link href="http://yoursite.com/2020/02/18/%E5%A4%9A%E4%BA%BA%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1%E7%A0%94%E7%A9%B6%E8%BF%9B%E5%B1%95%E6%8A%A5%E5%91%8A/"/>
     <id>http://yoursite.com/2020/02/18/%E5%A4%9A%E4%BA%BA%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1%E7%A0%94%E7%A9%B6%E8%BF%9B%E5%B1%95%E6%8A%A5%E5%91%8A/</id>
@@ -501,34 +529,6 @@
       <category term="项目思考" scheme="http://yoursite.com/tags/%E9%A1%B9%E7%9B%AE%E6%80%9D%E8%80%83/"/>
     
       <category term="高并发" scheme="http://yoursite.com/tags/%E9%AB%98%E5%B9%B6%E5%8F%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>浏览器存储方式对比</title>
-    <link href="http://yoursite.com/2019/11/13/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F%E5%AF%B9%E6%AF%94/"/>
-    <id>http://yoursite.com/2019/11/13/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F%E5%AF%B9%E6%AF%94/</id>
-    <published>2019-11-12T16:00:00.000Z</published>
-    <updated>2020-03-05T09:38:24.113Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;Welcome to share creative thoughts!&lt;/p&gt;
-&lt;h2 id=&quot;Cookie&quot;&gt;&lt;a href=&quot;#Cookie&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="谈谈缓存" scheme="http://yoursite.com/categories/%E8%B0%88%E8%B0%88%E7%BC%93%E5%AD%98/"/>
-    
-    
-      <category term="浏览器缓存" scheme="http://yoursite.com/tags/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/"/>
     
   </entry>
   
