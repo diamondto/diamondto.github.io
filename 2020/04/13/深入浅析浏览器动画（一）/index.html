@@ -50,13 +50,9 @@
     
     <div class="article-meta">
       <a href="" class="article-date">
-  <time datetime="2020-04-12T16:00:00.000Z" itemprop="datePublished">2020-04-13</time>
+  <time datetime="2020-04-13T11:32:33.954Z" itemprop="datePublished">2020-04-13</time>
 </a>
       
-  <div class="article-category">
-    <a class="article-category-link" href="../../../../categories/%E5%8A%A8%E7%94%BB%E5%AD%A6%E4%B9%A0/">动画学习</a>
-  </div>
-
       
       
 <div class="word_count">
@@ -73,7 +69,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">18分钟</span>
+            <span class="post-count">17分钟</span>
         </span>
     </span>
 </div>
@@ -142,7 +138,7 @@
 <p>像setTimeout、setInterval一样，requestAnimationFrame是一个全局函数<strong>。调用requestAnimationFrame后，它会要求浏览器根据自己的频率进行一次重绘，它接收一个回调函数作为参数，在即将开始的浏览器重绘时，会调用这个函数，并会给这个函数传入调用回调函数时的时间作为参数。</strong>由于requestAnimationFrame的功效只是一次性的，所以若想达到动画效果，则必须连续不断的调用requestAnimationFrame，就像我们使用setTimeout来实现动画所做的那样。<strong>requestAnimationFrame函数会返回一个资源标识符，可以把它作为参数传入cancelAnimationFrame函数来取消requestAnimationFrame的回调。</strong>怎么样，是不是也跟setTimeout的clearTimeout很相似啊。</p>
 <p>所以，可以这么说，requestAnimationFrame就是一个性能优化版、专为动画量身打造的setTimeout，不同的是requestAnimationFrame不是自己指定回调函数运行的时间，而是跟着浏览器内建的刷新频率来执行回调，这当然就能达到浏览器所能实现动画的最佳效果了。</p>
 <p>目前，各个支持requestAnimationFrame的浏览器有些还是自己的私有实现，所以必须加前缀，对于不支持requestAnimationFrame的浏览器，我们只能使用setTimeout，因为两者的使用方式几近相同，所以这两者的兼容并不难。对于支持requestAnimationFrame的浏览器，我们使用requestAnimationFrame，而不支持的我们优雅降级使用传统的setTimeout。<strong>下面我把它们封装一下，就能得到一个统一兼容各大浏览器的API了hhh</strong></p>
-<h2 id="3、RequestAnimationFrame使用语法："><a href="#3、RequestAnimationFrame使用语法：" class="headerlink" title="3、RequestAnimationFrame使用语法："></a>3、RequestAnimationFrame使用语法：</h2><p>以下来自MDN：<br>window.requestAnimationFrame() 告诉浏览器——你希望执行一个动画，并且要求浏览器在下次重绘之前调用指定的回调函数更新动画。该方法需要传入一个回调函数作为参数，该回调函数会在浏览器下一次重绘之前执行。<br>注意：若你想在浏览器下次重绘之前继续更新下一帧动画，那么回调函数自身必须再次调window.requestAnimationFrame()<br>当你准备更新动画时你应该调用此方法。这将使浏览器在下一次重绘之前调用你传入给该方法的动画函数(即你的回调函数)。回调函数执行次数通常是每秒60次，但在大多数遵循W3C建议的浏览器中，回调函数执行次数通常与浏览器屏幕刷新次数相匹配。为了提高性能和电池寿命，因此在大多数浏览器里，当requestAnimationFrame() 运行在后台标签页或者隐藏<iframe> 里时，requestAnimationFrame() 会被暂停调用以提升性能和电池寿命。<br>回调函数会被传入DOMHighResTimeStamp参数，DOMHighResTimeStamp指示当前被 requestAnimationFrame() 排序的回调函数被触发的时间。在同一个帧中的多个回调函数，它们每一个都会接受到一个相同的时间戳，即使在计算上一个回调函数的工作负载期间已经消耗了一些时间。该时间戳是一个十进制数，单位毫秒，最小精度为1ms(1000μs)。</iframe></p>
+<h2 id="3、RequestAnimationFrame使用语法："><a href="#3、RequestAnimationFrame使用语法：" class="headerlink" title="3、RequestAnimationFrame使用语法："></a>3、RequestAnimationFrame使用语法：</h2><p>以下来自MDN：<br>window.requestAnimationFrame() 告诉浏览器——你希望执行一个动画，并且要求浏览器在下次重绘之前调用指定的回调函数更新动画。该方法需要传入一个回调函数作为参数，该回调函数会在浏览器下一次重绘之前执行。<br>注意：若你想在浏览器下次重绘之前继续更新下一帧动画，那么回调函数自身必须再次调window.requestAnimationFrame()<br>当你准备更新动画时你应该调用此方法。这将使浏览器在下一次重绘之前调用你传入给该方法的动画函数(即你的回调函数)。回调函数执行次数通常是每秒60次，但在大多数遵循W3C建议的浏览器中，回调函数执行次数通常与浏览器屏幕刷新次数相匹配。回调函数会被传入DOMHighResTimeStamp参数，DOMHighResTimeStamp指示当前被 requestAnimationFrame() 排序的回调函数被触发的时间。在同一个帧中的多个回调函数，它们每一个都会接受到一个相同的时间戳，即使在计算上一个回调函数的工作负载期间已经消耗了一些时间。该时间戳是一个十进制数，单位毫秒，最小精度为1ms(1000μs)。</p>
 <blockquote>
 <p>使用语法是window.requestAnimationFrame(callback);<br>callback参数表示下一次重绘之前更新动画帧所调用的函数(即上面所说的回调函数)。该回调函数会被传入DOMHighResTimeStamp参数，该参数与performance.now()的返回值相同。<br>它表示requestAnimationFrame() 开始去执行回调函数的时刻。<br> callback的返回值是一个 long整数，表示一个请求 ID ，是回调列表中唯一的标识（是个非零值），我们可以传这个值给window.cancelAnimationFrame()以取消回调函数。</p>
 </blockquote>
@@ -236,8 +232,6 @@
 <div id="share-mask"></div>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E5%89%8D%E7%AB%AF%E5%8A%A8%E7%94%BB%E5%AD%A6%E4%B9%A0/" rel="tag">前端动画学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93/" rel="tag">浏览器渲染</a></li></ul>
-
 
     </footer>
 
@@ -247,19 +241,10 @@
   
   <nav class="article-nav">
     
+    
       <a href="../%E6%80%9D%E8%80%83%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E7%9A%84%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            思考用户登录的加密解密
-          
-        </div>
-      </a>
-    
-    
-      <a href="../../03/%E7%9F%AD%E8%A7%86%E9%A2%91%E6%B5%81%E9%87%8F%E5%A4%A7%E6%88%98%E7%9A%84%E5%9B%9B%E5%A4%A7%E6%B3%95%E5%AE%9D%E2%80%94%E2%80%94%E7%B2%BE%E5%87%86%E4%BA%A7%E5%93%81%E5%AE%9A%E4%BD%8D%E3%80%81%E6%89%93%E7%A3%A8%E5%9E%82%E7%9B%B4%E5%86%85%E5%AE%B9%E3%80%81%E5%AE%8C%E5%96%84%E7%9B%91%E7%AE%A1%E6%BF%80%E5%8A%B1%E3%80%81%E4%BC%98%E5%8C%96%E5%88%9B%E6%96%B0%E6%9C%8D%E5%8A%A1/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">短视频流量大战的四大法宝——精准产品定位、打磨垂直内容、完善监管激励、优化创新服务</div>
+        <div class="article-nav-title">思考用户登录的加密解密</div>
       </a>
     
   </nav>
