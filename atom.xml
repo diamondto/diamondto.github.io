@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-04-13T14:12:16.748Z</updated>
+  <updated>2020-04-13T18:00:26.472Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>认真剖析Promise</title>
+    <link href="http://yoursite.com/2020/04/14/%E8%AE%A4%E7%9C%9F%E5%89%96%E6%9E%90Promise/"/>
+    <id>http://yoursite.com/2020/04/14/%E8%AE%A4%E7%9C%9F%E5%89%96%E6%9E%90Promise/</id>
+    <published>2020-04-13T17:00:54.646Z</published>
+    <updated>2020-04-13T18:00:26.472Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;今天面试官小姐姐问了一个很好的问题，Promise怎么异步转同步？&lt;br&gt;当时有点紧张想复杂了，下来好好梳理一下，小姐姐人很好，激发了小霞打下坚实基础，投身大前端的激情和动力，hhh，话不多说，&lt;strong&gt;追根溯源，脚踏实地，勤恳思辨就是学习最好的方法&lt;/strong&gt;
+        
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>深入浅析浏览器动画（一）</title>
@@ -500,34 +523,6 @@
         
           &lt;p&gt;Welcome to share creative thoughts!&lt;/p&gt;
 &lt;h2 id=&quot;懒加载的原理（延迟加载）&quot;&gt;&lt;a href=&quot;#懒加载的原理（延迟加载）&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="性能优化" scheme="http://yoursite.com/categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
-    
-    
-      <category term="前端性能优化" scheme="http://yoursite.com/tags/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>详细剖析强缓存和协商缓存</title>
-    <link href="http://yoursite.com/2019/11/14/%E8%AF%A6%E7%BB%86%E5%89%96%E6%9E%90%E5%BC%BA%E7%BC%93%E5%AD%98%E5%92%8C%E5%8D%8F%E5%95%86%E7%BC%93%E5%AD%98/"/>
-    <id>http://yoursite.com/2019/11/14/%E8%AF%A6%E7%BB%86%E5%89%96%E6%9E%90%E5%BC%BA%E7%BC%93%E5%AD%98%E5%92%8C%E5%8D%8F%E5%95%86%E7%BC%93%E5%AD%98/</id>
-    <published>2019-11-13T16:00:00.000Z</published>
-    <updated>2020-03-05T09:36:40.972Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;Welcome to share creative thoughts!&lt;/p&gt;
-&lt;h2 id=&quot;Cache-control&quot;&gt;&lt;a href=&quot;#Cache-control&quot; class=&quot;headerlink&quot;
         
       
     
