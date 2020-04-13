@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-04-03T06:03:02.971Z</updated>
+  <updated>2020-04-13T13:17:41.876Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,67 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>思考用户登录的加密解密</title>
+    <link href="http://yoursite.com/2020/04/13/%E6%80%9D%E8%80%83%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E7%9A%84%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86/"/>
+    <id>http://yoursite.com/2020/04/13/%E6%80%9D%E8%80%83%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E7%9A%84%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86/</id>
+    <published>2020-04-12T16:00:00.000Z</published>
+    <updated>2020-04-13T13:17:41.876Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Welcome to share creative thoughts!&lt;/p&gt;
+&lt;p&gt;最近做项目用到了Axios中的CancelToken，对加密解密等用户鉴权场景比较好奇，一番学习实践后，总结如下哈：&lt;/p&gt;
+&lt;h2 id=&quot;1、数据库存储上的加密解密：&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="网络安全与工程化" scheme="http://yoursite.com/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E4%B8%8E%E5%B7%A5%E7%A8%8B%E5%8C%96/"/>
+    
+    
+      <category term="用户登录鉴权" scheme="http://yoursite.com/tags/%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E9%89%B4%E6%9D%83/"/>
+    
+      <category term="前端安全" scheme="http://yoursite.com/tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>深入浅析浏览器动画（一）</title>
+    <link href="http://yoursite.com/2020/04/13/%E6%B7%B1%E5%85%A5%E6%B5%85%E6%9E%90%E6%B5%8F%E8%A7%88%E5%99%A8%E5%8A%A8%E7%94%BB%EF%BC%88%E4%B8%80%EF%BC%89/"/>
+    <id>http://yoursite.com/2020/04/13/%E6%B7%B1%E5%85%A5%E6%B5%85%E6%9E%90%E6%B5%8F%E8%A7%88%E5%99%A8%E5%8A%A8%E7%94%BB%EF%BC%88%E4%B8%80%EF%BC%89/</id>
+    <published>2020-04-12T16:00:00.000Z</published>
+    <updated>2020-04-13T13:15:11.589Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Welcome to share creative thoughts!&lt;/p&gt;
+&lt;h2 id=&quot;需求思考：让动画流畅无阻，提升用户体验&quot;&gt;&lt;a href=&quot;#需求思考：让动画流畅无阻，提升用户体验&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="动画学习笔记与项目实战" scheme="http://yoursite.com/categories/%E5%8A%A8%E7%94%BB%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%8E%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98/"/>
+    
+    
+      <category term="动画学习" scheme="http://yoursite.com/tags/%E5%8A%A8%E7%94%BB%E5%AD%A6%E4%B9%A0/"/>
+    
+      <category term="浏览器渲染" scheme="http://yoursite.com/tags/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93/"/>
+    
+  </entry>
   
   <entry>
     <title>短视频流量大战的四大法宝——精准产品定位、打磨垂直内容、完善监管激励、优化创新服务</title>
@@ -471,64 +532,6 @@
     
     
       <category term="前端性能优化" scheme="http://yoursite.com/tags/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>详细剖析强缓存和协商缓存</title>
-    <link href="http://yoursite.com/2019/11/14/%E8%AF%A6%E7%BB%86%E5%89%96%E6%9E%90%E5%BC%BA%E7%BC%93%E5%AD%98%E5%92%8C%E5%8D%8F%E5%95%86%E7%BC%93%E5%AD%98/"/>
-    <id>http://yoursite.com/2019/11/14/%E8%AF%A6%E7%BB%86%E5%89%96%E6%9E%90%E5%BC%BA%E7%BC%93%E5%AD%98%E5%92%8C%E5%8D%8F%E5%95%86%E7%BC%93%E5%AD%98/</id>
-    <published>2019-11-13T16:00:00.000Z</published>
-    <updated>2020-03-05T09:36:40.972Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;Welcome to share creative thoughts!&lt;/p&gt;
-&lt;h2 id=&quot;Cache-control&quot;&gt;&lt;a href=&quot;#Cache-control&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="性能优化" scheme="http://yoursite.com/categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
-    
-    
-      <category term="前端性能优化" scheme="http://yoursite.com/tags/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>接口防刷解决思路</title>
-    <link href="http://yoursite.com/2019/11/13/%E6%8E%A5%E5%8F%A3%E9%98%B2%E5%88%B7%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/"/>
-    <id>http://yoursite.com/2019/11/13/%E6%8E%A5%E5%8F%A3%E9%98%B2%E5%88%B7%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/</id>
-    <published>2019-11-12T16:00:00.000Z</published>
-    <updated>2020-03-05T09:40:13.092Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;Welcome to share creative thoughts!&lt;/p&gt;
-&lt;h2 id=&quot;场景和原因：&quot;&gt;&lt;a href=&quot;#场景和原因：&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="框架与架构" scheme="http://yoursite.com/categories/%E6%A1%86%E6%9E%B6%E4%B8%8E%E6%9E%B6%E6%9E%84/"/>
-    
-    
-      <category term="项目思考" scheme="http://yoursite.com/tags/%E9%A1%B9%E7%9B%AE%E6%80%9D%E8%80%83/"/>
-    
-      <category term="高并发" scheme="http://yoursite.com/tags/%E9%AB%98%E5%B9%B6%E5%8F%91/"/>
     
   </entry>
   

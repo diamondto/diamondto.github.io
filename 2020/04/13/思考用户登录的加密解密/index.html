@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    思考用户登录的加密解密 |  爱产品，爱前端！
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="../../../../css/style.css">
+
+  
+<script src="../../../../js/pace.min.js"></script>
+
+
+  
+
+  
+
+<link rel="alternate" href="atom.xml" title="爱产品，爱前端！" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    <main class="content">
+      <section class="outer">
+  <article id="post-思考用户登录的加密解密" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  思考用户登录的加密解密
+</h1>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="" class="article-date">
+  <time datetime="2020-04-12T16:00:00.000Z" itemprop="datePublished">2020-04-13</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../../../categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E4%B8%8E%E5%B7%A5%E7%A8%8B%E5%8C%96/">网络安全与工程化</a>
+  </div>
+
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">4.5k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">15分钟</span>
+        </span>
+    </span>
+</div>
+
+      
+    </div>
+    
+
+    
+    
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>Welcome to share creative thoughts!</p>
+<p>最近做项目用到了Axios中的CancelToken，对加密解密等用户鉴权场景比较好奇，一番学习实践后，总结如下哈：</p>
+<h2 id="1、数据库存储上的加密解密："><a href="#1、数据库存储上的加密解密：" class="headerlink" title="1、数据库存储上的加密解密："></a>1、数据库存储上的加密解密：</h2><blockquote>
+<p><strong>1. 单向hash（MD5）</strong></p>
+</blockquote>
+<p>1、单向的hash加密，以MD5和SHA算法为代表，这类做法比明文直接存储看起来要安全，但是如果在DB被攻破的时候，以目前计算机的算力加之黑客的各种技术手段，其实跟明文是差别不大的。<br>2、本科学习时，了解到密码学里面破解密码最笨的一种方法是暴力破解，随着目前计算机硬件的发展，带来计算能力的提升，每秒钟上亿次的hash计算已经不是问题，直接暴力破解几乎是分秒的事情。<br>3、另外与之相近的有一种字典表/彩虹表破解的手段，原理很简单，黑客们会把常见密码以及各种hash算法加密后的字符串整理到一个表中，因为只要是<strong>同一明文密码同一hash算法</strong>得出的值就是一样的，也就是说黑客不断完善整理的彩虹表可以用来任何MD5加密系统的破解，带着破解的DB用户MD5密码那一列信息，<strong>直接循环去select 明文 from 字典表/彩虹表 where 密文 = 密码</strong>，基本可以破解目前多数人设置的普通密码。</p>
+<blockquote>
+<p><strong>2. hash+盐</strong></p>
+</blockquote>
+<p> 1、早期为了改进单向hash的缺陷，为了让彩虹表失效，引入了盐，盐是随机生成的一个唯一字符串，连在明文密码后增强密码的随机性，然后再做hash得到的加密密文存储在DB中，这样一个是相同的密码存在db中的值就不同了，另一个是彩虹表也不会再起作用了。<br> 2、但是同样以目前计算机的算力，暴力破解也是分分钟的事情，因为为了校验密码的原因，我们一般会把这种方法生成的密码和盐一块存在DB中，明文+盐 hash= 密码。<br> 3、黑客在拿到盐和加密密码后，只需要用计算机不断去生成明文，然后计算就可以很快破解。这种方法是避免了彩虹表，但是暴力破解还是避免不了。<br>4、 这种情况类似于目前比特币挖矿，以目前矿机的算力挖矿，<strong>加之比特币不断增加hash碰撞难度</strong>，暴力破解确实越来越困难，比特币越来越稀有，但是随着量子高性能计算机的发展，未来可能比特币这种hash碰撞的难度也是分秒钟的事。</p>
+<blockquote>
+<p><strong>3. PBKDF2, BCrypt 或 SCrypt 算法</strong></p>
+</blockquote>
+<p>1、这类算法有一个特点，<strong>算法中都有个因子，用于指明计算密码摘要所需要的资源和时间，也就是计算强度</strong>。<br>2、计算强度越大，攻击者建立rainbow table越困难，以至于不可继续。这类算法也可以保证即使计算能力不断提高，只要调整算法中的强度因子，密码仍然不可能被轻易的攻破。 后台密码存储的安全，可使用BCrypt或SCrypt进行保证，将计算迭代次数调高，增加计算时间，从而防止彩虹表与字典攻击。</p>
+<blockquote>
+<p><strong>4、第三方密码存储服务商</strong></p>
+</blockquote>
+<p>1、如果一个系统对于密码存储的要求实在很高，比如说如果用户密码泄露会造成大量现金流失，损失是毁灭性不可逆的，那么可以考虑第三方密码存储服务商。<br>2、在欧美金融界以及电商界，许多早期的大型银行，信用卡，金融机构的线上密码存储，就使用了比较靠谱的第三方存储服务。<br>3、原因有两个：一方面是自身去开发维护一套复杂的密码存储系统成本可能比整个线上系统还要高，另一方面为了风险规避。</p>
+<h2 id="2、实战总结："><a href="#2、实战总结：" class="headerlink" title="2、实战总结："></a>2、实战总结：</h2><p>1、密码最好是以不可还原明文的方式来保存。否则攻击数据库很容易造成巨大危害，尤其是在金融行业和电商行业。<br>2、通常利用哈希算法的单向性来保证明文以不可还原的有损方式进行存储。<br>3、这类方法的各个具体操作方式按安全性由低到高依次为：</p>
+<p>A：使用自己独创的哈希算法对密码进行哈希，存储哈希过的值。</p>
+<p>B：使用 MD5 或 SHA-1 哈希算法：MD5 和 SHA-1 已破解。虽不能还原明文，但很容易找到能生成相同哈希值的替代明文。而且这两个算法速度较快，暴力破解相对省时，建议不要使用它们。</p>
+<p>C ：使用更安全的 SHA-256 等成熟算法，更加复杂的算法增加了暴力破解的难度。但如果遇到简单密码，用彩虹字典的暴力破解法，很快就能得到密码原文。</p>
+<p>D：加入随机 salt 的哈希算法。</p>
+<p>密码原文（或经过 hash 后的值）和随机生成的 salt 字符串混淆，然后再进行 hash，最后把 hash 值和 salt 值一起存储。<br>验证密码的时候只要用 salt 再与密码原文做一次相同步骤的运算，比较结果与存储的 hash 值就可以了。这样一来哪怕是简单的密码，在进过 salt 混淆后产生的也是很不常见的字符串，根本不会出现在彩虹字典中。salt 越长暴力破解的难度越大。</p>
+<p>E：具体的 hash 过程也可以进行若干次叠代，虽然 hash 叠代会增加碰撞率，但也增加暴力破解的资源消耗。<br>就算真被破解了，黑客掌握的也只是这个随机 salt 混淆过的密码，用户原始密码依然安全，不用担心其它使用相同密码的应用。</p>
+<p>上面这几种方法都不可能得到密码的明文，就算是系统管理员也没办法。对于那些真的忘了密码的用户，网站只能提供重置密码的功能了。</p>
+<p>下面的 python 程序演示了如何使用 salt 加 hash 来单向转换密码明文</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="string">``</span><span class="string">`cpp</span></span><br><span class="line"><span class="string">import os</span></span><br><span class="line"><span class="string">from hashlib import sha256</span></span><br><span class="line"><span class="string">from hmac import HMAC</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">def encrypt_password(password, salt=None):</span></span><br><span class="line"><span class="string">    """Hash password on the fly."""</span></span><br><span class="line"><span class="string">    if salt is None:</span></span><br><span class="line"><span class="string">        salt = os.urandom(8) # 64 bits.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    assert 8 == len(salt)</span></span><br><span class="line"><span class="string">    assert isinstance(salt, str)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    if isinstance(password, unicode):</span></span><br><span class="line"><span class="string">        password = password.encode('UTF-8')</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    assert isinstance(password, str)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    result = password</span></span><br><span class="line"><span class="string">    for i in xrange(10):</span></span><br><span class="line"><span class="string">        result = HMAC(result, salt, sha256).digest()</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    return salt + result</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">这里先随机生成 <span class="number">64</span> bits 的 salt，再选择 SHA-<span class="number">256</span> 算法使用 HMAC 对密码和 salt 进行 <span class="number">10</span> 次叠代混淆，最后将 salt 和 hash 结果一起返回。</span><br><span class="line"></span><br><span class="line">使用的方法很简单：</span><br><span class="line"></span><br><span class="line">```cpp</span><br><span class="line">hashed = encrypt<span class="constructor">_password('<span class="params">secret</span> <span class="params">password</span>')</span></span><br><span class="line">下面是验证函数，它直接使用 encrypt_password 来对密码进行相同的单向转换并比较</span><br><span class="line"></span><br><span class="line">def validate<span class="constructor">_password(<span class="params">hashed</span>, <span class="params">input_password</span>)</span>:</span><br><span class="line">    return hashed<span class="operator"> == </span>encrypt<span class="constructor">_password(<span class="params">input_password</span>, <span class="params">salt</span>=<span class="params">hashed</span>[:8])</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">assert</span> validate<span class="constructor">_password(<span class="params">hashed</span>, '<span class="params">secret</span> <span class="params">password</span>')</span></span><br><span class="line">虽然只有简短几行，但借助 python 标准库帮助，这已经是一个可用于生产环境的高安全密码加密验证算法了。</span><br></pre></td></tr></table></figure>
+
+<h2 id="3、-密码传输问题"><a href="#3、-密码传输问题" class="headerlink" title="3、 密码传输问题"></a>3、 密码传输问题</h2><p>学习总结了密码的存储问题，接下来再记录一下密码的传输问题，好好消化，为以后工作打下坚实基础，感谢一面小姐姐，我会继续深入思考！</p>
+<p>对于在线系统，密码的传输要经过下面几个步骤：</p>
+<blockquote>
+<p>用户在浏览器中输入原始密码：键盘 ——&gt; 操作系统 ——&gt; 浏览器内存<br>程序对原始密码进行转换：内存中的原始密码 ——&gt;内存中的转换后的密码<br> 转换后的密码在线上传输：内存中转换后的密码 ——&gt; 网络 ——&gt; 系统<br>这其中每一步都可能泄露原始密码，当然也有相应的保护措施。</p>
+</blockquote>
+<p>千里之行始于足下，接下来让我一步步剖析！:</p>
+<blockquote>
+<p><strong>用户输入密码</strong></p>
+</blockquote>
+<p>常用的攻击方法包括：</p>
+<p>1、偷看输入的密码</p>
+<p>在公共场合输入密码很容易被偷看，例如使用 ATM 机取款的时候。输入密码时密码明文用 星号代替就是为了防止偷窥。<br>但这样正常用户也不能直接用眼睛确认输入密码是否正确，通常在设置新密码时就要输入两遍来确保输入无误。<br>iPhone 在这点做了改进，每输入一个密码字符先显示半秒钟的明文再转成 * 显示，鉴于使用 iPhone 虚拟键盘输入时，按错键的概率还是比较高的，这个折中也是在可用性和安全性上做了妥协。<br>还有些系统为了最大限度的防偷窥，在输入密码时屏幕没有任何输出，比如 Unix/Linux 的命令行登录界面。这样就连输入的密码长度都看不出来。</p>
+<p>2、用木马程序记录键盘输入</p>
+<p>现在比较流行的 QQ 或网络游戏的盗号就常用这种方式进行。安装杀毒软件来防盗号自不必说，还可以用屏幕软键盘输入密码，这样木马就记录不到键盘事件，只能通过分析鼠标点击和当时屏幕图象来破解密码。如果再进一步，软键盘的字符布局每次都随计产生，那就更加重了分析破解的难度。</p>
+<p>3、感染应用程序或使用钓鱼手法，直接得到内存中的密码值</p>
+<p>不管如何防范输入的过程，一旦密码到程序里，就会以明文的形式呈现在内存中，只要恶意软件模仿安全程序（或模仿网站的外观）直接套取密码就轻而易举。<br>现在出现的假 ATM 机诈骗也是这种手法的衍生。<br>还有一种，不是替换或模仿程序，而是用病毒感染原程序将内存中的值读到。<br>要防范这种攻击，必须要对原程序的完整性和合法性进行验证，只有在验证通过后，才能进行正常的登录交互操作。<br>这个验证可以用数字签名来实现。比如 Windows 10中所有微软的可执行文件都带有微软的数字签名。<br>在网站上则是 HTTPS 的验证。当然，这个验证过程还牵扯到人的判断，在社会工程学上，软件要配合一些强制的措施，才能保证人不会麻痹大意中招。<br>比如浏览器在访问非信任机构签发的数字签名的 HTTPS 站点时，会警告并且阻止用户进行访问。Windows 10 现在所有的驱动程序也都必须要有微软的数字签名才能运行。</p>
+<blockquote>
+<p><strong>密码转换</strong></p>
+<p>原始密码会经过一些转换，才能在线上传输。这跟密码的存储类似。<br>直接传输密码明文是最不安全的。而用简单的可逆变换，或者固定密钥加密也只是增加了破解难度。<br>最好是每次服务器随机产生一个密钥，送给客户端进行加密。</p>
+</blockquote>
+<p>1、如果使用 HTTPS，那所有通过 SSL 通道的信息都经过了随机密钥加密。<br>2、HTTPS 虽然安全，可它最大的问题是性能。连接初始时密钥的协商是通过非对称加密的体系进行的，这会造成连接较慢（密钥协商好后的数据加密是纯耗 CPU 的工作，在现在的硬件条件下，并不是瓶颈）。<br>金融在线系统一般都使用 HTTPS ，但大部分在线应用出于性能的考虑，会选择使用 HTTP 交换随机密码的方式。<br>3、随机密钥由服务器生成并发送给客户端。客户端用此密钥将密码加密，送给服务器。这里不要求加密方法是可逆的。一个较安全的做法是客户端使用 MD5 或 SHA-1 算法对密码进行不可逆转换，再用密钥加密送到 Server。现在已经有很多 Javascript 的加密库可以在浏览器端进行这样的转换工作。</p>
+<blockquote>
+<p><strong>密码在线传输</strong></p>
+</blockquote>
+<p>1、使用 HTTPS 加密传输，HTTPS 对服务器性能要求高，也影响登录速度。一般用在高安全性的登录上面。Google 和微软的登录都强制使用 HTTPS 确保安全第一。使用随机密钥对密码进行变换后再传输，相对安全。密码明文很安全，但仍可能发生重放攻击。这种方式是性能和安全性的折中。一般的服务使用足亦。<br>2、不做任何修饰，直接将密码通过 HTTP 传输。这种方式实现起来非常简单，但却可能是对用户隐私和数据的不负责任。<br><strong>常用服务分析</strong><br>这里用抓包方式分析一下常用的网络服务的密码传输，看看它们在安全性方面做的如何：</p>
+<p>网站    密码传输方式    安全性<br>bitbucket.org    HTTPS 加密传输    高<br>微软 live.com    HTTPS 加密传输    高<br>google.com    HTTPS 加密传输    高<br>csdn.net    HTTP Javascript 加密传输    中<br>javaeye.com    HTTP 明文传输    低</p>
+<p>思考：登录网站时，输入登录名、密码，用抓包工具抓一下包就知道密码是否进行加密。<br>网站用的是https，为什么抓包用户名密码还是明文传输？<br>为什么站点使用了https加密之后，还是能够用firebug之类的软件查看到提交到的信息，密码显示的还是明文的?<br>学习之后找到答案：<br>这是因为:<br>1、https(ssl)加密是发生在应用层与传输层之间，所以在传输层看到的数据才是经过加密的，而我们捕捉到的http post，是应用层的数据，此时还没有经过加密。这些明文信息，其实就是你的本地数据。<br>2、加密数据只有客户端和服务器端才能得到明文，客户端到服务端的通信过程是安全的。<br>深挖：这样的话密码不是会被本地恶意软件截获么?<br>解决：银行电商等安全防护程度较高的网站，除了https加密外，还有安全控件加密，用户必须下载安全控件后才能输入密码。</p>
+<blockquote>
+<p><strong>加盐哈希</strong></p>
+</blockquote>
+<p> 这个方案也是大多数公司目前使用的方案，一般流程是将用户随机盐发送给客户端，客户端再使用SHA256(SALT+PASSWORD)计算之后将结果传送给服务器，服务器直接与数据库中的匹配。<br> <strong>至于哈希算法的话，普遍都采用MD5、SHA1、SHA256等算法。</strong><br> 加盐的方式也各不相同，<strong>比如在密码尾部、在密码中间、在密码头部增加随机盐，有的甚至会使用多次HASH。</strong><br>不仅如此，甚至可以每次用户设置密码的时候，都为每一个用户生成随机盐，并将随机盐与用户信息一并存储（有时为了混淆，最好将随机盐与密码分表存储，也不要起SALT之类的列名）如此相信即使攻破的数据库，想要破解用户密码也是相当困难的。<br>后续如果收到用户登陆请求，取出用户随机盐并通过相同的算法进行计算，将结果和数据库中密码相对比就可以判断用户密码是否输入正确。 <strong>由于摘要算法的不可逆性，其实一定程度上就限制了登陆过程中用户密码的传输方式。</strong></p>
+<p><strong>解决方案：</strong></p>
+<blockquote>
+<p>使用复杂些的HASH算法，例如MD5(SALT + MD5(C-SALT +PASSWORD))，C-SALT可理解为服务器固定的盐，此处仅仅是为了使破解者的字典更难构造一些。<br>如此客户端只需要将MD5(C-SALT+PASSWORD)的值发送到服务器，服务器再将随机盐取出，进行MD5即可。<br>更高级别的安全需要建议可使用SHA256来替代。 </p>
+</blockquote>
+<p>方法一<br>1、服务器端存储密码为Hash(Random-Salt + Hash(Constant-SALT + Pasword))<br>2、客户端传输密码为Hash(Constant-SALT + Password)<br>3、Random-Salt为用户的随机盐，每个用户均不同，服务器端收到客户端的hash密码后，在将其与用户随机盐一起Hash运算，从而将结果与数据库存储值相比较。<br><strong>优点</strong>：数据库存储的密码经过两层哈希，且其中包含了固定盐和用户随机盐，安全性较高。<br><strong>缺点</strong>：客户端传输的密码虽然经过了一层哈希，但是使用固定盐值，因此相同密码生成的结果均一致，容易收到重放攻击。<br>方法二<br>1、服务器端存储密码为Hash(Constant-SALT + Pasword)<br>2、客户端传输密码为Hash(Random-Salt + Hash(Constant-SALT + Password))<br><strong>Random-Salt为每次进入登陆页面时生成的随机盐，此处主要是为了防止重放攻击。<br>服务器收到客户端上传的hash之后的密码，根据用户ID取出服务器存储的密码，并通过与之前返回客户端的Random-Salt（可存储于Session中）进行Hash运算，从而与客户端上传的密码进行比较。</strong><br><strong>优点</strong>：客户端有效的防止了重放攻击<br><strong>缺点</strong>：在前端代码中，固定盐值暴露，一旦后台数据库被攻破，用户密码信息将有危险。</p>
+
+      
+      <!-- reward -->
+      
+      <div id="reward-btn">
+        打赏
+      </div>
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong s>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
+                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+        
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/04/13/%E6%80%9D%E8%80%83%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E7%9A%84%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" rel="tag">前端安全</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E9%89%B4%E6%9D%83/" rel="tag">用户登录鉴权</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+    
+      <a href="../%E6%B7%B1%E5%85%A5%E6%B5%85%E6%9E%90%E6%B5%8F%E8%A7%88%E5%99%A8%E5%8A%A8%E7%94%BB%EF%BC%88%E4%B8%80%EF%BC%89/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">深入浅析浏览器动画（一）</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        notify: 'false',
+        verify: 'false',
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2020
+        Wangqiuxia
+      </li>
+      <li>
+        
+        Powered by
+        
+        
+        <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+    <aside class="sidebar">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="../../../../index.html"><img src="/images/ayer-side.svg" alt="爱产品，爱前端！"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../index.html">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../tags/%E6%8A%80%E6%9C%AF/">小程序</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../http:/shenyu-vip.lofter.com">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../https:/v.xiumi.us/stage/v5/4IeLH/197507179">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="../../../../atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="../../../../images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="../../../../images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="../../../../js/jquery-2.0.3.min.js"></script>
+
+
+<script src="../../../../js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="../../../../js/lazyload.min.js"></script>
+
+
+<script src="../../../../js/busuanzi-2.3.pure.min.js"></script>
+
+
+<script src="../../../../js/share.js"></script>
+
+
+
+<script src="../../../../fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['做一个有情怀懂产品的程序媛！','业精于勤荒于嬉！行成于思毁于随！','越努力越幸运'],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script src="../../../../js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+
+<script src="../../../../js/ayer.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=518895142&auto=1&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+  </div>
+</body>
+
+</html>

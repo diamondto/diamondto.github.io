@@ -71,6 +71,206 @@
     
     
     
+    <article id="post-数组技巧总结" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="../../2020/03/07/%E6%95%B0%E7%BB%84%E6%8A%80%E5%B7%A7%E6%80%BB%E7%BB%93/"
+    >数组技巧总结</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="../../2020/03/07/%E6%95%B0%E7%BB%84%E6%8A%80%E5%B7%A7%E6%80%BB%E7%BB%93/" class="article-date">
+  <time datetime="2020-03-07T02:14:51.491Z" itemprop="datePublished">2020-03-07</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h2 id="map与for-each"><a href="#map与for-each" class="headerlink" title="map与for each"></a>map与for each</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">			<span class="keyword">let</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line">			<span class="comment">//for each 对数组直接进行循环，相当于直接for循环,没有返回值</span></span><br><span class="line">			<span class="comment">//三个参数是item  index arr不是必须的</span></span><br><span class="line">			<span class="comment">// let result = arr.forEach((item,index,arr)=&gt;&#123;</span></span><br><span class="line">			<span class="comment">// 	console.log(item)</span></span><br><span class="line">			<span class="comment">// 	console.log(index)</span></span><br><span class="line">			<span class="comment">// 	console.log(arr)</span></span><br><span class="line">			<span class="comment">// 	return item</span></span><br><span class="line">			<span class="comment">// &#125;)</span></span><br><span class="line">			<span class="comment">//console.log(result)</span></span><br><span class="line">			</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">let</span> arr2 = [<span class="string">'香蕉'</span>,<span class="string">"苹果"</span>,<span class="string">"雪梨"</span>]</span><br><span class="line">			<span class="comment">//map,对数组每一项进行加工，加工完成之后返回1个新的数组！</span></span><br><span class="line">			<span class="comment">// let result2 = arr2.map((item,index,arr)=&gt;&#123;</span></span><br><span class="line">			<span class="comment">// 	let str = index + item + index</span></span><br><span class="line">			<span class="comment">// 	return str</span></span><br><span class="line">			<span class="comment">// &#125;)</span></span><br><span class="line">			<span class="comment">// console.log(result2)</span></span><br><span class="line">			</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">let</span> arr3 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>];</span><br><span class="line">			<span class="comment">//filter过滤，就是将想要的内容进行筛选，不要内容去除，最终返回想要的内容的数组。</span></span><br><span class="line">			<span class="comment">// let result3 = arr3.filter((item,index)=&gt;&#123;</span></span><br><span class="line">			<span class="comment">// 	if(item%2==0)&#123;</span></span><br><span class="line">			<span class="comment">// 		//通过返回true还是false进行选择，true就是想要，false就是去除。</span></span><br><span class="line">			<span class="comment">// 		return true;</span></span><br><span class="line">			<span class="comment">// 	&#125;else&#123;</span></span><br><span class="line">			<span class="comment">// 		return false;</span></span><br><span class="line">			<span class="comment">// 	&#125;</span></span><br><span class="line">			<span class="comment">// &#125;)</span></span><br><span class="line">			<span class="comment">// console.log(result3)</span></span><br><span class="line">			</span><br><span class="line">			<span class="comment">//reduce,是对整个数组进行整合，比如要将数组里所有的数字进行相加</span></span><br><span class="line">			<span class="comment">//将数组每一项内容整合后，返回1个内容</span></span><br><span class="line">			<span class="keyword">let</span> arr4 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>];</span><br><span class="line">			<span class="keyword">let</span> result4 =arr4.reduce(<span class="function">(<span class="params">pre,next,index</span>)=&gt;</span>&#123;</span><br><span class="line">				<span class="built_in">console</span>.log(pre);</span><br><span class="line">				<span class="built_in">console</span>.log(next);</span><br><span class="line">				<span class="built_in">console</span>.log(index)</span><br><span class="line">				<span class="keyword">return</span> pre+next</span><br><span class="line">			&#125;,<span class="number">0</span>)</span><br><span class="line">			<span class="built_in">console</span>.log(result4)</span><br><span class="line">			</span><br><span class="line">			</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//for...in...主要用于遍历对象的，不适用于遍历数组,for(key in obj),里面的每项是key</span></span><br><span class="line">			<span class="comment">//for...of...可以用来遍历数组，类数组的对象，字符串，set/map,generator。</span></span><br><span class="line">			<span class="comment">//for(item of arr),里面的是每一项</span></span><br><span class="line">			<span class="comment">//map() 方法创建一个新数组，其结果是该数组中的每个元素都调用一个提供的函数后返回的结果。</span></span><br><span class="line">			</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">let</span> obj = &#123;</span><br><span class="line">				name:<span class="string">"老陈"</span>,</span><br><span class="line">				type:<span class="string">"帅"</span>,</span><br><span class="line">				content:<span class="string">"前端"</span></span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">for</span>(key <span class="keyword">in</span> obj)&#123;</span><br><span class="line">				<span class="built_in">console</span>.log(<span class="string">"key："</span>+key+<span class="string">";value:"</span>+obj[key])</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">let</span> arr5 = [<span class="string">"范冰冰"</span>,<span class="string">"李晨"</span>,<span class="string">"鹿晗"</span>]</span><br><span class="line">			<span class="comment">//for of循环的是每一项的内容</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">let</span> item <span class="keyword">of</span> arr5)&#123;</span><br><span class="line">				<span class="built_in">console</span>.log(item)</span><br><span class="line">			&#125;</span><br><span class="line">		&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="数组去重"><a href="#数组去重" class="headerlink" title="数组去重"></a>数组去重</h2><p>这是一个非常流行的关于Javascript数组的采访问题，数组去重。这里有一个快速简单的解决方案，可以使用一个新的Set()。我想向您展示两种可能的方法，一种是使用.from()方法，另一种是使用spread操作符(…)。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fruits = [<span class="string">"banana"</span>, <span class="string">"apple"</span>, <span class="string">"orange"</span>, <span class="string">"watermelon"</span>, <span class="string">"apple"</span>, <span class="string">"orange"</span>, <span class="string">"grape"</span>, <span class="string">"apple"</span>];</span><br><span class="line"> </span><br><span class="line"><span class="comment">// First method</span></span><br><span class="line"><span class="keyword">var</span> uniqueFruits = <span class="built_in">Array</span>.from(<span class="keyword">new</span> <span class="built_in">Set</span>(fruits));</span><br><span class="line"><span class="built_in">console</span>.log(uniqueFruits); </span><br><span class="line"><span class="comment">// returns ["banana", "apple", "orange", "watermelon", "grape"]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Second method</span></span><br><span class="line"><span class="keyword">var</span> uniqueFruits2 = […<span class="keyword">new</span> <span class="built_in">Set</span>(fruits)];</span><br><span class="line"><span class="built_in">console</span>.log(uniqueFruits2); </span><br><span class="line"><span class="comment">// returns ["banana", "apple", "orange", "watermelon", "grape"]</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>替换数组中的特定值<br>有时在创建代码时需要替换数组中的特定值，有一种很好的简单的方法可以做到这一点，我们可以使用.splice(start、valueToRemove、valueToAdd)，并将所有三个参数传递给它，这些参数可以指定我们希望从哪里开始修改、希望修改多少值和新值。</li>
+</ol>
+<p>var fruits = [“banana”, “apple”, “orange”, “watermelon”, “apple”, “orange”, “grape”, “apple”];<br>fruits.splice(0, 2, “potato”, “tomato”);<br>console.log(fruits);<br>// returns [“potato”, “tomato”, “orange”, “watermelon”, “apple”, “orange”, “grape”, “apple”]<br>3. 没有map()的映射数组<br>也许每个人都知道数组的map()方法，但是有一个不同的解决方案，它可以用来获得类似的效果和非常干净的代码。我们可以使用.from()方法。</p>
+<p>var friends = [<br>    { name: “John”, age: 22 },<br>    { name: “Peter”, age: 23 },<br>    { name: “Mark”, age: 24 },<br>    { name: “Maria”, age: 22 },<br>    { name: “Monica”, age: 21 },<br>    { name: “Martha”, age: 19 },<br>]</p>
+<p>var friendsNames = Array.from(friends, ({name}) =&gt; name);<br>console.log(friendsNames);<br>// returns [“John”, “Peter”, “Mark”, “Maria”, “Monica”, “Martha”]<br>4. 空数组<br>您是否有一个满是元素的数组，但是您需要出于任何目的对其进行清理，并且您不想逐个删除项? 很容易就可以在一行代码中完成。要清空一个数组，您需要将数组的长度设置为0，就是这样!</p>
+<p>var fruits = [“banana”, “apple”, “orange”, “watermelon”, “apple”, “orange”, “grape”, “apple”];</p>
+<p>fruits.length = 0;<br>console.log(fruits);<br> // returns []</p>
+<h2 id="将数组转换为对象"><a href="#将数组转换为对象" class="headerlink" title="将数组转换为对象"></a>将数组转换为对象</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">spread运算符(…)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> fruits = [<span class="string">"banana"</span>, <span class="string">"apple"</span>, <span class="string">"orange"</span>, <span class="string">"watermelon"</span>];</span><br><span class="line"><span class="keyword">var</span> fruitsObj = &#123; …fruits &#125;;</span><br><span class="line"><span class="built_in">console</span>.log(fruitsObj);</span><br><span class="line"><span class="comment">// returns &#123;0: "banana", 1: "apple", 2: "orange", 3: "watermelon", 4: "apple", 5: "orange", 6: "grape", 7: "apple"&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="用数据填充数组"><a href="#用数据填充数组" class="headerlink" title="用数据填充数组"></a>用数据填充数组</h2><p>在某些情况下，当创建一个数组时，希望用一些数据来填充它，或者需要一个具有相同值的数组，在这种情况下使用fill()方法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> newArray = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">10</span>).fill(<span class="string">"1"</span>);</span><br><span class="line"><span class="built_in">console</span>.log(newArray); </span><br><span class="line"><span class="comment">// returns ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="合并数组"><a href="#合并数组" class="headerlink" title="合并数组"></a>合并数组</h2><p>.concat()方法或spread操作符(…)在处理数组时非常有用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fruits = [<span class="string">"apple"</span>, <span class="string">"banana"</span>, <span class="string">"orange"</span>];</span><br><span class="line"><span class="keyword">var</span> meat = [<span class="string">"poultry"</span>, <span class="string">"beef"</span>, <span class="string">"fish"</span>];</span><br><span class="line"><span class="keyword">var</span> vegetables = [<span class="string">"potato"</span>, <span class="string">"tomato"</span>, <span class="string">"cucumber"</span>];</span><br><span class="line"><span class="keyword">var</span> food = […fruits, …meat, …vegetables];</span><br><span class="line"><span class="built_in">console</span>.log(food); </span><br><span class="line"><span class="comment">// ["apple", "banana", "orange", "poultry", "beef", "fish", "potato", "tomato", "cucumber"]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="求两个数组的交集"><a href="#求两个数组的交集" class="headerlink" title="求两个数组的交集"></a>求两个数组的交集</h2><blockquote>
+<p>为了找到两个数组的交集，以确保数组中的值不重复，使用.filter方法和.include方法。最后，将得到两个数组的交集。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> numOne = [<span class="number">0</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">8</span>];</span><br><span class="line"><span class="keyword">var</span> numTwo = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>];</span><br><span class="line"><span class="keyword">var</span> duplicatedValues = […<span class="keyword">new</span> <span class="built_in">Set</span>(numOne)].filter(<span class="function"><span class="params">item</span> =&gt;</span> numTwo.includes(item));</span><br><span class="line"><span class="built_in">console</span>.log(duplicatedValues); </span><br><span class="line"><span class="comment">// returns [2, 4, 6]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="从数组中删除假值"><a href="#从数组中删除假值" class="headerlink" title="从数组中删除假值"></a>从数组中删除假值</h2><blockquote>
+<p>在Javascript中，假值是false, 0， “ “， null, NaN, undefined  使用.filter()方法。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> mixedArr = [<span class="number">0</span>, <span class="string">"blue"</span>, <span class="string">""</span>, <span class="literal">NaN</span>, <span class="number">9</span>, <span class="literal">true</span>, <span class="literal">undefined</span>, <span class="string">"white"</span>, <span class="literal">false</span>];</span><br><span class="line"><span class="keyword">var</span> trueArr = mixedArr.filter(<span class="built_in">Boolean</span>);</span><br><span class="line"><span class="built_in">console</span>.log(trueArr); </span><br><span class="line"><span class="comment">// returns ["blue", 9, true, "white"]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="从数组中获取随机值"><a href="#从数组中获取随机值" class="headerlink" title="从数组中获取随机值"></a>从数组中获取随机值</h2><blockquote>
+<p>有时需要从数组中随机选择一个值。要以一种简单、快速、简短的方式创建它，并保持代码整洁，可以根据数组长度获得一个随机索引号。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> colors = [<span class="string">"blue"</span>, <span class="string">"white"</span>, <span class="string">"green"</span>, <span class="string">"navy"</span>, <span class="string">"pink"</span>, <span class="string">"purple"</span>, <span class="string">"orange"</span>, <span class="string">"yellow"</span>, <span class="string">"black"</span>, <span class="string">"brown"</span>];</span><br><span class="line"><span class="keyword">var</span> randomColor = colors[(<span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * (colors.length + <span class="number">1</span>)))]</span><br></pre></td></tr></table></figure>
+
+<h2 id="数组反转"><a href="#数组反转" class="headerlink" title="数组反转"></a>数组反转</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> colors = [<span class="string">"blue"</span>, <span class="string">"white"</span>, <span class="string">"green"</span>, <span class="string">"navy"</span>, <span class="string">"pink"</span>, <span class="string">"purple"</span>, <span class="string">"orange"</span>, <span class="string">"yellow"</span>, <span class="string">"black"</span>, <span class="string">"brown"</span>];</span><br><span class="line"><span class="keyword">var</span> reversedColors = colors.reverse();</span><br><span class="line"><span class="built_in">console</span>.log(reversedColors); </span><br><span class="line"><span class="comment">// returns ["brown", "black", "yellow", "orange", "purple", "pink", "navy", "green", "white", "blue"]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="lastIndexOf-方法"><a href="#lastIndexOf-方法" class="headerlink" title="lastIndexOf()方法"></a>lastIndexOf()方法</h2><blockquote>
+<p>允许查找给定元素的最后一次出现的索引。例如，数组有重复的值，可以找到它最后一次出现的位置。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> nums = [<span class="number">1</span>, <span class="number">5</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">2</span>, <span class="number">7</span>];</span><br><span class="line"><span class="keyword">var</span> lastIndex = nums.lastIndexOf(<span class="number">5</span>);</span><br><span class="line"><span class="built_in">console</span>.log(lastIndex); </span><br><span class="line"><span class="comment">// returns 9</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="将数组中的所有值相加"><a href="#将数组中的所有值相加" class="headerlink" title="将数组中的所有值相加"></a>将数组中的所有值相加</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> nums = [<span class="number">1</span>, <span class="number">5</span>, <span class="number">2</span>, <span class="number">6</span>];</span><br><span class="line"><span class="keyword">var</span> sum = nums.reduce(<span class="function">(<span class="params">x, y</span>) =&gt;</span> x + y);</span><br><span class="line"><span class="built_in">console</span>.log(sum); </span><br><span class="line"><span class="comment">// returns 14</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="易混辨析"><a href="#易混辨析" class="headerlink" title="易混辨析"></a>易混辨析</h2><p>比如有一个数组a=[1,2,3,4]，还有一个对象a={0:1,1:2,2:3,3:4}，然后运行alert(a[1])，两种情况下的运行结果是相同的！这就是说，数据集合既可以用数组表示，也可以用对象表示，那么我到底该用哪一种呢？<br><strong>数组表示有序数据的集合，而对象表示无序数据的集合。如果数据的顺序很重要，就用数组，否则就用对象。</strong><br>当然，数组和对象的另一个区别是，数组的数据没有”名称”（name），对象的数据有”名称”（name）。<br>但是问题是，很多编程语言中，都有一种叫做”关联数组”（associative array）的东西。这种数组中的数据是有名称的。<br>但是在《javascript DOM》中，不推荐我们使用 关联数组！</p>
+<blockquote>
+<p><strong>判断一个对象是不是数组类型最可靠的方法是这两种:<br>Object. prototype.toString.call(obj)===[ object Array]和Array. isArray(obj)。</strong></p>
+</blockquote>
+<p>原因：typeof 检查基本数据类型是可以的，但不准确。<br>Array.isArray() 用于确定传递的值是否是一个 Array。如果对象是 Array，则为true; 否则为false.这个是可以的！<br> <strong>所有 函数的原型对象默认是OBJECT的实例，但OBJECT除外。Function 函数是new自己产生的。</strong><br>但是！bug问题就是研究不深入啊啊啊啊啊啊，作为程序媛，我有点难~<br>A  instance of   B不准确！因为原型链可以改变，只要B构造函数的显示原型对象protptype在左边A的原型链上可以找到就返回TRUE。只要在A 的原型链上找到了B的prototype,，就可以,任何一个就可以说明A是B的一个实例。<br>这种方法有一个问题，就是验证不够严格。 如果对象创建时不是使用数组创建的，但是只要原型链上有数组类型，也认为是数组，如下面一段代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Test</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">Test.prototype = <span class="built_in">Array</span>.prototype;</span><br><span class="line"><span class="keyword">let</span> test = <span class="keyword">new</span> Test();</span><br><span class="line">test <span class="keyword">instanceof</span> <span class="built_in">Array</span>; <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Object. prototype.toString.call(obj)===[ object Array]原理是根据对象的class属性(类属性)，跨原型链调用toString()方法。<br><code>Object.prototype.toString.call(new Date());   //&quot;[object Date]&quot;
+Object.prototype.toString.call(Window);       //&quot;[object window]&quot;
+Object.prototype.toString.call(/./);          //&quot;[object RegExp]&quot;</code></p>
+</blockquote>
+<p>解释一下，在js中一个对象一旦被创建，在内部会携带创建对象的类型名，一旦创建就不能被修改了。那么怎么获取这个对象的类型名呢？所谓”纯粹的对象”，就是说该对象是通过”{}“或”new Object”创建的。<br>js中提供了调用对象原型中的toString方法， Object.prototype.toString.call(obj)。因为很多对象继承的toString（）方法被重写了，为了能够调用正确的toString（）版本，也就是最原始的版本。可以使用Function.call()的方法。<br>其中call可以这么理解，相当于obj去借用这个 Object.prototype.toString()<br><strong>举个栗子~</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;&#125;,</span><br><span class="line">arr = [];</span><br><span class="line"></span><br><span class="line">obj <span class="keyword">instanceof</span> <span class="built_in">Array</span>	<span class="comment">//false</span></span><br><span class="line">obj <span class="keyword">instanceof</span> <span class="built_in">Object</span>	<span class="comment">//true</span></span><br><span class="line">arr <span class="keyword">instanceof</span> <span class="built_in">Array</span>	<span class="comment">//true</span></span><br><span class="line">arr <span class="keyword">instanceof</span> <span class="built_in">Object</span>	<span class="comment">//true</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">constructor</span></span><br><span class="line">var obj = &#123;&#125;,</span><br><span class="line">arr = [];</span><br><span class="line"></span><br><span class="line">obj.constructor === <span class="built_in">Object</span>	<span class="comment">//true</span></span><br><span class="line">arr.constructor === <span class="built_in">Object</span>	<span class="comment">//false</span></span><br><span class="line">obj.constructor === <span class="built_in">Array</span>	<span class="comment">//true！</span></span><br><span class="line">arr.constructor === <span class="built_in">Array</span>	<span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-前端的单页面模式和多页面模式" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="../../2020/03/07/%E5%89%8D%E7%AB%AF%E7%9A%84%E5%8D%95%E9%A1%B5%E9%9D%A2%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%A4%9A%E9%A1%B5%E9%9D%A2%E6%A8%A1%E5%BC%8F/"
+    >前端的单页面模式和多页面模式</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="../../2020/03/07/%E5%89%8D%E7%AB%AF%E7%9A%84%E5%8D%95%E9%A1%B5%E9%9D%A2%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%A4%9A%E9%A1%B5%E9%9D%A2%E6%A8%A1%E5%BC%8F/" class="article-date">
+  <time datetime="2020-03-07T02:14:51.481Z" itemprop="datePublished">2020-03-07</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h2 id="思考动机"><a href="#思考动机" class="headerlink" title="思考动机"></a>思考动机</h2><p>前端部分的搭建，需要考虑使用哪种模式进行页面之间的跳转交互，<br>而项目内的页面交互，不可避免的需要相互之间的数据共享。</p>
+<h2 id="模式选择"><a href="#模式选择" class="headerlink" title="模式选择"></a>模式选择</h2><p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWFnZXMyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvMTM4MzQ4OC8yMDE4MDcvMTM4MzQ4OC0yMDE4MDcxMjE3NDAwNTA3NS0xMjA1MTA1OTMzLnBuZw?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<blockquote>
+<p>单页面模式（SPA  Single-page Application）：<br>只有一张Web页面的应用，是一种从Web服务器加载的富客户端，单页面跳转仅刷新局部资源 ，公共资源(js、css等)仅需加载一次<br>页面跳转：使用js中的append/remove或者show/hide的方式来进行页面内容的更换,或者使用框架。<br>数据传递：可通过全局变量或者参数传递，进行相关数据交互<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWFnZXMyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvMTM4MzQ4OC8yMDE4MDcvMTM4MzQ4OC0yMDE4MDcxMjE3NDAwNTA3NS0xMjA1MTA1OTMzLnBuZw?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>多页面模式（MPA  Multi-page Application）：<br>多页面跳转需要刷新所有资源，每个公共资源(js、css等)需选择性重新加载<br>页面跳转：使用window.location.href = “./index.html”进行页面间的跳转；<br>数据传递：可以使用path?account=”123”&amp;password=””路径携带数据传递的方式，或者localstorage、cookie等存储方式</p>
+</blockquote>
+<blockquote>
+<p>总结：<br>单页面模式：相对比较有优势，无论在用户体验还是页面切换的数据传递、页面切换动画，都可以有比较大的操作空间<br>多页面模式：比较适用于页面跳转较少，数据传递较少的项目中开发，否则使用cookie，localstorage进行数据传递，性能很不好。</p>
+</blockquote>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-关于原型的理解" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -865,187 +1065,13 @@
 
 </article>
     
-    <article id="post-详细剖析强缓存和协商缓存" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="../../2019/11/14/%E8%AF%A6%E7%BB%86%E5%89%96%E6%9E%90%E5%BC%BA%E7%BC%93%E5%AD%98%E5%92%8C%E5%8D%8F%E5%95%86%E7%BC%93%E5%AD%98/"
-    >详细剖析强缓存和协商缓存</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="../../2019/11/14/%E8%AF%A6%E7%BB%86%E5%89%96%E6%9E%90%E5%BC%BA%E7%BC%93%E5%AD%98%E5%92%8C%E5%8D%8F%E5%95%86%E7%BC%93%E5%AD%98/" class="article-date">
-  <time datetime="2019-11-13T16:00:00.000Z" itemprop="datePublished">2019-11-14</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="../../categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>Welcome to share creative thoughts!</p>
-<h2 id="Cache-control"><a href="#Cache-control" class="headerlink" title="Cache-control"></a>Cache-control</h2><p>1.public：<strong>所有内容都将被缓存（客户端和代理服务器都可缓存）</strong>。具体来说响应可被任何中间节点缓存，如 Browser &lt;– proxy1 &lt;– proxy2 &lt;– Server，中间的proxy可以缓存资源，比如下次再请求同一资源proxy1直接把自己缓存的东西给 Browser 而不再向proxy2要。</p>
-<p>private：所有内容<strong>只有客户端可以缓存，Cache-Control的默认取值。</strong>具体来说，表示中间节点不允许缓存，对于Browser &lt;– proxy1 &lt;– proxy2 &lt;– Server，proxy 会老老实实把Server 返回的数据发送给proxy1,自己不缓存任何数据。当下次Browser再次请求时proxy会做好请求转发而不是自作主张给自己缓存的数据。</p>
-<p>no-cache：客户端缓存内容<strong>，是否使用缓存则需要经过协商缓存来验证决定。表</strong>示不使用 Cache-Control的缓存控制方式做前置验证，<strong>而是使用 Etag 或者Last-Modified字段来控制缓存</strong>。需要注意的是，no-cache这个名字有一点误导。设置了no-cache之后，<strong>并不是说浏览器就不再缓存数据，只是浏览器在使用缓存数据时，需要先确认一下数据是否还跟服务器保持一致。</strong></p>
-<p>no-store：所有内容都不会被缓存，即不使用强制缓存，也不使用协商缓存</p>
-<p>max-age：max-age=xxx (xxx is numeric)表示缓存内容将在xxx秒后失效,优先级大于expires</p>
-<p>s-maxage（单位为s)：同max-age作用一样，只在代理服务器中生效（比如CDN缓存）。比如当s-maxage=60时，在这60秒中，即使更新了CDN的内容，浏览器也不会进行请求。max-age用于普通缓存，而s-maxage用于代理缓存。s-maxage的优先级高于max-age。如果存在s-maxage，则会覆盖掉max-age和Expires header。</p>
-<p>max-stale：能容忍的最大过期时间。max-stale指令标示了客户端愿意接收一个已经过期了的响应。如果指定了max-stale的值，则最大容忍时间为对应的秒数。如果没有指定，那么说明浏览器愿意接收任何age的响应（age表示响应由源站生成或确认的时间与当前时间的差值）。</p>
-<p>min-fresh：能够容忍的最小新鲜度。min-fresh标示了客户端不愿意接受新鲜度不多于当前的age加上min-fresh设定的时间之和的响应。<br>Cache-Control 可以在请求头或者响应头中设置，并且可以组合使用多种指令：<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8zMTc0NzAxLThmZjk4MTYwM2NkZmRlZDA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<h2 id="Expires"><a href="#Expires" class="headerlink" title="Expires"></a>Expires</h2><ol>
-<li>Expires 是http1.0的产物，Cache-Control是http1.1的产物，两者同时存在的话，Cache-Control优先级高于Expires<ol start="2">
-<li>在某些不支持HTTP1.1的环境下，Expires就会发挥用处。所以Expires其实是过时的产物，现阶段它的存在只是一种兼容性的写法。</li>
-</ol>
-</li>
-<li><strong>强缓存</strong>判断是否缓存的依据来自于是否超出某个时间或者某个时间段，而不关心服务器端文件是否已经更新，这可能会<strong>导致加载文件不是服务器端最新的内容.</strong></li>
-<li>如何获知服务器端内容是否已经发生了更新呢？此时我们需要用到<strong>协商缓存策略。</strong></li>
-</ol>
-<h2 id="协商缓存"><a href="#协商缓存" class="headerlink" title="协商缓存"></a>协商缓存</h2><p>协商缓存就是强制缓存失效后，浏览器携带缓存标识向服务器发起请求，由服务器根据缓存标识决定是否使用缓存的过程，主要有以下两种情况：<br>1.协商缓存生效，返回304和Not Modified<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8zMTc0NzAxLTY2MGZkMTYzMzI5ZDA4MGI?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>2. 协商缓存失效，返回200和请求结果<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8zMTc0NzAxLTI0OTUzMDc5Y2ZlYmYyYmY?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>协商缓存可以通过设置两种 HTTP Header 实现：Last-Modified 和 ETag 。</p>
-<h2 id="Last-Modified和If-Modified-Since"><a href="#Last-Modified和If-Modified-Since" class="headerlink" title="Last-Modified和If-Modified-Since"></a>Last-Modified和If-Modified-Since</h2><p>浏览器在第一次访问资源时，服务器返回资源的同时，在response header中添加 Last-Modified的header，值是这个资源在服务器上的最后修改时间，浏览器接收后缓存文件和header；<br>浏览器下一次请求这个资源，浏览器检测到有 Last-Modified这个header，于是添加If-Modified-Since这个header，值就是Last-Modified中的值；服务器再次收到这个资源请求，会根据 If-Modified-Since 中的值与服务器中这个资源的最后修改时间对比，<br><strong>如果没有变化，返回304和空的响应体，直接从缓存读取<br>  如果If-Modified-Since的时间小于服务器中这个资源的最后修改时间，说明文件有更新，于是返回新的资源文件和200</strong><br>但是 Last-Modified 存在一些弊端：<br>1.如果本地打开缓存文件，即使没有对文件进行修改，但还是会造成 Last-Modified 被修改，服务端不能命中缓存导致发送相同的资源<br>2.因为 Last-Modified 只能以秒计时，如果在不可感知的时间内修改完成文件，那么服务端会认为资源还是命中了，不会返回正确的资源<br>既然根据文件修改时间来决定是否缓存尚有不足，能否可以直接根据文件内容是否修改来决定缓存策略？<br><strong>所以在 HTTP / 1.1 出现了 ETag 和If-None-Match</strong></p>
-<h2 id="ETag和If-None-Match"><a href="#ETag和If-None-Match" class="headerlink" title=".ETag和If-None-Match"></a>.ETag和If-None-Match</h2><p>1.Etag是服务器响应请求时，返回当前资源文件的一个唯一标识(由服务器生成)，<strong>只要资源有变化，Etag就会重新生成。</strong><br>2.浏览器在下一次加载资源向服务器发送请求时，会将上一次返回的Etag值放到request header里的If-None-Match里，服务器只需要比较客户端传来的I<strong>f-None-Match跟自己服务器上该资源的ETag是否一致，</strong>就能很好地判断资源相对客户端而言是否被修改过了。<br>3.如果服务器发现ETag匹配不上，那么直接以常规GET 200形式将新的资源（当然也包括了新的ETag）发给客户端。<br>4.如果ETag是一致的，则直接返回304知会客户端直接使用本地缓存即可<strong>。</strong></p>
-<h2 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h2><p>1.首先在精确度上，Etag要优于Last-Modified。<br>2.Last-Modified的时间单位是秒，如果某个文件在1秒内改变了多次，那么他们的Last-Modified其实并没有体现出来修改，但是Etag每次都会改变确保了精度；如果是负载均衡的服务器，各个服务器生成的Last-Modified也有可能不一致。<br>3.第二在性能上，Etag要逊于Last-Modified，毕竟Last-Modified只需要记录时间，而Etag需要服务器通过算法来计算出一个hash值。<br>4.第三在优先级上，<strong>服务器校验优先考虑Etag</strong></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
-<p>1.强制缓存优先于协商缓存进行，若强制缓存(Expires和Cache-Control)生效则直接使用缓存，<br> 2.若不生效则进行协商缓存(Last-Modified / If-Modified-Since和Etag / If-None-Match)，<br> 3.协商缓存由服务器决定是否使用缓存，若协商缓存失效，那么代表该请求的缓存失效，返回200，重新返回资源和缓存标   识，再存入浏览器缓存中；<br> 4.生效则返回304，继续使用缓存。</p>
-</blockquote>
-<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>1.对于频繁变动的资源，首先需要使用Cache-Control: no-cache 使浏览器每次都请求服务器，然后配合 ETag 或者 Last-Modified 来验证资源是否有效。这样的做法虽然不能节省请求数量，但是能显著减少响应数据大小。<br>2.不常变化的场景：通常在处理这类资源时，给它们的 Cache-Control 配置一个很大的 max-age，这样浏览器之后请求相同的 URL 会命中强制缓存。</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">前端性能优化</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-接口防刷解决思路" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="../../2019/11/13/%E6%8E%A5%E5%8F%A3%E9%98%B2%E5%88%B7%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/"
-    >接口防刷解决思路</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="../../2019/11/13/%E6%8E%A5%E5%8F%A3%E9%98%B2%E5%88%B7%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/" class="article-date">
-  <time datetime="2019-11-12T16:00:00.000Z" itemprop="datePublished">2019-11-13</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="../../categories/%E6%A1%86%E6%9E%B6%E4%B8%8E%E6%9E%B6%E6%9E%84/">框架与架构</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>Welcome to share creative thoughts!</p>
-<h2 id="场景和原因："><a href="#场景和原因：" class="headerlink" title="场景和原因："></a>场景和原因：</h2><p>1.在项目中后台只需要提供一套API接口，就可以接入安卓、小程序、IOS、web等多个应用程序，这样可以节约开发成本。<br>但是一个后台接入这么多应用程序的http请求，必然导致后端的压力非常大。对于这些情况我们需要对用户的访问进行限流访问，我们可以依次对Nginx、tomcat、接口进行限流。<br>2.对于一些请求进行过滤和拦截是非常有必要的，能够有效地减轻后台的压力。<br>3.考虑线上环境 很多接口 如果不做缓存 可能导致有人拿到url  每秒几万次的访问后台程序,导致系统down机。<br>4.短时间接口被大量调用（攻击），出现系统崩溃和系统爬虫问题，怎么样提升服务的可用性？</p>
-<h2 id="商讨解决方法"><a href="#商讨解决方法" class="headerlink" title="商讨解决方法"></a>商讨解决方法</h2><p>1.最简单有效的防护就是图片验证码，采用点触验证，验证滑动或者是第三方验证码服务，普通的图片验证码很容易被破解<br>2.频率，或者叫接口防刷，通过用户具有唯一性的ip验证用户的身份,模拟一个场景，每次用户调用接口，将此用户的ip进行记录，在有效的时间之内，用户每调用一次接口，给调用的次数+1,当超过（次数根据自己的时间情况进行定义）指定的次数时，将调用这个接口的用户ip加入黑名单中，锁定时间到了（锁定时间根据实际情况进行定义）之后移除在黑名单中的用户ip，进行解锁，但是每次用户在短时间内调用接口，实时记录的ip，次数，时间存到什么地方呢？<br>数据库，文件，memcache, redis？<br>最终的方案是redis！<br><strong>redis是一种基于内存的分布式缓存，数据存到数据库，因为redis支持的数据类型更多，支持永久存储，redis有部分数据是存储在了硬盘上</strong><br>3.网关控制流量洪峰，对在一个时间段内出现流量异常，可以拒绝请求。<br>4.源ip请求个数限制。对请求来源的ip请求个数做限制。<br>5.http请求头信息校验；（例如host，User-Agent，Referer）<br>6.对用户唯一身份uid进行限制和校验。例如基本的长度，组合方式，甚至有效性进行判断。或者uid具有一定的时效性<br>7.前后端协议采用二进制方式进行交互或者协议采用签名机制<br>8.人机验证，验证码，短信验证码，滑动图片形式，12306形式<br>9.签名，API接口启用签名策略，签名可以保障请求URL的完整安全，签名匹配再继续下一步操作，<br>10.token，对于重要的API接口，生成token值，做验证</p>
-<h2 id="接口安全问题"><a href="#接口安全问题" class="headerlink" title="接口安全问题"></a>接口安全问题</h2><p>应对接口安全，我们可以对数据进行加密，不明文传输数据，可以选择对称加密（DES 2DES）或者是非对称加密（RSA），虽然说两者都是加密，但是又很大的区别，对称加密的速度快，但是相对非对称加密来说是不安全的，一旦一方泄露密钥，所有的数据将全部泄露，对于加密的长度来说非对称加密有长度限制，密钥的长度是1024，值能加密117个字符，如果长度过长，还需要分段加密，分段解密，效率更低，但是相对来说比较安全。</p>
-<h2 id="怎样解决http频繁请求同一接口，但数据库来不及写入导致数据不一致的问题"><a href="#怎样解决http频繁请求同一接口，但数据库来不及写入导致数据不一致的问题" class="headerlink" title="怎样解决http频繁请求同一接口，但数据库来不及写入导致数据不一致的问题"></a>怎样解决http频繁请求同一接口，但数据库来不及写入导致数据不一致的问题</h2><p>1.这有点类似文件的情况，有一个test.dat文件，很多进程都要读写，为了避免冲突，会在操作文件时创建test.lck文件用于被其他进程发现，该文件已经处于被操作状态，这个过程中的互斥并没有改变目标文件的任何内容，而是通过外部数据加锁。<br>2.令牌算法限流<br>令牌桶算法最初来源于计算机网络。在网络传输数据时，为了防止网络拥塞，需限制流出网络的流量，使流量以比较均匀的速度向外发送。令牌桶算法就实现了这个功能，可控制发送到网络上数据的数目，并允许突发数据的发送。<br>3.限流的常用处理手段有：计数器、滑动窗口、漏桶、令牌。<br>4.总之一句话，让系统的流量，先到队列中排队、限流，不要让流量直接打到系统上。</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E9%A1%B9%E7%9B%AE%E6%80%9D%E8%80%83/" rel="tag">项目思考</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E9%AB%98%E5%B9%B6%E5%8F%91/" rel="tag">高并发</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
   </article>
   
 
   
   <nav class="page-nav">
     
-    <a class="extend prev" rel="prev" href="../../">上一页</a><a class="page-number" href="../../">1</a><span class="page-number current">2</span><a class="page-number" href="../3/">3</a><a class="page-number" href="../4/">4</a><a class="extend next" rel="next" href="../3/">下一页</a>
+    <a class="extend prev" rel="prev" href="../../">上一页</a><a class="page-number" href="../../">1</a><span class="page-number current">2</span><a class="page-number" href="../3/">3</a><a class="page-number" href="../4/">4</a><a class="page-number" href="../5/">5</a><a class="extend next" rel="next" href="../3/">下一页</a>
   </nav>
   
 </section>
