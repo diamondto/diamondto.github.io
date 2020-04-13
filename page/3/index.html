@@ -71,103 +71,6 @@
     
     
     
-    <article id="post-详细剖析强缓存和协商缓存" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="../../2019/11/14/%E8%AF%A6%E7%BB%86%E5%89%96%E6%9E%90%E5%BC%BA%E7%BC%93%E5%AD%98%E5%92%8C%E5%8D%8F%E5%95%86%E7%BC%93%E5%AD%98/"
-    >详细剖析强缓存和协商缓存</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="../../2019/11/14/%E8%AF%A6%E7%BB%86%E5%89%96%E6%9E%90%E5%BC%BA%E7%BC%93%E5%AD%98%E5%92%8C%E5%8D%8F%E5%95%86%E7%BC%93%E5%AD%98/" class="article-date">
-  <time datetime="2019-11-13T16:00:00.000Z" itemprop="datePublished">2019-11-14</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="../../categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>Welcome to share creative thoughts!</p>
-<h2 id="Cache-control"><a href="#Cache-control" class="headerlink" title="Cache-control"></a>Cache-control</h2><p>1.public：<strong>所有内容都将被缓存（客户端和代理服务器都可缓存）</strong>。具体来说响应可被任何中间节点缓存，如 Browser &lt;– proxy1 &lt;– proxy2 &lt;– Server，中间的proxy可以缓存资源，比如下次再请求同一资源proxy1直接把自己缓存的东西给 Browser 而不再向proxy2要。</p>
-<p>private：所有内容<strong>只有客户端可以缓存，Cache-Control的默认取值。</strong>具体来说，表示中间节点不允许缓存，对于Browser &lt;– proxy1 &lt;– proxy2 &lt;– Server，proxy 会老老实实把Server 返回的数据发送给proxy1,自己不缓存任何数据。当下次Browser再次请求时proxy会做好请求转发而不是自作主张给自己缓存的数据。</p>
-<p>no-cache：客户端缓存内容<strong>，是否使用缓存则需要经过协商缓存来验证决定。表</strong>示不使用 Cache-Control的缓存控制方式做前置验证，<strong>而是使用 Etag 或者Last-Modified字段来控制缓存</strong>。需要注意的是，no-cache这个名字有一点误导。设置了no-cache之后，<strong>并不是说浏览器就不再缓存数据，只是浏览器在使用缓存数据时，需要先确认一下数据是否还跟服务器保持一致。</strong></p>
-<p>no-store：所有内容都不会被缓存，即不使用强制缓存，也不使用协商缓存</p>
-<p>max-age：max-age=xxx (xxx is numeric)表示缓存内容将在xxx秒后失效,优先级大于expires</p>
-<p>s-maxage（单位为s)：同max-age作用一样，只在代理服务器中生效（比如CDN缓存）。比如当s-maxage=60时，在这60秒中，即使更新了CDN的内容，浏览器也不会进行请求。max-age用于普通缓存，而s-maxage用于代理缓存。s-maxage的优先级高于max-age。如果存在s-maxage，则会覆盖掉max-age和Expires header。</p>
-<p>max-stale：能容忍的最大过期时间。max-stale指令标示了客户端愿意接收一个已经过期了的响应。如果指定了max-stale的值，则最大容忍时间为对应的秒数。如果没有指定，那么说明浏览器愿意接收任何age的响应（age表示响应由源站生成或确认的时间与当前时间的差值）。</p>
-<p>min-fresh：能够容忍的最小新鲜度。min-fresh标示了客户端不愿意接受新鲜度不多于当前的age加上min-fresh设定的时间之和的响应。<br>Cache-Control 可以在请求头或者响应头中设置，并且可以组合使用多种指令：<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8zMTc0NzAxLThmZjk4MTYwM2NkZmRlZDA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<h2 id="Expires"><a href="#Expires" class="headerlink" title="Expires"></a>Expires</h2><ol>
-<li>Expires 是http1.0的产物，Cache-Control是http1.1的产物，两者同时存在的话，Cache-Control优先级高于Expires<ol start="2">
-<li>在某些不支持HTTP1.1的环境下，Expires就会发挥用处。所以Expires其实是过时的产物，现阶段它的存在只是一种兼容性的写法。</li>
-</ol>
-</li>
-<li><strong>强缓存</strong>判断是否缓存的依据来自于是否超出某个时间或者某个时间段，而不关心服务器端文件是否已经更新，这可能会<strong>导致加载文件不是服务器端最新的内容.</strong></li>
-<li>如何获知服务器端内容是否已经发生了更新呢？此时我们需要用到<strong>协商缓存策略。</strong></li>
-</ol>
-<h2 id="协商缓存"><a href="#协商缓存" class="headerlink" title="协商缓存"></a>协商缓存</h2><p>协商缓存就是强制缓存失效后，浏览器携带缓存标识向服务器发起请求，由服务器根据缓存标识决定是否使用缓存的过程，主要有以下两种情况：<br>1.协商缓存生效，返回304和Not Modified<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8zMTc0NzAxLTY2MGZkMTYzMzI5ZDA4MGI?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>2. 协商缓存失效，返回200和请求结果<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8zMTc0NzAxLTI0OTUzMDc5Y2ZlYmYyYmY?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>协商缓存可以通过设置两种 HTTP Header 实现：Last-Modified 和 ETag 。</p>
-<h2 id="Last-Modified和If-Modified-Since"><a href="#Last-Modified和If-Modified-Since" class="headerlink" title="Last-Modified和If-Modified-Since"></a>Last-Modified和If-Modified-Since</h2><p>浏览器在第一次访问资源时，服务器返回资源的同时，在response header中添加 Last-Modified的header，值是这个资源在服务器上的最后修改时间，浏览器接收后缓存文件和header；<br>浏览器下一次请求这个资源，浏览器检测到有 Last-Modified这个header，于是添加If-Modified-Since这个header，值就是Last-Modified中的值；服务器再次收到这个资源请求，会根据 If-Modified-Since 中的值与服务器中这个资源的最后修改时间对比，<br><strong>如果没有变化，返回304和空的响应体，直接从缓存读取<br>  如果If-Modified-Since的时间小于服务器中这个资源的最后修改时间，说明文件有更新，于是返回新的资源文件和200</strong><br>但是 Last-Modified 存在一些弊端：<br>1.如果本地打开缓存文件，即使没有对文件进行修改，但还是会造成 Last-Modified 被修改，服务端不能命中缓存导致发送相同的资源<br>2.因为 Last-Modified 只能以秒计时，如果在不可感知的时间内修改完成文件，那么服务端会认为资源还是命中了，不会返回正确的资源<br>既然根据文件修改时间来决定是否缓存尚有不足，能否可以直接根据文件内容是否修改来决定缓存策略？<br><strong>所以在 HTTP / 1.1 出现了 ETag 和If-None-Match</strong></p>
-<h2 id="ETag和If-None-Match"><a href="#ETag和If-None-Match" class="headerlink" title=".ETag和If-None-Match"></a>.ETag和If-None-Match</h2><p>1.Etag是服务器响应请求时，返回当前资源文件的一个唯一标识(由服务器生成)，<strong>只要资源有变化，Etag就会重新生成。</strong><br>2.浏览器在下一次加载资源向服务器发送请求时，会将上一次返回的Etag值放到request header里的If-None-Match里，服务器只需要比较客户端传来的I<strong>f-None-Match跟自己服务器上该资源的ETag是否一致，</strong>就能很好地判断资源相对客户端而言是否被修改过了。<br>3.如果服务器发现ETag匹配不上，那么直接以常规GET 200形式将新的资源（当然也包括了新的ETag）发给客户端。<br>4.如果ETag是一致的，则直接返回304知会客户端直接使用本地缓存即可<strong>。</strong></p>
-<h2 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h2><p>1.首先在精确度上，Etag要优于Last-Modified。<br>2.Last-Modified的时间单位是秒，如果某个文件在1秒内改变了多次，那么他们的Last-Modified其实并没有体现出来修改，但是Etag每次都会改变确保了精度；如果是负载均衡的服务器，各个服务器生成的Last-Modified也有可能不一致。<br>3.第二在性能上，Etag要逊于Last-Modified，毕竟Last-Modified只需要记录时间，而Etag需要服务器通过算法来计算出一个hash值。<br>4.第三在优先级上，<strong>服务器校验优先考虑Etag</strong></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
-<p>1.强制缓存优先于协商缓存进行，若强制缓存(Expires和Cache-Control)生效则直接使用缓存，<br> 2.若不生效则进行协商缓存(Last-Modified / If-Modified-Since和Etag / If-None-Match)，<br> 3.协商缓存由服务器决定是否使用缓存，若协商缓存失效，那么代表该请求的缓存失效，返回200，重新返回资源和缓存标   识，再存入浏览器缓存中；<br> 4.生效则返回304，继续使用缓存。</p>
-</blockquote>
-<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>1.对于频繁变动的资源，首先需要使用Cache-Control: no-cache 使浏览器每次都请求服务器，然后配合 ETag 或者 Last-Modified 来验证资源是否有效。这样的做法虽然不能节省请求数量，但是能显著减少响应数据大小。<br>2.不常变化的场景：通常在处理这类资源时，给它们的 Cache-Control 配置一个很大的 max-age，这样浏览器之后请求相同的 URL 会命中强制缓存。</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">前端性能优化</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
     <article id="post-接口防刷解决思路" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -1043,6 +946,153 @@
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/React/" rel="tag">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/jsx/" rel="tag">jsx</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-趣谈HTTPS协议" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="../../2019/10/26/%E8%B6%A3%E8%B0%88HTTPS%E5%8D%8F%E8%AE%AE/"
+    >趣谈HTTPS协议</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="../../2019/10/26/%E8%B6%A3%E8%B0%88HTTPS%E5%8D%8F%E8%AE%AE/" class="article-date">
+  <time datetime="2019-10-25T16:00:00.000Z" itemprop="datePublished">2019-10-26</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../categories/%E7%BD%91%E7%BB%9C/">网络</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>Welcome to share creative thoughts!</p>
+<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><h1 id="HTTP传输数据存在的问题"><a href="#HTTP传输数据存在的问题" class="headerlink" title="HTTP传输数据存在的问题"></a>HTTP传输数据存在的问题</h1><h1 id="HTTPS与HTTP的区别"><a href="#HTTPS与HTTP的区别" class="headerlink" title="HTTPS与HTTP的区别"></a>HTTPS与HTTP的区别</h1><h1 id="SSL的加密方式"><a href="#SSL的加密方式" class="headerlink" title="SSL的加密方式"></a>SSL的加密方式</h1><h1 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h1><h1 id="具体配置"><a href="#具体配置" class="headerlink" title="具体配置"></a>具体配置</h1><p>HTTP采用明文传输。明文传输在一些需要保护个人隐私的场景是大忌，比如银行卡卡号和密码的输入，个</p>
+<p>人信息的录入等。才用明文传输分分钟钟被不法分子截取下来。</p>
+<p>HTTP不验证通信双方的身份。HTTP的状态是无请求的，优点在于解放了服务器，每一次请求“点到为止”不会造成不必要连接占用，缺点在于每次请求会传输大量重复的内容信息。</p>
+<p>详细解析一下：无状态指的是任意一个Web请求必须完全与其他请求隔离，当请求端提出请求时，请求本身包含了相应端为相应这一请求所需的全部信息。缺少状态意味着如果后续处理需要前面的信息，则它必须重传，这样可能导致每次连接传送的数据量增大。另一方面，在服务器不需要先前信息时它的应答就较快。 Http协议不像建立了socket连接的两个终端，双方是可以互相通信的，http的客户端只能通过请求服务器来获取相关内容或文件信息。这也是后来为什么后来HTTP2有了服务器推送的原因！</p>
+<p>至于为什么无状态，后面在Cookie和Session中详细分析一下~</p>
+<p>HTTP无法验证报文的完整性，报文可能被篡改。</p>
+<p>升级版！HTTPS：加密算法</p>
+<p>对称加密原理：加密的算法是公开的，密钥来加密数据，对称加密使用一个密钥加密，还要使用相同的密钥才能解密！</p>
+<p>常用的算法有：DES,3DES,AES</p>
+<p>现在用的比较多的是AES，破解难度大，国外用的比较多。</p>
+<p>//使用对称加密，AES加密的时候，密钥长度必须是16个字节，arg0表示要加密的数据，arg1表示要加密的密钥。<br>//解密也是两个参数，arg0和arg1，arg0是要解密的数据，arg1是解密的密钥<br>//方法：AES.decryptFromBase64()</p>
+<p>加密之后是一个字符串，服务器解密，这时用户和服务器都有一把一样的钥匙！</p>
+<p>优点：</p>
+<p>1.计算量较小，加密和解密的速度比较快，适合加密比较大的数据</p>
+<p>2.缺点:在传输数据之前，要先传输公钥，可能被中间人劫持，可能会被泄密。</p>
+<p>3.当用户很多时，一个用户必须要有唯一的密钥，所以管理起来很麻烦，造成服务器压力巨大。</p>
+<p>非对称加密：</p>
+<p> 1.算法是公开的，公钥和私钥是配对的，公钥加密只能私钥解密，私钥加密只能公钥解密，简单理解就是用不同的钥匙去开锁，打开和关闭的钥匙是不一样的，所以称非对称~服务器会保存公钥 和私钥 </p>
+<p>2.公钥和私钥是通过算法生成的，不能随意乱写！</p>
+<p>3.典型方法：RSA  有两个方法   RSA.encrypt     RSA.decrypt  </p>
+<p>流程：</p>
+<p>服务器发送公钥给用户——&gt;用户采用公钥进行加密——&gt;加密之后传输给服务器——&gt;服务器用私钥进行解密</p>
+<p>上述流程中，黑客可能同时拿到公钥和数据，但是公钥是解不了密的！所以黑客解不开这时的数据！</p>
+<p>非对称加密的算法RSA</p>
+<p>优点:   加密和解密采用不同的钥匙，公钥是可以传输的，但不能解开数据</p>
+<p>缺点：计算量比较大，加密和解密的速度比较慢。</p>
+<p>那么HTTPS是怎么结合的呢？</p>
+<p>对称加密+非对称加密(HTTPS采用这种方式)</p>
+<p>使用对称密钥的好处是解密的效率比较快，使用非对称密钥的好处是可以使得传输的内容不能被破解，因为就算你拦截到了数据，但是没有对应的私钥，也是不能破解内容的。</p>
+<p>举个例子：你抢到了一个保险柜，但是没有保险柜的钥匙也不能打开保险柜。那我们就将对称加密与非对称加密结合起来,充分利用两者各自的优势，在交换密钥环节使用非对称加密方式，之后的建立通信交换报文阶段则使用对称加密方式。</p>
+<p>具体做法是：发送密文的一方使用对方的公钥进行加密处理“对称的密钥”，然后对方用自己的私钥解密拿到“对称的密钥”，这样可以确保交换的密钥是安全的前提下，使用对称加密方式进行通信。所以，HTTPS采用对称加密和非对称加密两者并用的混合加密机制。</p>
+<p>但是这样还不够哦！我们聪明的密码学家考虑问题是非常周全的，在实际场景中，会有很多bug~</p>
+<p>比如：网络传输过程中需要经过很多中间节点，虽然数据无法被解密，但可能被篡改，那如何校验数据的完整性呢？</p>
+<p>画押！—–&gt;校验数字签名。</p>
+<p>数字签名有两种功效：</p>
+<p>1.能确定消息确实是由发送方签名并发出来的，因为别人假冒不了发送方的签名。</p>
+<p>2.数字签名能确定消息的完整性,证明数据是否未被篡改过。</p>
+<p>HTTPS工作原理：</p>
+<p>1.服务器有公钥和私钥，公钥是传给客户端的，但是不是直接传输，而是先通过SSL数字证书，证书上标注了公钥和服务器的身份标志信息，客户端收到SSL证书之后，拆包，解析出公钥，这时呢，客户端会检查一下服务器的身份，是不是我想要去请求的那个服务器呢？是不是过期了呢？如果没有问题的话，客户端会生成一个随机码，使用公钥进行加密！传输加密之后的数据</p>
+<p>2.服务器拿到随机码之后（这时已经被公钥加密了！），这个随机码就可以作为对称加密的密钥，这时服务器就有了数据和私钥 </p>
+<p>服务器用私钥进行解密之后，拿到随机码， 这时两端都有了相同的数据，这样的话，双方采用相同的随机码作为对称加密的钥匙！就可以对称的拿到解析之后的数据了，为什么这样？因为传输的时候采用对称加密可以提高速度！</p>
+<p>3.详细说明一下：</p>
+<p>SSL证书包裹这公钥和服务器的身份标志，为什么带上服务器的标志呢？哈哈，这就是为了防止中间人的劫持，如果你不是正规服务器的话，我就不要你的冒牌货的钥匙！这样客户端就可以防止黑客坑骗拐骗拿到我们的信息啦，不过这只是开始~</p>
+<p>假设随机码6666是采用公钥AA加密的，采用对称算法，加密之后生成<strong>***</strong>这种字符串，对称加密保证了传输的速度，但是我们又不想让黑客劫持，所以要引入SSL证书来告诉双方，验证真假美猴王~防止双方都不知道对方身份的情况下，被双向迷惑！猜想一下，黑客是很聪明的，他可能伪装成任何一个角色，如果在客户端这里，他伪装成服务端，采用不正规的钥匙和我们通信，那么我们并不知道身份，会被盗取信息，而在服务端，黑客会假冒成客户端，黑客就是双重身份的冒充人！这样，他获取了双方的信息，随意篡改就很危险！而这个时候我们双方是不知情的，所以SSL很重要！必要要带上身份标志才能辨别好。</p>
+<p>随机码就是对陈加密的密钥，客户端采用随机码6666进行对称加密，传输<strong><strong>，服务端拿到</strong></strong>，使用私钥BB解密，拿到随机码6666，再用随机码解密用户的信息，这样就保证了双方的通信。细想这样安全吗？</p>
+<p>设想一下，刚开始发送SSL的时候，黑客是可以获取公钥AA的，后来传输加密之后的数据时黑客也可以劫持，拿到*****但是这时，公钥是解不开数据的，因为黑客没有私钥BB。</p>
+<p>先发公钥AA给用户—-&gt;用户生成一个随机码6666—–&gt;使用AA加密6666生成<strong><strong>—–&gt;传输</strong></strong>给服务器——&gt;服务器使用私钥BB解密<strong><strong>—–&gt;拿到随机码6666，这个随机码的破解是采用的非对称加密哦，因为都是在双方本地完成解析的，所以相对不用考虑解析算法耗时的问题—–&gt;服务器采用6666随机码解密</strong></strong>，到这里我就明白了，为什么要用随机码来作为对称加密的密钥，这一招厉害了哈哈，这个密钥不仅保证了黑客解不开****，还保证了双方解析用户ID时采用对称算法，减少解密时间的效果~</p>
+<p>配置密钥库</p>
+<p>1.genkey-alias  生成证书别名</p>
+<p>2.keyalg   指定密钥算法，默认RSA</p>
+<p>3.keysize  默认1024位。</p>
+<p>上面就是我的通俗讲解了~密码学家真的很聪明</p>
+<p>官方流程参考：</p>
+<p>首先看看组成HTTPS的协议：HTTP协议和SSL/TLS协议。HTTP协议就不用讲了，而SSL/TLS就是负责加密解密等安全处理的模块，所以HTTPS的核心在SSL/TLS上面。整个通信如下：</p>
+<p>1、浏览器发起往服务器的443端口发起请求，请求携带了浏览器支持的加密算法和哈希算法。</p>
+<p>2、服务器收到请求，选择浏览器支持的加密算法和哈希算法。</p>
+<p>3、服务器下将数字证书返回给浏览器，这里的数字证书可以是向某个可靠机构申请的，也可以是自制的。</p>
+<p>4、浏览器进入数字证书认证环节，这一部分是浏览器内置的TLS完成的：</p>
+<p>4.1 首先浏览器会从内置的证书列表中索引，找到服务器下发证书对应的机构，如果没有找到，此时就会提示用户该证书是不是由权威机构颁发，是不可信任的。如果查到了对应的机构，则取出该机构颁发的公钥。</p>
+<p>4.2 用机构的证书公钥解密得到证书的内容和证书签名，内容包括网站的网址、网站的公钥、证书的有效期等。浏览器会先验证证书签名的合法性（验证过程类似上面Bob和Susan的通信）。签名通过后，浏览器验证证书记录的网址是否和当前网址是一致的，不一致会提示用户。如果网址一致会检查证书有效期，证书过期了也会提示用户。这些都通过认证时，浏览器就可以安全使用证书中的网站公钥了。</p>
+<p>4.3 浏览器生成一个随机数R，并使用网站公钥对R进行加密。</p>
+<p>5、浏览器将加密的R传送给服务器。</p>
+<p>6、服务器用自己的私钥解密得到R。</p>
+<p>7、服务器以R为密钥使用了对称加密算法加密网页内容并传输给浏览器。 </p>
+<p>8、浏览器以R为密钥使用之前约定好的解密算法获取网页内容。</p>
+<p>附上SHA算法供大家有兴趣研究~可以脑补一下著名的哈希冲突</p>
+<p>安全哈希算法（Secure Hash Algorithm）主要适用于数字签名标准（Digital Signature Standard DSS）里面定义的数字签名算法（Digital Signature Algorithm DSA）。对于长度小于2^64位的消息，SHA1会产生一个160位的消息摘要。该算法经过加密专家多年来的发展和改进已日益完善，并被广泛使用。该算法的思想是接收一段明文，然后以一种不可逆的方式将它转换成一段（通常更小）密文，也可以简单的理解为取一串输入码（称为预映射或信息），并把它们转化为长度较短、位数固定的输出序列即散列值（也称为信息摘要或信息认证代码）的过程。散列函数值可以说是对明文的一种”指纹”或是”摘要”所以对散列值的数字签名就可以视为对此明文的数字签名。</p>
+<p>最后补充一下：SSL协议并不是一个应用层协议，它是介于应用层和传输层协议之间的一个安全协议。</p>
+<p>枯燥但科学的总结一下：HTTPS=HTTP+加密+身份认证+完整性保护。HTTPS并不是一种新的协议，在通信接口使用了SSL和TLS协议而已。HTTP通常直接和TCP通信，而HTTPS中HTTP先和SSL通信，再由SSL和TCP进行通信。模型如下</p>
+<p>HTTPS使用两种加密方式的混合加密<br>对称密钥加密方式的优缺点：</p>
+<p>优点：处理速度快<br>缺点：但是容易被第三方盗取<br>非对称密钥加密方式的优缺点：</p>
+<p>优点：更加安全，不容易被盗取<br>缺点：处理效率相比对称密钥加密要慢，如果在通信时用这种方式加密，效率很低<br>于是HTTPS采用了两者的优点，使用了混合加密的方式</p>
+<p>使用非对称密钥加密的方式安全地交换再稍后对称密钥加密中要使用的密钥<br>确保交换的密钥是安全的之后，放弃非对称密钥加密，使用对称密钥加密来进行通信，保证传输效率<br>HTTPS是怎么解决HTTP协议的三大缺点的？<br>防监听：采用对称加密对数据进行加密，采用非对称加密对对称加密的密钥进行加密<br>防伪装：通信双方携带证书，证书有第三方颁发，很难伪造<br>防篡改：采用摘要算法（MD5或是SHA-1），同样的数据由同样的摘要，而只要有一点不同的数据，它的摘要往往不同，只要数据做了篡改，就会被感知到。</p>
+<p>HTTP与HTTPS的区别<br>HTTPS更加安全，因为它有加密，身份认证，验证数据完整性等环节<br>HTTPS需要申请证书，要付费（要钱！一年大概600元）<br>加密通信需要消耗更多的cpu和内存资源，如果每次通信都加密，会消耗很多的资源，当访问量很多的那些网站在进行加密处理时，它们所承担着的负载就很多了，这个时候就需要服务器端实现负载均衡。（有专用的https加解密硬件服务器）<br>使用端口不同，HTTP使用的是80端口，HTTPS使用的是443端口<br>所在层次不同，HTTP运行在TCP之上，HTTPS是运行在SSL/TLS之上的HTTP协议，SSL/TLS运行在TCP之上</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/HTTPS/" rel="tag">HTTPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li></ul>
 
 
     </footer>

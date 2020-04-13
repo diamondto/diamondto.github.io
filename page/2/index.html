@@ -355,72 +355,6 @@ Object.prototype.toString.call(/./);          //&quot;[object RegExp]&quot;</cod
 
 </article>
     
-    <article id="post-text" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="../../2020/03/03/text/"
-    >text</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="../../2020/03/03/text/" class="article-date">
-  <time datetime="2020-03-03T08:12:23.000Z" itemprop="datePublished">2020-03-03</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
     <article id="post-爬虫获取实时疫情数据并制作可视化表格" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -1036,6 +970,103 @@ Object.prototype.toString.call(/./);          //&quot;[object RegExp]&quot;</cod
 <p>PreloadJS提供了一种预加载内容的一致方式，以便在HTML应用程序中使用。预加载可以使用HTML标签以及XHR来完成。默认情况下，PreloadJS会尝试使用XHR加载内容，因为它提供了对进度和完成事件的更好支持，但是由于跨域问题，使用基于标记的加载可能更好。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用preload.js</span></span><br><span class="line"><span class="keyword">var</span> queue=<span class="keyword">new</span> createjs.LoadQueue();<span class="comment">//默认是xhr对象，如果是new createjs.LoadQueue(false)是指使用HTML标签，可以跨域</span></span><br><span class="line">queue.on(<span class="string">"complete"</span>,handleComplete,<span class="keyword">this</span>);</span><br><span class="line">queue.loadManifest([</span><br><span class="line">&#123;<span class="attr">id</span>:<span class="string">"myImage"</span>,<span class="attr">src</span>:<span class="string">"http://pic26.nipic.com/20121213/6168183  0044449030002.jpg"</span>&#125;,</span><br><span class="line">&#123;id：<span class="string">"myImage2"</span>，src:<span class="string">"http://pic9.nipic.com/20100814/2839526  1931471581702.jpg"</span>&#125;</span><br><span class="line">]);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleComplete</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> image=queue.getResuLt(<span class="string">"myImage"</span>);<span class="comment">//队列存放资源</span></span><br><span class="line">  <span class="built_in">document</span>.body.appendChild(image);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>两者都是提高页面性能有效的办法，两者主要区别是一个是提前加载，一个是迟缓甚至不加载。<br>懒加载对服务器前端有一定的缓解压力作用，预加载则会增加服务器前端压力。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">前端性能优化</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-详细剖析强缓存和协商缓存" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="../../2019/11/14/%E8%AF%A6%E7%BB%86%E5%89%96%E6%9E%90%E5%BC%BA%E7%BC%93%E5%AD%98%E5%92%8C%E5%8D%8F%E5%95%86%E7%BC%93%E5%AD%98/"
+    >详细剖析强缓存和协商缓存</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="../../2019/11/14/%E8%AF%A6%E7%BB%86%E5%89%96%E6%9E%90%E5%BC%BA%E7%BC%93%E5%AD%98%E5%92%8C%E5%8D%8F%E5%95%86%E7%BC%93%E5%AD%98/" class="article-date">
+  <time datetime="2019-11-13T16:00:00.000Z" itemprop="datePublished">2019-11-14</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>Welcome to share creative thoughts!</p>
+<h2 id="Cache-control"><a href="#Cache-control" class="headerlink" title="Cache-control"></a>Cache-control</h2><p>1.public：<strong>所有内容都将被缓存（客户端和代理服务器都可缓存）</strong>。具体来说响应可被任何中间节点缓存，如 Browser &lt;– proxy1 &lt;– proxy2 &lt;– Server，中间的proxy可以缓存资源，比如下次再请求同一资源proxy1直接把自己缓存的东西给 Browser 而不再向proxy2要。</p>
+<p>private：所有内容<strong>只有客户端可以缓存，Cache-Control的默认取值。</strong>具体来说，表示中间节点不允许缓存，对于Browser &lt;– proxy1 &lt;– proxy2 &lt;– Server，proxy 会老老实实把Server 返回的数据发送给proxy1,自己不缓存任何数据。当下次Browser再次请求时proxy会做好请求转发而不是自作主张给自己缓存的数据。</p>
+<p>no-cache：客户端缓存内容<strong>，是否使用缓存则需要经过协商缓存来验证决定。表</strong>示不使用 Cache-Control的缓存控制方式做前置验证，<strong>而是使用 Etag 或者Last-Modified字段来控制缓存</strong>。需要注意的是，no-cache这个名字有一点误导。设置了no-cache之后，<strong>并不是说浏览器就不再缓存数据，只是浏览器在使用缓存数据时，需要先确认一下数据是否还跟服务器保持一致。</strong></p>
+<p>no-store：所有内容都不会被缓存，即不使用强制缓存，也不使用协商缓存</p>
+<p>max-age：max-age=xxx (xxx is numeric)表示缓存内容将在xxx秒后失效,优先级大于expires</p>
+<p>s-maxage（单位为s)：同max-age作用一样，只在代理服务器中生效（比如CDN缓存）。比如当s-maxage=60时，在这60秒中，即使更新了CDN的内容，浏览器也不会进行请求。max-age用于普通缓存，而s-maxage用于代理缓存。s-maxage的优先级高于max-age。如果存在s-maxage，则会覆盖掉max-age和Expires header。</p>
+<p>max-stale：能容忍的最大过期时间。max-stale指令标示了客户端愿意接收一个已经过期了的响应。如果指定了max-stale的值，则最大容忍时间为对应的秒数。如果没有指定，那么说明浏览器愿意接收任何age的响应（age表示响应由源站生成或确认的时间与当前时间的差值）。</p>
+<p>min-fresh：能够容忍的最小新鲜度。min-fresh标示了客户端不愿意接受新鲜度不多于当前的age加上min-fresh设定的时间之和的响应。<br>Cache-Control 可以在请求头或者响应头中设置，并且可以组合使用多种指令：<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8zMTc0NzAxLThmZjk4MTYwM2NkZmRlZDA?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<h2 id="Expires"><a href="#Expires" class="headerlink" title="Expires"></a>Expires</h2><ol>
+<li>Expires 是http1.0的产物，Cache-Control是http1.1的产物，两者同时存在的话，Cache-Control优先级高于Expires<ol start="2">
+<li>在某些不支持HTTP1.1的环境下，Expires就会发挥用处。所以Expires其实是过时的产物，现阶段它的存在只是一种兼容性的写法。</li>
+</ol>
+</li>
+<li><strong>强缓存</strong>判断是否缓存的依据来自于是否超出某个时间或者某个时间段，而不关心服务器端文件是否已经更新，这可能会<strong>导致加载文件不是服务器端最新的内容.</strong></li>
+<li>如何获知服务器端内容是否已经发生了更新呢？此时我们需要用到<strong>协商缓存策略。</strong></li>
+</ol>
+<h2 id="协商缓存"><a href="#协商缓存" class="headerlink" title="协商缓存"></a>协商缓存</h2><p>协商缓存就是强制缓存失效后，浏览器携带缓存标识向服务器发起请求，由服务器根据缓存标识决定是否使用缓存的过程，主要有以下两种情况：<br>1.协商缓存生效，返回304和Not Modified<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8zMTc0NzAxLTY2MGZkMTYzMzI5ZDA4MGI?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>2. 协商缓存失效，返回200和请求结果<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8zMTc0NzAxLTI0OTUzMDc5Y2ZlYmYyYmY?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>协商缓存可以通过设置两种 HTTP Header 实现：Last-Modified 和 ETag 。</p>
+<h2 id="Last-Modified和If-Modified-Since"><a href="#Last-Modified和If-Modified-Since" class="headerlink" title="Last-Modified和If-Modified-Since"></a>Last-Modified和If-Modified-Since</h2><p>浏览器在第一次访问资源时，服务器返回资源的同时，在response header中添加 Last-Modified的header，值是这个资源在服务器上的最后修改时间，浏览器接收后缓存文件和header；<br>浏览器下一次请求这个资源，浏览器检测到有 Last-Modified这个header，于是添加If-Modified-Since这个header，值就是Last-Modified中的值；服务器再次收到这个资源请求，会根据 If-Modified-Since 中的值与服务器中这个资源的最后修改时间对比，<br><strong>如果没有变化，返回304和空的响应体，直接从缓存读取<br>  如果If-Modified-Since的时间小于服务器中这个资源的最后修改时间，说明文件有更新，于是返回新的资源文件和200</strong><br>但是 Last-Modified 存在一些弊端：<br>1.如果本地打开缓存文件，即使没有对文件进行修改，但还是会造成 Last-Modified 被修改，服务端不能命中缓存导致发送相同的资源<br>2.因为 Last-Modified 只能以秒计时，如果在不可感知的时间内修改完成文件，那么服务端会认为资源还是命中了，不会返回正确的资源<br>既然根据文件修改时间来决定是否缓存尚有不足，能否可以直接根据文件内容是否修改来决定缓存策略？<br><strong>所以在 HTTP / 1.1 出现了 ETag 和If-None-Match</strong></p>
+<h2 id="ETag和If-None-Match"><a href="#ETag和If-None-Match" class="headerlink" title=".ETag和If-None-Match"></a>.ETag和If-None-Match</h2><p>1.Etag是服务器响应请求时，返回当前资源文件的一个唯一标识(由服务器生成)，<strong>只要资源有变化，Etag就会重新生成。</strong><br>2.浏览器在下一次加载资源向服务器发送请求时，会将上一次返回的Etag值放到request header里的If-None-Match里，服务器只需要比较客户端传来的I<strong>f-None-Match跟自己服务器上该资源的ETag是否一致，</strong>就能很好地判断资源相对客户端而言是否被修改过了。<br>3.如果服务器发现ETag匹配不上，那么直接以常规GET 200形式将新的资源（当然也包括了新的ETag）发给客户端。<br>4.如果ETag是一致的，则直接返回304知会客户端直接使用本地缓存即可<strong>。</strong></p>
+<h2 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h2><p>1.首先在精确度上，Etag要优于Last-Modified。<br>2.Last-Modified的时间单位是秒，如果某个文件在1秒内改变了多次，那么他们的Last-Modified其实并没有体现出来修改，但是Etag每次都会改变确保了精度；如果是负载均衡的服务器，各个服务器生成的Last-Modified也有可能不一致。<br>3.第二在性能上，Etag要逊于Last-Modified，毕竟Last-Modified只需要记录时间，而Etag需要服务器通过算法来计算出一个hash值。<br>4.第三在优先级上，<strong>服务器校验优先考虑Etag</strong></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
+<p>1.强制缓存优先于协商缓存进行，若强制缓存(Expires和Cache-Control)生效则直接使用缓存，<br> 2.若不生效则进行协商缓存(Last-Modified / If-Modified-Since和Etag / If-None-Match)，<br> 3.协商缓存由服务器决定是否使用缓存，若协商缓存失效，那么代表该请求的缓存失效，返回200，重新返回资源和缓存标   识，再存入浏览器缓存中；<br> 4.生效则返回304，继续使用缓存。</p>
+</blockquote>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>1.对于频繁变动的资源，首先需要使用Cache-Control: no-cache 使浏览器每次都请求服务器，然后配合 ETag 或者 Last-Modified 来验证资源是否有效。这样的做法虽然不能节省请求数量，但是能显著减少响应数据大小。<br>2.不常变化的场景：通常在处理这类资源时，给它们的 Cache-Control 配置一个很大的 max-age，这样浏览器之后请求相同的 URL 会命中强制缓存。</p>
 
       
       <!-- reward -->
