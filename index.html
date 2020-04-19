@@ -1449,96 +1449,6 @@ item数据变了, 对原来的真实DOM进行数据更新。</code></pre><p>（2
 
 </article>
     
-    <article id="post-服务器端性能优化(一)之SSR" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="2020/03/11/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96(%E4%B8%80)%E4%B9%8BSSR/"
-    >服务器端性能优化(一)之SSR</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="2020/03/11/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96(%E4%B8%80)%E4%B9%8BSSR/" class="article-date">
-  <time datetime="2020-03-11T15:59:21.553Z" itemprop="datePublished">2020-03-11</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>前端框架带来了大改变，但是前端业务逻辑变的庞大时，给开发带来了很好的效果，但是！开发效率提升之后，带来的首屏渲染问题也需要我们思考怎么在框架的层面上去提升性能？<br>解决思路：多层次的优化方案：<br>1.构建层模板编译。<br>2.数据无关的页面进行prerender，这种方式适用于用户集群的场景，就是说呢，用户访问的页面时没有太多区别的，对ID和特性定制要求很低，比如某个广告运营页面。<br>3.服务端渲染，涉及到用户特性选择时的方案。</p>
-<h2 id="SSR"><a href="#SSR" class="headerlink" title="SSR"></a>SSR</h2><p>概括一下流程就是将组件或页面通过服务器生成html字符串，再发送到浏览器，最后将静态标记”混合”为客户端上完全交互的应用程序，此篇笔记以 vue为例，后面做了React的项目再记录补充一下~<br>原理：靠vue-server-renderer这个库的createRenderer()，然后调用rendererToString()。</p>
-<h2 id="SSR渲染和客户端渲染的区别"><a href="#SSR渲染和客户端渲染的区别" class="headerlink" title="SSR渲染和客户端渲染的区别"></a>SSR渲染和客户端渲染的区别</h2><p>1、SSR渲染的优势：</p>
-<p>（1）更利于SEO；</p>
-<p>（2）更利于首屏渲染（特别是对于缓慢的网络情况或运行缓慢的设备，内容更快到达）</p>
-<p>2、SSR渲染的缺点：</p>
-<p>（1）服务器压力大，考虑服务器端负载。</p>
-<p>（2）开发条件受限，只会执行到ComponentMount之前的生命周期钩子，引用第三方库不可用其他生命周期钩子，引用库选择产生很大的限制。</p>
-<p>（3）学习成本增大，需要学习构建设置和部署的更多要求。</p>
-<h2 id="从流程角度比较性能"><a href="#从流程角度比较性能" class="headerlink" title="从流程角度比较性能"></a>从流程角度比较性能</h2><p>1.SSR服务端渲染是先向后端服务器请求数据，然后生成完整首屏html返回给浏览器，<br>2.而<strong>客户端渲染是等js代码下载、加载、解析完成后再请求数据渲染</strong>，等待的过程页面是什么都没有的，就是用户看到的白屏！<br>2.服务端<strong>不需要等待js代码下载完成并请求数据</strong>，就可以返回一个已有完整数据的首屏页面<br>2.由服务端请求首屏数据，而不是客户端请求首屏数据，这是“快”的一个主要原因。<br>3.<strong>服务端在内网进行请求，数据响应速度快</strong>。<br>4.客户端在不同网络环境进行数据请求，<strong>外网http请求开销大，导致时间差</strong>。</p>
-<h2 id="构建vue-demo"><a href="#构建vue-demo" class="headerlink" title="构建vue  demo"></a>构建vue  demo</h2><p>具体实现：</p>
-<p>1、创建一个空项目 mkdir vuessr &amp;&amp; cd vuessr</p>
-<p>2、运行 npm init 进行初始化</p>
-<p>3、安装我们需要的依赖 cnpm install vue vue-server-renderer –save</p>
-<p>4、创建index.js代码如下：</p>
-<p>5、运行 node index.js 可以看到在控制台输出了</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第 1 步：创建一个 Vue 实例</span></span><br><span class="line"><span class="keyword">const</span> Vue = <span class="built_in">require</span>(<span class="string">'vue'</span>)</span><br><span class="line"><span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  template: <span class="string">`&lt;div&gt;Hello World&lt;/div&gt;`</span></span><br><span class="line">&#125;)</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 第 2 步：创建一个 renderer</span></span><br><span class="line"><span class="keyword">const</span> renderer = <span class="built_in">require</span>(<span class="string">'vue-server-renderer'</span>).createRenderer()</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 第 3 步：将 Vue 实例渲染为 HTML</span></span><br><span class="line">renderer.renderToString(app, (err, html) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (err) <span class="keyword">throw</span> err</span><br><span class="line">  <span class="built_in">console</span>.log(html)</span><br><span class="line">  <span class="comment">// =&gt; &lt;div data-server-rendered="true"&gt;Hello World&lt;/div&gt;</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<h2 id="我理解的原理"><a href="#我理解的原理" class="headerlink" title="我理解的原理"></a>我理解的原理</h2><p>1.利用服务端Node.js去执行VUE框架的构建逻辑，可以在服务端直接从接口拿到用户的信息，作为首屏渲染的数据源，直接当地解决好渲染，返回一个HTML，在浏览器端和VUE混入。<br>2.不在客户端执行JS逻辑，利用好服务端的运算能力，同时减少了客户端等待VUE框架加载和VUE 代码运行的时间，相当于平衡了两者的算力!<br>3.要考虑服务端的运算能力和压力，集群完备能力，还有内存泄漏问题！</p>
-<h2 id="官方原理图"><a href="#官方原理图" class="headerlink" title="官方原理图"></a>官方原理图</h2><p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zczIuYmRzdGF0aWMuY29tLzcwY0Z2blNoX1ExWW54R2twb1dLMUhGNmhoeS9pdC91PTQwNTU5MDYyNjgsMTMyNDg1NDI3MCZmbT0yNiZncD0wLmpwZw?x-oss-process=image/format,png" alt="在这里插入图片描述"><br>这是尤大牛老师在发布时的讲解图~<br>1.关键是编写针对VUE SSR渲染的组件（UAC）！其实生命周期是不一样的，VUE SSR时没有mounted阶段，因为SSR不存在DOM节点的真实渲染情况。<br>2.APP.JS有两个构建入口，Webpack 会分别构建用于S和C的两个bundle,分别在S和C端用到，首屏的渲染问题已经在Bundle Renderer中解决了！这时HTML包含了首屏的DOM结构和数据，HTML由BR生成，到浏览器之后，还是要通过客户端的VUE框架进行管理，怎么决定混入之后的关联？ <del>由Client Bundle 解决吗？</del> 还是利用serverBundle和clientManifest进行优化<br>？这里还不太明白。</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly93d3cubXdjeHMudG9wL3N0YXRpYy91cGxvYWQvcGljcy8yMDE5LzMvMU9iYWVUeHdzc2JEYnhXSnBZSXVUVWptay5wbmc?x-oss-process=image/format,png" alt="在这里插入图片描述"><br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly93d3cubXdjeHMudG9wL3N0YXRpYy91cGxvYWQvcGljcy8yMDE5LzMvMVJnZXUySU1QQ1pJRFY0dDlZRGtNSkVBeS5wbmc?x-oss-process=image/format,png" alt="在这里插入图片描述"><br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly93d3cubXdjeHMudG9wL3N0YXRpYy91cGxvYWQvcGljcy8yMDE5LzMvMWhGUHQxUHhVRDhHOHhhR25QNDFiY08tTy5wbmc?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
-<h2 id="深入思考"><a href="#深入思考" class="headerlink" title="深入思考"></a>深入思考</h2><blockquote>
-<p>是否可以使用vuex？<br>我也没有准确答案~<br>是否使用SSR就一定好？<br>这个不一定，任何技术都有使用场景。<br>SSR可以帮助提升首页加载速度，优化搜索引擎SEO。<br>但同时它需要在node中渲染整套Vue的模板，会占用服务器负载。<br>并且只会执行beforeCreate和created两个生命周期，对于一些外部扩展库需要做一定处理才可以在SSR中运行。</p>
-</blockquote>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
     <article id="post-JS异步解决方案的发展历程以及优缺点" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -1618,6 +1528,80 @@ item数据变了, 对原来的真实DOM进行数据更新。</code></pre><p>（2
 <p>async、await错误处理<br>JavaScript异步请求肯定会有请求失败的情况，上面也说到了async返回的是一个Promise对象。既然是返回一个Promise对象的话那处理当异步请求发生错误的时候我们就要处理reject的状态了。<br>在Promise中当请求reject的时候我们可以使用catch。为了保持代码的健壮性使用async、await的时候我们使用try catch来处理错误。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">catchErr</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">          <span class="keyword">const</span> errRes = <span class="keyword">await</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">                setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                    reject(<span class="string">"http error..."</span>);</span><br><span class="line">                 &#125;, <span class="number">1000</span>);</span><br><span class="line">           );</span><br><span class="line">                <span class="comment">//平常我们也可以在await请求成功后通过判断当前status是不是200来判断请求是否成功</span></span><br><span class="line">                <span class="comment">// console.log(errRes.status, errRes.statusText);</span></span><br><span class="line">        &#125; <span class="keyword">catch</span>(err) &#123;</span><br><span class="line">             <span class="built_in">console</span>.log(err);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line">catchErr(); <span class="comment">//http error...</span></span><br></pre></td></tr></table></figure>
 <p>以上就是async、await使用try catch 处理错误的方式。<br>async/await的使用使得 Promise操作更加方便了！</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-css的优先级和权重问题 以及!important优先级 (1)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="2020/03/11/css%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7%E5%92%8C%E6%9D%83%E9%87%8D%E9%97%AE%E9%A2%98%20%E4%BB%A5%E5%8F%8A!important%E4%BC%98%E5%85%88%E7%BA%A7%20(1)/"
+    >css的优先级和权重问题 以及!important优先级 (1)</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="2020/03/11/css%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7%E5%92%8C%E6%9D%83%E9%87%8D%E9%97%AE%E9%A2%98%20%E4%BB%A5%E5%8F%8A!important%E4%BC%98%E5%85%88%E7%BA%A7%20(1)/" class="article-date">
+  <time datetime="2020-03-11T15:59:00.294Z" itemprop="datePublished">2020-03-11</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>问：有多少种css选择器可以对</p><p>标签样式产生影响呢？</p>
+<p>如果详细的进行分析，排列组合有太多种了，太过麻烦。今天学习到一个好方法。</p>
+<p>行内样式：        即  style = “font-size: 12px”；<br>id选择器：  　   即  #thisId {font-size: 12px;}<br>class选择器：   即 .thisClass {font-size: 12px;}<br>元素选择器：    即  p {font-size: 12px;}<br>如上四种类别都可以对</p><p>标签的样式产生影响，那么谁先谁后，谁打谁小呢？<br>有如下两种解释：</p>
+<p>1.一个selector的权重表示方式：0.0.0.0，按照计算规则给每位填充数字，对应位置相等，则比较下一位；<br>2.分别以1000、100、10、1四个权值系数对CSS选择器进行权重计算。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200303212631153.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<blockquote>
+<p>1.!important 表示强制应用该样式，例如：button{ width: 150px !important;}，与以上的选择器相遇时，强制使用此样式；<br>2.如果比较后权重相同，那么后者覆盖前者，后渲染的胜出；<br>3.内联样式  &gt; id选择器样式 &gt; 类选择器样式 &gt; 元素选择器样式；<br>4.CSS选择器的使用，应该尽量避免使用 !important 和 内联样式；id通常也是与class区分开使用，前者多用于JS中的结点定位，后者多用于CSS选择器。<br>5.重中之重，1000/100/10/1这种权值系数的比较方式只是便于理解，真实情况下10个class并不能逆转1个id。</p>
+</blockquote>
 
       
       <!-- reward -->

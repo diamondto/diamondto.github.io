@@ -6,7 +6,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    服务器端性能优化(一)之SSR |  爱产品，爱前端！
+    服务器端性能优化（一）之SSR |  爱产品，爱前端！
   </title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   
@@ -40,7 +40,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  服务器端性能优化(一)之SSR
+  服务器端性能优化（一）之SSR
 </h1>
   
 
@@ -50,9 +50,13 @@
     
     <div class="article-meta">
       <a href="" class="article-date">
-  <time datetime="2020-03-11T15:59:21.553Z" itemprop="datePublished">2020-03-11</time>
+  <time datetime="2020-02-11T16:00:00.000Z" itemprop="datePublished">2020-02-12</time>
 </a>
       
+  <div class="article-category">
+    <a class="article-category-link" href="../../../../categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%B8%B2%E6%9F%93/">服务器渲染</a>
+  </div>
+
       
       
 <div class="word_count">
@@ -60,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.3k字</span>
+            <span class="post-count">1.1k字</span>
         </span>
     </span>
 
@@ -96,7 +100,7 @@
       
 
       
-      <p>前端框架带来了大改变，但是前端业务逻辑变的庞大时，给开发带来了很好的效果，但是！开发效率提升之后，带来的首屏渲染问题也需要我们思考怎么在框架的层面上去提升性能？<br>解决思路：多层次的优化方案：<br>1.构建层模板编译。<br>2.数据无关的页面进行prerender，这种方式适用于用户集群的场景，就是说呢，用户访问的页面时没有太多区别的，对ID和特性定制要求很低，比如某个广告运营页面。<br>3.服务端渲染，涉及到用户特性选择时的方案。</p>
+      <p>Welcome to share creative thoughts!</p>
 <h2 id="SSR"><a href="#SSR" class="headerlink" title="SSR"></a>SSR</h2><p>概括一下流程就是将组件或页面通过服务器生成html字符串，再发送到浏览器，最后将静态标记”混合”为客户端上完全交互的应用程序，此篇笔记以 vue为例，后面做了React的项目再记录补充一下~<br>原理：靠vue-server-renderer这个库的createRenderer()，然后调用rendererToString()。</p>
 <h2 id="SSR渲染和客户端渲染的区别"><a href="#SSR渲染和客户端渲染的区别" class="headerlink" title="SSR渲染和客户端渲染的区别"></a>SSR渲染和客户端渲染的区别</h2><p>1、SSR渲染的优势：</p>
 <p>（1）更利于SEO；</p>
@@ -189,13 +193,15 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/03/11/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96(%E4%B8%80)%E4%B9%8BSSR/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/02/12/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96(%E4%B8%80)%E4%B9%8BSSR/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E4%B8%AA%E4%BA%BA%E8%81%8C%E4%B8%9A%E8%A7%84%E5%88%92/" rel="tag">个人职业规划</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E6%80%9D%E8%80%83%E5%A4%8D%E7%9B%98/" rel="tag">思考复盘</a></li></ul>
+
 
     </footer>
 
@@ -205,19 +211,19 @@
   
   <nav class="article-nav">
     
-      <a href="../../../04/02/%E5%81%9A%E5%A5%BD%E8%A7%86%E9%A2%91%E5%8F%B7%E7%9A%84%E4%B8%89%E7%82%B9%E5%BB%BA%E8%AE%AE/" class="article-nav-link">
+      <a href="../../17/React%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            做好视频号的三点建议
+            React项目需求分析
           
         </div>
       </a>
     
     
-      <a href="../JS%E5%BC%82%E6%AD%A5%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B%E4%BB%A5%E5%8F%8A%E4%BC%98%E7%BC%BA%E7%82%B9/" class="article-nav-link">
+      <a href="../../../01/15/webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">JS异步解决方案的发展历程以及优缺点</div>
+        <div class="article-nav-title">Webpack学习笔记</div>
       </a>
     
   </nav>
