@@ -218,6 +218,153 @@
 
 </article>
     
+    <article id="post-React学习小结 （一）" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="2020/04/20/React%E5%AD%A6%E4%B9%A0%E5%B0%8F%E7%BB%93%20%EF%BC%88%E4%B8%80%EF%BC%89/"
+    >React学习小结（一）</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="2020/04/20/React%E5%AD%A6%E4%B9%A0%E5%B0%8F%E7%BB%93%20%EF%BC%88%E4%B8%80%EF%BC%89/" class="article-date">
+  <time datetime="2020-04-19T16:00:00.000Z" itemprop="datePublished">2020-04-20</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="categories/React%E6%80%9D%E6%83%B3%E8%AE%BE%E8%AE%A1/">React思想设计</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>本文旨在以精简、通俗的语言传达React的思想<br>来自阅读源码、《深入浅出React》的一些提炼！<br>来自个人梳理总结，重在设计思想的探索，新版迭代快，可能有某些API的细微差别，欢迎指出不到位的地方。<br>欢迎大家一起讨论学习，集思广益！<br>Welcome to share creative thoughts!</p>
+<h2 id="1-React独特思想"><a href="#1-React独特思想" class="headerlink" title="1.React独特思想"></a>1.React独特思想</h2><pre><code>1.UI =render(data)
+纯函数：最终的用户界面，在 render 函数确定的情况下完全取决于输入数据。
+2.函数式编程、响应式展示、拆分数据data和视图render。</code></pre><h2 id="2-虚拟DOM"><a href="#2-虚拟DOM" class="headerlink" title="2.虚拟DOM"></a>2.虚拟DOM</h2><pre><code>1.DOM 是结构化文本（HTML文本）的抽象表达形式，HTML中的每个元素都对应 DOM中某个节点，树状关系，层级嵌套。
+2.虚拟DOM不涉及浏览器、本质是JS对象，存在于JS内存中的树形结构。
+3.每次比较，Diff算法，找出真假差异，批量更新（Fiber的创新之处后期更新）</code></pre><h2 id="3-框架流程"><a href="#3-框架流程" class="headerlink" title="3.框架流程"></a>3.框架流程</h2><pre><code>1.单向数据流思想：数据驱动---&gt;N个事件触发render函数---&gt;虚拟DOM改变---&gt;Diff差异---&gt;更新视图（真实DOM）。
+2.充分解耦、组件拆分。
+3.关注输入、输出、有点面向对象编程的思想。
+4.借助虚拟DOM，重复渲染来实现动态更新效果，实际上减少了DOM操作，渲染效率高。
+5.（React花了很多心思来解决渲染问题，后期一一剖析）</code></pre><h2 id="4-React中的容器组件和傻瓜（展示）组件"><a href="#4-React中的容器组件和傻瓜（展示）组件" class="headerlink" title="4.React中的容器组件和傻瓜（展示）组件"></a>4.React中的容器组件和傻瓜（展示）组件</h2><pre><code>1.拆分业务、一个组件专注做一件事。
+2.外层（父聪明）容器组件负责和 Redux Store 打交道的组件。容器组件监听商店状态、通过props告知展示组件重新渲染。
+3.内层（子傻瓜）组件只专心负责渲染界面，傻瓜组件是纯函数，只需要根据props来渲染结果，不需要state，state都交给容器组件去打理
+4.傻瓜组件没有状态，不需要用对象表示，所以连类都不需要了，对于一个只有 render法的组件，缩略为一个函数就OK，性能优化！</code></pre><p> <img src="https://img-blog.csdnimg.cn/20200420104708974.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="5-props"><a href="#5-props" class="headerlink" title="5.props"></a>5.props</h2><pre><code>1.prop外部传入的数据，对外接口，支持任意数据类型，不是字符串类型必须要用花括号｛｝把 prop 值包住。
+2.style两层花括号，外层花括号代表是JSX语法，内层花括号代表这是一个对象常量。
+3.函数类型的 prop 就是让父组件交给了子组件一个回调函数。
+4.子组件可以恰当的调用函数类型的prop，带上必要的参数，反过来把信息传递给外部世界。
+4.组件定义自己的构造函数，必须加上super(props),才可以后续通过this.props访问到父组件传递过来的 props 值。</code></pre><h2 id="6-state"><a href="#6-state" class="headerlink" title="6.state"></a>6.state</h2><pre><code>1.prop不能修改，记录自己的状态只能用state，state存在的意义是被修改。
+2.比如计数器初始值是prop传递，加减之后的状态变化由state存储。
+3.state 必须是一个 JavaScript 对象，不能是 string 或者 number 这样的简单数据类型。
+4.当我们需要存储的只是一个数字类型的数据时，应该把它存作 state 某个字段对应的值。
+5.this.state 可以读取到组件的当前 state，this.setState 函数才可以修改数据。</code></pre><h2 id="7-React组件间通信方式"><a href="#7-React组件间通信方式" class="headerlink" title="7.React组件间通信方式"></a>7.React组件间通信方式</h2><pre><code>1.父组件向子组件通讯: 父组件可以向⼦组件通过传 props 的⽅式，向子组件进⾏通讯 。
+2.子组件向父组件通讯: props+回调的方式，父组件向子组件传递props进行通讯，此props的作用域为父组件自身的函数。
+子组件调用该函数，将子组件想要传递的信息，作为参数，传递到父组件的作用域中 。
+3.兄弟组件通信: 找到这两个兄弟节点共同的父节点,结合上面两种方式由父节点转发信息进行通信。
+4.跨层级通信: Context 设计目的是为了共享那些对于⼀个组件树而言是“全局”的数据。
+例如当前认证的用户、主题或首选语⾔,对于跨越多层的全局数据可以通过 Context 通信。
+5.发布订阅模式: 发布者发布事件，订阅者监听事件并做出反应。
+我们可以通过引⼊event模块进行通信全局状态管理工具: 
+借助Redux或者Mobx等全局状态管理⼯具进行通信---&gt;这种工具会维护⼀个全局状态中心Store---&gt;Store根据不同的事件产生新的状态。</code></pre><h2 id="8-React中的context"><a href="#8-React中的context" class="headerlink" title="8.React中的context"></a>8.React中的context</h2><p><strong>为什么有context?</strong><br>1、React 组件是用 props 来传递父子组件之间的数据的。<br>2、在一个嵌套多层的组件结构中，如果只有最里层的组件才需要使用 store，但是为了把store从外面传到最里面，所有的中间组件都要支持store prop，层级太深时用 prop 传递 store 不是一个好方法。<br><strong>context做了什么？</strong><br>1、context让一个树状组件上所有组件都能访问一个共同的对象。<br>2、上级组件要宣称自己支持 context ，并且提供一个函数来返回代表 Context的对象。<br>3、这个上级组件之下的所有子孙组件，只要宣称自己需要这个 context ，然后通过 this.context 访问到这个共同的环境对象<br><strong>使用context要注意什么？</strong><br>1、Context 相当于提供了一个全局可以访问的对象，但是只要有一个地方改变了全局对象的值，应用中其他部分就会受影响<br>2、只有对那些每个组件都可能使用，但是中间组件又可能不使用的对象才有必要使用Context 。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200420105841440.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="9-设计好Store-属性，是规划好-Redux流程的基础"><a href="#9-设计好Store-属性，是规划好-Redux流程的基础" class="headerlink" title="9. 设计好Store 属性，是规划好 Redux流程的基础"></a>9. 设计好Store 属性，是规划好 Redux流程的基础</h2><p>生动的说就是：<br>你想看到最新的报纸消息（信息同步），Flux是一个快递员(Dispatcher)送货，你必须要记住快递员的电话（注册订阅），由快递员来通知你，给你送最新的报纸。<br>但是！在Redux中,设置了一个信息中心store，全世界只有一个Onlyone！<br>没有快递员，但是你有自己的手机（dispatch）你想信息同步，直接打开手机，刷刷每日最新就OK！<br>由一部手机（这个手机就是store绑定在自己身上的函数dispatch）来实现信息同步。<br>这个函数帮你完成了一切复杂的分发信息流程！（函数式编程思想的体现）</p>
+<p><img src="https://img-blog.csdnimg.cn/20200420114259219.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>   1.数据不一致怎么办？—&gt;靠Redux中的store来解决，全局状态就是唯一可靠的数据源。<br>    Redux Store 状态设计的一个主要原则：唯一数据源<br>    2.仅仅在构造组件时根据 store 来初始化 this.state 远远不够，还要保持 store 上状态和 this .state 的同步。<br>    3.在Flux中有多个store，分发功能由一个Dispatcher 对象完成（这个Dispatcher对象把一个 action 对象分发给多个注册了的 Store)。<br>    4.但是！Redux 全局只有一个Store，废弃了Dispatcher对象，在全局Store上绑定自己的函数dispatch，调用这个函数就可以拿到新的数据。<br>    5.通过 store.getState （）能够获得 store 上存储的所有状态，但是当我们只想获取组件的某一部分数据时，要在getOwnState函数中设计好逻   辑，以后任何关联 Store 状态的地方都可以重用getOwnState这个函数。<br>     6.在componentDidMount设计监听函数，通过 Store subscribe 监听其变化，只要 Store状态发生变化，就会调用这个组件的 onChange 方法。<br>     7.在 componentWillUnmount函数中，我们必须把这个监听注销掉，这个清理动作和 componentDidMount 中的动作对应。<br>     8.除了从 store 同步状态，视图中可能会想要改变 store 中的状态，但是改变store 中状态的唯一方法就是派发action。<br>     9.在 Redux 中，action 构造函数只负责创建对象，要派发 action需要调用 store.dispatch 函数。</p>
+<h2 id="10-redux的工作流程？"><a href="#10-redux的工作流程？" class="headerlink" title="10.redux的工作流程？"></a>10.redux的工作流程？</h2><p>源码版：建议配合源码食用，比较复杂但是可以啃下来<br><img src="https://img-blog.csdnimg.cn/20200420124530161.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200420113519742.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">核心概念：</span><br><span class="line">    <span class="selector-tag">Store</span>：保存数据的地方，可以把它看成一个容器，整个应用只能有⼀个<span class="selector-tag">Store</span>。</span><br><span class="line">    <span class="selector-tag">State</span>：<span class="selector-tag">Store</span>对象包含的所有数据，如果想得到某个时点的数据，就要对<span class="selector-tag">Store</span>生成快照，某一时间的数据集合就是<span class="selector-tag">state</span> </span><br><span class="line">    <span class="selector-tag">Action</span>：<span class="selector-tag">State</span>的变化，会导致<span class="selector-tag">View</span>的变化。</span><br><span class="line">    注意！用户接触不到<span class="selector-tag">State</span>，只能接触到<span class="selector-tag">View</span>。所以<span class="selector-tag">State</span>的变化必须 是<span class="selector-tag">View</span>导致的。</span><br><span class="line">    <span class="selector-tag">Action</span>就是<span class="selector-tag">View</span>发出的通知，表示<span class="selector-tag">State</span>应该要发生变化了。</span><br></pre></td></tr></table></figure>
+
+<p>梳理简洁版：思想是通用的</p>
+<blockquote>
+<p>Action Creator：View要发送多少种消息，就会有多少种Action。我们定义⼀个函数Action Creator来生成Action。<br>Reducer：一个函数，它接受Action和当前State作为参数，返回⼀个新的State。<br>当Store收到Action以后，必须返回⼀个新的State，这样View才会发生变化。这种State的计算过程就是Reducer。<br>dispatch：是View发出Action的唯⼀方法。<br>    然后我们对照上图梳理一下整个工作流程：<br>    1. 首先，⽤户（通过View）发出Action，触发store.dispatch(action)方法，将状态变化通知到中间件。<br>    2. 然后，Store自动调用Reducer函数，并且传入两个参数：当前State和收到的Action，Reducer会返回新的State<br>    3. State⼀旦有变化，Store就会调用监听函数，来更新View。<br>    4. 到此回到View层，⼀次用户交互流程结束。<br>   总结：在整个流程中数据都是单向流动的，这种方式保证了流程的清晰。</p>
+</blockquote>
+<p>**</p>
+<h2 id="11-redux中如何进行异步操作"><a href="#11-redux中如何进行异步操作" class="headerlink" title="11.redux中如何进行异步操作?"></a>11.redux中如何进行异步操作?</h2><blockquote>
+<p>借助redux的异步中间件进行异步处理.  redux异步流中间件分类：<br>redux-thunk<br>redux-saga<br> redux-effects<br> redux-side-effects<br> redux-loop<br> redux-observable</p>
+</blockquote>
+<h2 id="12-redux异步中间件之间的优劣对比"><a href="#12-redux异步中间件之间的优劣对比" class="headerlink" title="12.redux异步中间件之间的优劣对比"></a>12.redux异步中间件之间的优劣对比</h2><p> <strong>redux-thunk</strong><br> 优点:<br> 1、体积小<br> 2、实现方式很简单<br> 3、 redux-thunk没有引入像redux-saga或者redux-observable额外的范式，上手简单<br> 缺陷:<br> 1、样板代码过多、与redux本身一样，通常一个请求需要大量的代码，而且很多都是重复性质的、耦合严重<br> 2、异步操作与redux的action偶合在⼀起，不方便管理 ，功能孱弱</p>
+<p> <strong>redux-saga</strong><br> 优点:<br> 1、异步解耦: 异步操作被被转移到单独 saga.js 中，不再是掺杂在 action.js 或 component.js 中<br> 2、action摆脱thunk function: dispatch 的参数依然是⼀个纯粹的 action (FSA)<br> 3、function 异常处理: 受益于 generator function 的 saga 实现，代码异常/请求失败都可以直接通过 try/catch 语法直接捕获    4、redux-saga提供了大量的Saga 辅助函数和Effect 创建器供开发者使用，封装方便<br> 5、redux-saga可以将多个Saga可以串行/并行组合起来,形成⼀个非常实用的异步flow<br> 6、易测试，提供了各种case的测试方案，包括mock task，分支覆盖等等<br>  缺陷:<br>  1、额外的学习成本: 反正我还没有学完，API好多，上手有一定困难<br>   redux-observable<br>   优点:<br>   1、功能最强，背靠rxjs这个强大的响应式编程库<br>   2、借助rxjs的操作符，几乎可以完成异步处理的需求<br>   剩下的还没有了解到，暂不介绍，一入前端深似海。。。</p>
+<h2 id="13-Redux-终极小结"><a href="#13-Redux-终极小结" class="headerlink" title="13.Redux 终极小结"></a>13.Redux 终极小结</h2><pre><code>1. 唯一数据源：状态数据应该只存储在唯一的一个 Store上，这个store是一个树形的对象，每个组件往往只是用树形对象上一部
+    分的数据。
+2. 保持状态只读：不能去直接修改状态，要修改 Store 的状态，必须要通过派发action 对象完成。UI =render( state )
+    改变状态的方法不是去修改状态上值，而是创建一个新的状态对象返回给 Redux ，由 Redux 完成新的状态的组装。
+3. 数据改变只能通过纯函数完成：reducer(state , action)，函数的返回结果必须完全由参数 state action 决定，而且不产生任何副
+   作用，也绝对不能修改参数 state action 对象，改变store中状态的方法就是派发action。
+4. Redux中，action 构造函数只负责创建对象，要派发 action，需要调用 store.dispatch 函数。
+5. 每个 action 构造函数都返回一个action 对象。
+6. 组件的 render 函数所显示的动态内容，要么来自于 props ，要么来自于自身状态。
+7. Redux中的reducer 只负责计算状态，却并不负责存储状态，在 reducer 中，绝对不能去修改数中的 state，它是纯函数，是一个计算公式。
+8. React Redux 本质上是两个独立的产品， 一个应用可以使用React而不使用Redux，也可以使用 Redux 而不使用 React。
+9. 在 Redux 中，很多函数都是不做产生副作用的动作，而是返回一个对象，把如何处理这个对象的工作交给调用者。
+10.Redux 中把 state 作抽取出交给 Redux 框架本身， reducer 只用关心如何更新 state 而不要管 state 怎么存。</code></pre><h2 id="14-react-redux是如何工作的"><a href="#14-react-redux是如何工作的" class="headerlink" title="14.react-redux是如何工作的?"></a>14.react-redux是如何工作的?</h2><p><img src="https://img-blog.csdnimg.cn/20200420120213681.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><strong>react-redux将所有的组件分成两大类：</strong></p>
+<p><strong>UI组件：</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">只负责<span class="selector-tag">UI</span>的呈现，不带有任何业务逻辑</span><br><span class="line">通过<span class="selector-tag">props</span>接受属性（非函数属性）</span><br><span class="line">不使用任何<span class="selector-tag">redux</span>的<span class="selector-tag">API</span></span><br><span class="line">一般保存在<span class="selector-tag">components</span>文件夹下</span><br></pre></td></tr></table></figure>
+
+<p><strong>容器组件:</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">负责管理数据和业务逻辑，不负责<span class="selector-tag">UI</span>的呈现</span><br><span class="line">使用<span class="selector-tag">redux</span>的<span class="selector-tag">API</span></span><br><span class="line">一般保存在<span class="selector-tag">containers</span>文件夹下</span><br></pre></td></tr></table></figure>
+
+<p><strong>mapStateToProps</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">基本语法：<span class="selector-tag">mapStateToProps</span>(<span class="selector-tag">state</span>, <span class="selector-tag">ownProps</span>)</span><br><span class="line"></span><br><span class="line">参数含义：<span class="selector-tag">state</span> 全局状态 、 <span class="selector-tag">ownProps</span>代表组件本身的<span class="selector-tag">props</span>。</span><br><span class="line">（如果写了第二个参数<span class="selector-tag">ownProps</span>，那么当<span class="selector-tag">prop</span>发生变化的时候，<span class="selector-tag">mapStateToProps</span>也会被调用）。</span><br><span class="line"></span><br><span class="line">作用：将<span class="selector-tag">store</span>中的数据作为<span class="selector-tag">props</span>绑定到组件中。</span><br><span class="line"></span><br><span class="line">调用：只要<span class="selector-tag">store</span>更新了就会调用<span class="selector-tag">mapStateToProps</span>方法。</span><br><span class="line"></span><br><span class="line">返回结果：<span class="selector-tag">mapStateToProps</span>返回的结果必须是<span class="selector-tag">object</span>对象，该对象中的值将会更新到组件中。</span><br></pre></td></tr></table></figure>
+<p><strong>mapDispatchToProps</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">基本语法：<span class="selector-tag">mapDispatchToProps</span>(<span class="selector-tag">dispatch</span>, <span class="selector-attr">[ownProps]</span>)</span><br><span class="line"></span><br><span class="line">参数：<span class="selector-tag">dispatch</span>  <span class="selector-tag">store</span><span class="selector-class">.dispatch</span></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">ownProps</span>代表组件本身的<span class="selector-tag">props</span>，如果写了第二个参数<span class="selector-tag">ownProps</span>，那么当<span class="selector-tag">prop</span>发生变化的时候，<span class="selector-tag">mapDispatchToProps</span>也会被调用。</span><br><span class="line"></span><br><span class="line">作用：定义<span class="selector-tag">UI</span>组件如何发出<span class="selector-tag">action</span>，实际上就是要调用<span class="selector-tag">dispatch</span>这个方法。</span><br><span class="line">调用：<span class="selector-tag">props</span>改变。</span><br><span class="line"></span><br><span class="line">返回结果：返回包含对应<span class="selector-tag">action</span>的<span class="selector-tag">object</span>对象。</span><br></pre></td></tr></table></figure>
+
+<p><strong>Provider</strong>：让所有组件都可以使用state数据</p>
+<p><strong>Connect: 负责连接React和Redux</strong> </p>
+<p>1、获取state：<br>Connect通过context获取Provider中的store，通过store.getState()获取整个store tree 上所有state  。</p>
+<p>2、包装原组件:<br>将state和action通过props的方式传入到原组件内部—&gt;<br>WrapWithConnect返回⼀个ReactComponent对象Connect—&gt;<br>Connect重新render外部传入的原组件WrappedComponent—&gt;<br>把connect中传入的mapStateToProps、mapDispatchToProps与组件上原有的props合并—&gt;<br>合并之后通过props的方式一起传给WrappedComponent </p>
+<p>3、监听store tree变化:<br>connect缓存了store tree中state的状态—&gt;<br>通过当前state状态和变更前state状态进行比较—&gt;<br>从而确定是否调用this.setState()方法触发Connect及其子组件的重新渲染。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="tags/React/" rel="tag">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="tags/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E4%B8%8E%E7%90%86%E8%A7%A3%E2%80%94%E2%80%94%E6%8F%90%E7%82%BC%E7%89%88/" rel="tag">源码分析与理解——提炼版</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-前端发展：一云多端、智能化、AI+" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -1580,498 +1727,6 @@ item数据变了, 对原来的真实DOM进行数据更新。</code></pre><p>（2
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="tags/%E8%A7%86%E9%A2%91%E5%8F%B7%E6%80%9D%E8%80%83/" rel="tag">视频号思考</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="tags/%E8%A7%86%E9%A2%91%E5%8F%B7%E6%98%AF%E4%BC%9F%E5%A4%A7%E7%9A%84/" rel="tag">视频号是伟大的</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-React项目需求分析" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="2020/03/17/React%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90/"
-    >React项目需求分析</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="2020/03/17/React%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90/" class="article-date">
-  <time datetime="2020-03-16T16:00:00.000Z" itemprop="datePublished">2020-03-17</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="categories/React%E5%AE%9E%E6%88%98%E5%B0%8F%E7%BB%93/">React实战小结</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>Welcome to share creative thoughts!</p>
-<h2 id="1-项目开发准备"><a href="#1-项目开发准备" class="headerlink" title="1. 项目开发准备"></a>1. 项目开发准备</h2><pre><code>1). 描述项目
-2). 技术选型 
-3). API接口/接口文档/测试接口</code></pre><h2 id="2-启动项目开发"><a href="#2-启动项目开发" class="headerlink" title="2. 启动项目开发"></a>2. 启动项目开发</h2><pre><code>1). 使用react脚手架创建项目
-2). 开发环境运行: npm start
-3). 生产环境打包运行: npm run build   serve build</code></pre><h2 id="3-git管理项目"><a href="#3-git管理项目" class="headerlink" title="3. git管理项目"></a>3. git管理项目</h2><pre><code>1). 创建远程仓库
-2). 创建本地仓库
-    配置.gitignore
-    git init
-    git add .
-    git commit -m &quot;init&quot;
-3). 将本地仓库推送到远程仓库
-    git remote add origin url
-    git push origin master
-4). 在本地创建dev分支, 并推送到远程
-    git checkout -b dev
-    git push origin dev
-5). 如果本地有修改
-    git add .
-    git commit -m &quot;xxx&quot;
-    git push origin dev
-6). 新的同事: 克隆仓库
-    git clone url
-    git checkout -b dev origin/dev
-    git pull origin dev
-7). 如果远程修改了
-    git pull origin dev
-8). 如何得到后面新增的远程分支
-    git pull
-    git checkout -b dev origin/xxx</code></pre><h2 id="4-创建项目的基本结构"><a href="#4-创建项目的基本结构" class="headerlink" title="4. 创建项目的基本结构"></a>4. 创建项目的基本结构</h2><pre><code>api: ajax请求的模块
-components: 非路由组件
-pages: 路由组件
-App.js: 应用的根组件
-index.js: 入口js</code></pre><h2 id="5-引入antd"><a href="#5-引入antd" class="headerlink" title="5 引入antd"></a>5 引入antd</h2><pre><code>下载antd的包
-按需打包: 只打包import引入组件的js/css
-    下载工具包
-    config-overrides.js
-    package.json
-自定义主题
-    下载工具包
-    config-overrides.js
-使用antd的组件
-    根据antd的文档编写</code></pre><h2 id="6-引入路由"><a href="#6-引入路由" class="headerlink" title="6. 引入路由"></a>6. 引入路由</h2><pre><code>下载包: react-router-dom
-拆分应用路由:
-  Login: 登陆
-  Admin: 后台管理界面
-注册路由:
-  &lt;BrowserRouter&gt; / &lt;HashRouter&gt;
-  &lt;Switch&gt;
-  &lt;Route path=&apos;&apos; component={}/&gt;</code></pre><h2 id="7-Login的静态组件"><a href="#7-Login的静态组件" class="headerlink" title="7. Login的静态组件"></a>7. Login的静态组件</h2><pre><code>1). 自定义了一部分样式布局
-2). 使用antd的组件实现登陆表单界面
-  Form  / Form.Item
-  Input
-  Icon
-  Button</code></pre><h2 id="8-相关知识点"><a href="#8-相关知识点" class="headerlink" title="8. 相关知识点"></a>8. 相关知识点</h2><pre><code>1). 区别开发环境运行和生产环境打包运行
-2). 路由的理解</code></pre><h2 id="1-收集表单数据和表单的前台验证"><a href="#1-收集表单数据和表单的前台验证" class="headerlink" title="1. 收集表单数据和表单的前台验证"></a>1. 收集表单数据和表单的前台验证</h2><pre><code>1). form对象
-    如何让包含&lt;Form&gt;的组件得到form对象?  WrapLoginForm = Form.create()(LoginForm)
-    WrapLoginForm是LoginForm的父组件, 它给LoginForm传入form属性
-    用到了高阶函数和高阶组件的技术
-
-2). 操作表单数据
-    form.getFieldDecorator(&apos;标识名称&apos;, {initialValue: 初始值, rules: []})(&lt;Input/&gt;)包装表单项标签
-    form.getFieldsValue(): 得到包含所有输入数据的对象
-    form.getFieldValue(id): 根据标识得到对应字段输入的数据
-
-3). 前台表单验证
-    a. 声明式实时表单验证:
-        form.getFieldDecorator(&apos;标识名称&apos;, {rules: [{min: 4, message: &apos;错误提示信息&apos;}]})(&lt;Input/&gt;)
-    b. 自定义表单验证
-        form.getFieldDecorator(&apos;标识名称&apos;, {rules: [{validator: this.validatePwd}]})(&lt;Input/&gt;)
-        validatePwd = (rule, value, callback) =&gt; {
-          if(有问题) callback(&apos;错误提示信息&apos;) else callack()
-        } 
-    c. 点击登陆时统一验证
-        form.validateFields((error, values) =&gt; {
-          if(!error) {通过了验证, 发送ajax请求}
-        })</code></pre><h2 id="2-高阶函数与高阶组件"><a href="#2-高阶函数与高阶组件" class="headerlink" title="2. 高阶函数与高阶组件"></a>2. 高阶函数与高阶组件</h2><pre><code>1). 高阶函数
-    定义: 接收的参数是函数或者返回值是函数
-    常见的: 数组遍历相关的方法 / 定时器 / Promise / 高阶组件 / fn.bind(obj)()
-    作用: 实现一个更加强大, 动态的功能
-
-2). 高阶组件: 
-    本质是一个函数
-    函数接收一个组件, 返回一个新的组件
-    Form.create()返回的就是一个高阶组件   
-
-3). 高阶组件与高阶函数的关系
-    高阶组件是特别的高阶函数
-    接收一个组件函数, 返回是一个新的组件函数</code></pre><h2 id="3-后台应用"><a href="#3-后台应用" class="headerlink" title="3. 后台应用"></a>3. 后台应用</h2><pre><code>启动后台应用: mongodb服务必须启动
-使用postman测试接口(根据接口文档):
-    访问测试: post请求的参数在body中设置
-    保存测试接口
-    导出/导入所有测试接口</code></pre><h2 id="4-编写ajax代码"><a href="#4-编写ajax代码" class="headerlink" title="4. 编写ajax代码"></a>4. 编写ajax代码</h2><pre><code>1). ajax请求函数模块: api/ajax.js
-    封装axios: interceptor + promise
-    a. 解决post请求参数后台不能读取问题: axios默认以json形参传递请求体参数, 在请求拦截器中转换成urlencode形式
-    b. 请求成功的结果不再是response, 而是reponse.data: 使用响应拦截器成功的回调返回response.data
-    c. 内部统一处理请求异常: 在响应拦截失败的回调中返回pending状态的promise, 中断promise链
-
-2). 接口请求函数模块: api/index.js
-    根据接口文档编写(一定要具备这个能力)
-    接口请求函数: 调用ajax模块发请求, 返回值promise对象
-
-3). 解决ajax跨域请求问题(开发时)
-    办法: 配置代理  ==&gt; 开发的配置不能用于生产环境
-    编码: package.json: proxy: &quot;http://localhost:5000&quot;
-
-4). 对代理的理解
-    a. 是什么?
-        具有特定功能的程序: webpack-dev-server ==&gt; http-proxy-middleware
-    b. 运行在哪?
-        前台应用端, 不在后台应用端
-        只能在开发时使用
-    c. 作用?
-        解决开发时的ajax请求跨域问题
-        a. 监视并拦截请求(3000)
-        b. 转发请求(4000)
-    d. 配置代理
-        告诉代理服务器一些信息: 比如转发的目标地址
-        开发环境: 前端工程师
-        生产环境: 后端工程师
-5). async和await的理解和使用
-    a. 作用?
-       简化promise对象的使用: 不用再使用then()来指定成功/失败的回调函数
-       以同步编码(没有回调函数了)方式实现异步流程
-    b. 哪里写await?
-        在返回promise的表达式左侧写await: 不想要promise, 想要promise异步执行的成功的value数据
-    c. 哪里写async?
-        await所在函数(最近的)定义的左侧写async</code></pre><h2 id="5-实现登陆-包含自动登陆"><a href="#5-实现登陆-包含自动登陆" class="headerlink" title="5. 实现登陆(包含自动登陆)"></a>5. 实现登陆(包含自动登陆)</h2><pre><code>login.jsx
-    1). 调用登陆的接口请求
-    2). 如果失败, 显示错误提示信息
-    3). 如果成功了:
-        保存user到local/内存中
-        跳转到admin
-    4). 如果内存中的user有值, 自动跳转到admin
-admin.jsx
-    判断如果内存中没有user(_id没有值), 自动跳转到login
-storageUtils.js
-    包含使用localStorage来保存user相关操作的工具模块
-    使用第三库store
-        简化编码
-        兼容不同的浏览器
-memoryUtils.js
-    用来在内存中保存数据(user)的工具类, user的初始值从local中读取</code></pre><h2 id="1-LeftNav组件"><a href="#1-LeftNav组件" class="headerlink" title="1. LeftNav组件"></a>1. LeftNav组件</h2><pre><code>1). 使用antd的组件
-    Menu / Menu.Item / Menu.SubMenu
-
-2). 使用react-router
-    withRouter(): 包装非路由组件, 给其传入history/location/match属性
-    history: push()/replace()/goBack()
-    location: pathname属性
-    match: params属性
-
-3). componentWillMount与componentDidMount的比较
-    componentWillMount: 在第一次render()前调用一次, 为第一次render()准备数据(同步)
-    componentDidMount: 在第一次render()之后调用一次, 启动异步任务, 后面异步更新状态重新render
-
-4). 根据配置数据动态生成Item和SubMenu的数组
-    map() + 递归: 多级菜单列表
-    reduce() + 递归: 多级菜单列表
-
-5). 2个问题?
-    刷新时如何选中对应的菜单项?
-        selectedKey是当前请求的path
-    刷新子菜单路径时, 自动打开子菜单列表?
-        openKey是 一级列表项的某个子菜单项是当前对应的菜单项</code></pre><h2 id="2-Header组件"><a href="#2-Header组件" class="headerlink" title="2. Header组件"></a>2. Header组件</h2><pre><code>1). 界面静态布局
-    三角形效果
-2). 获取登陆用户的名称显示
-    MemoryUtils
-3). 当前时间
-    循环定时器, 每隔1s更新当前时间状态
-    格式化指定时间: dateUtils
-4). 天气预报
-    使用jsonp库发jsonp请求百度天气预报接口
-    对jsonp请求的理解
-5). 当前导航项的标题
-    得到当前请求的路由path: withRouter()包装非路由组件
-    根据path在menuList中遍历查找对应的item的title
-6). 退出登陆
-    Modal组件显示提示
-    清除保存的user
-    跳转到login
-7). 抽取通用的类链接按钮组件
-    通过...透传所有接收的属性: &lt;Button {...props} /&gt;    &lt;LinkButton&gt;xxxx&lt;/LinkButton&gt;
-    组件标签的所有子节点都会成为组件的children属性</code></pre><h2 id="3-jsonp解决ajax跨域的原理"><a href="#3-jsonp解决ajax跨域的原理" class="headerlink" title="3. jsonp解决ajax跨域的原理"></a>3. jsonp解决ajax跨域的原理</h2><pre><code>1). jsonp只能解决GET类型的ajax请求跨域问题
-2). jsonp请求不是ajax请求, 而是一般的get请求
-3). 基本原理
-    浏览器端:
-        动态生成&lt;script&gt;来请求后台接口(src就是接口的url)
-        定义好用于接收响应数据的函数(fn), 并将函数名通过请求参数提交给后台(如: callback=fn)
-    服务器端:
-        接收到请求处理产生结果数据后, 返回一个函数调用的js代码, 并将结果数据作为实参传入函数调用
-    浏览器端:
-        收到响应自动执行函数调用的js代码, 也就执行了提前定义好的回调函数, 并得到了需要的结果数据</code></pre><h2 id="1-Category组件使用antd组件构建分类列表界面"><a href="#1-Category组件使用antd组件构建分类列表界面" class="headerlink" title="1. Category组件使用antd组件构建分类列表界面"></a>1. Category组件使用antd组件构建分类列表界面</h2><pre><code>Card
-Table
-Button
-Icon</code></pre><h2 id="2-相关接口请求函数"><a href="#2-相关接口请求函数" class="headerlink" title="2. 相关接口请求函数"></a>2. 相关接口请求函数</h2><pre><code>获取分类列表
-添加分类
-更新分类</code></pre><h2 id="3-异步显示分类列表"><a href="#3-异步显示分类列表" class="headerlink" title="3. 异步显示分类列表"></a>3. 异步显示分类列表</h2><pre><code>设计分类列表的状态: categorys
-异步获取分类列表: componentDidMount(){}
-更新状态显示</code></pre><h2 id="4-添加分类"><a href="#4-添加分类" class="headerlink" title="4. 添加分类"></a>4. 添加分类</h2><pre><code>1). 界面
-    antd组件: Modal, Form, Select, Input
-    显示/隐藏: showStatus状态为1/0
-
-2). 功能
-    父组(Category)件得到子组件(CategoryForm)的数据(form)
-    调用添加分类的接口
-    重新获取分类列表</code></pre><h2 id="5-更新分类"><a href="#5-更新分类" class="headerlink" title="5. 更新分类"></a>5. 更新分类</h2><pre><code>1). 界面
-    antd组件: Modal, Form, Input
-    显示/隐藏: showStatus状态为2/0
-
-2). 功能
-    父组(Category)件得到子组件(CategoryForm)的数据(form)
-    调用更新分类的接口
-    重新获取分类列表
-3). 重要问题
-    描述: &lt;Input&gt;指定initialValue后, 如果输入改变了, 再指定新的initialValue, 默认显示输入的值
-    解决: 在关闭Modal时, 进行表单项重置: form.resetFields()</code></pre><h2 id="6-Product整体路由"><a href="#6-Product整体路由" class="headerlink" title="6. Product整体路由"></a>6. Product整体路由</h2><pre><code>1). 配置子路由: 
-    ProductHome / ProductDetail / ProductAddUpdate
-    &lt;Route&gt; / &lt;Switch&gt; / &lt;Redirect&gt;
-
-2). 匹配路由的逻辑:
-    默认: 逐层路由不完全匹配   &lt;Route path=&apos;/product&apos; component={ProductHome}/&gt;
-    exact属性: 完全匹配</code></pre><h2 id="7-分页实现技术-2种"><a href="#7-分页实现技术-2种" class="headerlink" title="7. 分页实现技术(2种)"></a>7. 分页实现技术(2种)</h2><pre><code>1). 前台分页
-    请求获取数据: 一次获取所有数据, 翻页时不需要再发请求
-    请求接口: 
-        不需要指定请求参数: 页码(pageNum)和每页数量(pageSize)
-        响应数据: 所有数据的数组
-
-2). 基于后台的分页
-    请求获取数据: 每次只获取当前页的数据, 翻页时要发请求
-    请求接口: 
-        需要指定请求参数: 页码(pageNum)和每页数量(pageSize)
-        响应数据: 当前页数据的数组 + 总记录数(total)
-
-3). 如何选择?
-    基本根据数据多少来选择</code></pre><h2 id="8-ProductHome组件"><a href="#8-ProductHome组件" class="headerlink" title="8. ProductHome组件"></a>8. ProductHome组件</h2><pre><code>1). 分页显示
-   界面: &lt;Card&gt; / &lt;Table&gt; / Select / Icon / Input / Button
-   状态: products / total
-   接口请求函数需要的数据: pageNum, pageSize
-   异步获取第一页数据显示
-       调用分页的接口请求函数, 获取到当前页的products和总记录数total
-       更新状态: products / total
-   翻页:
-       绑定翻页的监听, 监听回调需要得到pageNum
-       异步获取指定页码的数据显示  </code></pre><h2 id="9-Array的声明式方法的实现"><a href="#9-Array的声明式方法的实现" class="headerlink" title="9. Array的声明式方法的实现"></a>9. Array的声明式方法的实现</h2><pre><code>1). map()
-2). reduce()
-3). filter()
-4). find()/findIndex()
-5). every()/some()</code></pre><h2 id="1-ProductHome组件"><a href="#1-ProductHome组件" class="headerlink" title="1. ProductHome组件"></a>1. ProductHome组件</h2><pre><code>2). 搜索分页
-   接口请求函数需要的数据: 
-       pageSize: 每页的条目数
-       pageNum: 当前请求第几页 (从1开始)
-       productDesc / productName: searchName 根据商品描述/名称搜索
-   状态:  searchType / searchName  / 在用户操作时实时收集数据
-   异步搜索显示分页列表
-       如果searchName有值, 调用搜索的接口请求函数获取数据并更新状态
-
-3). 更新商品的状态
-   初始显示: 根据product的status属性来显示  status = 1/2
-   点击切换:
-       绑定点击监听
-       异步请求更新状态
-
-4). 进入详情界面
-    memoryUtils.product = product
-    history.push(&apos;/product/detail&apos;)
-5). 进入添加界面
-    memoryUtils.product = null
-    history.push(&apos;/product/addupdate&apos;)
-6). 进入修改界面
-    memoryUtils.product = product
-    history.push(&apos;/product/addupdate&apos;)</code></pre><h2 id="2-ProductDetail组件"><a href="#2-ProductDetail组件" class="headerlink" title="2. ProductDetail组件"></a>2. ProductDetail组件</h2><pre><code>1). 读取商品数据: memoryUtils.product
-2). 显示商品信息: &lt;Card&gt; / List 
-3). 异步显示商品所属分类的名称</code></pre><h2 id="3-ProductAddUpdate"><a href="#3-ProductAddUpdate" class="headerlink" title="3. ProductAddUpdate"></a>3. ProductAddUpdate</h2><pre><code>1). 基本界面
-    Card / Form / Input / TextArea / Button
-    FormItem的label标题和layout
-2). 分类下拉列表的异步显示
-3). 表单数据收集与表单验证</code></pre><h2 id="4-PicturesWall"><a href="#4-PicturesWall" class="headerlink" title="4. PicturesWall"></a>4. PicturesWall</h2><pre><code>1). antd组件
-    Upload / Modal / Icon
-    根据示例DEMO改造编写
-2). 上传图片
-    在&lt;Upload &gt;上配置接口的path和请求参数名
-    监视文件状态的改变: 上传中 / 上传完成/ 删除
-    在上传成功时, 保存好相关信息: name / url
-    为父组件提供获取已上传图片文件名数组的方法
-3). 删除图片
-    当文件状态变为删除时, 调用删除图片的接口删除上传到后台的图片
-4). 父组件调用子组件对象的方法: 使用ref技术
-    a. 创建ref容器: thi.pw = React.createRef()
-    b. 将ref容器交给需要获取的标签元素: &lt;PicturesWall ref={this.pw} /&gt;  // 自动将将标签对象添加为pw对象的current属性
-    c. 通过ref容器读取标签元素: this.pw.current</code></pre><h2 id="1-RichTextEditor"><a href="#1-RichTextEditor" class="headerlink" title="1. RichTextEditor"></a>1. RichTextEditor</h2><pre><code>1). 使用基于react的富文本编程器插件库: react-draft-wysiwyg
-2). 参考库的DEMO和API文档编写
-3). 如果还有不确定的, 百度搜索, 指定相对准确的关键字</code></pre><h2 id="2-完成商品添加与修改功能"><a href="#2-完成商品添加与修改功能" class="headerlink" title="2. 完成商品添加与修改功能"></a>2. 完成商品添加与修改功能</h2><pre><code>1). 收集输入数据
-    通过form收集: name/desc/price/pCategoryId/categoryId
-    通过ref收集: imgs/detail
-    如果是更新收集: _id
-    将收集数据封装成product对象
-2). 更新商品
-    定义添加和更新的接口请求函数
-    调用接口请求函数, 如果成功并返回商品列表界面</code></pre><h2 id="3-角色管理"><a href="#3-角色管理" class="headerlink" title="3. 角色管理"></a>3. 角色管理</h2><pre><code>1). 角色前台分页显示
-2). 添加角色
-3). 给指定角色授权
-    界面: Tree
-    状态: checkedKeys, 根据传入的role的menus进行初始化
-    勾选某个Node时, 更新checkedKeys
-    点击OK时: 通过ref读取到子组件中的checkedKeys作为要更新product新的menus
-            发请求更新product
-    解决默认勾选不正常的bug: 利用组件的componentWillReceiveProps()</code></pre><h2 id="4-用户管理"><a href="#4-用户管理" class="headerlink" title="4. 用户管理"></a>4. 用户管理</h2><pre><code>1). 显示用户分页列表
-2). 添加用户
-3). 修改用户
-4). 删除用户</code></pre><h2 id="5-导航菜单权限控制"><a href="#5-导航菜单权限控制" class="headerlink" title="5. 导航菜单权限控制"></a>5. 导航菜单权限控制</h2><pre><code>1). 基本思路(依赖于后台): 
-    角色: 包含所拥有权限的所有菜单项key的数组: menus=[key1, key2, key3]
-    用户: 包含所属角色的ID: role_id
-    当前登陆用户: user中已经包含了所属role对象
-    遍历显示菜单项时: 判断只有当有对应的权限才显示
-2). 判断是否有权限的条件?
-    a. 如果当前用户是admin
-    b. 如果当前item是公开的
-    c. 当前用户有此item的权限: key有没有menus中
-    d. 如果当前用户有此item的某个子item的权限</code></pre><h2 id="1-redux理解"><a href="#1-redux理解" class="headerlink" title="1. redux理解"></a>1. redux理解</h2><pre><code>什么?: redux是专门做状态管理的独立第3方库, 不是react插件, 但一般都用在react项目中
-作用?: 对应用中状态进行集中式的管理(写/读)
-开发: 与react-redux, redux-thunk等插件配合使用</code></pre><h2 id="2-redux相关API"><a href="#2-redux相关API" class="headerlink" title="2. redux相关API"></a>2. redux相关API</h2><pre><code>redux中包含: 
-    createStore(), 
-    applyMiddleware(), 
-    combineReducers()
-store对象: 
-    getState(), 
-    dispatch(), 
-    subscribe()
-react-redux: 
-    &lt;Provider store={store}&gt;: 向所有的容器组件提供store
-    connect(
-        state =&gt; ({xxx: state.xxx}),
-        {actionCreator1, actionCreator2}
-    )(UI组件): 
-        产生的就是容器组件, 负责向UI组件传递标签属性, 
-        一般属性值从state中获取, 函数属性内部会执行dispatch分发action
-redux-thunk
-    createStore(reducer, applyMiddleware(thunk))
-    dispatch(函数) ==&gt; 函数体内执行异步操作 ==&gt; 完成后dispatch同步action</code></pre><h2 id="3-redux核心概念-3个"><a href="#3-redux核心概念-3个" class="headerlink" title="3. redux核心概念(3个)"></a>3. redux核心概念(3个)</h2><pre><code>action: 
-    默认是对象(同步action), {type: &apos;xxx&apos;, data: value}, 需要通过对应的actionCreator产生, 
-    它的值也可以是函数(异步action), 需要引入redux-thunk才可以
-reducer
-    根据老的state和指定的action, 返回一个新的state
-    不能修改老的state
-store
-    redux最核心的管理对象
-    内部管理着: state和reducer
-    提供方法: getState(), dispatch(action), subscribe(listener)</code></pre><h2 id="4-redux工作流程"><a href="#4-redux工作流程" class="headerlink" title="4. redux工作流程"></a>4. redux工作流程</h2><p><img src="file:///C:/Users/Fei/Documents/My%20Knowledge/temp/ed830b94-aa5c-4058-aa8b-db17d9f00154/128/index_files/bf81947f9a3a71970c687a87ea1369b0.JPG" alt></p>
-<h2 id="5-项目中引入redux"><a href="#5-项目中引入redux" class="headerlink" title="5. 项目中引入redux"></a>5. 项目中引入redux</h2><pre><code>1). 下载相关的库
-    redux
-    react-redux
-    redux-thunk
-    redux-devtools-extension(这个只在开发时需要)
-2). 创建redux文件夹
-    action-types.js
-    actions.js
-    reducers.js
-    store.js
-3). store.js
-    默认暴露创建的store对象
-    指定好reducer
-    应用上thunk异步中间件
-    应用上redux调试插件
-
-4). reducer.js
-    为头部标题定义reducer函数: headerTitle
-    为登陆的用户定义reducer函数: user
-    通过combineReducers()来整合多个子reducer, 生成一个总的reducer函数
-    总的state的结构: {headerTitle: &apos;xxx&apos;, user: {}}
-
-5). action-types.js
-    同步action对象的type名称常量
-
-6). actions.js
-    定义与type对应的同步action creator函数: 返回action对象
-    定义异步action creator函数: 返回action函数
-
-7). 在需要与redux通信的组件中
-    引入connect函数
-    引入action creator函数
-    通过connect包装UI组件生成容器组件, 并暴露
-        export default connect(
-            state =&gt; ({}),
-            {}
-        )(UI组件)</code></pre><h2 id="1-setState-的使用"><a href="#1-setState-的使用" class="headerlink" title="1. setState()的使用"></a>1. setState()的使用</h2><pre><code>1). setState(updater, [callback]),
-    updater为返回stateChange对象的函数: (state, props) =&gt; stateChange
-    接收的state和props被保证为最新的
-2). setState(stateChange, [callback])
-    stateChange为对象,
-    callback是可选的回调函数, 在状态更新且界面更新后才执行
-3). 总结:
-    对象方式是函数方式的简写方式
-        如果新状态不依赖于原状态 ===&gt; 使用对象方式
-        如果新状态依赖于原状态 ===&gt; 使用函数方式
-    如果需要在setState()后获取最新的状态数据, 在第二个callback函数中读取</code></pre><h2 id="2-setState-的异步与同步"><a href="#2-setState-的异步与同步" class="headerlink" title="2. setState()的异步与同步"></a>2. setState()的异步与同步</h2><pre><code>1). setState()更新状态是异步还是同步的?
-    a. 执行setState()的位置?
-        在react控制的回调函数中: 生命周期勾子 / react事件监听回调
-        非react控制的异步回调函数中: 定时器回调 / 原生事件监听回调 / promise回调 /...
-    b. 异步 OR 同步?
-        react相关回调中: 异步
-        其它异步回调中: 同步
-
-2). 关于异步的setState()
-    a. 多次调用, 如何处理?
-        setState({}): 合并更新一次状态, 只调用一次render()更新界面 ---状态更新和界面更新都合并了
-        setState(fn): 更新多次状态, 但只调用一次render()更新界面  ---状态更新没有合并, 但界面更新合并了
-    b. 如何得到异步更新后的状态数据?
-        在setState()的callback回调函数中</code></pre><h2 id="3-Component与PureComponent"><a href="#3-Component与PureComponent" class="headerlink" title="3. Component与PureComponent"></a>3. Component与PureComponent</h2><pre><code>1). Component存在的问题?
-    a. 父组件重新render(), 当前组件也会重新执行render(), 即使没有任何变化
-    b. 当前组件setState(), 重新执行render(), 即使state没有任何变化
-
-2). 解决Component存在的问题
-    a. 原因: 组件的shouldcomponentUpdate()默认返回true, 即使数据没有变化render()都会重新执行
-    b. 办法1: 重写shouldComponentUpdate(), 判断如果数据有变化返回true, 否则返回false
-    c. 办法2: 使用PureComponent代替Component
-    d. 说明: 一般都使用PureComponent来优化组件性能
-
-3). PureComponent的基本原理
-    a. 重写实现shouldComponentUpdate()
-    b. 对组件的新/旧state和props中的数据进行浅比较, 如果都没有变化, 返回false, 否则返回true
-    c. 一旦componentShouldUpdate()返回false不再执行用于更新的render()</code></pre>
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="tags/React/" rel="tag">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="tags/%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93%E4%B8%8E%E6%A2%B3%E7%90%86/" rel="tag">项目总结与梳理</a></li></ul>
 
 
     </footer>
