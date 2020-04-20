@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    React学习小结（一） |  爱产品，爱前端！
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="../../../../css/style.css">
+
+  
+<script src="../../../../js/pace.min.js"></script>
+
+
+  
+
+  
+
+<link rel="alternate" href="atom.xml" title="爱产品，爱前端！" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    <main class="content">
+      <section class="outer">
+  <article id="post-React学习小结（一）" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  React学习小结（一）
+</h1>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="" class="article-date">
+  <time datetime="2020-04-19T16:00:00.000Z" itemprop="datePublished">2020-04-20</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../../../categories/React%E6%80%9D%E6%83%B3%E8%AE%BE%E8%AE%A1/">React思想设计</a>
+  </div>
+
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">3.8k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">13分钟</span>
+        </span>
+    </span>
+</div>
+
+      
+    </div>
+    
+
+    
+    
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h2 id="1-React独特思想"><a href="#1-React独特思想" class="headerlink" title="1.React独特思想"></a>1.React独特思想</h2><pre><code>1.UI =render(data)
+纯函数：最终的用户界面，在 render 函数确定的情况下完全取决于输入数据。
+2.函数式编程、响应式展示、拆分数据data和视图render。</code></pre><h2 id="2-虚拟DOM"><a href="#2-虚拟DOM" class="headerlink" title="2.虚拟DOM"></a>2.虚拟DOM</h2><pre><code>1.DOM 是结构化文本（HTML文本）的抽象表达形式，HTML中的每个元素都对应 DOM中某个节点，树状关系，层级嵌套。
+2.虚拟DOM不涉及浏览器、本质是JS对象，存在于JS内存中的树形结构。
+3.每次比较，Diff算法，找出真假差异，批量更新。</code></pre><h2 id="3-框架流程"><a href="#3-框架流程" class="headerlink" title="3.框架流程"></a>3.框架流程</h2><pre><code>1.单向数据流思想：数据驱动---&gt;N个事件触发render函数---&gt;虚拟DOM改变---&gt;Diff差异---&gt;更新视图（真实DOM）。
+2.充分解耦、组件拆分、关注我展示什么、而不是我做了啥？
+3.只看输入、输出，不关心过程，有点面向对象编程的思想。
+4.借助虚拟DOM，重复渲染来实现动态更新效果,实际上减少了DOM操作，渲染效率高。</code></pre><h2 id="4-React中的容器组件和傻瓜（展示）组件"><a href="#4-React中的容器组件和傻瓜（展示）组件" class="headerlink" title="4.React中的容器组件和傻瓜（展示）组件"></a>4.React中的容器组件和傻瓜（展示）组件</h2><pre><code>1.拆分业务、一个组件专注做一件事。
+2.外层（父聪明）容器组件负责和 Redux Store 打交道的组件。容器组件监听商店状态、通过props告知展示组件重新渲染。
+3.内层（子傻瓜）组件只专心负责渲染界面，傻瓜组件是纯函数，只需要根据props来渲染结果，不需要state，state都交给容器组件去打理
+4. 傻瓜组件没有状态，不需要用对象表示，所以连类都不需要了，对于一个只有 render法的组件，缩略为一个函数就OK，性能优化！</code></pre><p> <img src="https://img-blog.csdnimg.cn/20200420104708974.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="5-props"><a href="#5-props" class="headerlink" title="5.props"></a>5.props</h2><pre><code>1.prop外部传入的数据，对外接口，支持任意数据类型，不是字符串类型必须要用花括号｛｝把 prop 值包住。
+2.style两层花括号，外层花括号代表是JSX语法，内层花括号代表这是一个对象常量。
+3.函数类型的 prop 就是让父组件交给了子组件一个回调函数。
+4.子组件可以恰当的调用函数类型的prop，带上必要的参数，反过来把信息传递给外部世界。
+4.组件定义自己的构造函数，必须加上super(props),才可以后续通过this.props访问到父组件传递过来的 props 值。</code></pre><h2 id="6-state"><a href="#6-state" class="headerlink" title="6.state"></a>6.state</h2><pre><code>1.prop不能修改，记录自己的状态只能用state，state存在的意义是被修改。
+2.比如计数器初始值是prop传递，加减之后的状态变化由state存储。
+3.state 必须是一个 JavaScript 对象，不能是 string 或者 number 这样的简单数据类型。
+4.当我们需要存储的只是一个数字类型的数据时，应该把它存作 state 某个字段对应的值。
+5.this.state 可以读取到组件的当前 state，this.setState 函数才可以修改数据。</code></pre><h2 id="7-React组件间通信方式"><a href="#7-React组件间通信方式" class="headerlink" title="7.React组件间通信方式"></a>7.React组件间通信方式</h2><pre><code>1.父组件向子组件通讯: 父组件可以向⼦组件通过传 props 的⽅式，向子组件进⾏通讯 。
+2.子组件向父组件通讯: props+回调的方式，父组件向子组件传递props进行通讯，此props的作用域为父组件自身的函数。
+子组件调用该函数，将子组件想要传递的信息，作为参数，传递到父组件的作用域中 。
+3.兄弟组件通信: 找到这两个兄弟节点共同的父节点,结合上面两种方式由父节点转发信息进行通信。
+4.跨层级通信: Context 设计目的是为了共享那些对于⼀个组件树而言是“全局”的数据。
+例如当前认证的用户、主题或首选语⾔,对于跨越多层的全局数据可以通过 Context 通信。
+5.发布订阅模式: 发布者发布事件，订阅者监听事件并做出反应。
+我们可以通过引⼊event模块进行通信全局状态管理工具: 
+借助Redux或者Mobx等全局状态管理⼯具进行通信---&gt;这种工具会维护⼀个全局状态中心Store---&gt;Store根据不同的事件产生新的状态。</code></pre><h2 id="8-React中的context"><a href="#8-React中的context" class="headerlink" title="8.React中的context"></a>8.React中的context</h2><p><strong>为什么有context?</strong><br>1、React 组件是用 props 来传递父子组件之间的数据的。<br>2、在一个嵌套多层的组件结构中，如果只有最里层的组件才需要使用 store，但是为了把store从外面传到最里面，所有的中间组件都要支持store prop，层级太深时用 prop 传递 store 不是一个好方法。<br><strong>context做了什么？</strong><br>1、context让一个树状组件上所有组件都能访问一个共同的对象。<br>2、上级组件要宣称自己支持 context ，并且提供一个函数来返回代表 Context的对象。<br>3、这个上级组件之下的所有子孙组件，只要宣称自己需要这个 context ，然后通过 this.context 访问到这个共同的环境对象<br><strong>使用context要注意什么？</strong><br>1、Context 相当于提供了一个全局可以访问的对象，但是只要有一个地方改变了全局对象的值，应用中其他部分就会受影响<br>2、只有对那些每个组件都可能使用，但是中间组件又可能不使用的对象才有必要使用Context 。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200420105841440.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>!](<a href="https://img-blog.csdnimg.cn/20200420105807388.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" target="_blank" rel="noopener">https://img-blog.csdnimg.cn/20200420105807388.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center</a>)</p>
+<h2 id="9-设计好Store-属性，是规划好-Redux流程的基础"><a href="#9-设计好Store-属性，是规划好-Redux流程的基础" class="headerlink" title="9. 设计好Store 属性，是规划好 Redux流程的基础"></a>9. 设计好Store 属性，是规划好 Redux流程的基础</h2><p>生动的说就是：<br>你想看到最新的报纸消息（信息同步），Flux是一个快递员(Dispatcher)送货，你必须要记住快递员的电话（注册订阅），由快递员来通知你，给你送最新的报纸。<br>但是！在Redux中,设置了一个信息中心store，全世界只有一个Onlyone！<br>没有快递员，但是你有自己的手机（dispatch）你想信息同步，直接打开手机，刷刷每日最新就OK！<br>由一部手机（这个手机就是store绑定在自己身上的函数dispatch）来实现信息同步。<br>这个函数帮你完成了一切复杂的分发信息流程！（函数式编程思想的体现）</p>
+<p><img src="https://img-blog.csdnimg.cn/20200420114259219.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>   1.数据不一致怎么办？—&gt;靠Redux中的store来解决，全局状态就是唯一可靠的数据源。<br>    Redux Store 状态设计的一个主要原则：唯一数据源<br>    2.仅仅在构造组件时根据 store 来初始化 this.state 远远不够，还要保持 store 上状态和 this .state 的同步。<br>    3.在Flux中有多个store，分发功能由一个Dispatcher 对象完成（这个Dispatcher对象把一个 action 对象分发给多个注册了的 Store)。<br>    4.但是！Redux 全局只有一个Store，废弃了Dispatcher对象，在全局Store上绑定自己的函数dispatch，调用这个函数就可以拿到新的数据。<br>    5.通过 store.getState （）能够获得 store 上存储的所有状态，但是当我们只想获取组件的某一部分数据时，要在getOwnState函数中设计好逻   辑，以后任何关联 Store 状态的地方都可以重用getOwnState这个函数。<br>     6.在componentDidMount设计监听函数，通过 Store subscribe 监听其变化，只要 Store状态发生变化，就会调用这个组件的 onChange 方法。<br>     7.在 componentWillUnmount函数中，我们必须把这个监听注销掉，这个清理动作和 componentDidMount 中的动作对应。<br>     8.除了从 store 同步状态，视图中可能会想要改变 store 中的状态，但是改变store 中状态的唯一方法就是派发action。<br>     9.在 Redux 中，action 构造函数只负责创建对象，要派发 action需要调用 store.dispatch 函数。</p>
+<h2 id="10-redux的工作流程？"><a href="#10-redux的工作流程？" class="headerlink" title="10.redux的工作流程？"></a>10.redux的工作流程？</h2><p>源码版：建议配合源码食用，比较复杂但是可以啃下来<br><img src="https://img-blog.csdnimg.cn/20200420124530161.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200420113519742.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>!](<a href="https://img-blog.csdnimg.cn/20200420124358282.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" target="_blank" rel="noopener">https://img-blog.csdnimg.cn/20200420124358282.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center</a>)</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">核心概念：</span><br><span class="line">    <span class="selector-tag">Store</span>：保存数据的地方，可以把它看成一个容器，整个应用只能有⼀个<span class="selector-tag">Store</span>。</span><br><span class="line">    <span class="selector-tag">State</span>：<span class="selector-tag">Store</span>对象包含的所有数据，如果想得到某个时点的数据，就要对<span class="selector-tag">Store</span>生成快照，某一时间的数据集合就是<span class="selector-tag">state</span> </span><br><span class="line">    <span class="selector-tag">Action</span>：<span class="selector-tag">State</span>的变化，会导致<span class="selector-tag">View</span>的变化。</span><br><span class="line">    注意！用户接触不到<span class="selector-tag">State</span>，只能接触到<span class="selector-tag">View</span>。所以<span class="selector-tag">State</span>的变化必须 是<span class="selector-tag">View</span>导致的。</span><br><span class="line">    <span class="selector-tag">Action</span>就是<span class="selector-tag">View</span>发出的通知，表示<span class="selector-tag">State</span>应该要发生变化了。</span><br></pre></td></tr></table></figure>
+
+<p>梳理简洁版：思想是通用的</p>
+<blockquote>
+<p>Action Creator：View要发送多少种消息，就会有多少种Action。我们定义⼀个函数Action Creator来生成Action。<br>Reducer：一个函数，它接受Action和当前State作为参数，返回⼀个新的State。<br>当Store收到Action以后，必须返回⼀个新的State，这样View才会发生变化。这种State的计算过程就是Reducer。<br>dispatch：是View发出Action的唯⼀方法。<br>    然后我们对照上图梳理一下整个工作流程：<br>    1. 首先，⽤户（通过View）发出Action，触发store.dispatch(action)方法，将状态变化通知到中间件。<br>    2. 然后，Store自动调用Reducer函数，并且传入两个参数：当前State和收到的Action，Reducer会返回新的State<br>    3. State⼀旦有变化，Store就会调用监听函数，来更新View。<br>    4. 到此回到View层，⼀次用户交互流程结束。<br>   总结：在整个流程中数据都是单向流动的，这种方式保证了流程的清晰。</p>
+</blockquote>
+<p>**</p>
+<h2 id="11-redux中如何进行异步操作"><a href="#11-redux中如何进行异步操作" class="headerlink" title="11.redux中如何进行异步操作?"></a>11.redux中如何进行异步操作?</h2><blockquote>
+<p>借助redux的异步中间件进行异步处理.  redux异步流中间件分类：<br>redux-thunk<br>redux-saga<br> redux-effects<br> redux-side-effects<br> redux-loop<br> redux-observable</p>
+</blockquote>
+<h2 id="12-redux异步中间件之间的优劣对比"><a href="#12-redux异步中间件之间的优劣对比" class="headerlink" title="12.redux异步中间件之间的优劣对比"></a>12.redux异步中间件之间的优劣对比</h2><p> <strong>redux-thunk</strong><br> 优点:<br> 1、体积小<br> 2、实现方式很简单<br> 3、 redux-thunk没有引入像redux-saga或者redux-observable额外的范式，上手简单<br> 缺陷:<br> 1、样板代码过多、与redux本身一样，通常一个请求需要大量的代码，而且很多都是重复性质的、耦合严重<br> 2、异步操作与redux的action偶合在⼀起，不方便管理 ，功能孱弱</p>
+<p> <strong>redux-saga</strong><br> 优点:<br> 1、异步解耦: 异步操作被被转移到单独 saga.js 中，不再是掺杂在 action.js 或 component.js 中<br> 2、action摆脱thunk function: dispatch 的参数依然是⼀个纯粹的 action (FSA)<br> 3、function 异常处理: 受益于 generator function 的 saga 实现，代码异常/请求失败都可以直接通过 try/catch 语法直接捕获    4、redux-saga提供了大量的Saga 辅助函数和Effect 创建器供开发者使用，封装方便<br> 5、redux-saga可以将多个Saga可以串行/并行组合起来,形成⼀个非常实用的异步flow<br> 6、易测试，提供了各种case的测试方案，包括mock task，分支覆盖等等<br>  缺陷:<br>  1、额外的学习成本: 反正我还没有学完，API好多，上手有一定困难<br>   redux-observable<br>   优点:<br>   1、功能最强，背靠rxjs这个强大的响应式编程库<br>   2、借助rxjs的操作符，几乎可以完成异步处理的需求<br>   剩下的还没有了解到，暂不介绍，一入前端深似海。。。</p>
+<h2 id="13-Redux-终极小结"><a href="#13-Redux-终极小结" class="headerlink" title="13.Redux 终极小结"></a>13.Redux 终极小结</h2><pre><code>1. 唯一数据源：状态数据应该只存储在唯一的一个 Store上，这个store是一个树形的对象，每个组件往往只是用树形对象上一部
+    分的数据。
+2. 保持状态只读：不能去直接修改状态，要修改 Store 的状态，必须要通过派发action 对象完成。UI =render( state )
+    改变状态的方法不是去修改状态上值，而是创建一个新的状态对象返回给 Redux ，由 Redux 完成新的状态的组装。
+3. 数据改变只能通过纯函数完成：reducer(state , action)，函数的返回结果必须完全由参数 state action 决定，而且不产生任何副
+   作用，也绝对不能修改参数 state action 对象，改变store中状态的方法就是派发action。
+4. Redux中，action 构造函数只负责创建对象，要派发 action，需要调用 store.dispatch 函数。
+5. 每个 action 构造函数都返回一个action 对象。
+6. 组件的 render 函数所显示的动态内容，要么来自于 props ，要么来自于自身状态。
+7. Redux中的reducer 只负责计算状态，却并不负责存储状态，在 reducer 中，绝对不能去修改数中的 state，它是纯函数，是一个计算公式。
+8. React Redux 本质上是两个独立的产品， 一个应用可以使用React而不使用Redux，也可以使用 Redux 而不使用 React。
+9. 在 Redux 中，很多函数都是不做产生副作用的动作，而是返回一个对象，把如何处理这个对象的工作交给调用者。
+10.Redux 中把 state 作抽取出交给 Redux 框架本身， reducer 只用关心如何更新 state 而不要管 state 怎么存。</code></pre><h2 id="14-react-redux是如何工作的"><a href="#14-react-redux是如何工作的" class="headerlink" title="14.react-redux是如何工作的?"></a>14.react-redux是如何工作的?</h2><p><img src="https://img-blog.csdnimg.cn/20200420120213681.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><strong>react-redux将所有的组件分成两大类：</strong></p>
+<p><strong>UI组件：</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">只负责<span class="selector-tag">UI</span>的呈现，不带有任何业务逻辑</span><br><span class="line">通过<span class="selector-tag">props</span>接受属性（非函数属性）</span><br><span class="line">不使用任何<span class="selector-tag">redux</span>的<span class="selector-tag">API</span></span><br><span class="line">一般保存在<span class="selector-tag">components</span>文件夹下</span><br></pre></td></tr></table></figure>
+
+<p><strong>容器组件:</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">负责管理数据和业务逻辑，不负责<span class="selector-tag">UI</span>的呈现</span><br><span class="line">使用<span class="selector-tag">redux</span>的<span class="selector-tag">API</span></span><br><span class="line">一般保存在<span class="selector-tag">containers</span>文件夹下</span><br></pre></td></tr></table></figure>
+
+<p><strong>mapStateToProps</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">基本语法：<span class="selector-tag">mapStateToProps</span>(<span class="selector-tag">state</span>, <span class="selector-tag">ownProps</span>)</span><br><span class="line"></span><br><span class="line">参数含义：<span class="selector-tag">state</span> 全局状态 、 <span class="selector-tag">ownProps</span>代表组件本身的<span class="selector-tag">props</span>。</span><br><span class="line">（如果写了第二个参数<span class="selector-tag">ownProps</span>，那么当<span class="selector-tag">prop</span>发生变化的时候，<span class="selector-tag">mapStateToProps</span>也会被调用）。</span><br><span class="line"></span><br><span class="line">作用：将<span class="selector-tag">store</span>中的数据作为<span class="selector-tag">props</span>绑定到组件中。</span><br><span class="line"></span><br><span class="line">调用：只要<span class="selector-tag">store</span>更新了就会调用<span class="selector-tag">mapStateToProps</span>方法。</span><br><span class="line"></span><br><span class="line">返回结果：<span class="selector-tag">mapStateToProps</span>返回的结果必须是<span class="selector-tag">object</span>对象，该对象中的值将会更新到组件中。</span><br></pre></td></tr></table></figure>
+<p><strong>mapDispatchToProps</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">基本语法：<span class="selector-tag">mapDispatchToProps</span>(<span class="selector-tag">dispatch</span>, <span class="selector-attr">[ownProps]</span>)</span><br><span class="line"></span><br><span class="line">参数：<span class="selector-tag">dispatch</span>  <span class="selector-tag">store</span><span class="selector-class">.dispatch</span></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">ownProps</span>代表组件本身的<span class="selector-tag">props</span>，如果写了第二个参数<span class="selector-tag">ownProps</span>，那么当<span class="selector-tag">prop</span>发生变化的时候，<span class="selector-tag">mapDispatchToProps</span>也会被调用。</span><br><span class="line"></span><br><span class="line">作用：定义<span class="selector-tag">UI</span>组件如何发出<span class="selector-tag">action</span>，实际上就是要调用<span class="selector-tag">dispatch</span>这个方法。</span><br><span class="line">调用：<span class="selector-tag">props</span>改变。</span><br><span class="line"></span><br><span class="line">返回结果：返回包含对应<span class="selector-tag">action</span>的<span class="selector-tag">object</span>对象。</span><br></pre></td></tr></table></figure>
+
+<p><strong>Provider</strong>：让所有组件都可以使用state数据</p>
+<p><strong>Connect: 负责连接React和Redux</strong> </p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1、获取<span class="selector-tag">state</span>：</span><br><span class="line"><span class="selector-tag">Connect</span>通过<span class="selector-tag">context</span>获取<span class="selector-tag">Provider</span>中的<span class="selector-tag">store</span>，通过<span class="selector-tag">store</span><span class="selector-class">.getState</span>()获取整个<span class="selector-tag">store</span> <span class="selector-tag">tree</span> 上所有<span class="selector-tag">state</span>  。</span><br><span class="line"></span><br><span class="line">2、包装原组件:</span><br><span class="line">将<span class="selector-tag">state</span>和<span class="selector-tag">action</span>通过<span class="selector-tag">props</span>的方式传入到原组件内部<span class="selector-tag">---</span>&gt;<span class="selector-tag">WrapWithConnect</span>返回⼀个<span class="selector-tag">ReactComponent</span>对象<span class="selector-tag">Connect---</span>&gt;<span class="selector-tag">Connect</span>重新<span class="selector-tag">render</span>外部传入的原组件<span class="selector-tag">WrappedComponent---</span>&gt;把<span class="selector-tag">connect</span>中传入的<span class="selector-tag">mapStateToProps</span>、<span class="selector-tag">mapDispatchToProps</span>与组件上原有的<span class="selector-tag">props</span>合并后，通过属性的方式传给<span class="selector-tag">WrappedComponent</span> 。</span><br><span class="line"></span><br><span class="line">3、监听<span class="selector-tag">store</span> <span class="selector-tag">tree</span>变化: </span><br><span class="line"><span class="selector-tag">connect</span>缓存了<span class="selector-tag">store</span> <span class="selector-tag">tree</span>中<span class="selector-tag">state</span>的状态，通过当前<span class="selector-tag">state</span>状态和变更前<span class="selector-tag">state</span>状态进行比较，从而确定是否调用<span class="selector-tag">this</span><span class="selector-class">.setState</span>()方法触发<span class="selector-tag">Connect</span>及其子组件的重新渲染。</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+      <!-- reward -->
+      
+      <div id="reward-btn">
+        打赏
+      </div>
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong s>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
+                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+        
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/04/20/React%E5%AD%A6%E4%B9%A0%E5%B0%8F%E7%BB%93%EF%BC%88%E4%B8%80%EF%BC%89/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/React/" rel="tag">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E4%B8%8E%E7%90%86%E8%A7%A3%E2%80%94%E2%80%94%E6%8F%90%E7%82%BC%E7%89%88/" rel="tag">源码分析与理解——提炼版</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+    
+      <a href="../../19/%E5%89%8D%E7%AB%AF%E5%8F%91%E5%B1%95%EF%BC%9A%E4%B8%80%E4%BA%91%E5%A4%9A%E7%AB%AF%E3%80%81%E6%99%BA%E8%83%BD%E5%8C%96%E3%80%81AI+/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">小霞看前端</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        notify: 'false',
+        verify: 'false',
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2020
+        Wangqiuxia
+      </li>
+      <li>
+        
+        Powered by
+        
+        
+        <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+    <aside class="sidebar">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="../../../../index.html"><img src="/images/ayer-side.svg" alt="爱产品，爱前端！"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../index.html">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../tags/%E6%8A%80%E6%9C%AF/">小程序</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../http:/shenyu-vip.lofter.com">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../https:/v.xiumi.us/stage/v5/4IeLH/197507179">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="../../../../atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="../../../../images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="../../../../images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="../../../../js/jquery-2.0.3.min.js"></script>
+
+
+<script src="../../../../js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="../../../../js/lazyload.min.js"></script>
+
+
+<script src="../../../../js/busuanzi-2.3.pure.min.js"></script>
+
+
+<script src="../../../../js/share.js"></script>
+
+
+
+<script src="../../../../fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['做一个有情怀懂产品的程序媛！','业精于勤荒于嬉！行成于思毁于随！','越努力越幸运'],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script src="../../../../js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+
+<script src="../../../../js/ayer.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=518895142&auto=1&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+  </div>
+</body>
+
+</html>
