@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">3.7k字</span>
+            <span class="post-count">3.8k字</span>
         </span>
     </span>
 
@@ -73,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">13分钟</span>
+            <span class="post-count">14分钟</span>
         </span>
     </span>
 </div>
@@ -100,17 +100,19 @@
       
 
       
-      <h2 id="1-React独特思想"><a href="#1-React独特思想" class="headerlink" title="1.React独特思想"></a>1.React独特思想</h2><pre><code>1.UI =render(data)
+      <p>本文旨在以精简、通俗的语言传达React的思想<br>来自阅读源码、《深入浅出React》的一些提炼！<br>来自个人梳理总结，重在设计思想的探索，新版迭代快，可能有某些API的细微差别，欢迎指出不到位的地方。<br>欢迎大家一起讨论学习，集思广益！<br>Welcome to share creative thoughts!</p>
+<h2 id="1-React独特思想"><a href="#1-React独特思想" class="headerlink" title="1.React独特思想"></a>1.React独特思想</h2><pre><code>1.UI =render(data)
 纯函数：最终的用户界面，在 render 函数确定的情况下完全取决于输入数据。
 2.函数式编程、响应式展示、拆分数据data和视图render。</code></pre><h2 id="2-虚拟DOM"><a href="#2-虚拟DOM" class="headerlink" title="2.虚拟DOM"></a>2.虚拟DOM</h2><pre><code>1.DOM 是结构化文本（HTML文本）的抽象表达形式，HTML中的每个元素都对应 DOM中某个节点，树状关系，层级嵌套。
 2.虚拟DOM不涉及浏览器、本质是JS对象，存在于JS内存中的树形结构。
-3.每次比较，Diff算法，找出真假差异，批量更新。</code></pre><h2 id="3-框架流程"><a href="#3-框架流程" class="headerlink" title="3.框架流程"></a>3.框架流程</h2><pre><code>1.单向数据流思想：数据驱动---&gt;N个事件触发render函数---&gt;虚拟DOM改变---&gt;Diff差异---&gt;更新视图（真实DOM）。
+3.每次比较，Diff算法，找出真假差异，批量更新（Fiber的创新之处后期更新）</code></pre><h2 id="3-框架流程"><a href="#3-框架流程" class="headerlink" title="3.框架流程"></a>3.框架流程</h2><pre><code>1.单向数据流思想：数据驱动---&gt;N个事件触发render函数---&gt;虚拟DOM改变---&gt;Diff差异---&gt;更新视图（真实DOM）。
 2.充分解耦、组件拆分。
-3.只看输入、输出，不关心过程，有点面向对象编程的思想。
-4.借助虚拟DOM，重复渲染来实现动态更新效果,实际上减少了DOM操作，渲染效率高。</code></pre><h2 id="4-React中的容器组件和傻瓜（展示）组件"><a href="#4-React中的容器组件和傻瓜（展示）组件" class="headerlink" title="4.React中的容器组件和傻瓜（展示）组件"></a>4.React中的容器组件和傻瓜（展示）组件</h2><pre><code>1.拆分业务、一个组件专注做一件事。
+3.关注输入、输出、有点面向对象编程的思想。
+4.借助虚拟DOM，重复渲染来实现动态更新效果，实际上减少了DOM操作，渲染效率高。
+5.（React花了很多心思来解决渲染问题，后期一一剖析）</code></pre><h2 id="4-React中的容器组件和傻瓜（展示）组件"><a href="#4-React中的容器组件和傻瓜（展示）组件" class="headerlink" title="4.React中的容器组件和傻瓜（展示）组件"></a>4.React中的容器组件和傻瓜（展示）组件</h2><pre><code>1.拆分业务、一个组件专注做一件事。
 2.外层（父聪明）容器组件负责和 Redux Store 打交道的组件。容器组件监听商店状态、通过props告知展示组件重新渲染。
 3.内层（子傻瓜）组件只专心负责渲染界面，傻瓜组件是纯函数，只需要根据props来渲染结果，不需要state，state都交给容器组件去打理
-4. 傻瓜组件没有状态，不需要用对象表示，所以连类都不需要了，对于一个只有 render法的组件，缩略为一个函数就OK，性能优化！</code></pre><p> <img src="https://img-blog.csdnimg.cn/20200420104708974.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+4.傻瓜组件没有状态，不需要用对象表示，所以连类都不需要了，对于一个只有 render法的组件，缩略为一个函数就OK，性能优化！</code></pre><p> <img src="https://img-blog.csdnimg.cn/20200420104708974.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
 <h2 id="5-props"><a href="#5-props" class="headerlink" title="5.props"></a>5.props</h2><pre><code>1.prop外部传入的数据，对外接口，支持任意数据类型，不是字符串类型必须要用花括号｛｝把 prop 值包住。
 2.style两层花括号，外层花括号代表是JSX语法，内层花括号代表这是一个对象常量。
 3.函数类型的 prop 就是让父组件交给了子组件一个回调函数。
