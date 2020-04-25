@@ -71,6 +71,178 @@
     
     
     
+    <article id="post-每日十题系列（一）" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="2020/04/25/%E6%AF%8F%E6%97%A5%E5%8D%81%E9%A2%98%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89/"
+    >每日十题系列（一）</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="2020/04/25/%E6%AF%8F%E6%97%A5%E5%8D%81%E9%A2%98%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89/" class="article-date">
+  <time datetime="2020-04-24T16:00:00.000Z" itemprop="datePublished">2020-04-25</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>记录一下二刷数据结构与算法的回顾梳理，经典的东西是解决问题的根本呀<br>每天收集好十题并手撸一下，时常回顾。<br>二刷时多看看别人的思路，寻找最优的解法。<br>计划每天十题，第一天写了三个多小时，enenen后面动态规划地去调整hhh!<br>扶朕起来，朕还能学。。。</p>
+<h4 id="一、请把俩个数组-A1-A2-B1-B2-C1-C2-D1-D2-和-A-B-C-D-，合并为-A1-A2-A-B1-B2-B-C1-C2-C-D1-D2-D-。"><a href="#一、请把俩个数组-A1-A2-B1-B2-C1-C2-D1-D2-和-A-B-C-D-，合并为-A1-A2-A-B1-B2-B-C1-C2-C-D1-D2-D-。" class="headerlink" title="一、请把俩个数组 [A1, A2, B1, B2, C1, C2, D1, D2] 和 [A, B, C, D]，合并为 [A1, A2, A, B1, B2, B, C1, C2, C, D1, D2, D]。"></a>一、请把俩个数组 [A1, A2, B1, B2, C1, C2, D1, D2] 和 [A, B, C, D]，合并为 [A1, A2, A, B1, B2, B, C1, C2, C, D1, D2, D]。</h4><p>1、采用双指针的方法，i 指向第一个数组开头，j 指向第二个数组开头。<br>2、K是数组长度比值的取整，比如此题，K是2，每次跳两步。这个方法挺好的，比我原来的标记法更省空间!<br>3、循环遍历，每次截取前i到i+k个，再拼上数组2中的目标元素。<br>4、最后变成一维数组。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">function</span> <span class="selector-tag">concatArr</span>(<span class="selector-tag">arr1</span>,<span class="selector-tag">arr2</span>) &#123;</span><br><span class="line">let temp=[];</span><br><span class="line">let len2=arr2.length;</span><br><span class="line">let len1=arr1.length;</span><br><span class="line">let k=len1/len2;</span><br><span class="line">for(let i=0,j=0;i&lt;len1;i+=k,j++)&#123;</span><br><span class="line"><span class="selector-tag">temp</span><span class="selector-class">.push</span>(<span class="selector-tag">arr1</span><span class="selector-class">.slice</span>(<span class="selector-tag">i</span>,<span class="selector-tag">i</span>+<span class="selector-tag">k</span>)<span class="selector-class">.concat</span>(<span class="selector-tag">arr2</span><span class="selector-attr">[j]</span>))</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">return</span> <span class="selector-tag">temp</span><span class="selector-class">.flat</span>(1)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>多维数组=&gt;一维数组</p>
+</blockquote>
+<p>第0种处理:直接的调用</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; arr_flat = arr.flat(Infinity);</span><br></pre></td></tr></table></figure>
+
+<p>第一种处理</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ary = str.replace(/(\[\]))/g, '').split(',');</span><br></pre></td></tr></table></figure>
+
+<p>第二种处理</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">str = str.replace(/(\[\]))/g, '');</span><br><span class="line">str = '[' + str + ']';</span><br><span class="line">ary = JSON.parse(str);</span><br></pre></td></tr></table></figure>
+
+<p>第三种处理：递归处理</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">let result = [];</span><br><span class="line">let fn = function(ary) &#123;</span><br><span class="line">for(let i = 0; i &lt; ary.length; i++) &#125;&#123;</span><br><span class="line">let item = ary[i];</span><br><span class="line"><span class="selector-tag">if</span> (<span class="selector-tag">Array</span><span class="selector-class">.isArray</span>(<span class="selector-tag">ary</span><span class="selector-attr">[i]</span>))&#123;</span><br><span class="line">fn(item);</span><br><span class="line">&#125; <span class="selector-tag">else</span> &#123;</span><br><span class="line">result.push(item);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第四种处理：用 reduce 实现数组的 flat 方法</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">function</span> <span class="selector-tag">flatten</span>(<span class="selector-tag">ary</span>) &#123;</span><br><span class="line">return ary.reduce((pre, cur) =&gt; &#123;</span><br><span class="line"><span class="selector-tag">return</span> <span class="selector-tag">pre</span><span class="selector-class">.concat</span>(<span class="selector-tag">Array</span><span class="selector-class">.isArray</span>(<span class="selector-tag">cur</span>) ? <span class="selector-tag">flatten</span>(<span class="selector-tag">cur</span>) : <span class="selector-tag">cur</span>);</span><br><span class="line">&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let ary = [1, 2, [3, 4], [5, [6, 7]]]</span><br><span class="line"><span class="selector-tag">console</span><span class="selector-class">.log</span>(<span class="selector-tag">ary</span><span class="selector-class">.MyFlat</span>(<span class="selector-tag">Infinity</span>))</span><br></pre></td></tr></table></figure>
+
+<p>第五种处理：扩展运算符</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">while</span> (<span class="selector-tag">ary</span><span class="selector-class">.some</span>(<span class="selector-tag">Array</span><span class="selector-class">.isArray</span>)) &#123;</span><br><span class="line">ary = [].concat(...ary);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="二、算法题「移动零」，给定一个数组-nums，编写一个函数将所有-0-移动到数组的末尾，同时保持非零元素的相对顺序。"><a href="#二、算法题「移动零」，给定一个数组-nums，编写一个函数将所有-0-移动到数组的末尾，同时保持非零元素的相对顺序。" class="headerlink" title="二、算法题「移动零」，给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。"></a>二、算法题「移动零」，给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。</h4><p>1、先从前面找，每次记录下当前遍历的元素。判断是不是0<br>2、找到一个0，就将这个0放到数组最后。<br>3、并在数组中将这个0删除，为了避免数组塌陷，先在后面加入一个0<br>4、将角标-1，这个因为splice方法造成的，NUM加1.<br>5、这个方法，可以在原地删除。<br>PS:注意splice的数组塌陷！！坑！</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> let num = 0;</span><br><span class="line">	for (let index = 0; index &lt; arr.length - num; index++) &#123;</span><br><span class="line">    const element = arr[index];</span><br><span class="line">		if (element === 0) &#123;</span><br><span class="line">			<span class="selector-tag">arr</span><span class="selector-class">.push</span>(<span class="selector-tag">element</span>);</span><br><span class="line">      <span class="selector-tag">arr</span><span class="selector-class">.splice</span>(<span class="selector-tag">index</span>, 1);</span><br><span class="line">      index -= 1</span><br><span class="line">      num +=1</span><br><span class="line">		&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="selector-tag">return</span> <span class="selector-tag">arr</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="三、已知数据格式，实现一个函数-fn-找出链条中所有的父级-id"><a href="#三、已知数据格式，实现一个函数-fn-找出链条中所有的父级-id" class="headerlink" title="三、已知数据格式，实现一个函数 fn 找出链条中所有的父级 id"></a>三、已知数据格式，实现一个函数 fn 找出链条中所有的父级 id</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">const obj = [&#123;</span><br><span class="line">id: '1',</span><br><span class="line">name: '广东省',</span><br><span class="line">children: [&#123;</span><br><span class="line">id: '11',</span><br><span class="line">name: '深圳市',</span><br><span class="line">children: [&#123;</span><br><span class="line">id: '111',</span><br><span class="line">name: '南山区'</span><br><span class="line">&#125;, &#123;</span><br><span class="line"><span class="attribute">id</span>: <span class="string">'112'</span>,</span><br><span class="line">name: <span class="string">'福田区'</span></span><br><span class="line">&#125;]</span><br><span class="line">&#125;]</span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure>
+<p>1、用深度优先遍历的方法，先用一个栈把数组中的对象存储起来<br>2、判断这个对象的属性ID，如果相等，返回结果。<br>3、没有的话，就去深层比较，DFS找到孩子里面的ID，注意条件的孩子数组的长度不为0！！！这是递归终止的条件之一<br>4、本质还是递归，用map返回新的数组，放上最后的结果。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">const getIds = (obj, id) =&gt; &#123;</span><br><span class="line">    const dfs = (obj, stack = []) =&gt; &#123;</span><br><span class="line">        <span class="selector-tag">for</span>(<span class="selector-tag">let</span> <span class="selector-tag">item</span> <span class="selector-tag">of</span> <span class="selector-tag">obj</span>) &#123;</span><br><span class="line">            stack.push(item);</span><br><span class="line">            if (item.id === id) &#123;</span><br><span class="line">                <span class="selector-tag">return</span> <span class="selector-tag">stack</span>;</span><br><span class="line">            &#125; <span class="selector-tag">else</span> &#123;</span><br><span class="line">                if (item.children &amp;&amp; item.children.length) &#123;</span><br><span class="line">                    <span class="selector-tag">return</span> <span class="selector-tag">dfs</span>(<span class="selector-tag">item</span><span class="selector-class">.children</span>, <span class="selector-tag">stack</span>);</span><br><span class="line">                &#125; <span class="selector-tag">else</span> &#123;</span><br><span class="line">                    stack.pop(item);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return dfs(obj).map(item =&gt; item.id);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">console.log(getIds(obj, '112'));</span><br></pre></td></tr></table></figure>
+<h4 id="四、实现模糊搜索结果的关键词高亮显示"><a href="#四、实现模糊搜索结果的关键词高亮显示" class="headerlink" title="四、实现模糊搜索结果的关键词高亮显示"></a>四、实现模糊搜索结果的关键词高亮显示</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">let list = [</span><br><span class="line">&#123;</span><br><span class="line"><span class="attribute">id</span>: <span class="number">1</span>,</span><br><span class="line">address: <span class="string">'上海野生动物园'</span></span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line"><span class="attribute">id</span>: <span class="number">2</span>,</span><br><span class="line">address: <span class="string">'上饶野生动物园'</span></span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line"><span class="attribute">id</span>: <span class="number">3</span>,</span><br><span class="line">address: <span class="string">'北京巷子'</span></span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line"><span class="attribute">id</span>: <span class="number">4</span>,</span><br><span class="line">address: <span class="string">'上海中心'</span></span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line"><span class="attribute">id</span>: <span class="number">5</span>,</span><br><span class="line">address: <span class="string">'上海黄埔江'</span></span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line"><span class="attribute">id</span>: <span class="number">6</span>,</span><br><span class="line">address: <span class="string">'迪士尼上海'</span></span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line"><span class="attribute">id</span>: <span class="number">7</span>,</span><br><span class="line">address: <span class="string">'陆家嘴上海中心'</span></span><br><span class="line">&#125;,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>1、先写一个防抖，性能优化！！只取最后一次输入，直到用户不再输入时，根据最后的结果去显示。<br>2、再找到关键词，用filter方法，筛选出，也没那么难，注意读题~<br>3、最后再渲染到页面上。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">function</span> <span class="selector-tag">debounceFunc</span> (<span class="selector-tag">fn</span>, <span class="selector-tag">delay</span>) &#123;</span><br><span class="line">    let lastTime = 0;</span><br><span class="line">    let timer = null;</span><br><span class="line">    <span class="selector-tag">return</span> <span class="selector-tag">function</span> (<span class="selector-tag">event</span>) &#123;</span><br><span class="line">        let now = +(new Date());</span><br><span class="line">        <span class="selector-tag">clearTimeout</span>(<span class="selector-tag">timer</span>)</span><br><span class="line">        timer = setTimeout(function () &#123;</span><br><span class="line">            <span class="selector-tag">fn</span><span class="selector-class">.call</span>(<span class="selector-tag">event</span>);</span><br><span class="line">        &#125;, <span class="selector-tag">delay</span>);</span><br><span class="line">        <span class="selector-tag">if</span> (<span class="selector-tag">now</span> <span class="selector-tag">-</span> <span class="selector-tag">lastTime</span> &lt; <span class="selector-tag">delay</span>) &#123;</span><br><span class="line">            lastTime = now;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">function</span> <span class="selector-tag">getResult</span>(<span class="selector-tag">str</span>) &#123;</span><br><span class="line">    return str.trim() ? list.filter(item =&gt; item.address.includes(str))</span><br><span class="line">                .map(item =&gt; &#123;</span><br><span class="line">                    <span class="selector-tag">return</span> &#123;</span><br><span class="line">                        ...item,</span><br><span class="line">                        address: item.address.replace(str, `&lt;span style="color:#31b0d5"&gt;$&#123;str&#125;&lt;/span&gt;`)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;) : <span class="selector-attr">[]</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">function</span> <span class="selector-tag">renderUl</span>(<span class="selector-tag">lis</span>) &#123;</span><br><span class="line">    ul.innerHTML = lis.map(item =&gt; `&lt;li&gt;$&#123;item.address&#125;&lt;/li&gt;`).join('')</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="五、旋转数组算法题"><a href="#五、旋转数组算法题" class="headerlink" title="五、旋转数组算法题"></a>五、旋转数组算法题</h4><p>1、二分查找法的变形。<br>2、优化方案是先找到旋转的那个节点，也就是那个扰乱顺序的子元素，展开运算符…真香啊！哈哈哈<br>3、最后把它从头部插入！</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">function</span> <span class="selector-tag">reversalArr</span>(<span class="selector-tag">arr</span>, <span class="selector-tag">frequency</span>) &#123;</span><br><span class="line">  const newReversalArr = arr</span><br><span class="line">  for (let index = 0; index &lt; frequency; index++) &#123;</span><br><span class="line">    var first = newReversalArr.splice(newReversalArr.length - 1,1)</span><br><span class="line">    <span class="selector-tag">newReversalArr</span><span class="selector-class">.unshift</span>(..<span class="selector-class">.first</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="selector-tag">return</span> <span class="selector-tag">newReversalArr</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="六、运用你所掌握的数据结构，设计和实现一个-LRU-最近最少使用-缓存机制。"><a href="#六、运用你所掌握的数据结构，设计和实现一个-LRU-最近最少使用-缓存机制。" class="headerlink" title="六、运用你所掌握的数据结构，设计和实现一个  LRU (最近最少使用) 缓存机制。"></a>六、运用你所掌握的数据结构，设计和实现一个  LRU (最近最少使用) 缓存机制。</h4><p>它应该支持以下操作： 获取数据 get 和 写入数据 put 。</p>
+<p>获取数据 get(key) - 如果密钥 (key) 存在于缓存中，则获取密钥的值（总是正数），否则返回 -1。<br>写入数据 put(key, value) - 如果密钥已经存在，则变更其数据值；如果密钥不存在，则插入该组「密钥/数据值」。<br>当缓存容量达到上限时，它应该在写入新数据之前删除最久未使用的数据值，从而为新的数据值留出空间。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">LRUCache cache = new LRUCache( 2 /* 缓存容量 */ );</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">cache</span><span class="selector-class">.put</span>(1, 1);</span><br><span class="line"><span class="selector-tag">cache</span><span class="selector-class">.put</span>(2, 2);</span><br><span class="line">cache.get(1);       // 返回  1</span><br><span class="line">cache.put(3, 3);    // 该操作会使得密钥 2 作废</span><br><span class="line">cache.get(2);       // 返回 -1 (未找到)</span><br><span class="line">cache.put(4, 4);    // 该操作会使得密钥 1 作废</span><br><span class="line">cache.get(1);       // 返回 -1 (未找到)</span><br><span class="line">cache.get(3);       // 返回  3</span><br><span class="line">cache.get(4);       // 返回  4</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">LRU</span> （<span class="selector-tag">Least</span> <span class="selector-tag">Recently</span> <span class="selector-tag">Used</span>）缓存机制</span><br><span class="line">在缓存满的时候，删除缓存里最久未使用的数据，然后再放入新元素；</span><br><span class="line">数据的访问时间很重要，访问时间距离现在最近，就最不容易被删除。</span><br><span class="line">核心思想：在删除元素的时候，只看在缓存里的存在时间。</span><br></pre></td></tr></table></figure>
+
+
+<p>1、利用 Map 既能保存键值对，并且能够记住键的原始插入顺序。<br>2、Map 中的键值是有序的，而添加到对象中的键不是。<br>3、因此，当对它进行遍历时，Map 对象是按插入的顺序返回键值<br>4、Map.prototype.keys()返回一个新的 Iterator对象， 它按插入顺序包含了Map对象中每个元素的键 。<br>5、尾部元素一直是最新set的，对应于LRU的最近使用原则Map.set()<br>6、头部元素是最远使用的，用于LRU容量满载时删除最远使用的元素，可获取其keyMap.keys().next().value<br>7、貌似这个题还有个变种，是另外一种删除策略，不过今天没有找到题目，明天去github上面逛一逛看看有啥好方法~<br>解题步骤：</p>
+<blockquote>
+<p>一个Map对象在迭代时会根据对象中元素的插入顺序来进行！</p>
+</blockquote>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">get</span>操作：</span><br><span class="line">1、如果元素存在，先<span class="selector-tag">delete</span>再<span class="selector-tag">set</span>, 元素便会置为最新使用；如果不存在，返回<span class="selector-tag">-1</span></span><br><span class="line"><span class="selector-tag">put</span>操作:</span><br><span class="line">1、如果元素存在，先<span class="selector-tag">delete</span>再<span class="selector-tag">set</span>, 元素便会置为最新使用。</span><br><span class="line">2、如果容器超限，进行删除末尾元素操作。</span><br><span class="line">3、使用 <span class="selector-tag">Map</span>&#123;&#125;<span class="selector-class">.keys</span>()<span class="selector-class">.next</span>()得到迭代器的第一个元素，为使用时间最远的元素，进行删除。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">var LRUCache = function(capacity) &#123;</span><br><span class="line">    this.cache = new Map()</span><br><span class="line">    this.capacity = capacity</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">LRUCache.prototype.get = function(key) &#123;</span><br><span class="line">    <span class="selector-tag">if</span> (<span class="selector-tag">this</span><span class="selector-class">.cache</span><span class="selector-class">.has</span>(<span class="selector-tag">key</span>)) &#123;</span><br><span class="line">        // 存在即更新</span><br><span class="line">        let temp = this.cache.get(key)</span><br><span class="line">        <span class="selector-tag">this</span><span class="selector-class">.cache</span><span class="selector-class">.delete</span>(<span class="selector-tag">key</span>)</span><br><span class="line">        <span class="selector-tag">this</span><span class="selector-class">.cache</span><span class="selector-class">.set</span>(<span class="selector-tag">key</span>, <span class="selector-tag">temp</span>)</span><br><span class="line">        <span class="selector-tag">return</span> <span class="selector-tag">temp</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-tag">return</span> <span class="selector-tag">-1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">LRUCache.prototype.put = function(key, value) &#123;</span><br><span class="line">    <span class="selector-tag">if</span> (<span class="selector-tag">this</span><span class="selector-class">.cache</span><span class="selector-class">.has</span>(<span class="selector-tag">key</span>)) &#123;</span><br><span class="line">        // 存在即更新（删除后加入）</span><br><span class="line">        <span class="selector-tag">this</span><span class="selector-class">.cache</span><span class="selector-class">.delete</span>(<span class="selector-tag">key</span>)</span><br><span class="line">    &#125; else if (this.cache.size &gt;= this.capacity) &#123;</span><br><span class="line">        // 不存在即加入</span><br><span class="line">        // 缓存超过最大值，则移除最近没有使用的</span><br><span class="line">        <span class="selector-tag">this</span><span class="selector-class">.cache</span><span class="selector-class">.delete</span>(<span class="selector-tag">this</span><span class="selector-class">.cache</span><span class="selector-class">.keys</span>()<span class="selector-class">.next</span>()<span class="selector-class">.value</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-tag">this</span><span class="selector-class">.cache</span><span class="selector-class">.set</span>(<span class="selector-tag">key</span>, <span class="selector-tag">value</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="七、假设你正在爬楼梯。需要-n-阶你才能到达楼顶。"><a href="#七、假设你正在爬楼梯。需要-n-阶你才能到达楼顶。" class="headerlink" title="七、假设你正在爬楼梯。需要 n 阶你才能到达楼顶。"></a>七、假设你正在爬楼梯。需要 n 阶你才能到达楼顶。</h4><p>每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？</p>
+<p>注意：给定 n 是一个正整数。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">示例 1：</span><br><span class="line"></span><br><span class="line">输入： 2</span><br><span class="line">输出： 2</span><br><span class="line">解释： 有两种方法可以爬到楼顶。</span><br><span class="line">1.  1 阶 + 1 阶</span><br><span class="line">2.  2 阶</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">示例 2：</span><br><span class="line"></span><br><span class="line">输入： 3</span><br><span class="line">输出： 3</span><br><span class="line">解释： 有三种方法可以爬到楼顶。</span><br><span class="line"> <span class="selector-tag">-</span>  1 阶 + 1 阶 + 1 阶</span><br><span class="line"> <span class="selector-tag">-</span>  1 阶 + 2 阶</span><br><span class="line"> <span class="selector-tag">-</span>  2 阶 + 1 阶</span><br></pre></td></tr></table></figure>
+<p>解题一：<br>1、可以用动态规划来做。<br>2、常规解法可以分成多个子问题，爬第n阶楼梯的方法数量，等于 2 部分之和</p>
+<ul>
+<li>爬上 n-1 阶楼梯的方法数量。因为再爬1阶就能到第n阶 </li>
+<li>爬上 n-2阶楼梯的方法数量，因为再爬2阶就能到第n阶<br>3、所以小霞得到公式 dp[n] = dp[n-1] + dp[n-2]<br>同时需要初始化 ！！！dp[0]=1和 dp[1]=1，怎么老忘记初始化。。。<br>时间复杂度：O(n)</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">public</span> <span class="selector-tag">class</span> <span class="selector-tag">Solution</span> &#123;</span><br><span class="line">    public int climbStairs(int n) &#123;</span><br><span class="line">        if (n == 1) &#123;</span><br><span class="line">            <span class="selector-tag">return</span> 1;</span><br><span class="line">        &#125;</span><br><span class="line">        int[] dp = new int[n + 1];</span><br><span class="line">        dp[1] = 1;</span><br><span class="line">        dp[2] = 2;</span><br><span class="line">        for (int i = 3; i &lt;= n; i++) &#123;</span><br><span class="line">            dp[i] = dp[i - 1] + dp[i - 2];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="selector-tag">return</span> <span class="selector-tag">dp</span><span class="selector-attr">[n]</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解题二：<br>JavaScript递归解法(缓存中间步骤)，又是中间件的思想，缓存很多时候就是空间换时间！<br>有木有！！宇宙是恒定的，没有两全其美，只好交换时间和空间了，总要牺牲一个！</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">//使用一个缓存对象保存计算中间值</span><br><span class="line">var cache = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">var climbStairs = function(n) &#123;</span><br><span class="line">//非法输入</span><br><span class="line">if (n &lt;= 0) &#123;</span><br><span class="line"><span class="selector-tag">return</span> <span class="selector-tag">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line">//当爬1个台阶时,只有一种方法;</span><br><span class="line">//当爬2个台阶时,有两种方法,迈两步或迈一步</span><br><span class="line">if (n &lt;= 2) &#123;</span><br><span class="line"><span class="selector-tag">return</span> <span class="selector-tag">n</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 要爬到第n个台阶,可选的方法</span></span><br><span class="line"><span class="comment">* 1.在n-1个方法迈一步</span></span><br><span class="line"><span class="comment">* 2.在n-2个台阶上迈两步</span></span><br><span class="line"><span class="comment">* */</span></span><br><span class="line"><span class="selector-tag">var</span> <span class="selector-tag">prevStep</span>, <span class="selector-tag">prevPrevStep</span>;</span><br><span class="line">//递归计算爬n-1个台阶的方法,并利用缓存</span><br><span class="line">if (cache[n - 1] !== undefined) &#123;</span><br><span class="line">prevStep = cache[n - 1];</span><br><span class="line">&#125; <span class="selector-tag">else</span> &#123;</span><br><span class="line">prevStep = climbStairs(n - 1);</span><br><span class="line">cache[n - 1] = prevStep;</span><br><span class="line">&#125;</span><br><span class="line">//递归计算爬n-2个台阶的方法,并利用缓存</span><br><span class="line">if (cache[n - 2] !== undefined) &#123;</span><br><span class="line">prevPrevStep = cache[n - 2];</span><br><span class="line">&#125; <span class="selector-tag">else</span> &#123;</span><br><span class="line">prevPrevStep = climbStairs(n - 2);</span><br><span class="line">cache[n - 2] = prevPrevStep;</span><br><span class="line">&#125;</span><br><span class="line">//将这两种方法的可能性相加得到最终结果</span><br><span class="line"><span class="selector-tag">return</span> <span class="selector-tag">prevStep</span> + <span class="selector-tag">prevPrevStep</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="八、在未排序的数组中找到第-k-个最大的元素。"><a href="#八、在未排序的数组中找到第-k-个最大的元素。" class="headerlink" title="八、在未排序的数组中找到第 k 个最大的元素。"></a>八、在未排序的数组中找到第 k 个最大的元素。</h4><p>请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">示例 1:</span><br><span class="line"></span><br><span class="line">输入: [3,2,1,5,6,4] 和 k = 2</span><br><span class="line">输出: 5</span><br><span class="line">示例 2:</span><br><span class="line"></span><br><span class="line">输入: [3,2,3,1,2,4,5,5,6] 和 k = 4</span><br><span class="line">输出: 4</span><br><span class="line">说明:</span><br><span class="line"></span><br><span class="line">你可以假设 <span class="selector-tag">k</span> 总是有效的，且 1 ≤ <span class="selector-tag">k</span> ≤ 数组的长度。</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>js构造最小堆 堆中最后保存的最大的k个元素！！<br>这个题，有点难度，主要是健堆和调整。主要的角标公式要刻到脑子里！</p>
+</blockquote>
+<p><strong>解题思路：</strong><br>1、在小根堆中，堆顶的元素是最小的，如果堆顶的元素都比其他元素大，<br>2、那么堆里面的元素都比其他元素大，所以堆顶就是第k大元素<br><strong>步骤：</strong><br>1、从n个元素中截取前k个元素构造一个小根堆<br>2、for循环，依次从剩余n-k个元素中取出元素和堆顶比较，如果大于堆顶，则把值赋给堆顶，然后调整堆<br><strong>用到的算法：</strong><br>构造小根堆：<br>1、数组保存堆中元素，从0开始，最后一个元素下标是n = arr.length-1<br>2、从最后一个非叶子结点开始(第一个非叶子结点 Math.floor((n-1)/2))，从右至左，从下至上进行调整。<br><strong>调整方法：</strong><br>1、比较arr[2i+1],arr[2i+2],将最小的与arr[i]交换，<br>2、交换后需要重新调整结构(把大的元素沉到底部)<br>3、将剩余元素与堆顶比较</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @param &#123;number[]&#125; nums</span></span><br><span class="line"><span class="comment"> * @param &#123;number&#125; k</span></span><br><span class="line"><span class="comment"> * @return &#123;number&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">var findKthLargest = function(nums, k) &#123;</span><br><span class="line">    var kHeap = nums.slice(0,k);</span><br><span class="line">    <span class="selector-tag">makeHeap</span>(<span class="selector-tag">kHeap</span>);</span><br><span class="line">    for(let i=k;k&lt;nums.length;k++)&#123;</span><br><span class="line">        <span class="selector-tag">updateHeap</span>(<span class="selector-tag">kHeap</span>,<span class="selector-tag">nums</span><span class="selector-attr">[k]</span>);</span><br><span class="line">    &#125;;   </span><br><span class="line">    //取k个元素构造小顶堆</span><br><span class="line">    <span class="selector-tag">function</span> <span class="selector-tag">makeHeap</span>(<span class="selector-tag">arr</span>)&#123;</span><br><span class="line">        var temp;</span><br><span class="line">        for(let i = Math.floor((arr.length-2)/2);i&gt;=0;i--)&#123;</span><br><span class="line">            if(arr.length % 2==0 &amp;&amp; 2*i+1 == arr.length-1)&#123;</span><br><span class="line">                <span class="selector-tag">if</span>(<span class="selector-tag">arr</span><span class="selector-attr">[2*i+1]</span>&lt;<span class="selector-tag">arr</span><span class="selector-attr">[i]</span>)&#123;</span><br><span class="line">                    temp = arr[i];</span><br><span class="line">                    arr[i] = arr[2*i+1];</span><br><span class="line">                    arr[2*i+1] = temp;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;<span class="selector-tag">else</span>&#123;</span><br><span class="line">                if(arr[2*i+1]&lt;=arr[2*i+2] &amp;&amp; arr[2*i+1]&lt;arr[i])&#123;</span><br><span class="line">                    temp = arr[2*i+1];</span><br><span class="line">                    arr[2*i+1] = arr[i];</span><br><span class="line">                    arr[i] = temp;</span><br><span class="line">                    <span class="selector-tag">downHeap</span>(<span class="selector-tag">arr</span>,2*<span class="selector-tag">i</span>+1,<span class="selector-tag">arr</span><span class="selector-class">.length-1</span>);</span><br><span class="line">                &#125;<span class="selector-tag">else</span> <span class="selector-tag">if</span>(<span class="selector-tag">arr</span><span class="selector-attr">[2*i+2]</span>&lt;<span class="selector-tag">arr</span><span class="selector-attr">[2*i+1]</span> &amp;&amp; <span class="selector-tag">arr</span><span class="selector-attr">[2*i+2]</span>&lt;<span class="selector-tag">arr</span><span class="selector-attr">[i]</span>)&#123;</span><br><span class="line">                    temp = arr[2*i+2];</span><br><span class="line">                    arr[2*i+2] = arr[i];</span><br><span class="line">                    arr[i] = temp;</span><br><span class="line">                    <span class="selector-tag">downHeap</span>(<span class="selector-tag">arr</span>,2*<span class="selector-tag">i</span>+2,<span class="selector-tag">arr</span><span class="selector-class">.length-1</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;          </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    //第i个元素向下 比较 下降</span><br><span class="line">    <span class="selector-tag">function</span> <span class="selector-tag">downHeap</span>(<span class="selector-tag">arr</span>,<span class="selector-tag">i</span>,<span class="selector-tag">n</span>)&#123;</span><br><span class="line">        if(2*i+1&gt;n)&#123;</span><br><span class="line">            <span class="selector-tag">return</span>;</span><br><span class="line">        &#125;<span class="selector-tag">else</span> <span class="selector-tag">if</span>(2*<span class="selector-tag">i</span>+2 &gt; <span class="selector-tag">n</span>)&#123;</span><br><span class="line">            if(arr[2*i+1]&lt;arr[i])&#123;</span><br><span class="line">                temp = arr[i];</span><br><span class="line">                arr[i] = arr[2*i+1];</span><br><span class="line">                arr[2*i+1] = temp;                </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="selector-tag">else</span>&#123;</span><br><span class="line">            if(arr[2*i+1]&lt;=arr[2*i+2] &amp;&amp; arr[2*i+1]&lt;arr[i])&#123;</span><br><span class="line">                temp = arr[2*i+1];</span><br><span class="line">                arr[2*i+1] = arr[i];</span><br><span class="line">                arr[i] = temp;</span><br><span class="line">                <span class="selector-tag">downHeap</span>(<span class="selector-tag">arr</span>,2*<span class="selector-tag">i</span>+1,<span class="selector-tag">arr</span><span class="selector-class">.length-1</span>);</span><br><span class="line">            &#125;<span class="selector-tag">else</span> <span class="selector-tag">if</span>(<span class="selector-tag">arr</span><span class="selector-attr">[2*i+2]</span>&lt;<span class="selector-tag">arr</span><span class="selector-attr">[2*i+1]</span> &amp;&amp; <span class="selector-tag">arr</span><span class="selector-attr">[2*i+2]</span>&lt;<span class="selector-tag">arr</span><span class="selector-attr">[i]</span>)&#123;</span><br><span class="line">                temp = arr[2*i+2];</span><br><span class="line">                arr[2*i+2] = arr[i];</span><br><span class="line">                arr[i] = temp;</span><br><span class="line">                <span class="selector-tag">downHeap</span>(<span class="selector-tag">arr</span>,2*<span class="selector-tag">i</span>+2,<span class="selector-tag">arr</span><span class="selector-class">.length-1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-tag">function</span> <span class="selector-tag">updateHeap</span>(<span class="selector-tag">heap</span>, <span class="selector-tag">item</span>)&#123;</span><br><span class="line">        if(heap[0]&lt;item)&#123;</span><br><span class="line">            heap[0] = item;</span><br><span class="line">            <span class="selector-tag">downHeap</span>(<span class="selector-tag">heap</span>,0,<span class="selector-tag">heap</span><span class="selector-class">.length-1</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-tag">return</span> <span class="selector-tag">kHeap</span><span class="selector-attr">[0]</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="九、给你一个字符串-s-和一个字符规律-p，请你来实现一个支持-‘-’-和-‘-’-的正则表达式匹配。"><a href="#九、给你一个字符串-s-和一个字符规律-p，请你来实现一个支持-‘-’-和-‘-’-的正则表达式匹配。" class="headerlink" title="九、给你一个字符串 s 和一个字符规律 p，请你来实现一个支持 ‘.’ 和 ‘*’ 的正则表达式匹配。"></a>九、给你一个字符串 s 和一个字符规律 p，请你来实现一个支持 ‘.’ 和 ‘*’ 的正则表达式匹配。</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">'.' 匹配任意单个字符</span><br><span class="line">'*' 匹配零个或多个前面的那一个元素</span><br><span class="line">所谓匹配，是要涵盖 整个 字符串 <span class="selector-tag">s</span>的，而不是部分字符串。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">说明:</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">s</span> 可能为空，且只包含从 <span class="selector-tag">a-z</span> 的小写字母。</span><br><span class="line"><span class="selector-tag">p</span> 可能为空，且只包含从 <span class="selector-tag">a-z</span> 的小写字母，以及字符 . 和 *。</span><br><span class="line">示例 1:</span><br><span class="line"></span><br><span class="line">输入:</span><br><span class="line">s = "aa"</span><br><span class="line">p = "a"</span><br><span class="line">输出: <span class="selector-tag">false</span></span><br><span class="line">解释: "<span class="selector-tag">a</span>" 无法匹配 "<span class="selector-tag">aa</span>" 整个字符串。</span><br><span class="line">示例 2:</span><br><span class="line"></span><br><span class="line">输入:</span><br><span class="line">s = "aa"</span><br><span class="line">p = "a*"</span><br><span class="line">输出: <span class="selector-tag">true</span></span><br><span class="line">解释: 因为 '*' 代表可以匹配零个或多个前面的那一个元素, 在这里前面的元素就是 'a'。因此，字符串 "aa" 可被视为 'a' 重复了一次。</span><br><span class="line">示例 3:</span><br><span class="line"></span><br><span class="line">输入:</span><br><span class="line">s = "ab"</span><br><span class="line">p = ".*"</span><br><span class="line">输出: <span class="selector-tag">true</span></span><br><span class="line">解释: ".*" 表示可匹配零个或多个（'*'）任意字符（'.'）。</span><br><span class="line">示例 4:</span><br><span class="line"></span><br><span class="line">输入:</span><br><span class="line">s = "aab"</span><br><span class="line">p = "c*a*b"</span><br><span class="line">输出: <span class="selector-tag">true</span></span><br><span class="line">解释: 因为 '*' 表示零个或多个，这里 'c' 为 0 个, 'a' 被重复一次。因此可以匹配字符串 "aab"。</span><br><span class="line">示例 5:</span><br><span class="line"></span><br><span class="line">输入:</span><br><span class="line">s = "mississippi"</span><br><span class="line">p = "mis*is*p*."</span><br><span class="line">输出: <span class="selector-tag">false</span></span><br></pre></td></tr></table></figure>
+<p>enenen，貌似可以一行搞定。<br>思路:<br>先把p变为正则的形式，然后创建正则规则，再去匹配s<br>先把原p中的.变为任意字符，但注意要想用”[\s\S]”代替时，里面的反斜杠要写两个才行，记得转义！<br>一定要加开始、结束符。<br>不需要在”g”(全局模式下)匹配s。<br>PS：看到有社区用动态规划的，有点复杂，锻炼思路很好。<br>今天写不完了，先这样做吧，比较方便。<br>我已经写了3个小时了，还有一题，扶我起来，我还行！enennen……..</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var isMatch = function(s, p) &#123;</span><br><span class="line">    p = "^" + p.replace(/\./g,"[\\s\\S]") + "$";</span><br><span class="line">    var reg = new RegExp(p);</span><br><span class="line">    <span class="selector-tag">return</span> <span class="selector-tag">reg</span><span class="selector-class">.test</span>(<span class="selector-tag">s</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="十、编写一个-SQL-查询，获取-Employee-表中第二高的薪水（Salary）-。"><a href="#十、编写一个-SQL-查询，获取-Employee-表中第二高的薪水（Salary）-。" class="headerlink" title="十、编写一个 SQL 查询，获取 Employee 表中第二高的薪水（Salary） 。"></a>十、编写一个 SQL 查询，获取 Employee 表中第二高的薪水（Salary） 。</h4><p>+—-+——–+<br>| Id | Salary |<br>+—-+——–+<br>| 1  | 100    |<br>| 2  | 200    |<br>| 3  | 300    |<br>+—-+——–+<br>例如上述 Employee 表，SQL查询应该返回 200 作为第二高的薪水。如果不存在第二高的薪水，那么查询应返回 null。</p>
+<p>+———————+<br>| SecondHighestSalary |<br>+———————+<br>| 200                 |<br>+———————+<br>PS:这题我不太会，记录一下大佬的答案。思路如下：</p>
+<p>1、首先先将数据去重：SELECT DISTINCT Salary FROM Employee<br>2、再将是数据按薪水降序排除：SELECT DISTINCT Salary FROM Employee ORDER BY Salary DESC<br>3、分页的思想是一页一条数据，<br>4、第二高的薪水则在第二页：SELECT DISTINCT Salary FROM Employee ORDER BY Salary DESC LIMIT 1, 1<br>5、考虑到极端情况：没有第二薪水则为空，使用ifnull判断：<br>SELECT IFNULL( (SELECT DISTINCT Salary FROM Employee ORDER BY Salary DESC LIMIT 1, 1),null) AS SecondHighestSalary<br>貌似也不难，只是SQL好久没有复习了，手撸一个，顺便记下两个知识点。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">select</span> <span class="selector-tag">ifNull</span>(</span><br><span class="line">(<span class="selector-tag">select</span> <span class="selector-tag">distinct</span> <span class="selector-tag">salary</span></span><br><span class="line"><span class="selector-tag">from</span> <span class="selector-tag">Employee</span> </span><br><span class="line"><span class="selector-tag">order</span> <span class="selector-tag">by</span> <span class="selector-tag">Salary</span> <span class="selector-tag">Desc</span></span><br><span class="line"><span class="selector-tag">limit</span> 1,1),<span class="selector-tag">null</span></span><br><span class="line">) <span class="selector-tag">as</span> <span class="selector-tag">SecondHighestSalary</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">分页的其他使用：<span class="selector-tag">offset</span></span><br><span class="line"><span class="selector-tag">SQL</span>查询语句中的 <span class="selector-tag">limit</span> 与 <span class="selector-tag">offset</span> 的区别：</span><br><span class="line"><span class="selector-tag">limit</span> <span class="selector-tag">y</span> 分句表示: 读取 <span class="selector-tag">y</span> 条数据</span><br><span class="line"><span class="selector-tag">limit</span> <span class="selector-tag">x</span>, <span class="selector-tag">y</span> 分句表示: 跳过 <span class="selector-tag">x</span> 条数据，读取 <span class="selector-tag">y</span> 条数据</span><br><span class="line"><span class="selector-tag">limit</span> <span class="selector-tag">y</span> <span class="selector-tag">offset</span> <span class="selector-tag">x</span> 分句表示: 跳过 <span class="selector-tag">x</span> 条数据，读取 <span class="selector-tag">y</span> 条数据</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">题解一：使用 <span class="selector-tag">limit</span></span><br><span class="line">回忆一下 <span class="selector-tag">limit</span> 的用法</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">limit</span> <span class="selector-tag">N</span>     # 返回 <span class="selector-tag">N</span> 条记录</span><br><span class="line"><span class="selector-tag">offset</span> <span class="selector-tag">M</span>    # 跳过 <span class="selector-tag">M</span> 条记录，<span class="selector-tag">M</span> 默认为 0</span><br><span class="line"><span class="selector-tag">limit</span> <span class="selector-tag">M</span>,<span class="selector-tag">N</span>   # 相当于 <span class="selector-tag">limit</span> <span class="selector-tag">N</span> <span class="selector-tag">offset</span> <span class="selector-tag">M</span>，从第 <span class="selector-tag">M</span> 条记录开始，返回 <span class="selector-tag">N</span> 条记录</span><br><span class="line">将 <span class="selector-tag">Salary</span> 去重后降序排列，再返回第二条记录可得第二大的值</span><br><span class="line">也许只有一个 <span class="selector-tag">Salary</span> 值，将返回 <span class="selector-tag">null</span></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">select</span> (</span><br><span class="line">	<span class="selector-tag">select</span> <span class="selector-tag">DISTINCT</span> <span class="selector-tag">Salary</span></span><br><span class="line">	<span class="selector-tag">from</span> <span class="selector-tag">Employee</span></span><br><span class="line">	<span class="selector-tag">order</span> <span class="selector-tag">by</span> <span class="selector-tag">Salary</span> <span class="selector-tag">DESC</span></span><br><span class="line">	<span class="selector-tag">limit</span> 1,1) </span><br><span class="line"><span class="selector-tag">as</span> <span class="selector-tag">SecondHighestSalary</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">题解二：使用 <span class="selector-tag">max</span> 函数</span><br><span class="line">回忆一下 <span class="selector-tag">max</span> 的用法</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">max</span>(字段名)  # 返回该字段的最大值</span><br><span class="line">找出小于该字段最大值的最大值，即为第二大值</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">select</span> <span class="selector-tag">max</span>(<span class="selector-tag">Salary</span>) <span class="selector-tag">as</span> <span class="selector-tag">SecondHighestSalary</span> </span><br><span class="line"><span class="selector-tag">from</span> <span class="selector-tag">Employee</span></span><br><span class="line"><span class="selector-tag">where</span> <span class="selector-tag">Salary</span> &lt; (</span><br><span class="line">    <span class="selector-tag">select</span> <span class="selector-tag">max</span>(<span class="selector-tag">Salary</span>) <span class="selector-tag">from</span> <span class="selector-tag">Employee</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="tags/%E6%AF%8F%E6%97%A5%E5%8D%81%E9%A2%98%E7%B3%BB%E5%88%97/" rel="tag">每日十题系列</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="tags/%E8%AE%B0%E5%BD%95%E7%BB%8F%E5%85%B8%E7%9A%84%E7%AE%97%E6%B3%95-%E5%AF%BB%E6%89%BE%E4%BC%98%E5%8C%96%E7%9A%84%E8%A7%A3%E6%B3%95/" rel="tag">记录经典的算法  寻找优化的解法</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-商场血雨腥风，小程序如何攀登珠穆朗玛峰？" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -79,7 +251,7 @@
     <header class="article-header">
        
 <h2 itemprop="name">
-  <a class="article-title" href="2020/04/25/%E5%95%86%E5%9C%BA%E8%A1%80%E9%9B%A8%E8%85%A5%E9%A3%8E%EF%BC%8C%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%A6%82%E4%BD%95%E6%94%80%E7%99%BB%E7%8F%A0%E7%A9%86%E6%9C%97%E7%8E%9B%E5%B3%B0%EF%BC%9F/"
+  <a class="article-title" href="2020/04/24/%E5%95%86%E5%9C%BA%E8%A1%80%E9%9B%A8%E8%85%A5%E9%A3%8E%EF%BC%8C%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%A6%82%E4%BD%95%E6%94%80%E7%99%BB%E7%8F%A0%E7%A9%86%E6%9C%97%E7%8E%9B%E5%B3%B0%EF%BC%9F/"
     >商场血雨腥风，小程序如何攀登珠穆朗玛峰？</a
   >
 </h2>
@@ -90,8 +262,8 @@
 
     
     <div class="article-meta">
-      <a href="2020/04/25/%E5%95%86%E5%9C%BA%E8%A1%80%E9%9B%A8%E8%85%A5%E9%A3%8E%EF%BC%8C%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%A6%82%E4%BD%95%E6%94%80%E7%99%BB%E7%8F%A0%E7%A9%86%E6%9C%97%E7%8E%9B%E5%B3%B0%EF%BC%9F/" class="article-date">
-  <time datetime="2020-04-24T16:00:00.000Z" itemprop="datePublished">2020-04-25</time>
+      <a href="2020/04/24/%E5%95%86%E5%9C%BA%E8%A1%80%E9%9B%A8%E8%85%A5%E9%A3%8E%EF%BC%8C%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%A6%82%E4%BD%95%E6%94%80%E7%99%BB%E7%8F%A0%E7%A9%86%E6%9C%97%E7%8E%9B%E5%B3%B0%EF%BC%9F/" class="article-date">
+  <time datetime="2020-04-23T16:00:00.000Z" itemprop="datePublished">2020-04-24</time>
 </a>
       
   <div class="article-category">
@@ -1748,167 +1920,6 @@ item数据变了, 对原来的真实DOM进行数据更新。</code></pre><p>（2
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" rel="tag">前端安全</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="tags/%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E9%89%B4%E6%9D%83/" rel="tag">用户登录鉴权</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-短视频流量大战的四大法宝——精准产品定位、打磨垂直内容、完善监管激励、优化创新服务" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="2020/04/03/%E7%9F%AD%E8%A7%86%E9%A2%91%E6%B5%81%E9%87%8F%E5%A4%A7%E6%88%98%E7%9A%84%E5%9B%9B%E5%A4%A7%E6%B3%95%E5%AE%9D%E2%80%94%E2%80%94%E7%B2%BE%E5%87%86%E4%BA%A7%E5%93%81%E5%AE%9A%E4%BD%8D%E3%80%81%E6%89%93%E7%A3%A8%E5%9E%82%E7%9B%B4%E5%86%85%E5%AE%B9%E3%80%81%E5%AE%8C%E5%96%84%E7%9B%91%E7%AE%A1%E6%BF%80%E5%8A%B1%E3%80%81%E4%BC%98%E5%8C%96%E5%88%9B%E6%96%B0%E6%9C%8D%E5%8A%A1/"
-    >短视频流量大战的四大法宝——精准产品定位、打磨垂直内容、完善监管激励、优化创新服务</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="2020/04/03/%E7%9F%AD%E8%A7%86%E9%A2%91%E6%B5%81%E9%87%8F%E5%A4%A7%E6%88%98%E7%9A%84%E5%9B%9B%E5%A4%A7%E6%B3%95%E5%AE%9D%E2%80%94%E2%80%94%E7%B2%BE%E5%87%86%E4%BA%A7%E5%93%81%E5%AE%9A%E4%BD%8D%E3%80%81%E6%89%93%E7%A3%A8%E5%9E%82%E7%9B%B4%E5%86%85%E5%AE%B9%E3%80%81%E5%AE%8C%E5%96%84%E7%9B%91%E7%AE%A1%E6%BF%80%E5%8A%B1%E3%80%81%E4%BC%98%E5%8C%96%E5%88%9B%E6%96%B0%E6%9C%8D%E5%8A%A1/" class="article-date">
-  <time datetime="2020-04-02T16:00:00.000Z" itemprop="datePublished">2020-04-03</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>Welcome to share creative thoughts!</p>
-<blockquote>
-<p>行业竞争激烈、人口红利见顶，在这场短视频流量大战中，如何打出漂亮一战？</p>
-</blockquote>
-<h2 id="行业背景调查"><a href="#行业背景调查" class="headerlink" title="行业背景调查"></a>行业背景调查</h2><p>1、TikTok（抖音海外版）在海外取得极大成功，对于其它视频应用产生了强烈冲击。此举招致了不少制裁，但也从一个侧面反映出TikTok在海外的影响力。据外媒报道，为了应对TikTok强势崛起，谷歌旗下视频网站YouTube将作出应对，并计划在今年年末推出名为Shorts的短视频功能，参与到TikTok的直接竞争中来。不过，与TikTok独立的APP模式相比，Shorts将成为YouTube主应用中的一部分，这或许会使Shorts的竞争力受到影响。</p>
-<p>2、疫情当前，各大电影院都纷纷关门。流媒体似乎迎来了百年难得一遇的暖春，尤其是Netflix，凭借最为丰富的剧集资源库，在流媒体中称王，甚至将自己多部作品提前上线，吸取流量。下个月，又有一家全新平台入局流媒体——Quibi。Quibi ，Quickbites 的缩写，译为“速食”，这是一家还未上线便已获得十亿美元融资的短视频平台。 仅服务于手机端用户，内容专注于时下最热的短视频。Quibi的野心是成为「短视频界的Netflix」。在内容播放上，Quibi的每部剧集的总时长控制在2小时左右。</p>
-<p>每集大约7-10分钟，每部约10-16集。至于更新频率——采用日更，每部剧每日更新一集。每隔一周就会有26个原创项目上线。这意味着每个礼拜都会有100来集短视频播出。当然，Quibi创办人杰弗里·卡森伯格也说了，“这不是短视频，而是一个个短视频章节组成的长视频。”他们想做的是“Quick bites. Big stories”，用一个零食时间，讲述大故事。</p>
-<p>3、中新经纬客户端 4 月 2 日发布新闻，” 爱奇艺随刻版 “App 正式上线。爱奇艺对外宣称，” 爱奇艺随刻版 “App 是爱奇艺全新推出的海量精彩、多元化的综合视频社区产品，并要打造中国版的YouTube。随着 5G 和 AI 商用的发展，爱奇艺加入短视频赛道或许将给视频行业带来新的格局变化。爱奇艺创始人、CEO 龚宇认为，” 迄今为止，由于多种复杂因素的综合影响，YouTube 模式尚未在中国发展成规模，随着 5G 和 AI 技术的部署不断加强，类似 App 的市场潜力将在未来 2-3 年显著增长。为了抓住机遇，爱奇艺已开始做出初步的努力并投资建立规模化的业务模式。”</p>
-<p>4、最近一段时间，正在内测的微信视频号引起了全行业的关注，诸多内容创作者纷纷开始研究微信视频号。一时间，微信视频号究竟会不会成为下一个风口，微信视频号能不能顺利突围，也成为大家热议的话题。视频号定位于“人人皆可创作的平台”，与朋友圈并驾齐驱，可见地位的重要性。它是微信的破圈——长短互补，强弱交织，蝴蝶效应，生态闭环——避免微信不被新生的短视频文化需求边缘化。猜想未来，视频号可能是所有市场中，唯一可以实现去中心化的、并且借助微信熟人社交链来打造电商基因 、金融科技、 闭环支付的短内容平台。毕竟，微信得天独厚的强大关系链牵动着十亿中国人的社交网络，这是其他APP望尘莫及的独特优势。</p>
-<p>龙头齐聚，纷纷引发头脑风暴，打出自家品牌，如何才能脱颖而出呢？</p>
-<p>笔者认为，以史为镜，可以知兴替，想要勇敢破圈、打出漂亮一战，</p>
-<p>从产品定位的宏观策略上需要做好以下几点。</p>
-<h2 id="精准产品定位"><a href="#精准产品定位" class="headerlink" title="精准产品定位"></a>精准产品定位</h2><p><strong>1、一切从用户出发，从用户中来，到用户中去。</strong></p>
-<p>“水能载舟、异能覆舟”。水是用户，古往今来，得民心者得天下！比如汉武帝的成功、共产党的胜利、流芳百世的产品一定是为了满足用户的根本需求，在服务和体验上全身心为用户着想的产品。</p>
-<p>抖音让你欲罢不能，为什么呢？全屏沉浸、精准分发、高清流畅、时髦新颖。（短视频）</p>
-<p>微信不可替代，为什么呢？简单快捷、轻便舒适、不推销广告、自主订阅、功能齐全。（社交）</p>
-<p>支付宝每天必开，为什么呢？花呗消费、余额盈利、风险投资、线下服务，一应俱全。（支付)</p>
-<p>所有的成功，都来自合适的场景下，合适的满足了用户的迫切需求，并做到了这个领域的最佳应用体验。所以，流量不是目标，只是用户信任的附属品，赢得用户最根本、持续性的信任，才是高明之策！</p>
-<p>互联网时代，从不缺人口和流量。我们缺啥？注意力和信任。注意力是招揽用户的法宝，信任是扩大生态的根本。</p>
-<p><strong>2、深挖人性需求、细分使用场景。</strong></p>
-<p>很多人说，微视没有打赢抖音，我们仔细去体验一下，真的是内容不好，设计不潮吗？</p>
-<p>我想说，其实不是的，微视有自己的特色，主张探索和发现，提供自拍模板，其实也是腾讯的良心之作了。它是家庭影院，需要我们搬好小凳，拿好遥控器、和家人朋友互动，发掘自己的创造力，主打“创造、互动”。</p>
-<p>抖音，凭借新潮的音乐和酷炫的节拍、场景，全身心为用户打造极致观看体验，不用用户思考，解放双手，它是3D影院，黑色环境下，你坐好就完事了，啥也不用管，我放啥你看啥，只要推荐算法精准，你肯定不想走，主打“沉浸、消费”。</p>
-<p>从人性角度讲，用户是懒惰、贪婪的，所以，他们在巨大的工作、学习压力下想逃避现实的繁琐，选择了抖音，傻瓜式享受，人性所趋。</p>
-<p><strong>总结一下，互联网时代，获取用户的两种方法：</strong></p>
-<p>1、逃避现实，提供愉悦。打造虚拟世界快感，满足用户虚荣心、在虚拟世界找到更美更有钱更有权利的自己。</p>
-<p>比如美拍、抖音、快手、全民K歌、王者荣耀、各大等级游戏。</p>
-<p>2、直面现实、抵御恐惧、激励用户成长，跳出舒适圈、看清变化的世界、防止被世界抛弃。</p>
-<p>通过线上打卡好友支持，坚持线上flag，目的是改变现实生活的自己，实现现实生活中在学习、工作上的实用价值，关注的是个人现实生活成长体验。</p>
-<p>比如得到、微信读书、喜马拉雅、KEEP、薄荷健康、有道云笔记、英语流利说等各大教育机构APP。</p>
-<p>下图是马斯洛的需求分级：<img src="https://img-blog.csdnimg.cn/20200403135554265.jpeg#pic_center" alt="在这里插入图片描述"></p>
-<p>行业情况告诉我们，以上两种方式，各有玩法，就看怎么制定高级策略了，我认为区别有两点。</p>
-<p><strong>提供快感、愉悦，快餐文化消费（最低层次的需求）</strong></p>
-<p>1、提供快感（最低层次的需求）根源是逃避现实，是短期消费，利用碎片化时代用户的孤独和无聊情绪，最容易成功吸引，变现容易，但产品生命周期短，如果没有特点，只能昙花一现。</p>
-<p>2、入门门槛低，但是不长久，比如，我身边玩抖音的人少了，因为新鲜感没有了。确实是这样，人是矛盾的，需求是动态的，上瘾是一时新鲜，如果没有现实生活的成长，很难长久。</p>
-<p>2、一般靠群体实现，基于群体认同感，出发点是人关心虚拟世界中自己在群体中的地位。</p>
-<p><strong>直面现实、抵御恐惧、长期习惯消费（自我实现的需求）</strong></p>
-<p>1、根源是自我认同感。个人认同追求优越感，我们想要标新立异、想要出类拔萃，打卡、改变、去实现自我价值。</p>
-<p>2、成功是上瘾的，当人通过努力获得了现实世界的超脱和破圈后，得到荣誉和赞赏，他会对成功上瘾。人性所趋，古往今来，不曾改变。</p>
-<p>3、产品周期长，养成习惯难，但一旦过了缓冲期，产生数字资产的沉淀，用户就不会轻易放弃，用户黏度高。</p>
-<p>比如，你写了很久的日记本，你不会轻易丢掉（文字积淀）；你谈了很久的男朋友，你舍不得忘不掉（情感积淀）；你的微信，不可能卸载（那里有您的社交关系链沉淀）。</p>
-<p><strong>3、认清行业形势，把握合适时机。</strong></p>
-<p>古语云：先下手为强。微视在很早就开始规划了，起了大早，却赶了晚集，可见市场、运营对产品的重要性。</p>
-<p>产品从0到1 ，运营从1到100，好的产品是苗子，需要运营来及时呵护、养育，否则，很难茁壮成长。字节跳动的宣传和运营抢占了市场的先机，抖音先入为主，抢占了一部分用户的产品认知。</p>
-<p>产品认知是很可怕的，甚至可以扭曲现实，一旦品牌深入人心之后，用户很难再去接受新的认知，尤其是相似性的同质化的产品。</p>
-<p>所以，第一印象非常重要，这也是微信步步谨慎、每次改版都要深思熟虑的原理。</p>
-<p>反思一下微博出品的绿洲，火不起来是因为没有达到精良设计时就横空出世，好牌也打乱了，很可惜。</p>
-<p>所以最好的时机是合适，不是抢占更不是拖延。</p>
-<p>因为，第一印象、决定了你在我心中的定位。比如，初次约会~</p>
-<p>客观分析，这是市场决策的重要一环。以微视为例子：</p>
-<p>2018年春节，腾讯微视通过QQ 走运红包合作发放微视礼包，新增数百万用户。黄子韬、刘昊然、张天爱、迪玛西等数十位明星助阵拜年并入驻微视。 [3]<br>2018年4月2日，腾讯微视发布2018年首次重大更新，推出三大首创功能，视频跟拍、歌词字幕、一键美型， [4]  并打通QQ音乐千万正版曲库，进行全面的品牌及产品升级。增加歌词字幕玩法，用户在选择背景音乐之后，录制视频时可选择显示歌词字幕，实现轻松跟唱。 [5]<br>2019年1月，微视在春节期间推出视频红包的创新玩法，从2月4日（除夕）00:00至2月6日（大年初一）24:00，共有7809万个视频红包在微信、QQ和微视里被领取。 [6-7]<br>2019年2月，微视上线测试个人视频红包玩法，用户可以通过微视制作视频红包，并且分享到微信和QQ，邀请好友领取。[8]<br>2019年4月，微视上线新版本，推出 “创造营助力”、“解锁技能”等全新模板。用户可通过微视的模板制作互动视频，并通过微信、QQ等社交平台分享给好友；好友可直接在微信、QQ里浏览该互动视频，并进行互动操作 [9]<br>2019年6月，微视开启了 30 秒朋友圈视频能力内测。用户在微视发布界面勾选“同步到朋友圈（最长可发布30秒）”按钮，即可将最长30秒的视频同步到朋友圈。<br>从上面的推广流程上看，腾讯也是大力扶持，花费了很多心思，可是还是晚了一点。<br>争夺大战中，规则有三点。<br>1、内容为王，多元全面，但垂直领域又足够精准优质。<br>2、创新为源，玩法新、巧、稀缺、有特色。<br>3、天时、地利、人和。</p>
-<h2 id="打磨垂直内容"><a href="#打磨垂直内容" class="headerlink" title="打磨垂直内容"></a>打磨垂直内容</h2><p>现在各大视频主打娱乐、搞笑、影视、资讯，内容同质化严重。</p>
-<p>很多内容型产品没有品牌意识，仍处于早期的用户和内容原始积累阶段，因此被克隆后并没有反抗能力。</p>
-<p>产品是躯干、内容是血肉，需要产品本身的调性和机制去调节。总的来说、突出明确定位、品牌特色、</p>
-<p>突出差异性和稀缺性，就是让用户只能来我们这看，别的地方没有，仅此一家！</p>
-<p>其他APP比较泛滥，拿视频号说说我的看法。我认为主攻一下几点。</p>
-<p><strong>视频号的垂直化领域区分：</strong><br>1.<strong>基于哲学</strong>：一个基于特定文化或者主题来交流、互动并持续产生内容的空间，简称“同好互动空间”。<br>弱关系社区中，关键是你对和你建立联系的事物，是否产生了感应。比如点赞、评论、分享等互动操作。<br>类比视频版的知乎，缩略般的B站、去中心化版的微博。<br>意义：<br>一部基于物的生活知识的百科全书（好物推荐、种草合集、生活小常识）、一部基于人的经验分享和情感解惑（关乎学习、职场、恋爱）。<br>2.<strong>基于个人</strong>：记录自己，记录世界，记录自己与世界的联系。重要的是减小朋友圈发文的人设压力，在陌生人关系中大胆释放自己。<br>意义：<br>记下生活的灵感和感动，类比个人精炼的成长日记，关乎生活的辛酸苦辣，关乎个人成长历程、心路轨迹。<br>（游戏规则是带有个人简介，我们要清晰自己的定位，也是帮助我们找到自己的差异化优势和稀缺性特质）<br>3.<strong>基于品牌</strong>：记录中小型企业生产品牌的流程，全程拍摄品牌打造、精雕细琢的细节，传达企业的真诚和品牌的优质，让用户亲眼可见、增强对企业的关注度、对品牌的认知度。比如现有的内测的钻石、服装、无人机产业。<br>意义：<br>对于品牌，打通公众号宣传、小程序直播、实现商业化变现的通道。<br>对于用户，真实、快速、立体、全面感知产品的差异化优势，丰富知识面，扩展视野格局，更方便更快速买到更放心的优质产品。<br>4.<strong>基于媒体</strong>：记录时事热点、媒体资讯、关乎天下大事、家国情怀。<br>意义：<br>为社会热点留白，等待时机造势，当媒体活动宣发时，这是很好的流量入口 。<br>（说不定下一个微信红包的热点降临、健康码、出行公交码的热潮会借助视频号来引爆支付产业瓜分半壁江山)。</p>
-<h2 id="完善监管激励"><a href="#完善监管激励" class="headerlink" title="完善监管激励"></a>完善监管激励</h2><p>社区监管和激励体系是为了引导内容生产者不去产出同质化内容。</p>
-<p>1、<strong>激励是赏</strong>、对创作者的原创内容进行精神鼓励和物质奖励，精神鼓励来自朋友和陌生人的关注、点赞、评论，人都有攀比心和虚荣心，精神奖励甚至超乎了物质奖励。</p>
-<p>2、物质奖励来自更多特权和升级，助力创作者升级，当粉丝达到一定数量赋予特权、平台给予更多推送机会、曝光率、传播量、扩大个人影响力。</p>
-<p>3、对创作者本人来说，以上措施激发更多创造。对同行业的人来说鼓励原创、激发新鲜点子，类似学校里面的年级排名、职场中的评级等等，都是为了激励同行业的人去打开自己的创造源泉，拿出自己的绝活，拉开和同行人的差距，这样就发挥了每一个个体的创造力和想象力，我们平台方，只需要做好舞台背景、打好灯光，让人们去尽情表演吧，相信大众的创造力和想象力，这是一套完整的闭环法则。</p>
-<p>4、<strong>监管是控</strong>，禁止同质内容、加大剽窃账号的惩罚力度，打击平台内侵犯版权的行为，对疑似剽窃的账号封禁、减少曝光机会、降低推送频率、降低等级。</p>
-<p>5、禁止使用虚假的信息创建帐号、故意误导他人、干扰真实的平台数据以及其他弄虚作假的行为，保障平台每一个用户的核心利益。</p>
-<p>6、<strong>鼓励原创</strong>，提倡分享优质的内容信息，向广大自媒体作者普及版权意识，要求内容不能是旧文、或者全网已有的传播的同质内容。</p>
-<p>7、<strong>净化环境。</strong>不允许传播对他人有害、令人极度不适、不利于青少年身心健康等不良信息。禁止传播侵扰用户安宁、造成用户使用体验减损或者影响软件正常使用和运行的内容。</p>
-<p>如频繁发送骚扰信息、垃圾信息、广告信息，过度营销或商业推广。</p>
-<h2 id="优化创新服务"><a href="#优化创新服务" class="headerlink" title="优化创新服务"></a>优化创新服务</h2><p>用户体验包含了内容和形式。</p>
-<p>例子：知乎主打问答模式、简书注重创作形式、爱奇艺推出5G  VR  360度旋转体验。</p>
-<p>从内容和形式这两个维度入手，打造更有特色的体验才能塑造好产品的风格、调性、差异性，优化品牌意识。</p>
-<p>具体可以从结构层的信息架构、框架层的信息设计、表现层的视觉设计入手。</p>
-<p>以下是我的三点想法：</p>
-<p>1、<strong>载体上</strong>：找到合适的形式。比如文字、图片、语言、视频，各种形式可以主打或者组合。</p>
-<p>比如“得到”推荐音频、B站长视频、视频号一分钟短视频、知乎文字、朋友圈图文。</p>
-<p>2、<strong>分发上：</strong>确定算法推荐、热点搜索、个性化推荐还是主动订阅。这个比较复杂，以后专门谈。</p>
-<p>3、<strong>互动形式上</strong>：深挖用户场景和习惯，不一样的互动形式会打造不同使用体验。</p>
-<p>比如：快手双击666，新浪微博站内转载、视频号折叠评论等等。</p>
-<p>4、<strong>播放形式上</strong>：瀑布流怎么布局，全屏还是小屏、评论是否隐藏、5G  VR怎么利用。</p>
-<p>比如：</p>
-<p>快手双列信息流，因为算法推荐更关注了长尾小号，所以怕用户不喜欢，分发不精准，采用双列让用户多了选择，减小平台的分发误判率。</p>
-<p>抖音全屏体验，因为算法精准，平台分发定位准确，误判率小，所以不用担心用户不喜欢当前视频，主打观看体验。</p>
-<p>视频号：中间区域播放，不支持暂停，分割视频区域和评论区域，既可以评论互动又可以专注看视频。</p>
-<p><strong>为什么不能暂停播放？</strong></p>
-<p>1、<strong>从产品调性思考</strong>：因为内容短、精致、所以一分一秒都有干货，提醒用户节奏慢下来细细品味，提倡慢文化，与倍速对比，打造不同观看体验，也算是一个差异化特色。</p>
-<p>2、<strong>从用户角度思考</strong>：若用户可以看完，说明他是感兴趣的，下次可以继续关注此类视频的动态，基于主动订阅的，用户有兴趣，所以不会影响体验，不会反感内容。假如不喜欢此类视频，可以取消关注，下次不再推送，所以更加精准了，很巧妙的办法。</p>
-<p>3、<strong>从创作者思考</strong>：每一分每一秒都要高品质，否则用户取消关注，自己粉丝骤减，得不偿失。</p>
-<p>4、<strong>从平台思考</strong>：无为而治，“看不见的手”，非常高明，让双方相互监管激励，可以说设计思维很缜密，很精心。</p>
-<p>5、能不能结合VR打造立体观看体验呢？</p>
-<p>6、横屏竖屏怎么设计？</p>
-<p>7、基于中国人的生活规律和习惯，能否不同时间推荐不同视频？</p>
-<p>“同城”和“附近的人”都是从空间角度思考，我们是不是可以从时间角度入手？</p>
-<p>比如早上音乐类、中午美食类、晚上新闻资讯、职场干货类 。</p>
-<p>以上是个人深入思考的想法，绞尽脑汁了，很喜欢头脑风暴，若有不足或疑虑，请大家多多交流指教。</p>
-<p>视频号，<strong>未来可期，万物之上，希望至美！</strong></p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="tags/%E7%9F%AD%E8%A7%86%E9%A2%91%E6%80%8E%E4%B9%88%E5%81%9A/" rel="tag">短视频怎么做?</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="tags/%E8%A7%86%E9%A2%91%E5%8F%B7%E6%80%9D%E8%80%83/" rel="tag">视频号思考</a></li></ul>
 
 
     </footer>

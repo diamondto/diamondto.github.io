@@ -71,6 +71,97 @@
     
     
     
+    <article id="post-浏览器存储方式对比" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="../../2019/11/13/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F%E5%AF%B9%E6%AF%94/"
+    >浏览器存储方式对比</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="../../2019/11/13/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F%E5%AF%B9%E6%AF%94/" class="article-date">
+  <time datetime="2019-11-12T16:00:00.000Z" itemprop="datePublished">2019-11-13</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../categories/%E8%B0%88%E8%B0%88%E7%BC%93%E5%AD%98/">谈谈缓存</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>Welcome to share creative thoughts!</p>
+<h2 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h2><p>1.因为HTTP请求无状态，所以需要Cookie去维持客户端状态。<br>2.浏览器客户端记录保存Cookie,服务端辨别用户的信息。<br>3.Cookie的生成方式：http response header 中的set-cookie，由服务端生成，客户端把Cookie存储和维护。<br>4.JS中可以通过document.cookie来读写cookie。<br>5..之后的请求都携带Cookie,就像健身房办卡，维护会员的信息。<br><strong>作用：<br>1.用于浏览器和服务器的交互。<br>2.客户端自身数据的存储。</strong><br>Cookie初衷是为了维护客户端的状态<br>存储的限制：大小4KB，需要设置过期时间。<br>Cookie的存储能力被localstorage代替<br>httponly为了保证安全，不支持JS读写，防止黑客攻击。<br>Cookie在相关域名下面会带来CDN的流量损耗，因为只要是这个域名下的信息都会携带cookie<br>对于静态资源来说，每次都在HTTP头部中携带Cookie信息，对大流量来说经济损失很大<br><strong>解决：CDN的域名和主站的域名要分开</strong></p>
+<h2 id="Localstorage"><a href="#Localstorage" class="headerlink" title="Localstorage"></a>Localstorage</h2><p>1.接口封装好<br>2.浏览器的本地缓存方案<br>3.大小在5Mz左右<br>4.仅在客户端存在，不和服务端交互<br>5.场景：网速慢，本地缓存，在网不好的情况下，第一次请求来的信息我会保存，把首屏上的不变的信息存下来，不会有首屏的白屏情况，后期有接口返回的新数据，再重新渲染，提升首屏渲染速度。</p>
+<h2 id="Sessionstorage"><a href="#Sessionstorage" class="headerlink" title="Sessionstorage"></a>Sessionstorage</h2><p>1.大小为5M左右<br>2.会话级别的浏览器存储<br>3.接口封装好<br>4.对于表单信息的维护，将表单信息存储，关闭之后是空的，下一步那种，可以存储。<br>5可以存储数组、数字、对象等可以被序列化为字符串的内容，不通信，仅存储</p>
+<h2 id="IndexedDB"><a href="#IndexedDB" class="headerlink" title="IndexedDB"></a>IndexedDB</h2><p>1.在客户端存储大量结构化数据，使用索引来实现对数据库的高性能搜索。<br>2.为应用创建离线版本。</p>
+<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><p>sessionStorage操作的方法与localStroage是一样的，区别在于 sessionStorage 在关闭页面后即被清空，而 localStorage 则会一直保存。很多时候数据只需要在用户浏览一组页面期间使用，关闭窗口后数据就可以丢弃了，这种情况使用sessionStorage就比较方便。</p>
+<p>注意，刷新页面sessionStorage不会清除，但是打开同域新页面访问不到。</p>
+<p>1.cookie数据始终在同源的http请求中携带（即使不需要），即cookie在浏览器和服务器间来回传递。而sessionStorage和localStorage不会自动把数据发给服务器，仅在本地保存。cookie数据还有路径（path）的概念，可以限制cookie只属于某个路径下。<br>2. 存储大小限制不同，cookie数据不能超过4k，同时因为每次http请求都会携带cookie，所以cookie只适合保存很小的数据，如会话标识。sessionStorage和localStorage 虽然也有存储大小的限制，但比cookie大得多，可以达到5M或更大。<br>3.数据有效期不同，sessionStorage：仅在当前浏览器窗口关闭前有效，自然也就不可能持久保持；<br>localStorage：始终有效，窗口或浏览器关闭也一直保存，因此用作持久数据；<br>cookie只在设置的cookie过期时间之前一直有效，即使窗口或浏览器关闭。<br>4.作用域不同，sessionStorage不在不同的浏览器页面中共享，即使是同一个页面；<br>localStorage 在所有同源窗口中都是共享的；<br>cookie也是在所有同源窗口中都是共享的。<br>Web Storage 支持事件通知机制，可以将数据更新的通知发送给监听者。<br>Web Storage 的 api 接口使用更方便，cookie的原生接口不友好，需要自己封装。<br>5. 安全性<br>需要注意的是，不是什么数据都适合放在 Cookie、localStorage 和 sessionStorage 中的，因为它们保存在本地容易被篡改，使用它们的时候，需要时刻注意是否有代码存在 XSS 注入的风险。所以千万不要用它们存储系统中的敏感数据。</p>
+<h2 id="Service-Workers"><a href="#Service-Workers" class="headerlink" title="Service Workers"></a>Service Workers</h2><p><strong>1.JS是单线程的，JS与UI渲染是互斥的，优化就要调用SW<br>2.避免主线程的阻塞，3D模型很大<br>3.做离线化，与主页面通信</strong><br>SW是由事件驱动的,具有生命周期，可以拦截处理页面的所有网络请求(fetch)，可以访问cache和indexDB，支持推送，并且可以让开发者自己控制管理缓存的内容以及版本，为离线弱网环境下的 web 的运行提供了可能，让 web 在体验上更加贴近 native。<br>换句话说他可以把你应用里的<strong>所有静态动态资源根据不同策略缓存起来</strong>，在你下次打开时不再需要去服务器请求，这样一来就<strong>减少了网络耗时，使得web应用可以秒开</strong>，并且在离线环境下也变得可用。做到这一切你只需要增加一个sw文件，不会对原有的代码产生任何侵入，是不是很perfect？</p>
+<h2 id="Service-Worker基本特征"><a href="#Service-Worker基本特征" class="headerlink" title="Service Worker基本特征"></a>Service Worker基本特征</h2><ul>
+<li>无法操作DOM<pre><code>只能使用HTTPS以及localhost
+可以拦截全站请求从而控制你的应用
+与主线程独立不会被阻塞（不要再应用加载时注册sw）
+完全异步，无法使用XHR和localStorage
+一旦被 install，就永远存在，除非被 uninstall或者dev模式手动删除
+独立上下文
+响应推送
+后台同步</code></pre></li>
+</ul>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/" rel="tag">浏览器缓存</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-页面加载渲染的优化（一）" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -1010,88 +1101,6 @@
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/React/" rel="tag">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/jsx/" rel="tag">jsx</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-云计算服务竞品分析" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="../../2019/10/15/%E4%BA%91%E8%AE%A1%E7%AE%97%E6%9C%8D%E5%8A%A1%E7%AB%9E%E5%93%81%E5%88%86%E6%9E%90/"
-    >云计算服务竞品分析</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="../../2019/10/15/%E4%BA%91%E8%AE%A1%E7%AE%97%E6%9C%8D%E5%8A%A1%E7%AB%9E%E5%93%81%E5%88%86%E6%9E%90/" class="article-date">
-  <time datetime="2019-10-14T16:00:00.000Z" itemprop="datePublished">2019-10-15</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="../../categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E4%B8%8E%E5%A4%A7%E6%95%B0%E6%8D%AE/">人工智能与大数据</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>Welcome to share creative thoughts!</p>
-<h2 id="1-政策背景："><a href="#1-政策背景：" class="headerlink" title="1.政策背景："></a>1.政策背景：</h2><p>   2018年7月23日，为推动企业利用云计算加快数字化、网络化、智能化转型，推进互联网、大数据、人工智能与实体经济深度融合，工业和信息化部印发《推动企业上云实施指南(2018-2020年)》，对云计算应用的方方面面做出详细指导和支持，可谓是手把手教企业上云。随着“互联网+”行动的积极推进，我国云计算应用正从互联网行业向政务、金融、工业、轨道交通等传统行业加速渗透，云计算应用效果开始显现。<br><img src="https://img-blog.csdnimg.cn/20200310201628342.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>近几年，国内云计算产业发展、行业推广、市场监管等重要环节的<strong>宏观政策环境已经日趋完善。</strong><br>2015年，国务院先后出台三项与云计算密切相关的政策文件，为云计算发展奠定了重要政策基础;中央网信办发布了关于党政部门云计算安全管理的文件，在政务云领域发挥重要影响;新版《电信业务分类目录》针对云计算业务形态，明确了互联网资源协作服务业务的概念，相关市场管理政策相继配套出台;工信部于2017年发布《云计算发展三年行动计划(2017-2019年)》，提出了我国云计算发展的指导思想、基本原则、发展目标、重点任务和保障措施。<br>“十二五”末期，我国云计算产业规模已达1500亿元，产业发展势头迅猛、创新能力显著增强、服务能力大幅提升、应用范畴不断拓展，已成为提升信息化发展水平、打造数字经济新动能的重要支撑。但也存在市场需求尚未完全释放、产业供给能力有待加强、低水平重复建设现象凸现、产业支撑条件有待完善等问题。<br>为促进<strong>云计算快速健康发展</strong>，2017年3月30日，工业和信息化部印发《云计算发展三年行动计划(2017-2019年)》，明确了云计算发展的五项重点任务。<br><img src="https://img-blog.csdnimg.cn/20200310202324904.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="2-行业现状"><a href="#2-行业现状" class="headerlink" title="2.行业现状:"></a>2.行业现状:</h2><p>  从中国云计算市场产业链来看，互联网公司提供基于云的网络平台、在线存储等云端服务在云计算领域承担越来越重要的作用，将不断推动云计算产业链逐渐成熟和规范。 国内云计算公司众多，有提供IaaS+PaaS+SaaS全部服务的(比如腾讯云)，也有专做细分市场的(比如网宿、环信)。按背景可以将主流的服务商分为以下五类：<br><img src="https://img-blog.csdnimg.cn/20200310195719693.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="3-竞品分类"><a href="#3-竞品分类" class="headerlink" title="3.竞品分类"></a>3.竞品分类</h2><p><img src="https://img-blog.csdnimg.cn/20200310203318750.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>  在能源电力和制造业等传统行业，天翼云和华为云等非互联网公司有着天然的优势。<br>  阿里云创立于2009年，是目前中国最大的云计算平台。<strong>阿里云致力于提供安全、可靠的计算和数据处理能力</strong>。用户通过阿里云，用互联网的方式即可远程获取海量计算、存储资源和大数据处理能力。阿里云已建成的超大规模数据中心包括华东、华北、华南、欧洲、美国、香港、日本、新加坡、欧洲、中东、澳大利亚，阿里云已经在全球主要互联网市场形成云计算基础设施覆盖，将为中国出海企业以及当地企业提供云计算服务。<br>   腾讯云创立于2010年，是腾讯公司打造的面向广大企业和个人的公有云平台。腾讯云有着深厚的基础架构，并且有多年对海量互联网服务的经验，<strong>不管是社交、游戏还是其他领域，都有多年成熟的产品</strong>。腾讯云在金融，电子商务和游戏领域有绝对优势，其中在手游云服务的市场份额已经达到46%。腾讯在云端完成重要部署，<strong>为开发者及企业提供云服务、云数据、云运营等整体一站式服务方案</strong>。作为目前中国互联网综合服务提供商和中国服务用户最多的互联网企业，腾讯正在积极通过云计算、云技术，推进互联网与各行业的融合创新。</p>
-<h2 id="4-产品结构与功能分析"><a href="#4-产品结构与功能分析" class="headerlink" title="4.产品结构与功能分析"></a>4.产品结构与功能分析</h2><p>   阿里云产品体系包括云计算基础服务、大数据、安全(云盾)以及域名与网站(万网)四大部分。其中，大数据(数加)提供数据应用、数据分析展现、大数据基础服务以及人工智能四大类服务；安全(云盾)提供防御以及检测两大类服务；域名与网站(万网)提供域名注册、域名交易与转入、域名解析、云虚拟主机、网站建设以及阿里邮箱六大类服务。<br>   在行业解决方案方面，阿里云推出了通用解决方案、行业解决方案、专项解决方案以及大数据解决方案。其中，通用解决方案包括网站解决方案、移动APP解决方案、专有云解决方案和混合云解决方案；行业解决方案覆盖电商、音视频、金融、游戏、医疗、政务、渲染等行业；专项解决方案包括安全、 云存储、容灾、企业互联网架构等；大数据解决方案包括个性化推荐、大数据仓库、云上数据集成方案、 路况预测等。<br>     <img src="https://img-blog.csdnimg.cn/20200310204615296.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70" alt="阿里云产品体系结构和行业解决方案  "><br>    腾讯云产品体系包括基础产品、域名服务以及大数据与AI三大部分。其中，域名服务模块提供域名注册、域名安全、解析与备案四个功能。除此之外，大数据模块提供大数据处理套件、云搜、文智自然语言处理、机智机器学习、用户洞察分析与云推荐引擎功能，AI提供万象优图、智能语音服务与微金小云客服功能。<br>    腾讯云已经拥有完整的产品体系，为合作伙伴提供多样化、高性能的云服务。腾讯云同时提供通用解决方案、行业解决方案以及技术解决方案。其中，通用解决方案包括视频、位置服务、网站、微信生态、运维等服务；行业解决方案覆盖了游戏、O2O、金融、广告、医疗、在线教育、电商、智能硬件、 旅游、政务行业；技术解决方案提供安全、数据迁移与直播安全服务。<br>    <img src="https://img-blog.csdnimg.cn/20200310204834888.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70" alt="腾讯云产品体系结构和行业解决方案"></p>
-<h2 id="5-行业解决方案对比"><a href="#5-行业解决方案对比" class="headerlink" title="5.行业解决方案对比"></a>5.行业解决方案对比</h2><p>1.阿里云凭着资源量和创新能力，目前在中国的公有云市场占据着绝对优势。<br>2.而腾讯云作为后起之秀，并没有急于占据所有行业云市场，而是把战略重点放在了与原有业务相关的金融，电子商务和游戏领域，使得其迅速在游戏云占据了市场第一的位置。</p>
-<h2 id="总结与建议"><a href="#总结与建议" class="headerlink" title="总结与建议"></a>总结与建议</h2><p>总结<br>就产品和服务种类而言，阿里云在国内处于遥遥领先的地位，腾讯云的产品比阿里云略少，但其在游戏、社交、视频、移动等方面有着非常丰富的经验和实力。另外，腾讯云的用户界面设计也略优于阿里云。</p>
-<p>建议<br>阿里云：巩固现有龙头地位，积极拓展其他业务，加大在视频直播、游戏研发、移动服务研发的投入，在这些领域追赶腾讯云。</p>
-<p>腾讯云：保持现有优势，步步为营，增加业务范畴，条件允许的情况下通过更优惠的价格吸引更多的用户。</p>
-<p>随着云计算应用的不断深入，以及对大数据处理需求的不断扩大，云计算市场会进一步扩大，无论是阿里云还是腾讯云都应抓住时机，做好现有产品，推出更多新型产品，才能在未来的云计算服务市场抢占更多的位置。</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E4%BA%91%E8%AE%A1%E7%AE%97/" rel="tag">云计算</a></li></ul>
 
 
     </footer>
