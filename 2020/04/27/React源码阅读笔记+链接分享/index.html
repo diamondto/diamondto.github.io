@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    React源码阅读笔记+链接分享 |  爱产品，爱前端！
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="../../../../css/style.css">
+
+  
+<script src="../../../../js/pace.min.js"></script>
+
+
+  
+
+  
+
+<link rel="alternate" href="atom.xml" title="爱产品，爱前端！" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    <main class="content">
+      <section class="outer">
+  <article id="post-React源码阅读笔记+链接分享" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  React源码阅读笔记+链接分享
+</h1>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="" class="article-date">
+  <time datetime="2020-04-26T16:00:00.000Z" itemprop="datePublished">2020-04-27</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../../../categories/React%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">React源码阅读笔记</a>
+  </div>
+
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">4.1k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">16分钟</span>
+        </span>
+    </span>
+</div>
+
+      
+    </div>
+    
+
+    
+    
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>昨天晚上突然接到面试电话，是一个很有礼貌、很有趣的面试官哥哥，很耐心的听我balabala，小霞也要学会多多耐心倾听！<br>问题很全面啦，下去也翻了翻笔记，CSS部分是去年冬天学习的，纸质笔记，等有空了也来个博客整理！<br>小霞今天写一个很经典的问题，顺便宣传下阿里团队出品的神奇小程序开发工具~<br>是我在阿里演讲中看到的~小伙伴们有兴趣可以去Github上研究研究！<br>小霞也加油学习，传承开源精神，小程序，大未来！</p>
+<blockquote>
+<p><strong>本文以setState同步异步的不同场景出发—&gt;<br>总结一下原生事件（同步）和合成事件（异步）的区别、用法—&gt;<br>如何搭配解决典型业务场景？—&gt;<br>要注意哪些坑？<br>福利：阿里团队出品Remax开发小程序啦！激不激动？开不开心？hhh!!!<br>小霞放上链接和官方文档，大家一起去最新的科技海洋遨游吧！</strong></p>
+</blockquote>
+<p><a href="https://remaxjs.org" target="_blank" rel="noopener">使用真正的React构建跨平台小程序！！</a></p>
+<h2 id="一、setState异步？同步？"><a href="#一、setState异步？同步？" class="headerlink" title="一、setState异步？同步？"></a>一、setState异步？同步？</h2><p>1、 setState 只在合成事件和钩子函数中是“异步”的，<strong>相同的状态属性（不同的状态属性不会影响）多次更新会合并成一次，只保留最后一次。</strong></p>
+<p> 2、<strong>在原生事件和setTimeout 中都是同步的，会依次更新。</strong></p>
+<p>3、 setState 的“异步”并不是说内部由异步代码实现，其实本身执行的过程和代码都是同步的，只是合成事件和钩子函数的调用顺序在更新之前，导致在合成事件和钩⼦函数中没法立马拿到更新后的值，形成了所谓的“异步”。<br>当然可以通过第二个参数 setState(partialState, callback) 中的 callback拿到更新后的结果。 </p>
+<ul>
+<li>通过setState去更新this.state，<strong>不要直接操作this.state</strong>，<strong>请把它当成不可变的。</strong></li>
+<li>调用setState更新this.state不是马上生效的，它是异步哒，执行完setState后this.state不是最新的值哦。</li>
+<li>多个<strong>顺序执行的setState不是同步地一个一个执行</strong>，而是会一个一个加入队列，然后最后一起执行，即<strong>批处理</strong>！</li>
+</ul>
+<p>4、setState 的<strong>批量更新优化</strong>也是建立在“异步”（合成事件、钩子函数）之上的，在原生事件和setTimeout 中不会批量更新。</p>
+<p>5、<strong>在“异步”中如果对同⼀个值进行多次 setState ， setState 的批量更新策略会对其进行覆盖，取最后一次的执行，如果是同时 setState 多个不同的值，在更新时会对其进行合并批量更新。</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20200427233100321.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong>setState之后发生的事情？</strong></p>
+</blockquote>
+<p>1、在官方的描述中，setState操作并不保证是同步的，也可以认为是异步的。<br>2、React在setState之后，<strong>会经对state进行diff，判断是否有改变</strong>，然后去<strong>diff dom决定是否要更新UI。</strong><br>3、如果这一系列过程立刻发生在每一个setState之后，就可能会有性能问题。<br>4、在短时间内频繁setState，React会将<strong>state的改变压入栈中，在合适的时机，批量更新state和视图</strong>，达到提高性能的效果。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">为什么直接修改<span class="selector-tag">this</span><span class="selector-class">.state</span>无效？</span><br></pre></td></tr></table></figure>
+
+<p>1、setState本质是通过一个<strong>队列机制实现state更新的。</strong><br>2、执行setState时，<strong>会将需要更新的state合并后放入状态队列，而不会立刻更新state</strong>，<strong>队列机制</strong>可以批量更新state。<br>3、<strong>如果不通过setState而直接修改this.state，那么这个state不会放入状态队列中，</strong>下次调用setState时对状态队列进行合并时，<strong>会忽略之前直接被修改的state</strong>，这样我们就无法合并了，也就是说没有把我们想要的state更新上去！</p>
+<blockquote>
+<p><strong>什么是批量更新 Batch Update？</strong></p>
+</blockquote>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在一些<span class="selector-tag">mv</span>*框架中，就是将一段时间内对**<span class="selector-tag">model</span>的修改批量更新到<span class="selector-tag">view</span>的机制**。</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/2020042723311197.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" alt="批量更新！"></p>
+<blockquote>
+<p>两个Demo测试setState异步的小秘密</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// demo1</span><br><span class="line"><span class="selector-tag">class</span> <span class="selector-tag">App</span> <span class="selector-tag">extends</span> <span class="selector-tag">React</span><span class="selector-class">.Component</span> &#123;</span><br><span class="line">       state = &#123;</span><br><span class="line">         <span class="selector-tag">num</span>: 0</span><br><span class="line">      &#125;;</span><br><span class="line">       <span class="selector-tag">componentDidMount</span>() &#123;</span><br><span class="line">        this.setState(&#123;</span><br><span class="line">          <span class="selector-tag">num</span>: <span class="selector-tag">this</span><span class="selector-class">.state</span><span class="selector-class">.num</span> + 1</span><br><span class="line">          &#125;);</span><br><span class="line">      <span class="selector-tag">this</span><span class="selector-class">.setState</span>(&#123;</span><br><span class="line">          <span class="attribute">num</span>: this.state.num + <span class="number">2</span></span><br><span class="line">        &#125;);</span><br><span class="line">         <span class="selector-tag">console</span><span class="selector-class">.log</span>(<span class="selector-tag">this</span><span class="selector-class">.state</span><span class="selector-class">.num</span>);</span><br><span class="line">      &#125;</span><br><span class="line"><span class="selector-tag">render</span>() &#123;</span><br><span class="line">         const &#123; num &#125; = this.state;</span><br><span class="line">         return &lt;div&gt;&#123; num &#125;&lt;/div&gt;;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">     ReactDOM.render(&lt;App /&gt;, document.getElementById('root'));</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">控制台打印0，界面显示2</span><br><span class="line">由上面的例子得出结论1：</span><br><span class="line"></span><br><span class="line">在<span class="selector-tag">componentDidMount</span>这个生命周期函数的场景下，<span class="selector-tag">setState</span>是异步的，界面显示2表示对于相同的状态属性，界面显示会合并成一次，并且只有最后一次会生效，显示到界面上就是加了两次的2。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// demo2</span><br><span class="line"><span class="selector-tag">class</span> <span class="selector-tag">App</span> <span class="selector-tag">extends</span> <span class="selector-tag">React</span><span class="selector-class">.Component</span> &#123;</span><br><span class="line">       state = &#123;</span><br><span class="line">         <span class="selector-tag">num</span>: 0</span><br><span class="line">      &#125;;</span><br><span class="line">     handleClick = () =&gt; &#123;</span><br><span class="line">         <span class="selector-tag">this</span><span class="selector-class">.setState</span>(&#123;</span><br><span class="line">           <span class="attribute">num</span>: this.state.num + <span class="number">1</span></span><br><span class="line">        &#125;);</span><br><span class="line">         <span class="selector-tag">this</span><span class="selector-class">.setState</span>(&#123;</span><br><span class="line">           <span class="attribute">num</span>: this.state.num + <span class="number">2</span></span><br><span class="line">        &#125;);</span><br><span class="line">         console.log(this.state.num); // 点击num控制台打印0,界面显示2</span><br><span class="line">    &#125;;</span><br><span class="line"><span class="selector-tag">render</span>() &#123;</span><br><span class="line">        const &#123; num &#125; = this.state;</span><br><span class="line">        return &lt;div onClick=&#123;this.handleClick&#125;&gt;&#123; num &#125;&lt;/div&gt;;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">     ReactDOM.render(&lt;App /&gt;, document.getElementById('root'));</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">第二个例子我给<span class="selector-tag">div</span>注册了一个<span class="selector-tag">click</span>事件，界面渲染之后，<span class="selector-tag">num</span>显示为0，点击之后显示是2，控制台打印是0。</span><br><span class="line"></span><br><span class="line">结论2：这里的<span class="selector-tag">onClick</span>事件并不是<span class="selector-tag">JS</span>原生的事件，而是<span class="selector-tag">React</span>的合成事件，合成事件就是通过<span class="selector-tag">JSX</span>绑定的事件，合成事件中<span class="selector-tag">React</span>的<span class="selector-tag">setState</span>也是异步的。</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="二、合成事件的机制！"><a href="#二、合成事件的机制！" class="headerlink" title="二、合成事件的机制！"></a>二、合成事件的机制！</h2><p><strong>合成事件的绑定：</strong></p>
+<p>1、React基于虚拟DOM实现了一个<strong>合成事件层</strong>，我们所定义的事件处理器会接收到一个合成事件对象的实例，它完全符合 W3C 标准，不会存在任何IE标准的兼容问题。并且与原生浏览器具有一样的接口，<strong>同样支持事件冒泡机制，可用 stopPropagation() 和 preventDefault() 来中断它。</strong></p>
+<p>2、<strong>所有事件都自动绑定在最外层上。</strong>如果需要访问原生事件对象，可以使用nativeEvent属性。也就是说—&gt;React并不是将click事件直接绑定到div的真实DOM上面。<strong>（因为DOM上面绑定了太多的事件处理函数，整个页面的响应和内存占用都可能受到影响）</strong></p>
+<p>3、在document处监听所有支持的事件，<strong>当事件发生并冒泡至document处时，React将事件内容封装并交由真正的处理函数运行。</strong></p>
+<p>4、冒泡机制的流程就是从触发事件的对象开始，向父元素回溯，<strong>依次调用它们注册事件的callback。</strong></p>
+<p>5、这种绑定方式和与原生HTML事件监听很相似。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;div onClick=&#123;this.handleClick&#125;&gt;点我呀！&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">但有以下区别：</span><br><span class="line"></span><br><span class="line">(1)事件处理函数是一个函数，而不是像原生事件那样的函数名称。</span><br><span class="line"></span><br><span class="line">(2) <span class="selector-tag">JSX</span>中采用驼峰式属性命名方式，<span class="selector-tag">HTML</span>事件则是全部小写：<span class="selector-tag">onclick</span>。</span><br><span class="line"></span><br><span class="line">(3) JSX中props的值可以是任意类型，但HTML 中只能是字符串：onclick="handleClick()"</span><br><span class="line"></span><br><span class="line">(4) <span class="selector-tag">React</span>事件没有直接绑定在 <span class="selector-tag">HTML</span> 元素上只是借鉴了这种写法。<span class="selector-tag">React</span>中所有事件使用了事件委托方式自动绑定在最外层的。</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>合成事件的实现机制：</strong></p>
+<p>1、<strong>为了避免DOM事件滥用—&gt;React实现了一个中间层SyntheticEvent。</strong></p>
+<p>SyntheticEvent对象是通过<strong>合并</strong>得到的，在事件回调被调用之后，<strong>SyntheticEvent对象将被重用、并且所有属性都会被取消。这时候，我们是没有办法以异步的方式访问该事件的。</strong></p>
+<p>(也就是说event对象是复用的，事件处理函数执行完后，属性会被清空，所以event的属性无法被异步访问，详情请查阅event-pooling。)</p>
+<blockquote>
+<p>解决办法：官方指出–&gt;如果想要以异步的方式访问事件属性，应该对事件调用event.persist()，这将从池中删除合成事件，并允许用户代码保留对事件的引用。</p>
+</blockquote>
+<p>2、当用户在为onClick添加函数时，React并没有将Click事件直接绑定到真实的DOM节点上，<strong>而是在document监听所有支持的事件，</strong>当事件发生并冒泡到document处，完成了事件委派的任务。</p>
+<p>3、<strong>React将事件内容封装交给中间层SyntheticEvent，这个中间层就负责所有事件合成</strong>，它维持了一个<strong>映射来保存所有组件内部的事件监听和处理。</strong></p>
+<p>4、当组件在<strong>挂载或卸载时，只是在这个统一的事件监听器上插入或删除一些对象；</strong>当事件发生时，首先被这个统一的事件监听器处理，然后在<strong>映射里找到真正的事件处理函数并调用</strong>。这样<strong>简化了事件处理和回收机制，提升了效率</strong>。<br><strong>事件触发的时候，会使用统一的分发函数dispatchEvent将指定函数执行。</strong></p>
+<p><strong>简单梳理一下就是：</strong></p>
+<blockquote>
+<p>事件注册：</p>
+<p>（1）将事件注册到 document 这个原生DOM上</p>
+<p>（2）将注册的事件采用事务队列的形式存储起来，以便事件触发时回调。</p>
+<p>事件分发：通过 ReactEventListener.dispatchEvent 回调函数实现。</p>
+<p>事件触发：</p>
+<p>（1）document上 addEventListener 注册的 callback 会被回调。</p>
+<p>（2）回调函数就是ReactEventListener.dispatchEvent。</p>
+<p>（3）dispatchEvent会找到事件触发的 DOM 及其对应的 React 组件。</p>
+</blockquote>
+<h2 id="三、-React中原生事件是什么？"><a href="#三、-React中原生事件是什么？" class="headerlink" title="三、 React中原生事件是什么？"></a>三、 React中原生事件是什么？</h2><p>首先，要明白！流是一种有方向的数据；事件流，是页面接受事件的顺序。</p>
+<p><strong>一、DOM事件流的三个阶段</strong></p>
+<p><strong>1、事件捕获阶段</strong></p>
+<p>当某个事件触发时—&gt;文档根节点最先接受到事件—&gt;然后根据DOM树结构向具体绑定事件的元素传递—&gt;该阶段为父元素截获事件提供了机会。</p>
+<p>事件传递路径为：</p>
+<p><strong>window —&gt; document —&gt; boy —&gt; button</strong></p>
+<p><strong>2、目标阶段</strong></p>
+<p> 具体元素已经捕获事件—&gt;之后事件开始向<strong>根节点</strong>冒泡。</p>
+<p><strong>3、事件冒泡阶段</strong></p>
+<p>该阶段的开始即是事件的开始—&gt;根据<strong>DOM树结构由具体触发事件的元素向根节点传递。</strong>    </p>
+<p><strong>事件传递路径：</strong></p>
+<p>button —&gt; body —&gt; document —&gt; window</p>
+<p><strong>4、选择监听事件的阶段</strong></p>
+<p>使用addEventListener函数在<strong>事件流的的不同阶段监听事件。</strong></p>
+<p>DOMEle.addEventListener(‘事件名称’,handleFn,Boolean)。</p>
+<p>此处第三个参数Boolean即代表监听事件的阶段。</p>
+<p><strong>为true时，在在捕获阶段监听事件，执行逻辑处理。<br>为false时，在冒泡阶段监听事件，执行逻辑处理。</strong></p>
+<blockquote>
+<p><strong>什么场景使用原生事件？</strong></p>
+</blockquote>
+<p>虽然React封装了几乎所有的原生事件，但诸如：</p>
+<p>谈话框开启以后点其他空白区域需要关闭谈话框。</p>
+<p><strong>引入了一些以原生事件实现的第三方库，并且相互之间需要有交互。</strong></p>
+<p>等等场景时，不得不使用原生事件来进行业务逻辑处理。</p>
+<p><strong>由于原生事件需要绑定在真实DOM上！</strong></p>
+<p>**</p>
+<blockquote>
+<p>所以一般是在componentDidMount阶段/ref的函数执行阶段进行绑定操作，在componentWillUnmount阶段进行解绑操作以避免内存泄漏。</p>
+</blockquote>
+<p>**</p>
+<p>使用如下：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">class</span> <span class="selector-tag">Demo</span> <span class="selector-tag">extends</span> <span class="selector-tag">React</span><span class="selector-class">.PureComponent</span> &#123;</span><br><span class="line">    componentDidMount() &#123;</span><br><span class="line">        const $this = ReactDOM.findDOMNode(this)</span><br><span class="line">        $this.addEventListener('click', this.onDOMClick, false)</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    onDOMClick = evt =&gt; &#123;</span><br><span class="line">        // ...</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="selector-tag">render</span>() &#123;</span><br><span class="line">        return (</span><br><span class="line">            &lt;div&gt;Demo&lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>开发项目总结：混合使用要注意什么？</p>
+<p>注意!!!</p>
+<p>1、合成事件的监听器是统一注册在document上的，<strong>且仅有冒泡阶段。</strong></p>
+<p>所以原生事件的监听器响应总是比合成事件的监听器早。</p>
+<p>2、阻<strong>止 React 合成事件冒泡，并不能阻止原生事件的冒泡，就算使用 stopPropagation 也无法阻止原生事件的冒泡。</strong></p>
+<p><strong>React 自身实现了一套事件冒泡机制，所以这也就是为什么我们 event.stopPropagation() 无效的原因。</strong></p>
+<p>3、<strong>阻止原生事件的冒泡后，会阻止合成事件的监听器执行。</strong></p>
+<p>也就是说，取消原生事件的冒泡也会同时取消 React 事件，并且原生事件的冒泡在 React 事件的触发和冒泡之前。</p>
+<p>4、对于原生事件，一定要手动移除，否则很可能出现内存泄漏的问题。</p>
+<p><strong>5、一般在componentDidMount() 方法中注册原生事件。<br>  6、一般在componentWillUnmount() 方法中移除事件。</strong></p>
+<blockquote>
+<p>典型需求分析：</p>
+</blockquote>
+<p>功能：页面弹出对话框，点击页面其他位置需要隐藏该对话框，点击对话框本身不隐藏。</p>
+<p>分析：我们会在document上加上addEventListener，在触发的页面框时，使用stopPropagation。</p>
+<p>但是！将事件添加到document对象，未达预期<br>原因：阻止 React 合成事件冒泡，并不能阻止原生事件的冒泡。</p>
+<p>当我们点击其他空白区域时，移除监听器隐藏对话框，<strong>但是点击对话框时，如果不阻止冒泡，会导致父级触发监听器，隐藏对话框。</strong></p>
+<p><strong>把事件添加到document对象时，是React的合成事件，并不能阻止原生的冒泡行为。</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">export default () =&gt; &#123;</span><br><span class="line">    const clickListener = e =&gt; &#123;</span><br><span class="line">        <span class="selector-tag">console</span><span class="selector-class">.log</span>("<span class="selector-tag">clickListener</span>")</span><br><span class="line">    &#125;</span><br><span class="line">    useEffect(() =&gt; &#123;</span><br><span class="line">              //使用事件冒泡模型</span><br><span class="line">        <span class="selector-tag">document</span><span class="selector-class">.addEventListener</span>("<span class="selector-tag">click</span>", <span class="selector-tag">clickListener</span>, <span class="selector-tag">false</span>)</span><br><span class="line">        return () =&gt; document.removeEventListener("click", clickListener, false)</span><br><span class="line">    &#125;, <span class="selector-attr">[]</span>)</span><br><span class="line"></span><br><span class="line">    const handleClick = e =&gt; &#123;</span><br><span class="line">        <span class="selector-tag">e</span><span class="selector-class">.stopPropagation</span>()</span><br><span class="line">        <span class="selector-tag">console</span><span class="selector-class">.log</span>("<span class="selector-tag">click</span>")</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="selector-tag">return</span> (</span><br><span class="line">        &lt;&gt;</span><br><span class="line">            &lt;button onClick=&#123;e =&gt; handleClick(e)&#125;&gt;test click&lt;/button&gt;</span><br><span class="line">        &lt;/&gt;</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将事件添加到window对象上，达到预期</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">export default () =&gt; &#123;</span><br><span class="line">    const clickListener = e =&gt; &#123;</span><br><span class="line">        <span class="selector-tag">console</span><span class="selector-class">.log</span>("<span class="selector-tag">clickListener</span>")</span><br><span class="line">    &#125;</span><br><span class="line">    useEffect(() =&gt; &#123;</span><br><span class="line">              //使用事件冒泡模型</span><br><span class="line">        <span class="selector-tag">window</span><span class="selector-class">.addEventListener</span>("<span class="selector-tag">click</span>", <span class="selector-tag">clickListener</span>, <span class="selector-tag">false</span>)</span><br><span class="line">        return () =&gt; window.removeEventListener("click", clickListener, false)</span><br><span class="line">    &#125;, <span class="selector-attr">[]</span>)</span><br><span class="line"></span><br><span class="line">    const handleClick = e =&gt; &#123;</span><br><span class="line">        <span class="selector-tag">e</span><span class="selector-class">.stopPropagation</span>()</span><br><span class="line">        <span class="selector-tag">console</span><span class="selector-class">.log</span>("<span class="selector-tag">click</span>")</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="selector-tag">return</span> (</span><br><span class="line">        &lt;&gt;</span><br><span class="line">            &lt;button onClick=&#123;e =&gt; handleClick(e)&#125;&gt;test click&lt;/button&gt;</span><br><span class="line">        &lt;/&gt;</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>原因：<strong>取消原生事件的冒泡也会同时取消 React 事件，并且原生事件的冒泡在 React 事件的触发和冒泡之前。</strong></p>
+<p>代码分析：使用原生事件冒泡模型，最终事件会冒泡到window对象上，我们在window对象上添加事件监听，button的click事件会代理到document上执行，因为添加了stopPropagation，因此不会再向上冒泡到window了，也就不会触发window的的click事件。</p>
+<p>响应顺序的典型例子<br>下面例子中点击Demo以后，控制台输出会是怎样的？</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">class</span> <span class="selector-tag">Demo</span> <span class="selector-tag">extends</span> <span class="selector-tag">React</span><span class="selector-class">.PureComponent</span> &#123;</span><br><span class="line">    componentDidMount() &#123;</span><br><span class="line">        const $this = ReactDOM.findDOMNode(this)</span><br><span class="line">        $this.addEventListener('click', this.onDOMClick, false)</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    onDOMClick = evt =&gt; &#123;</span><br><span class="line">        console.log('dom event')</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    onClick = evt =&gt; &#123;</span><br><span class="line">        console.log('react event')</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="selector-tag">render</span>() &#123;</span><br><span class="line">        return (</span><br><span class="line">            &lt;div onClick=&#123;this.onClick&#125;&gt;Demo&lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先DOM事件监听器被执行—&gt;然后事件继续冒泡至document—&gt;合成事件监听器再被执行。最终控制台输出为：</p>
+<p>dom event<br>react event<br>如果在onDOMClick中调用evt.stopPropagtion()呢？</p>
+<p>由于DOM事件被阻止冒泡了—&gt;无法到达document—&gt;所以合成事件自然不会被触发，控制台输出就变成了：dom event</p>
+<p>来一个复杂例子！</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">class</span> <span class="selector-tag">Demo</span> <span class="selector-tag">extends</span> <span class="selector-tag">React</span><span class="selector-class">.PureComponent</span> &#123;</span><br><span class="line">    componentDidMount() &#123;</span><br><span class="line">        const $parent = ReactDOM.findDOMNode(this)</span><br><span class="line">        const $child = $parent.querySelector('.child')</span><br><span class="line"> </span><br><span class="line">        $parent.addEventListener('click', this.onParentDOMClick, false)</span><br><span class="line">        $child.addEventListener('click', this.onChildDOMClick, false)</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    onParentDOMClick = evt =&gt; &#123;</span><br><span class="line">        console.log('parent dom event')</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    onChildDOMClick = evt =&gt; &#123;</span><br><span class="line">        console.log('child dom event')</span><br><span class="line">    &#125;    </span><br><span class="line"> </span><br><span class="line">    onParentClick = evt =&gt; &#123;</span><br><span class="line">        console.log('parent react event')</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    onChildClick = evt =&gt; &#123;</span><br><span class="line">        console.log('child react event')</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="selector-tag">render</span>() &#123;</span><br><span class="line">        return (</span><br><span class="line">            &lt;div onClick=&#123;this.onParentClick&#125;&gt;</span><br><span class="line">                &lt;div className="child" onClick=&#123;this.onChildClick&#125;&gt;</span><br><span class="line">                    <span class="selector-tag">Demo</span></span><br><span class="line">                &lt;/div&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果在onChildClick中调用evt.stopPropagtion()，则控制台输出变为：</p>
+<p>child dom event<br>parent dom event<br>child react event</p>
+<p>这样的结果是因为React给合成事件封装的stopPropagtion函数在调用时：</p>
+<p>给自己加了个isPropagationStopped标记位来确定后续监听器是否执行！</p>
+<p>上源码！！</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// https://github.com/facebook/react/blob/src/renderers/shared/stack/event/EventPluginUtils.js</span><br><span class="line">for (var i = 0; i &lt; dispatchListeners.length; i++) &#123;</span><br><span class="line">  <span class="selector-tag">if</span> (<span class="selector-tag">event</span><span class="selector-class">.isPropagationStopped</span>()) &#123;</span><br><span class="line">    break;</span><br><span class="line">  &#125;</span><br><span class="line">  // Listeners and Instances are two parallel arrays that are always in sync.</span><br><span class="line">  <span class="selector-tag">if</span> (<span class="selector-tag">dispatchListeners</span><span class="selector-attr">[i]</span>(<span class="selector-tag">event</span>, <span class="selector-tag">dispatchInstances</span><span class="selector-attr">[i]</span>)) &#123;</span><br><span class="line">    return dispatchInstances[i];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">stopImmediatePropagation</span></span><br></pre></td></tr></table></figure>
+
+<p>1、stopImmediatePropagation常常在多个第三方库混用时，<strong>用来阻止多个事件监听器中的非必要执行。</strong></p>
+<p>2、但React体系中，<strong>一个组件只能绑定一个同类型的事件监听器。</strong><br>（重复定义时，后面的监听器会覆盖之前的)，所以合成事件甚至都不去封装stopImmediatePropagation。</p>
+<p>3、事实上nativeEvent的stopImmediatePropagation<strong>只能阻止绑定在document上的事件监听器。</strong></p>
+<p>有点累了，明天继续！</p>
+<p>程序媛像个妈妈，管着一群调皮的小朋友，既要顾全大局还有考虑边界条件</p>
+<p>程序媛是啥？上帝角色！运筹帷幄，操控芸芸众生~</p>
+
+      
+      <!-- reward -->
+      
+      <div id="reward-btn">
+        打赏
+      </div>
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong s>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
+                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+        
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/04/27/React%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0+%E9%93%BE%E6%8E%A5%E5%88%86%E4%BA%AB/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E5%8D%87%E7%BA%A7%E6%89%93%E6%80%AAReact/" rel="tag">升级打怪React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E5%BC%80%E6%BA%90%E6%96%B0%E6%8A%80%E6%9C%AF%E3%80%81%E6%96%B0%E5%8F%91%E7%8E%B0%EF%BC%81/" rel="tag">开源新技术、新发现！</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+    
+      <a href="../../26/%E6%9C%9D%E8%8A%B1%E5%A4%95%E6%8B%BE%E9%9B%86%20(1)/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">朝花夕拾集</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        notify: 'false',
+        verify: 'false',
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2020
+        Wangqiuxia
+      </li>
+      <li>
+        
+        Powered by
+        
+        
+        <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+    <aside class="sidebar">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="../../../../index.html"><img src="/images/ayer-side.svg" alt="爱产品，爱前端！"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../index.html">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../tags/%E6%8A%80%E6%9C%AF/">小程序</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../http:/shenyu-vip.lofter.com">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../https:/v.xiumi.us/stage/v5/4IeLH/197507179">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="../../../../atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="../../../../images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="../../../../images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="../../../../js/jquery-2.0.3.min.js"></script>
+
+
+<script src="../../../../js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="../../../../js/lazyload.min.js"></script>
+
+
+<script src="../../../../js/busuanzi-2.3.pure.min.js"></script>
+
+
+<script src="../../../../js/share.js"></script>
+
+
+
+<script src="../../../../fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['做一个有情怀懂产品的程序媛！','业精于勤荒于嬉！行成于思毁于随！','越努力越幸运'],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script src="../../../../js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+
+<script src="../../../../js/ayer.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=518895142&auto=1&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+  </div>
+</body>
+
+</html>

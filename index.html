@@ -71,6 +71,332 @@
     
     
     
+    <article id="post-React源码阅读笔记+链接分享" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="2020/04/27/React%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0+%E9%93%BE%E6%8E%A5%E5%88%86%E4%BA%AB/"
+    >React源码阅读笔记+链接分享</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="2020/04/27/React%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0+%E9%93%BE%E6%8E%A5%E5%88%86%E4%BA%AB/" class="article-date">
+  <time datetime="2020-04-26T16:00:00.000Z" itemprop="datePublished">2020-04-27</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="categories/React%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">React源码阅读笔记</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>昨天晚上突然接到面试电话，是一个很有礼貌、很有趣的面试官哥哥，很耐心的听我balabala，小霞也要学会多多耐心倾听！<br>问题很全面啦，下去也翻了翻笔记，CSS部分是去年冬天学习的，纸质笔记，等有空了也来个博客整理！<br>小霞今天写一个很经典的问题，顺便宣传下阿里团队出品的神奇小程序开发工具~<br>是我在阿里演讲中看到的~小伙伴们有兴趣可以去Github上研究研究！<br>小霞也加油学习，传承开源精神，小程序，大未来！</p>
+<blockquote>
+<p><strong>本文以setState同步异步的不同场景出发—&gt;<br>总结一下原生事件（同步）和合成事件（异步）的区别、用法—&gt;<br>如何搭配解决典型业务场景？—&gt;<br>要注意哪些坑？<br>福利：阿里团队出品Remax开发小程序啦！激不激动？开不开心？hhh!!!<br>小霞放上链接和官方文档，大家一起去最新的科技海洋遨游吧！</strong></p>
+</blockquote>
+<p><a href="https://remaxjs.org" target="_blank" rel="noopener">使用真正的React构建跨平台小程序！！</a></p>
+<h2 id="一、setState异步？同步？"><a href="#一、setState异步？同步？" class="headerlink" title="一、setState异步？同步？"></a>一、setState异步？同步？</h2><p>1、 setState 只在合成事件和钩子函数中是“异步”的，<strong>相同的状态属性（不同的状态属性不会影响）多次更新会合并成一次，只保留最后一次。</strong></p>
+<p> 2、<strong>在原生事件和setTimeout 中都是同步的，会依次更新。</strong></p>
+<p>3、 setState 的“异步”并不是说内部由异步代码实现，其实本身执行的过程和代码都是同步的，只是合成事件和钩子函数的调用顺序在更新之前，导致在合成事件和钩⼦函数中没法立马拿到更新后的值，形成了所谓的“异步”。<br>当然可以通过第二个参数 setState(partialState, callback) 中的 callback拿到更新后的结果。 </p>
+<ul>
+<li>通过setState去更新this.state，<strong>不要直接操作this.state</strong>，<strong>请把它当成不可变的。</strong></li>
+<li>调用setState更新this.state不是马上生效的，它是异步哒，执行完setState后this.state不是最新的值哦。</li>
+<li>多个<strong>顺序执行的setState不是同步地一个一个执行</strong>，而是会一个一个加入队列，然后最后一起执行，即<strong>批处理</strong>！</li>
+</ul>
+<p>4、setState 的<strong>批量更新优化</strong>也是建立在“异步”（合成事件、钩子函数）之上的，在原生事件和setTimeout 中不会批量更新。</p>
+<p>5、<strong>在“异步”中如果对同⼀个值进行多次 setState ， setState 的批量更新策略会对其进行覆盖，取最后一次的执行，如果是同时 setState 多个不同的值，在更新时会对其进行合并批量更新。</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20200427233100321.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong>setState之后发生的事情？</strong></p>
+</blockquote>
+<p>1、在官方的描述中，setState操作并不保证是同步的，也可以认为是异步的。<br>2、React在setState之后，<strong>会经对state进行diff，判断是否有改变</strong>，然后去<strong>diff dom决定是否要更新UI。</strong><br>3、如果这一系列过程立刻发生在每一个setState之后，就可能会有性能问题。<br>4、在短时间内频繁setState，React会将<strong>state的改变压入栈中，在合适的时机，批量更新state和视图</strong>，达到提高性能的效果。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">为什么直接修改<span class="selector-tag">this</span><span class="selector-class">.state</span>无效？</span><br></pre></td></tr></table></figure>
+
+<p>1、setState本质是通过一个<strong>队列机制实现state更新的。</strong><br>2、执行setState时，<strong>会将需要更新的state合并后放入状态队列，而不会立刻更新state</strong>，<strong>队列机制</strong>可以批量更新state。<br>3、<strong>如果不通过setState而直接修改this.state，那么这个state不会放入状态队列中，</strong>下次调用setState时对状态队列进行合并时，<strong>会忽略之前直接被修改的state</strong>，这样我们就无法合并了，也就是说没有把我们想要的state更新上去！</p>
+<blockquote>
+<p><strong>什么是批量更新 Batch Update？</strong></p>
+</blockquote>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在一些<span class="selector-tag">mv</span>*框架中，就是将一段时间内对**<span class="selector-tag">model</span>的修改批量更新到<span class="selector-tag">view</span>的机制**。</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/2020042723311197.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" alt="批量更新！"></p>
+<blockquote>
+<p>两个Demo测试setState异步的小秘密</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// demo1</span><br><span class="line"><span class="selector-tag">class</span> <span class="selector-tag">App</span> <span class="selector-tag">extends</span> <span class="selector-tag">React</span><span class="selector-class">.Component</span> &#123;</span><br><span class="line">       state = &#123;</span><br><span class="line">         <span class="selector-tag">num</span>: 0</span><br><span class="line">      &#125;;</span><br><span class="line">       <span class="selector-tag">componentDidMount</span>() &#123;</span><br><span class="line">        this.setState(&#123;</span><br><span class="line">          <span class="selector-tag">num</span>: <span class="selector-tag">this</span><span class="selector-class">.state</span><span class="selector-class">.num</span> + 1</span><br><span class="line">          &#125;);</span><br><span class="line">      <span class="selector-tag">this</span><span class="selector-class">.setState</span>(&#123;</span><br><span class="line">          <span class="attribute">num</span>: this.state.num + <span class="number">2</span></span><br><span class="line">        &#125;);</span><br><span class="line">         <span class="selector-tag">console</span><span class="selector-class">.log</span>(<span class="selector-tag">this</span><span class="selector-class">.state</span><span class="selector-class">.num</span>);</span><br><span class="line">      &#125;</span><br><span class="line"><span class="selector-tag">render</span>() &#123;</span><br><span class="line">         const &#123; num &#125; = this.state;</span><br><span class="line">         return &lt;div&gt;&#123; num &#125;&lt;/div&gt;;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">     ReactDOM.render(&lt;App /&gt;, document.getElementById('root'));</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">控制台打印0，界面显示2</span><br><span class="line">由上面的例子得出结论1：</span><br><span class="line"></span><br><span class="line">在<span class="selector-tag">componentDidMount</span>这个生命周期函数的场景下，<span class="selector-tag">setState</span>是异步的，界面显示2表示对于相同的状态属性，界面显示会合并成一次，并且只有最后一次会生效，显示到界面上就是加了两次的2。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// demo2</span><br><span class="line"><span class="selector-tag">class</span> <span class="selector-tag">App</span> <span class="selector-tag">extends</span> <span class="selector-tag">React</span><span class="selector-class">.Component</span> &#123;</span><br><span class="line">       state = &#123;</span><br><span class="line">         <span class="selector-tag">num</span>: 0</span><br><span class="line">      &#125;;</span><br><span class="line">     handleClick = () =&gt; &#123;</span><br><span class="line">         <span class="selector-tag">this</span><span class="selector-class">.setState</span>(&#123;</span><br><span class="line">           <span class="attribute">num</span>: this.state.num + <span class="number">1</span></span><br><span class="line">        &#125;);</span><br><span class="line">         <span class="selector-tag">this</span><span class="selector-class">.setState</span>(&#123;</span><br><span class="line">           <span class="attribute">num</span>: this.state.num + <span class="number">2</span></span><br><span class="line">        &#125;);</span><br><span class="line">         console.log(this.state.num); // 点击num控制台打印0,界面显示2</span><br><span class="line">    &#125;;</span><br><span class="line"><span class="selector-tag">render</span>() &#123;</span><br><span class="line">        const &#123; num &#125; = this.state;</span><br><span class="line">        return &lt;div onClick=&#123;this.handleClick&#125;&gt;&#123; num &#125;&lt;/div&gt;;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">     ReactDOM.render(&lt;App /&gt;, document.getElementById('root'));</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">第二个例子我给<span class="selector-tag">div</span>注册了一个<span class="selector-tag">click</span>事件，界面渲染之后，<span class="selector-tag">num</span>显示为0，点击之后显示是2，控制台打印是0。</span><br><span class="line"></span><br><span class="line">结论2：这里的<span class="selector-tag">onClick</span>事件并不是<span class="selector-tag">JS</span>原生的事件，而是<span class="selector-tag">React</span>的合成事件，合成事件就是通过<span class="selector-tag">JSX</span>绑定的事件，合成事件中<span class="selector-tag">React</span>的<span class="selector-tag">setState</span>也是异步的。</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="二、合成事件的机制！"><a href="#二、合成事件的机制！" class="headerlink" title="二、合成事件的机制！"></a>二、合成事件的机制！</h2><p><strong>合成事件的绑定：</strong></p>
+<p>1、React基于虚拟DOM实现了一个<strong>合成事件层</strong>，我们所定义的事件处理器会接收到一个合成事件对象的实例，它完全符合 W3C 标准，不会存在任何IE标准的兼容问题。并且与原生浏览器具有一样的接口，<strong>同样支持事件冒泡机制，可用 stopPropagation() 和 preventDefault() 来中断它。</strong></p>
+<p>2、<strong>所有事件都自动绑定在最外层上。</strong>如果需要访问原生事件对象，可以使用nativeEvent属性。也就是说—&gt;React并不是将click事件直接绑定到div的真实DOM上面。<strong>（因为DOM上面绑定了太多的事件处理函数，整个页面的响应和内存占用都可能受到影响）</strong></p>
+<p>3、在document处监听所有支持的事件，<strong>当事件发生并冒泡至document处时，React将事件内容封装并交由真正的处理函数运行。</strong></p>
+<p>4、冒泡机制的流程就是从触发事件的对象开始，向父元素回溯，<strong>依次调用它们注册事件的callback。</strong></p>
+<p>5、这种绑定方式和与原生HTML事件监听很相似。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;div onClick=&#123;this.handleClick&#125;&gt;点我呀！&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">但有以下区别：</span><br><span class="line"></span><br><span class="line">(1)事件处理函数是一个函数，而不是像原生事件那样的函数名称。</span><br><span class="line"></span><br><span class="line">(2) <span class="selector-tag">JSX</span>中采用驼峰式属性命名方式，<span class="selector-tag">HTML</span>事件则是全部小写：<span class="selector-tag">onclick</span>。</span><br><span class="line"></span><br><span class="line">(3) JSX中props的值可以是任意类型，但HTML 中只能是字符串：onclick="handleClick()"</span><br><span class="line"></span><br><span class="line">(4) <span class="selector-tag">React</span>事件没有直接绑定在 <span class="selector-tag">HTML</span> 元素上只是借鉴了这种写法。<span class="selector-tag">React</span>中所有事件使用了事件委托方式自动绑定在最外层的。</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>合成事件的实现机制：</strong></p>
+<p>1、<strong>为了避免DOM事件滥用—&gt;React实现了一个中间层SyntheticEvent。</strong></p>
+<p>SyntheticEvent对象是通过<strong>合并</strong>得到的，在事件回调被调用之后，<strong>SyntheticEvent对象将被重用、并且所有属性都会被取消。这时候，我们是没有办法以异步的方式访问该事件的。</strong></p>
+<p>(也就是说event对象是复用的，事件处理函数执行完后，属性会被清空，所以event的属性无法被异步访问，详情请查阅event-pooling。)</p>
+<blockquote>
+<p>解决办法：官方指出–&gt;如果想要以异步的方式访问事件属性，应该对事件调用event.persist()，这将从池中删除合成事件，并允许用户代码保留对事件的引用。</p>
+</blockquote>
+<p>2、当用户在为onClick添加函数时，React并没有将Click事件直接绑定到真实的DOM节点上，<strong>而是在document监听所有支持的事件，</strong>当事件发生并冒泡到document处，完成了事件委派的任务。</p>
+<p>3、<strong>React将事件内容封装交给中间层SyntheticEvent，这个中间层就负责所有事件合成</strong>，它维持了一个<strong>映射来保存所有组件内部的事件监听和处理。</strong></p>
+<p>4、当组件在<strong>挂载或卸载时，只是在这个统一的事件监听器上插入或删除一些对象；</strong>当事件发生时，首先被这个统一的事件监听器处理，然后在<strong>映射里找到真正的事件处理函数并调用</strong>。这样<strong>简化了事件处理和回收机制，提升了效率</strong>。<br><strong>事件触发的时候，会使用统一的分发函数dispatchEvent将指定函数执行。</strong></p>
+<p><strong>简单梳理一下就是：</strong></p>
+<blockquote>
+<p>事件注册：</p>
+<p>（1）将事件注册到 document 这个原生DOM上</p>
+<p>（2）将注册的事件采用事务队列的形式存储起来，以便事件触发时回调。</p>
+<p>事件分发：通过 ReactEventListener.dispatchEvent 回调函数实现。</p>
+<p>事件触发：</p>
+<p>（1）document上 addEventListener 注册的 callback 会被回调。</p>
+<p>（2）回调函数就是ReactEventListener.dispatchEvent。</p>
+<p>（3）dispatchEvent会找到事件触发的 DOM 及其对应的 React 组件。</p>
+</blockquote>
+<h2 id="三、-React中原生事件是什么？"><a href="#三、-React中原生事件是什么？" class="headerlink" title="三、 React中原生事件是什么？"></a>三、 React中原生事件是什么？</h2><p>首先，要明白！流是一种有方向的数据；事件流，是页面接受事件的顺序。</p>
+<p><strong>一、DOM事件流的三个阶段</strong></p>
+<p><strong>1、事件捕获阶段</strong></p>
+<p>当某个事件触发时—&gt;文档根节点最先接受到事件—&gt;然后根据DOM树结构向具体绑定事件的元素传递—&gt;该阶段为父元素截获事件提供了机会。</p>
+<p>事件传递路径为：</p>
+<p><strong>window —&gt; document —&gt; boy —&gt; button</strong></p>
+<p><strong>2、目标阶段</strong></p>
+<p> 具体元素已经捕获事件—&gt;之后事件开始向<strong>根节点</strong>冒泡。</p>
+<p><strong>3、事件冒泡阶段</strong></p>
+<p>该阶段的开始即是事件的开始—&gt;根据<strong>DOM树结构由具体触发事件的元素向根节点传递。</strong>    </p>
+<p><strong>事件传递路径：</strong></p>
+<p>button —&gt; body —&gt; document —&gt; window</p>
+<p><strong>4、选择监听事件的阶段</strong></p>
+<p>使用addEventListener函数在<strong>事件流的的不同阶段监听事件。</strong></p>
+<p>DOMEle.addEventListener(‘事件名称’,handleFn,Boolean)。</p>
+<p>此处第三个参数Boolean即代表监听事件的阶段。</p>
+<p><strong>为true时，在在捕获阶段监听事件，执行逻辑处理。<br>为false时，在冒泡阶段监听事件，执行逻辑处理。</strong></p>
+<blockquote>
+<p><strong>什么场景使用原生事件？</strong></p>
+</blockquote>
+<p>虽然React封装了几乎所有的原生事件，但诸如：</p>
+<p>谈话框开启以后点其他空白区域需要关闭谈话框。</p>
+<p><strong>引入了一些以原生事件实现的第三方库，并且相互之间需要有交互。</strong></p>
+<p>等等场景时，不得不使用原生事件来进行业务逻辑处理。</p>
+<p><strong>由于原生事件需要绑定在真实DOM上！</strong></p>
+<p>**</p>
+<blockquote>
+<p>所以一般是在componentDidMount阶段/ref的函数执行阶段进行绑定操作，在componentWillUnmount阶段进行解绑操作以避免内存泄漏。</p>
+</blockquote>
+<p>**</p>
+<p>使用如下：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">class</span> <span class="selector-tag">Demo</span> <span class="selector-tag">extends</span> <span class="selector-tag">React</span><span class="selector-class">.PureComponent</span> &#123;</span><br><span class="line">    componentDidMount() &#123;</span><br><span class="line">        const $this = ReactDOM.findDOMNode(this)</span><br><span class="line">        $this.addEventListener('click', this.onDOMClick, false)</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    onDOMClick = evt =&gt; &#123;</span><br><span class="line">        // ...</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="selector-tag">render</span>() &#123;</span><br><span class="line">        return (</span><br><span class="line">            &lt;div&gt;Demo&lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>开发项目总结：混合使用要注意什么？</p>
+<p>注意!!!</p>
+<p>1、合成事件的监听器是统一注册在document上的，<strong>且仅有冒泡阶段。</strong></p>
+<p>所以原生事件的监听器响应总是比合成事件的监听器早。</p>
+<p>2、阻<strong>止 React 合成事件冒泡，并不能阻止原生事件的冒泡，就算使用 stopPropagation 也无法阻止原生事件的冒泡。</strong></p>
+<p><strong>React 自身实现了一套事件冒泡机制，所以这也就是为什么我们 event.stopPropagation() 无效的原因。</strong></p>
+<p>3、<strong>阻止原生事件的冒泡后，会阻止合成事件的监听器执行。</strong></p>
+<p>也就是说，取消原生事件的冒泡也会同时取消 React 事件，并且原生事件的冒泡在 React 事件的触发和冒泡之前。</p>
+<p>4、对于原生事件，一定要手动移除，否则很可能出现内存泄漏的问题。</p>
+<p><strong>5、一般在componentDidMount() 方法中注册原生事件。<br>  6、一般在componentWillUnmount() 方法中移除事件。</strong></p>
+<blockquote>
+<p>典型需求分析：</p>
+</blockquote>
+<p>功能：页面弹出对话框，点击页面其他位置需要隐藏该对话框，点击对话框本身不隐藏。</p>
+<p>分析：我们会在document上加上addEventListener，在触发的页面框时，使用stopPropagation。</p>
+<p>但是！将事件添加到document对象，未达预期<br>原因：阻止 React 合成事件冒泡，并不能阻止原生事件的冒泡。</p>
+<p>当我们点击其他空白区域时，移除监听器隐藏对话框，<strong>但是点击对话框时，如果不阻止冒泡，会导致父级触发监听器，隐藏对话框。</strong></p>
+<p><strong>把事件添加到document对象时，是React的合成事件，并不能阻止原生的冒泡行为。</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">export default () =&gt; &#123;</span><br><span class="line">    const clickListener = e =&gt; &#123;</span><br><span class="line">        <span class="selector-tag">console</span><span class="selector-class">.log</span>("<span class="selector-tag">clickListener</span>")</span><br><span class="line">    &#125;</span><br><span class="line">    useEffect(() =&gt; &#123;</span><br><span class="line">              //使用事件冒泡模型</span><br><span class="line">        <span class="selector-tag">document</span><span class="selector-class">.addEventListener</span>("<span class="selector-tag">click</span>", <span class="selector-tag">clickListener</span>, <span class="selector-tag">false</span>)</span><br><span class="line">        return () =&gt; document.removeEventListener("click", clickListener, false)</span><br><span class="line">    &#125;, <span class="selector-attr">[]</span>)</span><br><span class="line"></span><br><span class="line">    const handleClick = e =&gt; &#123;</span><br><span class="line">        <span class="selector-tag">e</span><span class="selector-class">.stopPropagation</span>()</span><br><span class="line">        <span class="selector-tag">console</span><span class="selector-class">.log</span>("<span class="selector-tag">click</span>")</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="selector-tag">return</span> (</span><br><span class="line">        &lt;&gt;</span><br><span class="line">            &lt;button onClick=&#123;e =&gt; handleClick(e)&#125;&gt;test click&lt;/button&gt;</span><br><span class="line">        &lt;/&gt;</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将事件添加到window对象上，达到预期</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">export default () =&gt; &#123;</span><br><span class="line">    const clickListener = e =&gt; &#123;</span><br><span class="line">        <span class="selector-tag">console</span><span class="selector-class">.log</span>("<span class="selector-tag">clickListener</span>")</span><br><span class="line">    &#125;</span><br><span class="line">    useEffect(() =&gt; &#123;</span><br><span class="line">              //使用事件冒泡模型</span><br><span class="line">        <span class="selector-tag">window</span><span class="selector-class">.addEventListener</span>("<span class="selector-tag">click</span>", <span class="selector-tag">clickListener</span>, <span class="selector-tag">false</span>)</span><br><span class="line">        return () =&gt; window.removeEventListener("click", clickListener, false)</span><br><span class="line">    &#125;, <span class="selector-attr">[]</span>)</span><br><span class="line"></span><br><span class="line">    const handleClick = e =&gt; &#123;</span><br><span class="line">        <span class="selector-tag">e</span><span class="selector-class">.stopPropagation</span>()</span><br><span class="line">        <span class="selector-tag">console</span><span class="selector-class">.log</span>("<span class="selector-tag">click</span>")</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="selector-tag">return</span> (</span><br><span class="line">        &lt;&gt;</span><br><span class="line">            &lt;button onClick=&#123;e =&gt; handleClick(e)&#125;&gt;test click&lt;/button&gt;</span><br><span class="line">        &lt;/&gt;</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>原因：<strong>取消原生事件的冒泡也会同时取消 React 事件，并且原生事件的冒泡在 React 事件的触发和冒泡之前。</strong></p>
+<p>代码分析：使用原生事件冒泡模型，最终事件会冒泡到window对象上，我们在window对象上添加事件监听，button的click事件会代理到document上执行，因为添加了stopPropagation，因此不会再向上冒泡到window了，也就不会触发window的的click事件。</p>
+<p>响应顺序的典型例子<br>下面例子中点击Demo以后，控制台输出会是怎样的？</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">class</span> <span class="selector-tag">Demo</span> <span class="selector-tag">extends</span> <span class="selector-tag">React</span><span class="selector-class">.PureComponent</span> &#123;</span><br><span class="line">    componentDidMount() &#123;</span><br><span class="line">        const $this = ReactDOM.findDOMNode(this)</span><br><span class="line">        $this.addEventListener('click', this.onDOMClick, false)</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    onDOMClick = evt =&gt; &#123;</span><br><span class="line">        console.log('dom event')</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    onClick = evt =&gt; &#123;</span><br><span class="line">        console.log('react event')</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="selector-tag">render</span>() &#123;</span><br><span class="line">        return (</span><br><span class="line">            &lt;div onClick=&#123;this.onClick&#125;&gt;Demo&lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先DOM事件监听器被执行—&gt;然后事件继续冒泡至document—&gt;合成事件监听器再被执行。最终控制台输出为：</p>
+<p>dom event<br>react event<br>如果在onDOMClick中调用evt.stopPropagtion()呢？</p>
+<p>由于DOM事件被阻止冒泡了—&gt;无法到达document—&gt;所以合成事件自然不会被触发，控制台输出就变成了：dom event</p>
+<p>来一个复杂例子！</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">class</span> <span class="selector-tag">Demo</span> <span class="selector-tag">extends</span> <span class="selector-tag">React</span><span class="selector-class">.PureComponent</span> &#123;</span><br><span class="line">    componentDidMount() &#123;</span><br><span class="line">        const $parent = ReactDOM.findDOMNode(this)</span><br><span class="line">        const $child = $parent.querySelector('.child')</span><br><span class="line"> </span><br><span class="line">        $parent.addEventListener('click', this.onParentDOMClick, false)</span><br><span class="line">        $child.addEventListener('click', this.onChildDOMClick, false)</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    onParentDOMClick = evt =&gt; &#123;</span><br><span class="line">        console.log('parent dom event')</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    onChildDOMClick = evt =&gt; &#123;</span><br><span class="line">        console.log('child dom event')</span><br><span class="line">    &#125;    </span><br><span class="line"> </span><br><span class="line">    onParentClick = evt =&gt; &#123;</span><br><span class="line">        console.log('parent react event')</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    onChildClick = evt =&gt; &#123;</span><br><span class="line">        console.log('child react event')</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="selector-tag">render</span>() &#123;</span><br><span class="line">        return (</span><br><span class="line">            &lt;div onClick=&#123;this.onParentClick&#125;&gt;</span><br><span class="line">                &lt;div className="child" onClick=&#123;this.onChildClick&#125;&gt;</span><br><span class="line">                    <span class="selector-tag">Demo</span></span><br><span class="line">                &lt;/div&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果在onChildClick中调用evt.stopPropagtion()，则控制台输出变为：</p>
+<p>child dom event<br>parent dom event<br>child react event</p>
+<p>这样的结果是因为React给合成事件封装的stopPropagtion函数在调用时：</p>
+<p>给自己加了个isPropagationStopped标记位来确定后续监听器是否执行！</p>
+<p>上源码！！</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// https://github.com/facebook/react/blob/src/renderers/shared/stack/event/EventPluginUtils.js</span><br><span class="line">for (var i = 0; i &lt; dispatchListeners.length; i++) &#123;</span><br><span class="line">  <span class="selector-tag">if</span> (<span class="selector-tag">event</span><span class="selector-class">.isPropagationStopped</span>()) &#123;</span><br><span class="line">    break;</span><br><span class="line">  &#125;</span><br><span class="line">  // Listeners and Instances are two parallel arrays that are always in sync.</span><br><span class="line">  <span class="selector-tag">if</span> (<span class="selector-tag">dispatchListeners</span><span class="selector-attr">[i]</span>(<span class="selector-tag">event</span>, <span class="selector-tag">dispatchInstances</span><span class="selector-attr">[i]</span>)) &#123;</span><br><span class="line">    return dispatchInstances[i];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">stopImmediatePropagation</span></span><br></pre></td></tr></table></figure>
+
+<p>1、stopImmediatePropagation常常在多个第三方库混用时，<strong>用来阻止多个事件监听器中的非必要执行。</strong></p>
+<p>2、但React体系中，<strong>一个组件只能绑定一个同类型的事件监听器。</strong><br>（重复定义时，后面的监听器会覆盖之前的)，所以合成事件甚至都不去封装stopImmediatePropagation。</p>
+<p>3、事实上nativeEvent的stopImmediatePropagation<strong>只能阻止绑定在document上的事件监听器。</strong></p>
+<p>有点累了，明天继续！</p>
+<p>程序媛像个妈妈，管着一群调皮的小朋友，既要顾全大局还有考虑边界条件</p>
+<p>程序媛是啥？上帝角色！运筹帷幄，操控芸芸众生~</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="tags/%E5%8D%87%E7%BA%A7%E6%89%93%E6%80%AAReact/" rel="tag">升级打怪React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="tags/%E5%BC%80%E6%BA%90%E6%96%B0%E6%8A%80%E6%9C%AF%E3%80%81%E6%96%B0%E5%8F%91%E7%8E%B0%EF%BC%81/" rel="tag">开源新技术、新发现！</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-朝花夕拾集 (1)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="2020/04/26/%E6%9C%9D%E8%8A%B1%E5%A4%95%E6%8B%BE%E9%9B%86%20(1)/"
+    >朝花夕拾集</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="2020/04/26/%E6%9C%9D%E8%8A%B1%E5%A4%95%E6%8B%BE%E9%9B%86%20(1)/" class="article-date">
+  <time datetime="2020-04-25T16:00:00.000Z" itemprop="datePublished">2020-04-26</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="categories/%E6%9C%9D%E8%8A%B1%E5%A4%95%E6%8B%BE%E9%9B%86/">朝花夕拾集</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>周末抽空重温一下马云大大的演讲！<br>看完演讲，小霞明白了一个道理~<br>为什么阿里巴巴每个人都要有一个花名呢？<br>因为花名让阿里人充满了<strong>修身、齐家、治国、平天下</strong>的责任感！<br>我们每一个人都要有武侠情怀！<br>武侠情怀是一种舍我其谁的勇敢担当；<br>武侠情怀是一种普渡众生的大气胸襟；<br>武侠情怀是一种大义凌然的淡定决绝；<br>人生短暂，带上花名和武侠情怀，有梦就勇敢去追！<br>如果可以，小霞想取名花木兰！ 巾帼不让须眉~<br>小霞周末收集了一些看书时感动的句子，整理如下文，希望您有所共鸣~</p>
+<p><a href="https://www.bilibili.com/video/BV1cb411q7hw?p=25" target="_blank" rel="noopener">马云大大的演讲集合！周末回看，莫名感动！希望您有所收获！25岁之前小霞和您一起敢想敢做！点链接可以播放哦，空闲时间听听演讲，获益匪浅哦~</a></p>
+<p><img src="https://img-blog.csdnimg.cn/20200427231104526.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="一、影响力"><a href="#一、影响力" class="headerlink" title="一、影响力"></a>一、影响力</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">上鲜活例证——名人谈影响力！</span><br></pre></td></tr></table></figure>
+
+<p>1、我没有太多优势，我会利用影响力。 —— 李湘</p>
+<p>2、成名之后，马云爸爸在回答记者“迄今对你影响最大的人是谁？”的提问时，这样回答：“我觉得影响我的人挺多的，在不同阶段有不同的人影响我。</p>
+<p>  路遥的《人生》影响过我，</p>
+<p>  金庸的《笑傲江湖》影响过我，</p>
+<p>《阿甘正传》里面简单的阿甘影响过我，</p>
+<p>《排球女将》中的小鹿纯子影响过我，</p>
+<p>  还有我的父母、我的老师、我的朋友，他们都影响过我。</p>
+<p><strong>但是，我认为在这个世界上，没有一个人能完全影响你，重要的是你能从每一个影响过你的人身上找到各种机会，然后不断学习，从而反过来影响别人。</strong>”</p>
+<p>3、如果你有行动力，你就会成功；如果你有创造力，你就会卓越；<strong>如果你有影响力，你就会有成就。</strong> —— 牛根生</p>
+<p>4、<strong>人际关系最重要最重要的方法就是真正的、诚恳地去关心别人。这个影响力是很大的。</strong> —— 陈安之</p>
+<p>5、权力（power），定位（positioning），表现（performance）和礼貌（politeness），认知（perception）。<br>     五个P可以帮助你提高说服别人的能力。</p>
+<blockquote>
+<p><strong>精选触动小霞的101条影响力管理语录，希望您有收获！</strong> </p>
+</blockquote>
+<pre><code>1、每一分每一秒做最有生命力的事情。
+2、一日之计在于昨天。
+3、一开始就冲刺。</code></pre><p>　　4、一次性就将事情做对。<br>　　5、<strong>做对的事情，而不仅仅把事情做好。</strong><br>　　6、客户就是裁判。<br>　　7、我们不用语言教学，用心灵撞击心灵。<br>　　8、先处理心情，再处理事情。<br>　　9、<strong>立场要坚定、态度要热情。</strong><br>　　10、节约一块钱比赚一块钱来的容易。<br>　　11、成功一定有办法，失败一定有原因。<br>　　12、思路决定出路。<br>　　13、持续改善。<br>　　14、无限接近缺陷。<br>　　15、希望别人怎样对待自己，就怎么对待别人。<br>　　16、完成本职工作，就是对队友最大的支持。<br>　　17、坚持到底，永不放弃。<br>　　18、<strong>简单的工作练到极致，就是绝招。</strong><br>　　19、说到听者想听，听到说者想说。<br>　　20、高明的领导者领导员工的思维，不高明的领导看管员工的行为。<br>　　21、培训很贵，不培训更贵。<br>　　22、人是企业竞争致胜的第一资本。<br>　　23、学习是企业的第二生产力。<br>　　24、<strong>学习是最赚钱的投资。</strong><br>　　25、小公司做事，大公司“做”人。<br>　　26、<strong>行动力来源：追求快乐，逃离痛苦。</strong><br>　　27、<strong>事物本身并不影响人，人们只受对事物看法的影响。</strong><br>　　28、不是失败，只是暂时没有成功。<br>　　29、命运在自己的手里，而不是在别人的嘴里。<br>　　30、我一定要，我一定能。<br>　　31、爱是一切动力的源泉。<br>　　32、<strong>自由代价是自律。</strong><br>　　33、自信不一定成功，但不自信铁定离成功更远。<br>　　34、目标决定现实，而不是现实决定目标。<br>　　35、<strong>“为何”比“如何”更重要。</strong><br>　　36、<strong>大目标是小目标的结果，小目标是大目标的条件。</strong><br>　　37、<strong>修订计划，而不是改变目标。</strong><br>　　38、<strong>成功者的第一反应：找方法，而不是找借口。</strong><br>　　39、所有的限制，一开始来源于自我设限。<br>　　40、人与人之间的差别，一开始在于思考问题的方式不同。<br>　　41、21天改变命运。<br>　　42、我们不改变坏习惯，坏习惯将控制我们一生。<br>　　43、将练习当成比赛。<br>　　44、将汗水流在练习场上，而不要将泪水流在竞技场上。<br>　　45、比裁判更加严格的要求你的队员。<br>　　46、你越努力，你的运气越好。<br>　　47、跟什么人在一起，就将成为什么人。<br>　　48、<strong>只要不服输，失败就不会是定局。</strong><br>　　49、目标就是你未来的现实。<br>　　50、成功就是简单的事情重复去做。<br>　　51、成功是因为态度。<br>　　52、我是我认为的我。<br>　　53、我是一切的根源。<br>　　54、不是不可能。<br>　　55、山不过来我就过去。<br>　　56、<strong>每天进步一点点。</strong><br>　　57、决心决定成功。<br>　　58、天助自助者。<br>　　59、太棒了。<br>　　60、成功的捷径就是按最有效的成功策略行驶，用错方法就是走弯路。<br>　　61、<strong>活在当下，把握今天。</strong><br>　　62、把眼前的事情做到最好。<br>　　63、<strong>动作对了，结果迟早会对。</strong><br>　　64、不是成功太慢，而是放弃太快。<br>　　65、劳心者治人，劳力者治于人。<br>　　66、<strong>用心做人，用脑做事。</strong><br>　　67、做你所写，写你所做。<br>　　68、按劳动的结果分配，而不是劳累的程度分配。<br>　　69、<strong>学者的任务把简单问题复杂化；管理者的任务把复杂的问题简单化。</strong><br>　　70、好的制度让坏人变好；不好的制度让好人变坏。<br>　　71、教不会徒弟，饿死师傅。<br>　　72、沟通要充分，决定要服从。<br>　　73、解决问题，不要放大问题。<br>　　74、<strong>好消息向下传，坏消息向上传。</strong><br>　　75、当面说，不要背后说；会上说，不要会后乱说。<br>　　76、量大，一定有质优。<br>　　77、<strong>不是没有伯乐，而是我们是不是一匹真正的千里马。</strong><br>　　78、员工可以跳槽，老板只是跳楼。<br>　　79、为自己留后路，你十有八九走后路。<br>　　80、经常走后路，一定是绝路。<br>　　81、进一步海阔天空。<br>　　82、贫者因学习而富，富者因学习而强。<br>　　83、<strong>如果事情无法改变，就改变自己。</strong><br>　　84、做手心向下的人。<br>　　85、与强者竞争，更容易成为强者。<br>　　86、只能授出任务，无法授出责任。责任由授权者承担。<br>　　87、管理者的核心任务：修路，而不是“修”人。<br>　　88、管理，“消灭”形容词。（以量词来计量工作）<br>　　89、让“傻瓜”都能做对。<br>　　90、缺少任何一个人，都能保证组织正常运转。<br>　　91、不是收入太少，而是贡献不够。<br>　　92、<strong>我们需要英雄，因为英雄可以带动团队；我们更需要团队，因为团队可以创造更多英雄。</strong><br>　　93、在运动中改变。<br>　　94、管理者就是培训者。<br>　　95、只问问题，不“给”答案。<br>　　96、延迟评判。<br>　　97、以事实为依据，不要“想当然”。<br>　　98、<strong>制定目标，从未来到现在；达成目标，从现在到未来。</strong><br>　　99、路径很明确，路途很漫长。<br>　　100、100%成功=100%意愿<em>100%方法</em>100%行动<br>　　101、<strong>有梦想就会实现！</strong><br>　　<img src="https://img-blog.csdnimg.cn/20200427231127145.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="二、《千与千寻》"><a href="#二、《千与千寻》" class="headerlink" title="二、《千与千寻》"></a>二、《千与千寻》</h2><p>1、<strong>不管前方的路有多苦，只要走的方向正确，不管多么崎岖不平，都比站在原地更接近幸福。</strong><br>2、我不知道将去何方，但我已在路上。<br>3、人们常常会欺骗你，是为了让你明白，有时候，你唯一应该相信的人就是你自己。<br>4、这个世界真的很现实，每个人都在为着同一个目的，不惜一切代价努力着，心甘情愿的成为金钱的奴隶，死心蹋地的付出。<br>5、<strong>请记得那些对你好的人，因为他本可以不这样。</strong><br>6、这世上有一条路无论如何也不能走，那就是歧途，只要走错一步结果都会是粉身碎骨。<br>7、人生就是一列开往坟墓的列车，路途上会有很多站，很难有人可以自始至终陪着走完。当陪你的人要下车时，即使不舍也该心存感激，然后挥手道别。<br>8、<strong>再辛苦也要忍耐等待时机。</strong><br>9、再漫长的故事，也有完结的时候，行驶的再慢的列车，也有一个又一个的站台；再亲密无间的旅伴，也有分开的时候。旅途上经历的事情 ，可能会被我们遗忘；旅途上学到的东西，我们却会将它记在心间。因为遇见你，我才知道我也能拥有美丽的记忆。<strong>所以，无论你怎么对待我，我都会用心去宽恕你的恨，用心去铭记你的好。</strong><br>10、<strong>有一天那个人走进了你的生命，你就会发现，真爱总是值得等待。</strong><br>11、<strong>人总要走在路上，才能扶着自己成长。</strong><br>12、要好好珍惜自己的名字：<strong>记得自己是谁，便知道自己要做什么，要走什么样的路。</strong><br>13、<strong>幸福是靠自己争取的，或许这个过程会很艰辛很艰难，但总比站在原地等待要好。</strong><br><img src="https://img-blog.csdnimg.cn/20200427231144561.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="三、《哈尔的移动城堡》"><a href="#三、《哈尔的移动城堡》" class="headerlink" title="三、《哈尔的移动城堡》"></a>三、《哈尔的移动城堡》</h2><p>1、<strong>世界这么大，人生这么长，总会有这么一个人，让你想要温柔地对待。</strong><br>2、人哪有好的 只是坏的程度不一样而已。<br>3、人老了的好处，就是可失去的东西越来越少了.<br>4、<strong>被一个人深深地爱著将给你力量；深深地爱著一个人将给你勇气。</strong><br>5、<strong>爱，不是寻找一个完美的人，而是学会用完美的眼光，欣赏那个并不完美的人。</strong><br><img src="https://img-blog.csdnimg.cn/20200427231158166.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="四、《悬崖上的金鱼姬》"><a href="#四、《悬崖上的金鱼姬》" class="headerlink" title="四、《悬崖上的金鱼姬》"></a>四、《悬崖上的金鱼姬》</h2><p>1、成长，是每个孩子的权力，也是他们必经的征程，或平坦、或崎岖，有悲欢，有离合。<br>2、<strong>信仰到底是什么呢？就是纵身一跃，就是我们跟神之间一个永远的约定，是舍弃旧的去开始新的生活。</strong><br>3、现在这个家就像暴风雨中的灯塔，黑暗中的人们都依靠着这个光芒，为他们指引方向。<br>4、<strong>爱是需要付出代价，爱是需要担当，爱是需要努力争取，爱是需要你为了对方而放弃一些事情，并改变自己。</strong><br><img src="https://img-blog.csdnimg.cn/20200427231212612.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="五、《魔女宅急便》"><a href="#五、《魔女宅急便》" class="headerlink" title="五、《魔女宅急便》"></a>五、《魔女宅急便》</h2><p>1、<strong>只有一个人在旅行时，才听得到自己的声音，它会告诉你，这世界比想象中的宽阔。</strong><br>2、<strong>成长是一笔交易，我们都是用朴素的童真与未经人事的洁白交换长大的勇气。</strong><br>3、在这个世界上别太依赖任何人，因为当你在黑暗中挣扎时，连你的影子都会离开你。<br>4、不要对外表过分在意，心灵才是最重要的。<br>5、<strong>学会承受，学会长大，学会哭过以后，还能微笑地拥抱爸爸妈妈。</strong><br>6、大部分人随着年纪变大，身上的担子也变强壮了，能负担起更多的事：埋怨啊、不安啊、失落啊…这些东西不是说不痛了、不难过了。只是担子大了就能装下，然后就默默地挑走。<br><img src="https://img-blog.csdnimg.cn/20200427231227241.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="六、《幽灵公主》"><a href="#六、《幽灵公主》" class="headerlink" title="六、《幽灵公主》"></a>六、《幽灵公主》</h2><p>1、我想以没有仇恨的眼睛看世界。不管你曾经被伤害得有多深，总会有一个人的出现，让你原谅之前生活对你所有的刁难。<br>2、<strong>到不了的地方都叫做远方，回不去的世界都叫做家乡，我一直向往的却是比远方更远的地方。</strong><br>3、想要拥有天地间所有的东西，是人类的天性也就是罪孽。<br>4、命运是任何人也无法改变的，但他可以决定是等死还是面对。<br>5、<strong>我想用澄净的眼光，看清楚事实真相再做决定。</strong><br><img src="https://img-blog.csdnimg.cn/20200427231243181.jpg#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="七、《龙猫》"><a href="#七、《龙猫》" class="headerlink" title="七、《龙猫》"></a>七、《龙猫》</h2><p>1、<strong>生活坏到一定程度就会好起来，因为它无法更坏。努力过后，才知道许多事情，坚持坚持，就过来了。</strong><br>2、认清这个世界，然后爱它。就这么一辈子，下一世你可能就不在这个世界了。有些烦恼，丢掉了，才有风轻云淡的机会。<br>3、<strong>当你无法再拥有时，你唯一能做的就是不要再忘记</strong><br>4、<strong>没问题的，别担心，一切都会好的.</strong><br>5、<strong>人生的某些障碍，你是逃不掉的。与其费尽周折绕过去，不如勇敢的地攀越，或许这会铸就你人生的高点。</strong><br>6、<strong>不要害怕孤独。因为这个世界上，肯定有一个人，正努力的走向你。</strong><br>7、<strong>不要着急，最好的总在不经意之间出现。</strong><br>8、<strong>拥抱是世界上最美的语言。</strong><br>9、<strong>大声的笑出来，就不害怕了。</strong><br><img src="https://img-blog.csdnimg.cn/20200427231258850.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="八、《天空之城》"><a href="#八、《天空之城》" class="headerlink" title="八、《天空之城》"></a>八、《天空之城》</h2><p>1、越是试着忘记，越是记得深刻。<br>2、<strong>有时候，坚持了你最不想干的事情之后，便可得到你最想要的东西。</strong><br>3、我们的孤独，就像天空中的一座城市，仿佛是一个秘密，却无从诉说。<br><img src="https://img-blog.csdnimg.cn/20200427231311570.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="九、《风之谷》"><a href="#九、《风之谷》" class="headerlink" title="九、《风之谷》"></a>九、《风之谷》</h2><p>1、<strong>最远的旅行，是从自己的身体到自己的心，是从一个人的心到另一个人的心。</strong><br>2、人类，就是一直在重复过去的道路。每个人都认为自己是对的，然后就由罪恶衍生出更多的罪恶，悲哀衍生出更多的悲哀，永远找不到出路。<br>3、坚强，不是面对悲伤不流一滴泪，而是擦乾眼泪后微笑著面对以后的生活。<br>4、<strong>生命是黑暗中闪烁的光。</strong><br>5、只要活着，就有希望。<br><img src="https://img-blog.csdnimg.cn/20200427231326628.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="十、写在最后"><a href="#十、写在最后" class="headerlink" title="十、写在最后"></a>十、写在最后</h2><p>“朝花夕拾”语录，简约而不简单，<strong>世事纷繁，收集点点滴滴的感动！</strong><br><strong>小霞愿和您一起穿越人潮拥挤、改变自己、影响他人、未来可期，定会遇见更好的自己、更美的明天！</strong></p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="tags/%E4%BF%AE%E8%BA%AB%E3%80%81%E9%BD%90%E5%AE%B6%E3%80%81%E6%B2%BB%E5%9B%BD%E3%80%81%E5%B9%B3%E5%A4%A9%E4%B8%8B/" rel="tag">修身、齐家、治国、平天下</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="tags/%E5%B0%8F%E9%9C%9E%E6%84%9F%E5%8A%A8%E7%9A%84%E4%BA%8B/" rel="tag">小霞感动的事</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-每日十题系列（一）" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -1670,279 +1996,13 @@ item数据变了, 对原来的真实DOM进行数据更新。</code></pre><p>（2
 
 </article>
     
-    <article id="post-深入浅析浏览器动画（一）" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="2020/04/13/%E6%B7%B1%E5%85%A5%E6%B5%85%E6%9E%90%E6%B5%8F%E8%A7%88%E5%99%A8%E5%8A%A8%E7%94%BB%EF%BC%88%E4%B8%80%EF%BC%89/"
-    >深入浅析浏览器动画（一）</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="2020/04/13/%E6%B7%B1%E5%85%A5%E6%B5%85%E6%9E%90%E6%B5%8F%E8%A7%88%E5%99%A8%E5%8A%A8%E7%94%BB%EF%BC%88%E4%B8%80%EF%BC%89/" class="article-date">
-  <time datetime="2020-04-13T11:32:33.954Z" itemprop="datePublished">2020-04-13</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h2 id="需求思考：让动画流畅无阻，提升用户体验"><a href="#需求思考：让动画流畅无阻，提升用户体验" class="headerlink" title="需求思考：让动画流畅无阻，提升用户体验"></a>需求思考：让动画流畅无阻，提升用户体验</h2><p>在Web应用中，实现动画效果的方法比较多。<br>Javascript 中可以通过定时器 setTimeout 来实现，css3 可以使用 transition 和 animation 来实现，html5 中的 canvas 也可以实现。<br>除此之外，html5 还提供一个专门用于请求动画的API，那就是 requestAnimationFrame，顾名思义就是请求动画帧。 </p>
-<p><strong>如果有一个需求，要设置动画不停播放移动，怎么做最好呢？</strong><br>我们经常面临一个抉择：到底使用哪种动画方式？怎么符合业务场景？下面做一下对比。</p>
-<h2 id="1、JS动画与CSS3动画的区别和使用场景"><a href="#1、JS动画与CSS3动画的区别和使用场景" class="headerlink" title="1、JS动画与CSS3动画的区别和使用场景"></a>1、JS动画与CSS3动画的区别和使用场景</h2><p><strong>JS动画</strong><br>缺点：<br>(1)JavaScript在浏览器的主线程中运行，而主线程中还有其它需要运行的JavaScript脚本、样式计算、布局、绘制任务等,对其干扰导致线程可能出现阻塞，从而造成丢帧的情况。<br>(2)代码的复杂度高于CSS动画。</p>
-<p>优点：<br>(1)JavaScript动画控制能力很强, 可以在动画播放过程中对动画进行控制：开始、暂停、回放、终止、取消都是可以做到的。<br>(2)动画效果比css3动画丰富,有些动画效果，比如曲线运动,冲击闪烁,视差滚动效果，只有JavaScript动画才能完成<br>(3)CSS3有兼容性问题，而JS大多时候没有兼容性问题。</p>
-<p><strong>CSS动画</strong><br>缺点：<br> (1)运行过程控制较弱,无法附加事件绑定回调函数。<br> (2)CSS动画只能暂停,不能在动画中寻找一个特定的时间点，不能在半路反转动画，不能变换时间尺度，不能在特定的位置添加回调函数或是绑定回放事件,无进度报告。<br> (3)CSS比较简单，性能调优方向固定，对于帧速表现不好的低版本浏览器，CSS3可以做到自然降级，而JS则需要撰写额外代码。<br>优点：<br>(1)浏览器可以对动画进行优化。<br>(2)浏览器使用与 requestAnimationFrame 类似的机制。<br>(3)css3后来添加了transform动画函数。</p>
-<p><strong>CSS动画流畅的原因</strong><br><strong>渲染线程分为main thread(主线程)和compositor thread(合成器线程)。</strong><br>如果CSS动画只是改变transform和opacity，这时整个CSS动画得以在compositor thread完成<br>（而JS动画则会在main thread执行，然后触发compositor进行下一步操作）<br>在JS执行一些昂贵的任务时，main thread繁忙，CSS动画由于使用了compositor thread可以保持流畅，在主线程中，维护了一棵Layer树（LayerTreeHost），管理了TiledLayer，在compositor thread，维护了同样一颗LayerTreeHostImpl，管理了LayerImpl，这两棵树的内容是拷贝关系。因此可以彼此不干扰，当Javascript在main thread操作LayerTreeHost的同时，compositor thread可以用LayerTreeHostImpl做渲染。当Javascript繁忙导致主线程卡住时，合成到屏幕的过程也是流畅的。<br>为了实现防假死，鼠标键盘消息会被首先分发到compositor thread，然后再到main thread。这样，当main thread繁忙时，compositor thread还是能够响应一部分消息。<br>例如，鼠标滚动时，加入main thread繁忙，compositor thread也会处理滚动消息，滚动已经被提交的页面部分（未被提交的部分将被刷白）。</p>
-<p><strong>CSS动画比JS流畅的前提：</strong><br>1、JS在执行一些昂贵的任务。<br>2、同时CSS动画不触发layout或paint。<br>3、在CSS动画或JS动画触发了paint或layout时，需要main thread进行Layer树的重计算，这时CSS动画或JS动画都会阻塞后续操作。<br>4、只有如下属性的修改才符合“仅触发Composite，不触发layout或paint：<br>backface-visibility<br>opacity<br>perspective<br>perspective-origin<br>transfrom<br>所以只有用上了3D加速或修改opacity时，css3动画的优势才会体现出来。</p>
-<p><strong>总结：</strong><br> 1、如果动画只是简单的状态切换，不需要中间过程控制，在这种情况下，css动画是优选方案。它可以让你将动画逻辑放在样式文件里面，而不会让你的页面充斥 Javascript 库。<br> 2、如果要设计很复杂的富客户端界面或者在开发一个有着复杂UI状态的 APP，应该使用js动画，这样动画可以保持高效，并且工作流也更可控。<br> 3、综上，在实现一些小的交互动效的时候，就多考虑考虑CSS动画。对于一些复杂控制的动画，使用javascript比较可靠。</p>
-<h2 id="2、RequestAnimationFrame有哪些好处和优化？"><a href="#2、RequestAnimationFrame有哪些好处和优化？" class="headerlink" title="2、RequestAnimationFrame有哪些好处和优化？"></a>2、RequestAnimationFrame有哪些好处和优化？</h2><p>为了深入理解 requestAnimationFrame 背后的原理，我们首先需要了解一下与之相关的几个概念：<br>1、屏幕刷新频率<br>即图像在屏幕上更新的速度，也即屏幕上的图像每秒钟出现的次数，它的单位是赫兹(Hz)。 对于一般笔记本电脑，这个频率大概是60Hz， 可以在桌面上右键-&gt;屏幕分辨率-&gt;高级设置-&gt;监视器 中查看和设置。这个值的设定受屏幕分辨率、屏幕尺寸和显卡的影响，原则上设置成让眼睛看着舒适的值都行。</p>
-<p>市面上常见的显示器有两种，即CRT和LCD， CRT就是传统显示器，LCD就是我们常说的液晶显示器。</p>
-<p>CRT是一种使用阴极射线管的显示器，屏幕上的图形图像是由一个个因电子束击打而发光的荧光点组成，由于显像管内荧光粉受到电子束击打后发光的时间很短，所以电子束必须不断击打荧光粉使其持续发光。电子束每秒击打荧光粉的次数就是屏幕刷新频率。</p>
-<p>而对于LCD来说，则不存在刷新频率的问题，它根本就不需要刷新。因为LCD中每个像素都在持续不断地发光，直到不发光的电压改变并被送到控制器中，所以LCD不会有电子束击打荧光粉而引起的闪烁现象。</p>
-<p>因此，当你对着电脑屏幕什么也不做的情况下，显示器也会以每秒60次的频率正在不断的更新屏幕上的图像。为什么你感觉不到这个变化？ 那是因为人的眼睛有视觉停留效应，即前一副画面留在大脑的印象还没消失，紧接着后一副画面就跟上来了，这中间只间隔了16.7ms(1000/60≈16.7)， 所以会让你误以为屏幕上的图像是静止不动的。而屏幕给你的这种感觉是对的，试想一下，如果刷新频率变成1次/秒，屏幕上的图像就会出现严重的闪烁，这样就很容易引起眼睛疲劳、酸痛和头晕目眩等症状。</p>
-<p>2、动画原理<br>根据上面的原理我们知道，你眼前所看到图像正在以每秒60次的频率刷新，由于刷新频率很高，因此你感觉不到它在刷新。而动画本质就是要让人眼看到图像被刷新而引起变化的视觉效果，这个变化要以连贯的、平滑的方式进行过渡。 那怎么样才能做到这种效果呢？</p>
-<p>刷新频率为60Hz的屏幕每16.7ms刷新一次，我们在屏幕每次刷新前，将图像的位置向左移动一个像素，即1px。这样一来，屏幕每次刷出来的图像位置都比前一个要差1px，因此你会看到图像在移动；由于我们人眼的视觉停留效应，当前位置的图像停留在大脑的印象还没消失，紧接着图像又被移到了下一个位置，因此你才会看到图像在流畅的移动，这就是视觉效果上形成的动画。</p>
-<p>3、setTimeout<br>理解了上面的概念以后，我们不难发现，setTimeout 其实就是通过设置一个间隔时间来不断的改变图像的位置，从而达到动画效果的。但我们会发现，利用setTimeout实现的动画在某些低端机上会出现卡顿、抖动的现象。<br>这里是MDN的阐述：<br><img src="https://img-blog.csdnimg.cn/20200413185804863.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br> <img src="https://img-blog.csdnimg.cn/20200413190019842.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br> 这种现象的产生有两个原因：</p>
-<p>setTimeout的执行时间并不是确定的。在Javascript中，</p>
-<blockquote>
-<p>1、 <strong>setTimeout 任务被放进了异步队列中，只有当主线程上的任务执行完以后，才会去检查该队列里的任务是否需要开始执行，因此<br>setTimeout 的实际执行时间一般要比其设定的时间晚一些。</strong><br>2、<strong>刷新频率受屏幕分辨率和屏幕尺寸的影响，因此不同设备的屏幕刷新频率可能会不同，而setTimeout只能设置一个固定的时间间隔，这个时间不一定和屏幕的刷新时间相同。</strong></p>
-</blockquote>
-<p>以上两种情况都会导致setTimeout的执行步调和屏幕的刷新步调不一致，从而引起丢帧现象。 那为什么步调不一致就会引起丢帧呢？</p>
-<p>首先要明白，setTimeout的执行只是在内存中对图像属性进行改变，这个变化必须要等到屏幕下次刷新时才会被更新到屏幕上。如果两者的步调不一致，就可能会导致中间某一帧的操作被跨越过去，而直接更新下一帧的图像。假设屏幕每隔16.7ms刷新一次，而setTimeout每隔10ms设置图像向左移动1px， 就会出现如下绘制过程：</p>
-<p>第0ms: 屏幕未刷新，等待中，setTimeout也未执行，等待中；</p>
-<p>第10ms: 屏幕未刷新，等待中，setTimeout开始执行并设置图像属性left=1px；</p>
-<p>第16.7ms: 屏幕开始刷新，屏幕上的图像向左移动了1px， setTimeout 未执行，继续等待中；</p>
-<p>第20ms: 屏幕未刷新，等待中，setTimeout开始执行并设置left=2px;</p>
-<p>第30ms: 屏幕未刷新，等待中，setTimeout开始执行并设置left=3px;</p>
-<p>第33.4ms:屏幕开始刷新，屏幕上的图像向左移动了3px， setTimeout未执行，继续等待中；</p>
-<p>…<br>从上面的绘制过程中可以看出，屏幕没有更新left=2px的那一帧画面，图像直接从1px的位置跳到了3px的的位置，这就是丢帧现象，这种现象就会引起动画卡顿。</p>
-<p>4、requestAnimationFrame</p>
-<blockquote>
-<p>与setTimeout相比，<strong>requestAnimationFrame最大的优势是由系统来决定回调函数的执行时机</strong>。<br>具体一点讲<strong>，如果屏幕刷新率是60Hz,那么回调函数就每16.7ms被执行一次，如果刷新率是75Hz，那么这个时间间隔就变成了1000/75=13.3ms</strong>，换句话说就是，requestAnimationFrame的步伐跟着系统的刷新步伐走。<br><strong>它能保证回调函数在屏幕每一次的刷新间隔中只被执行一次，这样就不会引起丢帧现象，也不会导致动画出现卡顿的问题。</strong></p>
-</blockquote>
-<p><strong>总结一下，requestAnimationFrame有以下优势：</strong></p>
-<p>1、CPU节能：使用setTimeout实现的动画，当页面被隐藏或最小化时，setTimeout 仍然在后台执行动画任务，由于此时页面处于不可见或不可用状态，刷新动画是没有意义的，<strong>完全是浪费CPU资源。而requestAnimationFrame则完全不同，当页面处理未激活的状态下，该页面的屏幕刷新任务也会被系统暂停，因此跟着系统步伐走的requestAnimationFrame也会停止渲染，当页面被激活时，动画就从上次停留的地方继续执行，有效节省了CPU开销。</strong></p>
-<p>2、函数节流：在高频率事件(resize,scroll等)中，为了防止在一个刷新间隔内发生多次函数执行，使用<strong>requestAnimationFrame可保证每个刷新间隔内，函数只被执行一次，这样既能保证流畅性，也能更好的节省函数执行的开销。一个刷新间隔内函数执行多次时没有意义的，因为显示器每16.7ms刷新一次，多次绘制并不会在屏幕上体现出来。</strong></p>
-<p>3、兼容性：requestAnimationFrame 是专门为实现高性能的帧动画而设计的一个API，目前已在多个浏览器得到了支持，包括IE10+，Firefox，Chrome，Safari，Opera等，在移动设备上，ios6以上版本以及IE mobile 10以上也支持requestAnimationFrame，唯一比较遗憾的是目前安卓上的原生浏览器并不支持requestAnimationFrame，不过对requestAnimationFrame的支持应该是大势所趋了，安卓版本的chrome 16+也是支持requestAnimationFrame的。</p>
-<p>4、<strong>requestAnimationFrame 会把每一帧中的所有DOM操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。</strong></p>
-<p>5、<strong>在隐藏或不可见的元素中，requestAnimationFrame将不会进行重绘或回流，会暂停渲染，保证我们设计的动画函数的每一次调用都对应着一次屏幕重绘，这当然就意味着更少的的cpu，gpu和内存使用量。</strong></p>
-<p>像setTimeout、setInterval一样，requestAnimationFrame是一个全局函数<strong>。调用requestAnimationFrame后，它会要求浏览器根据自己的频率进行一次重绘，它接收一个回调函数作为参数，在即将开始的浏览器重绘时，会调用这个函数，并会给这个函数传入调用回调函数时的时间作为参数。</strong>由于requestAnimationFrame的功效只是一次性的，所以若想达到动画效果，则必须连续不断的调用requestAnimationFrame，就像我们使用setTimeout来实现动画所做的那样。<strong>requestAnimationFrame函数会返回一个资源标识符，可以把它作为参数传入cancelAnimationFrame函数来取消requestAnimationFrame的回调。</strong>怎么样，是不是也跟setTimeout的clearTimeout很相似啊。</p>
-<p>所以，可以这么说，requestAnimationFrame就是一个性能优化版、专为动画量身打造的setTimeout，不同的是requestAnimationFrame不是自己指定回调函数运行的时间，而是跟着浏览器内建的刷新频率来执行回调，这当然就能达到浏览器所能实现动画的最佳效果了。</p>
-<p>目前，各个支持requestAnimationFrame的浏览器有些还是自己的私有实现，所以必须加前缀，对于不支持requestAnimationFrame的浏览器，我们只能使用setTimeout，因为两者的使用方式几近相同，所以这两者的兼容并不难。对于支持requestAnimationFrame的浏览器，我们使用requestAnimationFrame，而不支持的我们优雅降级使用传统的setTimeout。<strong>下面我把它们封装一下，就能得到一个统一兼容各大浏览器的API了hhh</strong></p>
-<h2 id="3、RequestAnimationFrame使用语法："><a href="#3、RequestAnimationFrame使用语法：" class="headerlink" title="3、RequestAnimationFrame使用语法："></a>3、RequestAnimationFrame使用语法：</h2><p>以下来自MDN：<br>window.requestAnimationFrame() 告诉浏览器——你希望执行一个动画，并且要求浏览器在下次重绘之前调用指定的回调函数更新动画。该方法需要传入一个回调函数作为参数，该回调函数会在浏览器下一次重绘之前执行。<br>注意：若你想在浏览器下次重绘之前继续更新下一帧动画，那么回调函数自身必须再次调window.requestAnimationFrame()<br>当你准备更新动画时你应该调用此方法。这将使浏览器在下一次重绘之前调用你传入给该方法的动画函数(即你的回调函数)。回调函数执行次数通常是每秒60次，但在大多数遵循W3C建议的浏览器中，回调函数执行次数通常与浏览器屏幕刷新次数相匹配。回调函数会被传入DOMHighResTimeStamp参数，DOMHighResTimeStamp指示当前被 requestAnimationFrame() 排序的回调函数被触发的时间。在同一个帧中的多个回调函数，它们每一个都会接受到一个相同的时间戳，即使在计算上一个回调函数的工作负载期间已经消耗了一些时间。该时间戳是一个十进制数，单位毫秒，最小精度为1ms(1000μs)。</p>
-<blockquote>
-<p>使用语法是window.requestAnimationFrame(callback);<br>callback参数表示下一次重绘之前更新动画帧所调用的函数(即上面所说的回调函数)。该回调函数会被传入DOMHighResTimeStamp参数，该参数与performance.now()的返回值相同。<br>它表示requestAnimationFrame() 开始去执行回调函数的时刻。<br> callback的返回值是一个 long整数，表示一个请求 ID ，是回调列表中唯一的标识（是个非零值），我们可以传这个值给window.cancelAnimationFrame()以取消回调函数。</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">范例</span><br><span class="line"><span class="keyword">var</span> start = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">var</span> element = <span class="built_in">document</span>.getElementById(<span class="string">'SomeElementYouWantToAnimate'</span>);</span><br><span class="line">element.style.position = <span class="string">'absolute'</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">step</span>(<span class="params">timestamp</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!start) start = timestamp;</span><br><span class="line">  <span class="keyword">var</span> progress = timestamp - start;</span><br><span class="line">  element.style.left = <span class="built_in">Math</span>.min(progress / <span class="number">10</span>, <span class="number">200</span>) + <span class="string">'px'</span>;</span><br><span class="line">  <span class="keyword">if</span> (progress &lt; <span class="number">2000</span>) &#123;</span><br><span class="line">    <span class="built_in">window</span>.requestAnimationFrame(step);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span>.requestAnimationFrame(step);</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">这个API的调用很简单，如下所示：</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="string">``</span><span class="string">`javascript</span></span><br><span class="line"><span class="string">`</span><span class="string">``</span>javascript</span><br><span class="line"></span><br><span class="line"><span class="string">``</span><span class="string">`javascript</span></span><br><span class="line"><span class="string">var progress = 0;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">//回调函数</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">function render() &#123;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    progress += 1; //修改图像的位置</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    if (progress &lt; 100) &#123;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">           //在动画没有结束前，递归渲染</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">           window.requestAnimationFrame(render);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">//第一帧渲染</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">window.requestAnimationFrame(render);</span></span><br></pre></td></tr></table></figure>
-<p>下面是一个小Demo:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"en"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">"UTF-8"</span>&gt;</span><br><span class="line">    &lt;meta name=<span class="string">"viewport"</span> content=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span><br><span class="line">    &lt;meta http-equiv=<span class="string">"X-UA-Compatible"</span> content=<span class="string">"ie=edge"</span>&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;<span class="regexp">/title&gt;</span></span><br><span class="line"><span class="regexp">    &lt;style&gt;</span></span><br><span class="line"><span class="regexp">        #box&#123;</span></span><br><span class="line"><span class="regexp">            background-color: rebeccapurple;</span></span><br><span class="line"><span class="regexp">            width: 100px;</span></span><br><span class="line"><span class="regexp">            height: 100px;    </span></span><br><span class="line"><span class="regexp">        &#125;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>style&gt;</span><br><span class="line">&lt;<span class="regexp">/head&gt;</span></span><br><span class="line"><span class="regexp">&lt;body&gt;</span></span><br><span class="line"><span class="regexp">    &lt;div id="box"&gt;&lt;/</span>div&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        <span class="keyword">var</span> duration = <span class="number">4000.0</span>;</span><br><span class="line">        <span class="keyword">var</span> startTime = <span class="number">-1.0</span>;</span><br><span class="line"> </span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">render</span>(<span class="params">currentTime</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> h1 = <span class="built_in">document</span>.getElementById(<span class="string">"box"</span>);</span><br><span class="line">            <span class="keyword">var</span> opacity = currentTime/duration;</span><br><span class="line">            h1.style.opacity = opacity;</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">eachFrame</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> timeElapse = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime()-startTime;</span><br><span class="line">            <span class="keyword">if</span>(startTime &lt; <span class="number">0</span>) &#123;</span><br><span class="line">                startTime = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime();</span><br><span class="line">                render(<span class="number">0.0</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(timeElapse &lt; duration) &#123;</span><br><span class="line">                render(timeElapse);</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line"> </span><br><span class="line">            <span class="built_in">window</span>.requestAnimationFrame(eachFrame);</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        <span class="built_in">window</span>.requestAnimationFrame(eachFrame);</span><br><span class="line">    &lt;<span class="regexp">/script&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>body&gt;</span><br><span class="line">&lt;<span class="regexp">/html&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-<h2 id="4、实战动画和处理兼容性的封装"><a href="#4、实战动画和处理兼容性的封装" class="headerlink" title="4、实战动画和处理兼容性的封装"></a>4、实战动画和处理兼容性的封装</h2><p>下面是对动画函数的封装，可以处理浏览器的兼容问题哈：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> lastTime = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">var</span> vendors = [<span class="string">'webkit'</span>, <span class="string">'moz'</span>, <span class="string">'ms'</span>, <span class="string">'o'</span>];</span><br><span class="line">	<span class="keyword">for</span>( <span class="keyword">var</span> x=<span class="number">0</span> ; x&lt;vendors.length ; ++x)&#123;</span><br><span class="line">		<span class="keyword">if</span> ( <span class="built_in">window</span>.requestAnimationFrame &amp;&amp; <span class="built_in">window</span>.cancelAnimationFrame ) &#123;</span><br><span class="line">   			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">window</span>.requestAnimationFrame = <span class="built_in">window</span>[vendors[x]+<span class="string">'RequestAnimationFrame'</span>];</span><br><span class="line">		<span class="built_in">window</span>.cancelAnimationFrame = <span class="built_in">window</span>[vendors[x]+<span class="string">'CancelAnimationFrame'</span>] || <span class="built_in">window</span>[vendors[x]+<span class="string">'CancelRequestAnimationFrame'</span>];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(!<span class="built_in">window</span>.requestAnimationFrame)&#123; </span><br><span class="line">		<span class="built_in">window</span>.requestAnimationFrame = <span class="function"><span class="keyword">function</span>(<span class="params">callback, element</span>) </span>&#123;</span><br><span class="line">			<span class="keyword">var</span> currTime = <span class="keyword">new</span> <span class="built_in">Date</span>().getTime();</span><br><span class="line">			<span class="keyword">var</span> timeToCall = <span class="built_in">Math</span>.max(<span class="number">0</span>, <span class="number">16</span> - (currTime - lastTime));</span><br><span class="line">			<span class="keyword">var</span> id = <span class="built_in">window</span>.setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">				callback(currTime + timeToCall);</span><br><span class="line">			&#125;, timeToCall);</span><br><span class="line">			lastTime = currTime + timeToCall;</span><br><span class="line">			<span class="keyword">return</span> id;</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(!<span class="built_in">window</span>.cancelAnimationFrame)&#123;</span><br><span class="line">		<span class="built_in">window</span>.cancelAnimationFrame = <span class="function"><span class="keyword">function</span>(<span class="params">id</span>) </span>&#123;</span><br><span class="line"> 			clearTimeout(id); </span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;());</span><br></pre></td></tr></table></figure>
-
-<p>下面举个简单的例子来说明怎么运用requestAnimationFrame进行动画，下面的代码会将id为demo的div以动画的形式向右移动到300px，上手实践一下，为日后更复杂的动画打基础！</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;div id=<span class="string">"demo"</span> style=<span class="string">"position:absolute; width:100px; height:100px; background:#ccc; left:0; top:0;"</span>&gt;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">&lt;script&gt;</span></span><br><span class="line"><span class="regexp">	var demo = document.getElementById('demo');</span></span><br><span class="line"><span class="regexp">	function rander()&#123;</span></span><br><span class="line"><span class="regexp">		demo.style.left = parseInt(demo.style.left) + 1 + 'px'; /</span><span class="regexp">/每一帧向右移动1px</span></span><br><span class="line"><span class="regexp">	&#125;</span></span><br><span class="line"><span class="regexp">	requestAnimationFrame(function()&#123;</span></span><br><span class="line"><span class="regexp">		rander();</span></span><br><span class="line"><span class="regexp">		/</span><span class="regexp">/当超过300px后才停止</span></span><br><span class="line"><span class="regexp">		if(parseInt(demo.style.left)&lt;=300)&#123;			</span></span><br><span class="line"><span class="regexp">			requestAnimationFrame(arguments.callee);</span></span><br><span class="line"><span class="regexp">		&#125;</span></span><br><span class="line"><span class="regexp">	&#125;);</span></span><br><span class="line"><span class="regexp">&lt;/</span>script&gt;</span><br></pre></td></tr></table></figure>
-
-
-
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-思考用户登录的加密解密" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="2020/04/13/%E6%80%9D%E8%80%83%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E7%9A%84%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86/"
-    >思考用户登录的加密解密</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="2020/04/13/%E6%80%9D%E8%80%83%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E7%9A%84%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86/" class="article-date">
-  <time datetime="2020-04-12T16:00:00.000Z" itemprop="datePublished">2020-04-13</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E4%B8%8E%E5%B7%A5%E7%A8%8B%E5%8C%96/">网络安全与工程化</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>Welcome to share creative thoughts!</p>
-<p>最近做项目用到了Axios中的CancelToken，对加密解密等用户鉴权场景比较好奇，一番学习实践后，总结如下哈：</p>
-<h2 id="1、数据库存储上的加密解密："><a href="#1、数据库存储上的加密解密：" class="headerlink" title="1、数据库存储上的加密解密："></a>1、数据库存储上的加密解密：</h2><blockquote>
-<p><strong>1. 单向hash（MD5）</strong></p>
-</blockquote>
-<p>1、单向的hash加密，以MD5和SHA算法为代表，这类做法比明文直接存储看起来要安全，但是如果在DB被攻破的时候，以目前计算机的算力加之黑客的各种技术手段，其实跟明文是差别不大的。<br>2、本科学习时，了解到密码学里面破解密码最笨的一种方法是暴力破解，随着目前计算机硬件的发展，带来计算能力的提升，每秒钟上亿次的hash计算已经不是问题，直接暴力破解几乎是分秒的事情。<br>3、另外与之相近的有一种字典表/彩虹表破解的手段，原理很简单，黑客们会把常见密码以及各种hash算法加密后的字符串整理到一个表中，因为只要是<strong>同一明文密码同一hash算法</strong>得出的值就是一样的，也就是说黑客不断完善整理的彩虹表可以用来任何MD5加密系统的破解，带着破解的DB用户MD5密码那一列信息，<strong>直接循环去select 明文 from 字典表/彩虹表 where 密文 = 密码</strong>，基本可以破解目前多数人设置的普通密码。</p>
-<blockquote>
-<p><strong>2. hash+盐</strong></p>
-</blockquote>
-<p> 1、早期为了改进单向hash的缺陷，为了让彩虹表失效，引入了盐，盐是随机生成的一个唯一字符串，连在明文密码后增强密码的随机性，然后再做hash得到的加密密文存储在DB中，这样一个是相同的密码存在db中的值就不同了，另一个是彩虹表也不会再起作用了。<br> 2、但是同样以目前计算机的算力，暴力破解也是分分钟的事情，因为为了校验密码的原因，我们一般会把这种方法生成的密码和盐一块存在DB中，明文+盐 hash= 密码。<br> 3、黑客在拿到盐和加密密码后，只需要用计算机不断去生成明文，然后计算就可以很快破解。这种方法是避免了彩虹表，但是暴力破解还是避免不了。<br>4、 这种情况类似于目前比特币挖矿，以目前矿机的算力挖矿，<strong>加之比特币不断增加hash碰撞难度</strong>，暴力破解确实越来越困难，比特币越来越稀有，但是随着量子高性能计算机的发展，未来可能比特币这种hash碰撞的难度也是分秒钟的事。</p>
-<blockquote>
-<p><strong>3. PBKDF2, BCrypt 或 SCrypt 算法</strong></p>
-</blockquote>
-<p>1、这类算法有一个特点，<strong>算法中都有个因子，用于指明计算密码摘要所需要的资源和时间，也就是计算强度</strong>。<br>2、计算强度越大，攻击者建立rainbow table越困难，以至于不可继续。这类算法也可以保证即使计算能力不断提高，只要调整算法中的强度因子，密码仍然不可能被轻易的攻破。 后台密码存储的安全，可使用BCrypt或SCrypt进行保证，将计算迭代次数调高，增加计算时间，从而防止彩虹表与字典攻击。</p>
-<blockquote>
-<p><strong>4、第三方密码存储服务商</strong></p>
-</blockquote>
-<p>1、如果一个系统对于密码存储的要求实在很高，比如说如果用户密码泄露会造成大量现金流失，损失是毁灭性不可逆的，那么可以考虑第三方密码存储服务商。<br>2、在欧美金融界以及电商界，许多早期的大型银行，信用卡，金融机构的线上密码存储，就使用了比较靠谱的第三方存储服务。<br>3、原因有两个：一方面是自身去开发维护一套复杂的密码存储系统成本可能比整个线上系统还要高，另一方面为了风险规避。</p>
-<h2 id="2、实战总结："><a href="#2、实战总结：" class="headerlink" title="2、实战总结："></a>2、实战总结：</h2><p>1、密码最好是以不可还原明文的方式来保存。否则攻击数据库很容易造成巨大危害，尤其是在金融行业和电商行业。<br>2、通常利用哈希算法的单向性来保证明文以不可还原的有损方式进行存储。<br>3、这类方法的各个具体操作方式按安全性由低到高依次为：</p>
-<p>A：使用自己独创的哈希算法对密码进行哈希，存储哈希过的值。</p>
-<p>B：使用 MD5 或 SHA-1 哈希算法：MD5 和 SHA-1 已破解。虽不能还原明文，但很容易找到能生成相同哈希值的替代明文。而且这两个算法速度较快，暴力破解相对省时，建议不要使用它们。</p>
-<p>C ：使用更安全的 SHA-256 等成熟算法，更加复杂的算法增加了暴力破解的难度。但如果遇到简单密码，用彩虹字典的暴力破解法，很快就能得到密码原文。</p>
-<p>D：加入随机 salt 的哈希算法。</p>
-<p>密码原文（或经过 hash 后的值）和随机生成的 salt 字符串混淆，然后再进行 hash，最后把 hash 值和 salt 值一起存储。<br>验证密码的时候只要用 salt 再与密码原文做一次相同步骤的运算，比较结果与存储的 hash 值就可以了。这样一来哪怕是简单的密码，在进过 salt 混淆后产生的也是很不常见的字符串，根本不会出现在彩虹字典中。salt 越长暴力破解的难度越大。</p>
-<p>E：具体的 hash 过程也可以进行若干次叠代，虽然 hash 叠代会增加碰撞率，但也增加暴力破解的资源消耗。<br>就算真被破解了，黑客掌握的也只是这个随机 salt 混淆过的密码，用户原始密码依然安全，不用担心其它使用相同密码的应用。</p>
-<p>上面这几种方法都不可能得到密码的明文，就算是系统管理员也没办法。对于那些真的忘了密码的用户，网站只能提供重置密码的功能了。</p>
-<p>下面的 python 程序演示了如何使用 salt 加 hash 来单向转换密码明文</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="string">``</span><span class="string">`cpp</span></span><br><span class="line"><span class="string">import os</span></span><br><span class="line"><span class="string">from hashlib import sha256</span></span><br><span class="line"><span class="string">from hmac import HMAC</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">def encrypt_password(password, salt=None):</span></span><br><span class="line"><span class="string">    """Hash password on the fly."""</span></span><br><span class="line"><span class="string">    if salt is None:</span></span><br><span class="line"><span class="string">        salt = os.urandom(8) # 64 bits.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    assert 8 == len(salt)</span></span><br><span class="line"><span class="string">    assert isinstance(salt, str)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    if isinstance(password, unicode):</span></span><br><span class="line"><span class="string">        password = password.encode('UTF-8')</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    assert isinstance(password, str)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    result = password</span></span><br><span class="line"><span class="string">    for i in xrange(10):</span></span><br><span class="line"><span class="string">        result = HMAC(result, salt, sha256).digest()</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    return salt + result</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">这里先随机生成 <span class="number">64</span> bits 的 salt，再选择 SHA-<span class="number">256</span> 算法使用 HMAC 对密码和 salt 进行 <span class="number">10</span> 次叠代混淆，最后将 salt 和 hash 结果一起返回。</span><br><span class="line"></span><br><span class="line">使用的方法很简单：</span><br><span class="line"></span><br><span class="line">```cpp</span><br><span class="line">hashed = encrypt<span class="constructor">_password('<span class="params">secret</span> <span class="params">password</span>')</span></span><br><span class="line">下面是验证函数，它直接使用 encrypt_password 来对密码进行相同的单向转换并比较</span><br><span class="line"></span><br><span class="line">def validate<span class="constructor">_password(<span class="params">hashed</span>, <span class="params">input_password</span>)</span>:</span><br><span class="line">    return hashed<span class="operator"> == </span>encrypt<span class="constructor">_password(<span class="params">input_password</span>, <span class="params">salt</span>=<span class="params">hashed</span>[:8])</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">assert</span> validate<span class="constructor">_password(<span class="params">hashed</span>, '<span class="params">secret</span> <span class="params">password</span>')</span></span><br><span class="line">虽然只有简短几行，但借助 python 标准库帮助，这已经是一个可用于生产环境的高安全密码加密验证算法了。</span><br></pre></td></tr></table></figure>
-
-<h2 id="3、-密码传输问题"><a href="#3、-密码传输问题" class="headerlink" title="3、 密码传输问题"></a>3、 密码传输问题</h2><p>学习总结了密码的存储问题，接下来再记录一下密码的传输问题，好好消化，为以后工作打下坚实基础，感谢一面小姐姐，我会继续深入思考！</p>
-<p>对于在线系统，密码的传输要经过下面几个步骤：</p>
-<blockquote>
-<p>用户在浏览器中输入原始密码：键盘 ——&gt; 操作系统 ——&gt; 浏览器内存<br>程序对原始密码进行转换：内存中的原始密码 ——&gt;内存中的转换后的密码<br> 转换后的密码在线上传输：内存中转换后的密码 ——&gt; 网络 ——&gt; 系统<br>这其中每一步都可能泄露原始密码，当然也有相应的保护措施。</p>
-</blockquote>
-<p>千里之行始于足下，接下来让我一步步剖析！:</p>
-<blockquote>
-<p><strong>用户输入密码</strong></p>
-</blockquote>
-<p>常用的攻击方法包括：</p>
-<p>1、偷看输入的密码</p>
-<p>在公共场合输入密码很容易被偷看，例如使用 ATM 机取款的时候。输入密码时密码明文用 星号代替就是为了防止偷窥。<br>但这样正常用户也不能直接用眼睛确认输入密码是否正确，通常在设置新密码时就要输入两遍来确保输入无误。<br>iPhone 在这点做了改进，每输入一个密码字符先显示半秒钟的明文再转成 * 显示，鉴于使用 iPhone 虚拟键盘输入时，按错键的概率还是比较高的，这个折中也是在可用性和安全性上做了妥协。<br>还有些系统为了最大限度的防偷窥，在输入密码时屏幕没有任何输出，比如 Unix/Linux 的命令行登录界面。这样就连输入的密码长度都看不出来。</p>
-<p>2、用木马程序记录键盘输入</p>
-<p>现在比较流行的 QQ 或网络游戏的盗号就常用这种方式进行。安装杀毒软件来防盗号自不必说，还可以用屏幕软键盘输入密码，这样木马就记录不到键盘事件，只能通过分析鼠标点击和当时屏幕图象来破解密码。如果再进一步，软键盘的字符布局每次都随计产生，那就更加重了分析破解的难度。</p>
-<p>3、感染应用程序或使用钓鱼手法，直接得到内存中的密码值</p>
-<p>不管如何防范输入的过程，一旦密码到程序里，就会以明文的形式呈现在内存中，只要恶意软件模仿安全程序（或模仿网站的外观）直接套取密码就轻而易举。<br>现在出现的假 ATM 机诈骗也是这种手法的衍生。<br>还有一种，不是替换或模仿程序，而是用病毒感染原程序将内存中的值读到。<br>要防范这种攻击，必须要对原程序的完整性和合法性进行验证，只有在验证通过后，才能进行正常的登录交互操作。<br>这个验证可以用数字签名来实现。比如 Windows 10中所有微软的可执行文件都带有微软的数字签名。<br>在网站上则是 HTTPS 的验证。当然，这个验证过程还牵扯到人的判断，在社会工程学上，软件要配合一些强制的措施，才能保证人不会麻痹大意中招。<br>比如浏览器在访问非信任机构签发的数字签名的 HTTPS 站点时，会警告并且阻止用户进行访问。Windows 10 现在所有的驱动程序也都必须要有微软的数字签名才能运行。</p>
-<blockquote>
-<p><strong>密码转换</strong></p>
-<p>原始密码会经过一些转换，才能在线上传输。这跟密码的存储类似。<br>直接传输密码明文是最不安全的。而用简单的可逆变换，或者固定密钥加密也只是增加了破解难度。<br>最好是每次服务器随机产生一个密钥，送给客户端进行加密。</p>
-</blockquote>
-<p>1、如果使用 HTTPS，那所有通过 SSL 通道的信息都经过了随机密钥加密。<br>2、HTTPS 虽然安全，可它最大的问题是性能。连接初始时密钥的协商是通过非对称加密的体系进行的，这会造成连接较慢（密钥协商好后的数据加密是纯耗 CPU 的工作，在现在的硬件条件下，并不是瓶颈）。<br>金融在线系统一般都使用 HTTPS ，但大部分在线应用出于性能的考虑，会选择使用 HTTP 交换随机密码的方式。<br>3、随机密钥由服务器生成并发送给客户端。客户端用此密钥将密码加密，送给服务器。这里不要求加密方法是可逆的。一个较安全的做法是客户端使用 MD5 或 SHA-1 算法对密码进行不可逆转换，再用密钥加密送到 Server。现在已经有很多 Javascript 的加密库可以在浏览器端进行这样的转换工作。</p>
-<blockquote>
-<p><strong>密码在线传输</strong></p>
-</blockquote>
-<p>1、使用 HTTPS 加密传输，HTTPS 对服务器性能要求高，也影响登录速度。一般用在高安全性的登录上面。Google 和微软的登录都强制使用 HTTPS 确保安全第一。使用随机密钥对密码进行变换后再传输，相对安全。密码明文很安全，但仍可能发生重放攻击。这种方式是性能和安全性的折中。一般的服务使用足亦。<br>2、不做任何修饰，直接将密码通过 HTTP 传输。这种方式实现起来非常简单，但却可能是对用户隐私和数据的不负责任。<br><strong>常用服务分析</strong><br>这里用抓包方式分析一下常用的网络服务的密码传输，看看它们在安全性方面做的如何：</p>
-<p>网站    密码传输方式    安全性<br>bitbucket.org    HTTPS 加密传输    高<br>微软 live.com    HTTPS 加密传输    高<br>google.com    HTTPS 加密传输    高<br>csdn.net    HTTP Javascript 加密传输    中<br>javaeye.com    HTTP 明文传输    低</p>
-<p>思考：登录网站时，输入登录名、密码，用抓包工具抓一下包就知道密码是否进行加密。<br>网站用的是https，为什么抓包用户名密码还是明文传输？<br>为什么站点使用了https加密之后，还是能够用firebug之类的软件查看到提交到的信息，密码显示的还是明文的?<br>学习之后找到答案：<br>这是因为:<br>1、https(ssl)加密是发生在应用层与传输层之间，所以在传输层看到的数据才是经过加密的，而我们捕捉到的http post，是应用层的数据，此时还没有经过加密。这些明文信息，其实就是你的本地数据。<br>2、加密数据只有客户端和服务器端才能得到明文，客户端到服务端的通信过程是安全的。<br>深挖：这样的话密码不是会被本地恶意软件截获么?<br>解决：银行电商等安全防护程度较高的网站，除了https加密外，还有安全控件加密，用户必须下载安全控件后才能输入密码。</p>
-<blockquote>
-<p><strong>加盐哈希</strong></p>
-</blockquote>
-<p> 这个方案也是大多数公司目前使用的方案，一般流程是将用户随机盐发送给客户端，客户端再使用SHA256(SALT+PASSWORD)计算之后将结果传送给服务器，服务器直接与数据库中的匹配。<br> <strong>至于哈希算法的话，普遍都采用MD5、SHA1、SHA256等算法。</strong><br> 加盐的方式也各不相同，<strong>比如在密码尾部、在密码中间、在密码头部增加随机盐，有的甚至会使用多次HASH。</strong><br>不仅如此，甚至可以每次用户设置密码的时候，都为每一个用户生成随机盐，并将随机盐与用户信息一并存储（有时为了混淆，最好将随机盐与密码分表存储，也不要起SALT之类的列名）如此相信即使攻破的数据库，想要破解用户密码也是相当困难的。<br>后续如果收到用户登陆请求，取出用户随机盐并通过相同的算法进行计算，将结果和数据库中密码相对比就可以判断用户密码是否输入正确。 <strong>由于摘要算法的不可逆性，其实一定程度上就限制了登陆过程中用户密码的传输方式。</strong></p>
-<p><strong>解决方案：</strong></p>
-<blockquote>
-<p>使用复杂些的HASH算法，例如MD5(SALT + MD5(C-SALT +PASSWORD))，C-SALT可理解为服务器固定的盐，此处仅仅是为了使破解者的字典更难构造一些。<br>如此客户端只需要将MD5(C-SALT+PASSWORD)的值发送到服务器，服务器再将随机盐取出，进行MD5即可。<br>更高级别的安全需要建议可使用SHA256来替代。 </p>
-</blockquote>
-<p>方法一<br>1、服务器端存储密码为Hash(Random-Salt + Hash(Constant-SALT + Pasword))<br>2、客户端传输密码为Hash(Constant-SALT + Password)<br>3、Random-Salt为用户的随机盐，每个用户均不同，服务器端收到客户端的hash密码后，在将其与用户随机盐一起Hash运算，从而将结果与数据库存储值相比较。<br><strong>优点</strong>：数据库存储的密码经过两层哈希，且其中包含了固定盐和用户随机盐，安全性较高。<br><strong>缺点</strong>：客户端传输的密码虽然经过了一层哈希，但是使用固定盐值，因此相同密码生成的结果均一致，容易收到重放攻击。<br>方法二<br>1、服务器端存储密码为Hash(Constant-SALT + Pasword)<br>2、客户端传输密码为Hash(Random-Salt + Hash(Constant-SALT + Password))<br><strong>Random-Salt为每次进入登陆页面时生成的随机盐，此处主要是为了防止重放攻击。<br>服务器收到客户端上传的hash之后的密码，根据用户ID取出服务器存储的密码，并通过与之前返回客户端的Random-Salt（可存储于Session中）进行Hash运算，从而与客户端上传的密码进行比较。</strong><br><strong>优点</strong>：客户端有效的防止了重放攻击<br><strong>缺点</strong>：在前端代码中，固定盐值暴露，一旦后台数据库被攻破，用户密码信息将有危险。</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="tags/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/" rel="tag">前端安全</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="tags/%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E9%89%B4%E6%9D%83/" rel="tag">用户登录鉴权</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
   </article>
   
 
   
   <nav class="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="page/2/">2</a><a class="page-number" href="page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="page/5/">5</a><a class="extend next" rel="next" href="page/2/">下一页</a>
+    <span class="page-number current">1</span><a class="page-number" href="page/2/">2</a><a class="page-number" href="page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="page/6/">6</a><a class="extend next" rel="next" href="page/2/">下一页</a>
   </nav>
   
 </section>
