@@ -6,7 +6,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    深入浅析浏览器动画（一） |  爱产品，爱前端！
+    阿里面试总结（一）——深入浅析浏览器动画 |  爱产品，爱前端！
   </title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   
@@ -40,7 +40,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  深入浅析浏览器动画（一）
+  阿里面试总结（一）——深入浅析浏览器动画
 </h1>
   
 
@@ -50,9 +50,13 @@
     
     <div class="article-meta">
       <a href="" class="article-date">
-  <time datetime="2020-04-13T11:32:33.954Z" itemprop="datePublished">2020-04-13</time>
+  <time datetime="2020-04-12T16:00:00.000Z" itemprop="datePublished">2020-04-13</time>
 </a>
       
+  <div class="article-category">
+    <a class="article-category-link" href="../../../../categories/%E9%98%BF%E9%87%8C%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93/">-阿里面试总结</a>
+  </div>
+
       
       
 <div class="word_count">
@@ -69,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">17分钟</span>
+            <span class="post-count">18分钟</span>
         </span>
     </span>
 </div>
@@ -96,7 +100,8 @@
       
 
       
-      <h2 id="需求思考：让动画流畅无阻，提升用户体验"><a href="#需求思考：让动画流畅无阻，提升用户体验" class="headerlink" title="需求思考：让动画流畅无阻，提升用户体验"></a>需求思考：让动画流畅无阻，提升用户体验</h2><p>在Web应用中，实现动画效果的方法比较多。<br>Javascript 中可以通过定时器 setTimeout 来实现，css3 可以使用 transition 和 animation 来实现，html5 中的 canvas 也可以实现。<br>除此之外，html5 还提供一个专门用于请求动画的API，那就是 requestAnimationFrame，顾名思义就是请求动画帧。 </p>
+      <p>本文旨在以最精简、通俗的语言传达React的思想!<br>来自阅读源码、《深入浅出React》的提炼！<br>来自个人梳理总结，重在设计思想，新版迭代快，可能有某些函数调用的细微差别。<br>Welcome to share creative thoughts!</p>
+<h2 id="需求思考：让动画流畅无阻，提升用户体验"><a href="#需求思考：让动画流畅无阻，提升用户体验" class="headerlink" title="需求思考：让动画流畅无阻，提升用户体验"></a>需求思考：让动画流畅无阻，提升用户体验</h2><p>在Web应用中，实现动画效果的方法比较多。<br>Javascript 中可以通过定时器 setTimeout 来实现，css3 可以使用 transition 和 animation 来实现，html5 中的 canvas 也可以实现。<br>除此之外，html5 还提供一个专门用于请求动画的API，那就是 requestAnimationFrame，顾名思义就是请求动画帧。 </p>
 <p><strong>如果有一个需求，要设置动画不停播放移动，怎么做最好呢？</strong><br>我们经常面临一个抉择：到底使用哪种动画方式？怎么符合业务场景？下面做一下对比。</p>
 <h2 id="1、JS动画与CSS3动画的区别和使用场景"><a href="#1、JS动画与CSS3动画的区别和使用场景" class="headerlink" title="1、JS动画与CSS3动画的区别和使用场景"></a>1、JS动画与CSS3动画的区别和使用场景</h2><p><strong>JS动画</strong><br>缺点：<br>(1)JavaScript在浏览器的主线程中运行，而主线程中还有其它需要运行的JavaScript脚本、样式计算、布局、绘制任务等,对其干扰导致线程可能出现阻塞，从而造成丢帧的情况。<br>(2)代码的复杂度高于CSS动画。</p>
 <p>优点：<br>(1)JavaScript动画控制能力很强, 可以在动画播放过程中对动画进行控制：开始、暂停、回放、终止、取消都是可以做到的。<br>(2)动画效果比css3动画丰富,有些动画效果，比如曲线运动,冲击闪烁,视差滚动效果，只有JavaScript动画才能完成<br>(3)CSS3有兼容性问题，而JS大多时候没有兼容性问题。</p>
@@ -233,6 +238,8 @@
 <div id="share-mask"></div>
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E4%B8%AA%E4%BA%BA%E6%88%90%E9%95%BF/" rel="tag">个人成长</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E5%8A%A8%E7%94%BB-%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/" rel="tag">动画+秒杀系统</a></li></ul>
+
 
     </footer>
 
@@ -242,19 +249,19 @@
   
   <nav class="article-nav">
     
-      <a href="../../14/%E8%AE%A4%E7%9C%9F%E5%89%96%E6%9E%90Promise/" class="article-nav-link">
+      <a href="../%E6%80%9D%E8%80%83%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E7%9A%84%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            认真剖析Promise
+            思考用户登录的加密解密
           
         </div>
       </a>
     
     
-      <a href="../%E6%80%9D%E8%80%83%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E7%9A%84%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86/" class="article-nav-link">
+      <a href="../../03/%E7%9F%AD%E8%A7%86%E9%A2%91%E6%B5%81%E9%87%8F%E5%A4%A7%E6%88%98%E7%9A%84%E5%9B%9B%E5%A4%A7%E6%B3%95%E5%AE%9D%E2%80%94%E2%80%94%E7%B2%BE%E5%87%86%E4%BA%A7%E5%93%81%E5%AE%9A%E4%BD%8D%E3%80%81%E6%89%93%E7%A3%A8%E5%9E%82%E7%9B%B4%E5%86%85%E5%AE%B9%E3%80%81%E5%AE%8C%E5%96%84%E7%9B%91%E7%AE%A1%E6%BF%80%E5%8A%B1%E3%80%81%E4%BC%98%E5%8C%96%E5%88%9B%E6%96%B0%E6%9C%8D%E5%8A%A1/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">思考用户登录的加密解密</div>
+        <div class="article-nav-title">短视频流量大战的四大法宝——精准产品定位、打磨垂直内容、完善监管激励、优化创新服务</div>
       </a>
     
   </nav>
