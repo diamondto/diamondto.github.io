@@ -253,7 +253,7 @@
       
 
       
-      <p>本文旨在以最精简、通俗的语言传达React的思想!<br>来自阅读源码、《深入浅出React》的提炼！<br>来自个人梳理总结，重在设计思想，新版迭代快，可能有某些函数调用的细微差别。<br>Welcome to share creative thoughts!</p>
+      <p>一面思考+延申</p>
 <h2 id="需求思考：让动画流畅无阻，提升用户体验"><a href="#需求思考：让动画流畅无阻，提升用户体验" class="headerlink" title="需求思考：让动画流畅无阻，提升用户体验"></a>需求思考：让动画流畅无阻，提升用户体验</h2><p>在Web应用中，实现动画效果的方法比较多。<br>Javascript 中可以通过定时器 setTimeout 来实现，css3 可以使用 transition 和 animation 来实现，html5 中的 canvas 也可以实现。<br>除此之外，html5 还提供一个专门用于请求动画的API，那就是 requestAnimationFrame，顾名思义就是请求动画帧。 </p>
 <p><strong>如果有一个需求，要设置动画不停播放移动，怎么做最好呢？</strong><br>我们经常面临一个抉择：到底使用哪种动画方式？怎么符合业务场景？下面做一下对比。</p>
 <h2 id="1、JS动画与CSS3动画的区别和使用场景"><a href="#1、JS动画与CSS3动画的区别和使用场景" class="headerlink" title="1、JS动画与CSS3动画的区别和使用场景"></a>1、JS动画与CSS3动画的区别和使用场景</h2><p><strong>JS动画</strong><br>缺点：<br>(1)JavaScript在浏览器的主线程中运行，而主线程中还有其它需要运行的JavaScript脚本、样式计算、布局、绘制任务等,对其干扰导致线程可能出现阻塞，从而造成丢帧的情况。<br>(2)代码的复杂度高于CSS动画。</p>
