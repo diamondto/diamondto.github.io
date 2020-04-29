@@ -71,6 +71,95 @@
     
     
     
+    <article id="post-谈谈Ajax" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="../../2020/03/07/%E8%B0%88%E8%B0%88Ajax/"
+    >谈谈Ajax</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="../../2020/03/07/%E8%B0%88%E8%B0%88Ajax/" class="article-date">
+  <time datetime="2020-03-07T02:14:51.518Z" itemprop="datePublished">2020-03-07</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>Asynchronous JavaScript and XML，意思是异步JS和XML。<br>解释下异步，异步是相对于同步来说的，同步即同时进行（累积多了就排队，一个一个执行，必须等上一个结束，才能到下一个），而异步就是执行到我了，我去旁边继续执行等结果，后面排队的不用等我结果出来再执行。<br>这是对于ajax的特点来设计的，<strong>因为ajax对后端数据的请求需要时间，</strong>而这个时间不利用起来就是浪费。当然，如果必须要等前一个的结果怎么办，这就使用到JS中的重要部分——回调函数了，其实回调在JS中应用很多，像点击事件执行的就是回调（先绑定事件，只有在点击发生时，才会执行）。那么ajax也一样，先请求数据，只有在状态改变时才会执行接下来的（这个状态包括请求成功和请求失败）。</p>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><p>AJAX 是一种用于创建快速动态网页的技术，对网页的某部分进行更新，不用刷新整个网页。<br>它可以通过在后台与服务器进行少量数据交换，使网页实现异步更新。这意味着可以在不重新加载整个网页的情况下，对网页的某部分进行更新。传统的网页（不使用 AJAX）如果需要更新内容，必需重载整个页面。</p>
+<h2 id="原理图"><a href="#原理图" class="headerlink" title="原理图"></a>原理图</h2><p>ajax实现的就是浏览器和服务器之间的数据交互。<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWFnZXMyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvMTM4MzQ4OC8yMDE4MDUvMTM4MzQ4OC0yMDE4MDUxMzIzMDQwMTE1NS0xOTMyNDMyMDgzLnBuZw?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<h2 id="核心"><a href="#核心" class="headerlink" title="核心"></a>核心</h2><p>　 XMLHTTPRequest对象，（是对象，就有属性和方法）</p>
+<p>　常用的方法：<br>　open(“method”, “url”, “async”)，</p>
+<p>　method表示通过什么方式进行服务器访问，包括get和post；</p>
+<p>　url表示访问服务器的地址；</p>
+<p>　async表示是否异步，包括true和false（注意：true表示异步）。</p>
+<pre><code>send(content)，</code></pre><p>　content表示向服务器发送的数据。
+　</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">1</span> <span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHTTPRequest();</span><br><span class="line"> <span class="number">2</span> </span><br><span class="line"> <span class="number">3</span> xhr.open(<span class="string">"method"</span>, <span class="string">"url"</span>, <span class="string">"async"</span>);</span><br><span class="line"> <span class="number">4</span> </span><br><span class="line"> <span class="number">5</span> xhr.send(<span class="literal">null</span>);</span><br><span class="line"> <span class="number">6</span> </span><br><span class="line"> <span class="number">7</span> xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"> <span class="number">8</span> </span><br><span class="line"> <span class="number">9</span>     <span class="keyword">if</span>(xhr.readystate == <span class="number">4</span>)&#123;</span><br><span class="line"><span class="number">10</span> </span><br><span class="line"><span class="number">11</span> 　　　<span class="keyword">if</span>(xhr.status == <span class="number">200</span>)&#123;</span><br><span class="line"><span class="number">12</span> </span><br><span class="line"><span class="number">13</span> 　　　　　<span class="built_in">console</span>.log(xhr.responseText)</span><br><span class="line"><span class="number">14</span> </span><br><span class="line"><span class="number">15</span> 　　　&#125;</span><br><span class="line"><span class="number">16</span> </span><br><span class="line"><span class="number">17</span> 　　&#125;</span><br><span class="line"><span class="number">18</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="向服务器请求状态的阶段："><a href="#向服务器请求状态的阶段：" class="headerlink" title="向服务器请求状态的阶段："></a>向服务器请求状态的阶段：</h2><p>　　　onreadystatechange表示请求状态改变的事件触发器，</p>
+<p>　　　readystate表示请求状态，4表示完成，具体如下表：<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWFnZXMyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvMTM4MzQ4OC8yMDE4MDUvMTM4MzQ4OC0yMDE4MDUxMzIzMTk0NDc1Mi0xMzA4MzA2MzU3LnBuZw?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<h2 id="服务器反馈阶段："><a href="#服务器反馈阶段：" class="headerlink" title="服务器反馈阶段："></a>服务器反馈阶段：</h2><p>　　　status表示http请求状态码，200表示成功，具体如下表：<br>　　　<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWFnZXMyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvMTM4MzQ4OC8yMDE4MDUvMTM4MzQ4OC0yMDE4MDUxMzIzMzY1NTI1NC0yMTM2ODM3MDA2LnBuZw?x-oss-process=image/format,png" alt="在这里插入图片描述">
+　　</p>
+<h2 id="避坑"><a href="#避坑" class="headerlink" title="避坑"></a>避坑</h2><p>IE7及其以上版本中支持原生的 XHR 对象，因此可以直接用： var oAjax = new XMLHttpRequest();<br>IE6及其之前的版本中，XHR对象是通过MSXML库中的一个ActiveX对象实现的。使用下面的语句创建： var oAjax=new ActiveXObject(’Microsoft.XMLHTTP’);<br>GET 请求方式是通过<strong>URL参数</strong>将数据提交到服务器的，POST则是通过将数据作为 <strong>send 的参数</strong>提交到服务器；POST 请求中，在发送数据之前，要设置表单提<strong>交的内容类型</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//可以以下步骤代替上面的open、setRequestHeader、send三行，此处对GET和POST做了很好的区分</span></span><br><span class="line">    <span class="keyword">var</span> params = &#123;&#125;;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> key <span class="keyword">in</span> ajaxData.data)&#123;</span><br><span class="line">         params.push(key + <span class="string">"="</span> + ajaxData.data[key]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> sendData = params.join(<span class="string">"&amp;"</span>);</span><br><span class="line">    <span class="keyword">if</span>(ajaxData.type.toUpperCase() == <span class="string">"GET"</span>)&#123;</span><br><span class="line">         xhr.open(ajaxData.type, ajaxData.url + <span class="string">"?"</span> + sendData, ajaxData.async);</span><br><span class="line">         xhr.send(<span class="literal">null</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">         xhr.open(ajaxData.type, ajaxData.url, ajaxData.async);</span><br><span class="line">         xhr.setRequestHeader(<span class="string">"Content-type"</span>, <span class="string">"application/x-www-form-urlencoded; charset=utf-8"</span>);</span><br><span class="line">         xhr.send(sendData);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="JQuery中的封装方法"><a href="#JQuery中的封装方法" class="headerlink" title="JQuery中的封装方法"></a>JQuery中的封装方法</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">    type: <span class="string">"GET"</span>,            　　<span class="comment">//访问服务器的方式，GET/POST</span></span><br><span class="line">    url: <span class="string">"test.json"</span>,       　　<span class="comment">//url表示访问的服务器地址</span></span><br><span class="line">    data: &#123;<span class="attr">username</span>: <span class="string">""</span>,     </span><br><span class="line">           content: <span class="string">""</span>&#125;, 　　　 <span class="comment">//data表示传递到后台的数据，使用键值对形式传递</span></span><br><span class="line">    <span class="keyword">async</span>: <span class="literal">true</span>,            　 <span class="comment">//true表示异步，false表示同步</span></span><br><span class="line">    success: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(data)</span><br><span class="line">    &#125;,</span><br><span class="line">    error: <span class="function"><span class="keyword">function</span>(<span class="params">err</span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(err)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="封装成JQuery的形式"><a href="#封装成JQuery的形式" class="headerlink" title="封装成JQuery的形式"></a>封装成JQuery的形式</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">$Ajax</span>(<span class="params">opt</span>)</span>&#123;</span><br><span class="line">    opt = opt || &#123;&#125;;</span><br><span class="line">    opt.type = opt.type || <span class="string">"post"</span>;</span><br><span class="line">    opt.url = opt.url || <span class="string">""</span>;</span><br><span class="line">    opt.async = opt.async || <span class="literal">true</span>;</span><br><span class="line">    opt.data = opt.data || <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    opt.success = opt.success || <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line">    opt.error = opt.error || <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line">      </span><br><span class="line">    <span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHTTPRequest();</span><br><span class="line">    <span class="keyword">var</span> params = &#123;&#125;;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> key <span class="keyword">in</span> opt.data)&#123;</span><br><span class="line">         params.push(key + <span class="string">"="</span> + opt.data[key]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> sendData = params.join(<span class="string">"&amp;"</span>);</span><br><span class="line">    <span class="keyword">if</span>(opt.type.toUpperCase() == <span class="string">"GET"</span>)&#123;</span><br><span class="line">         xhr.open(opt.type, opt.url + <span class="string">"?"</span> + sendData, opt.async);</span><br><span class="line">         xhr.send(<span class="literal">null</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">         xhr.open(opt.type, opt.url, opt.async);</span><br><span class="line">         xhr.setRequestHeader(<span class="string">"Content-type"</span>, <span class="string">"application/x-www-form-urlencoded; charset=utf-8"</span>);</span><br><span class="line">         xhr.send(sendData);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">         <span class="keyword">if</span>(xhr.readystate == <span class="number">4</span>)&#123;</span><br><span class="line">              <span class="keyword">if</span>(xhr.status == <span class="number">200</span>)&#123;</span><br><span class="line">                    opt.success &amp;&amp; opt.success(xhr.responseText);  </span><br><span class="line">              &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    opt.error &amp;&amp; xhr.error(xhr.status);</span><br><span class="line">              &#125;</span><br><span class="line">         &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-数组技巧总结" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -984,101 +1073,6 @@ Object.prototype.toString.call(/./);          //&quot;[object RegExp]&quot;</cod
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/AI%E8%83%BD%E5%8A%9B%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%E7%9A%84%E8%9E%8D%E5%90%88%E5%88%9B%E6%96%B0%E6%80%9D%E8%80%83/" rel="tag">AI能力与应用场景的融合创新思考</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-深入分析懒加载、预加载" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="../../2019/11/14/%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90%E6%87%92%E5%8A%A0%E8%BD%BD%E3%80%81%E9%A2%84%E5%8A%A0%E8%BD%BD/"
-    >深入分析懒加载、预加载</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="../../2019/11/14/%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90%E6%87%92%E5%8A%A0%E8%BD%BD%E3%80%81%E9%A2%84%E5%8A%A0%E8%BD%BD/" class="article-date">
-  <time datetime="2019-11-13T16:00:00.000Z" itemprop="datePublished">2019-11-14</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="../../categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>Welcome to share creative thoughts!</p>
-<h2 id="懒加载的原理（延迟加载）"><a href="#懒加载的原理（延迟加载）" class="headerlink" title="懒加载的原理（延迟加载）"></a>懒加载的原理（延迟加载）</h2><p>1.图片进入<strong>可视区域之后</strong>再去请求图片资源，不要请求无效资源。<br>2.适用于电商等图片很多，页面很长的业务场景。<br>3.减少无效资源的加载。<br>4.并发加载的资源过多会阻塞JS的加载，影响网站的正常使用（浏览器有并发请求上限），图片在JS的上面。<br>5.SRC属性设置之后会请求SRC资源，后面的SRC先不设置，换成占位符。<br>6.监听滚轮事件，当进入相关图片的可视区域之后，才会去动态设置图片的src属性。<br>7.电商产品应用广泛。</p>
-<h2 id="预加载原理（提前加载）"><a href="#预加载原理（提前加载）" class="headerlink" title="预加载原理（提前加载）"></a>预加载原理（提前加载）</h2><p>1.图片等静态资源在使用之前的<strong>提前请求。</strong><br>2.资源使用到时能从缓存中加载，不去网络请求，提升用户体验。<br>3.页面展示的依赖关系维护。比如当前页面会依赖音乐图片等，这样预加载之后页面渲染不会阻塞。<br>4.九宫格抽奖。频繁切换选中和非选中状态，要保障样式的展示。<br>5.动画展示。资源加载完了之后再去页面加载。</p>
-<h2 id="懒加载的方法"><a href="#懒加载的方法" class="headerlink" title="懒加载的方法"></a>懒加载的方法</h2><blockquote>
-<p>先将img标签中的src链接设为同一张图片(空白图片)，将其真正的图片地址存储再img标签的自定义属性中(比如data-img)。</p>
-</blockquote>
-<blockquote>
-<p>当js监听到该图片元素进入可视窗口时，即将自定义属性中的地址存储到src属性中，达到懒加载的效果。</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;li <span class="class"><span class="keyword">class</span></span>=<span class="string">"item"</span>&gt;</span><br><span class="line">    &lt;a href=<span class="string">"javascript:void(0)"</span>&gt;<span class="xml"><span class="tag">&lt;<span class="name">img</span> <span class="attr">data-img</span>=<span class="string">"$&#123;p.pic&#125;"</span> <span class="attr">src</span>=<span class="string">"img/blank.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span></span><br><span class="line">&lt;<span class="regexp">/li&gt;</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//封装懒加载函数</span></span><br><span class="line"><span class="keyword">var</span> lazyLoad = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"><span class="comment">//匿名函数自调，避免全局污染</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">init</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        $(<span class="built_in">window</span>).on(<span class="string">"scroll"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="comment">//监听窗口滚动事件</span></span><br><span class="line">            <span class="keyword">var</span> clock = setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="comment">//启动定时器，加载图片</span></span><br><span class="line">                $(<span class="string">".item img"</span>).each(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                <span class="comment">//遍历每张图片</span></span><br><span class="line">                    <span class="keyword">var</span> $cur = $(<span class="keyword">this</span>);</span><br><span class="line">                    <span class="keyword">if</span>(checkShow($cur))</span><br><span class="line">                    <span class="comment">//调用检查函数，如果元素在可视范围内</span></span><br><span class="line">                        $cur.attr(<span class="string">'src'</span>, $cur.attr(<span class="string">'data-img'</span>));</span><br><span class="line">                        <span class="comment">//显示图片</span></span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;,<span class="number">300</span>);</span><br><span class="line">            <span class="keyword">if</span>(clock) clearTimeout(clock);</span><br><span class="line">            <span class="comment">//停止定时器</span></span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//检查元素是否在可视范围内</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">checkShow</span>(<span class="params">$node</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> scrollH = $(<span class="built_in">window</span>).scrollTop(),</span><br><span class="line">        <span class="comment">//获取窗口滚动高度</span></span><br><span class="line">        winH = $(<span class="built_in">window</span>).height(),</span><br><span class="line">        <span class="comment">//获取窗口高度</span></span><br><span class="line">        top = $node.offset().top;</span><br><span class="line">        <span class="comment">//获取图片距离窗口顶部偏移高度</span></span><br><span class="line">        <span class="keyword">if</span>(top &lt; winH + scrollH)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//返回init函数</span></span><br><span class="line">    <span class="keyword">return</span>&#123;</span><br><span class="line">        load:init;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line"><span class="comment">//调用懒加载函数,首屏要手动调动</span></span><br><span class="line">lazyLoad.load();</span><br></pre></td></tr></table></figure>
-<p>Zepto就是jQuery的移动端版本, 可以看做是一个轻量级的jQuery<br>注意点:<br>Zepto的设计目的是提供 jQuery 的类似的API，但并不是100%覆盖 jQuery<br>jQuery的底层是通过DOM来实现效果的， zepto.js 是用css3 来实现的；<br>官网下载的zepto,就已经包含了官网所述的默认模块了<br>github上下载的zepto模块需要自己导入</p>
-<p>与图片一样，视频同样可以延迟加载，来达到性能优化的目的。</p>
-<p>正常情况下加载视频，都是使用<video>标签，那么对于一些需要用户自己播放的视频，最好指定<video>标签的preload属性为none，这样浏览器就不会预加载任何视频数据。<br>为了占用空间，我们用poster属性为其占位</video></video></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;video controls preload=<span class="string">"none"</span> poster=<span class="string">"占位图"</span>&gt;</span><br><span class="line">	&lt;source src=<span class="string">"视频资源同名.webm"</span> type=<span class="string">"video/webm"</span>&gt;</span><br><span class="line">	&lt;source src=<span class="string">"视频资源名.mp4"</span> type=<span class="string">"video/mp4"</span>&gt;</span><br><span class="line">&lt;<span class="regexp">/video&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="实现预加载的几种办法"><a href="#实现预加载的几种办法" class="headerlink" title="实现预加载的几种办法"></a>实现预加载的几种办法</h2><p>使用HTML标签<br><img src="http://pic26.nipic.com/20121213/6168183 0044449030002.jpg" style="display:none"><br>使用Image对象</p>
-<script src="./myPreload.js"></script>
-<p>使用XMLHttpRequest对象,<strong>虽然存在跨域问题，但会精细控制预加载过程</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> xmlhttprequest=<span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line"> xmlhttprequest.onreadystatechange=callback;</span><br><span class="line"> xmlhttprequest.onprogress=progressCallback;</span><br><span class="line"> xmlhttprequest.open(<span class="string">"GET"</span>,<span class="string">"http://image.baidu.com/mouse,jpg"</span>,<span class="literal">true</span>);</span><br><span class="line"> xmlhttprequest.send();</span><br><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">callback</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">   <span class="keyword">if</span>(xmlhttprequest.readyState==<span class="number">4</span>&amp;&amp; xmlhttprequest.status==<span class="number">200</span>)&#123;</span><br><span class="line">     <span class="keyword">var</span> responseText=xmlhttprequest.responseText;</span><br><span class="line">   &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"Request was unsuccessful:"</span>+xmlhttprequest.status);</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">progressCallback</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line"> e=e || event;</span><br><span class="line"> <span class="keyword">if</span>(e.lengthComputable)&#123;</span><br><span class="line"> <span class="built_in">console</span>.log(<span class="string">"Received"</span>+e.loaded+<span class="string">"of"</span>+e.total+<span class="string">"bytes"</span>)</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p>PreloadJS提供了一种预加载内容的一致方式，以便在HTML应用程序中使用。预加载可以使用HTML标签以及XHR来完成。默认情况下，PreloadJS会尝试使用XHR加载内容，因为它提供了对进度和完成事件的更好支持，但是由于跨域问题，使用基于标记的加载可能更好。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用preload.js</span></span><br><span class="line"><span class="keyword">var</span> queue=<span class="keyword">new</span> createjs.LoadQueue();<span class="comment">//默认是xhr对象，如果是new createjs.LoadQueue(false)是指使用HTML标签，可以跨域</span></span><br><span class="line">queue.on(<span class="string">"complete"</span>,handleComplete,<span class="keyword">this</span>);</span><br><span class="line">queue.loadManifest([</span><br><span class="line">&#123;<span class="attr">id</span>:<span class="string">"myImage"</span>,<span class="attr">src</span>:<span class="string">"http://pic26.nipic.com/20121213/6168183  0044449030002.jpg"</span>&#125;,</span><br><span class="line">&#123;id：<span class="string">"myImage2"</span>，src:<span class="string">"http://pic9.nipic.com/20100814/2839526  1931471581702.jpg"</span>&#125;</span><br><span class="line">]);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleComplete</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> image=queue.getResuLt(<span class="string">"myImage"</span>);<span class="comment">//队列存放资源</span></span><br><span class="line">  <span class="built_in">document</span>.body.appendChild(image);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>两者都是提高页面性能有效的办法，两者主要区别是一个是提前加载，一个是迟缓甚至不加载。<br>懒加载对服务器前端有一定的缓解压力作用，预加载则会增加服务器前端压力。</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">前端性能优化</a></li></ul>
 
 
     </footer>

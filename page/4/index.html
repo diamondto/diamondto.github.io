@@ -71,6 +71,101 @@
     
     
     
+    <article id="post-深入分析懒加载、预加载" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="../../2019/11/14/%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90%E6%87%92%E5%8A%A0%E8%BD%BD%E3%80%81%E9%A2%84%E5%8A%A0%E8%BD%BD/"
+    >深入分析懒加载、预加载</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="../../2019/11/14/%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90%E6%87%92%E5%8A%A0%E8%BD%BD%E3%80%81%E9%A2%84%E5%8A%A0%E8%BD%BD/" class="article-date">
+  <time datetime="2019-11-13T16:00:00.000Z" itemprop="datePublished">2019-11-14</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>Welcome to share creative thoughts!</p>
+<h2 id="懒加载的原理（延迟加载）"><a href="#懒加载的原理（延迟加载）" class="headerlink" title="懒加载的原理（延迟加载）"></a>懒加载的原理（延迟加载）</h2><p>1.图片进入<strong>可视区域之后</strong>再去请求图片资源，不要请求无效资源。<br>2.适用于电商等图片很多，页面很长的业务场景。<br>3.减少无效资源的加载。<br>4.并发加载的资源过多会阻塞JS的加载，影响网站的正常使用（浏览器有并发请求上限），图片在JS的上面。<br>5.SRC属性设置之后会请求SRC资源，后面的SRC先不设置，换成占位符。<br>6.监听滚轮事件，当进入相关图片的可视区域之后，才会去动态设置图片的src属性。<br>7.电商产品应用广泛。</p>
+<h2 id="预加载原理（提前加载）"><a href="#预加载原理（提前加载）" class="headerlink" title="预加载原理（提前加载）"></a>预加载原理（提前加载）</h2><p>1.图片等静态资源在使用之前的<strong>提前请求。</strong><br>2.资源使用到时能从缓存中加载，不去网络请求，提升用户体验。<br>3.页面展示的依赖关系维护。比如当前页面会依赖音乐图片等，这样预加载之后页面渲染不会阻塞。<br>4.九宫格抽奖。频繁切换选中和非选中状态，要保障样式的展示。<br>5.动画展示。资源加载完了之后再去页面加载。</p>
+<h2 id="懒加载的方法"><a href="#懒加载的方法" class="headerlink" title="懒加载的方法"></a>懒加载的方法</h2><blockquote>
+<p>先将img标签中的src链接设为同一张图片(空白图片)，将其真正的图片地址存储再img标签的自定义属性中(比如data-img)。</p>
+</blockquote>
+<blockquote>
+<p>当js监听到该图片元素进入可视窗口时，即将自定义属性中的地址存储到src属性中，达到懒加载的效果。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;li <span class="class"><span class="keyword">class</span></span>=<span class="string">"item"</span>&gt;</span><br><span class="line">    &lt;a href=<span class="string">"javascript:void(0)"</span>&gt;<span class="xml"><span class="tag">&lt;<span class="name">img</span> <span class="attr">data-img</span>=<span class="string">"$&#123;p.pic&#125;"</span> <span class="attr">src</span>=<span class="string">"img/blank.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span></span><br><span class="line">&lt;<span class="regexp">/li&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//封装懒加载函数</span></span><br><span class="line"><span class="keyword">var</span> lazyLoad = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"><span class="comment">//匿名函数自调，避免全局污染</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">init</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        $(<span class="built_in">window</span>).on(<span class="string">"scroll"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="comment">//监听窗口滚动事件</span></span><br><span class="line">            <span class="keyword">var</span> clock = setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="comment">//启动定时器，加载图片</span></span><br><span class="line">                $(<span class="string">".item img"</span>).each(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                <span class="comment">//遍历每张图片</span></span><br><span class="line">                    <span class="keyword">var</span> $cur = $(<span class="keyword">this</span>);</span><br><span class="line">                    <span class="keyword">if</span>(checkShow($cur))</span><br><span class="line">                    <span class="comment">//调用检查函数，如果元素在可视范围内</span></span><br><span class="line">                        $cur.attr(<span class="string">'src'</span>, $cur.attr(<span class="string">'data-img'</span>));</span><br><span class="line">                        <span class="comment">//显示图片</span></span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;,<span class="number">300</span>);</span><br><span class="line">            <span class="keyword">if</span>(clock) clearTimeout(clock);</span><br><span class="line">            <span class="comment">//停止定时器</span></span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//检查元素是否在可视范围内</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">checkShow</span>(<span class="params">$node</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> scrollH = $(<span class="built_in">window</span>).scrollTop(),</span><br><span class="line">        <span class="comment">//获取窗口滚动高度</span></span><br><span class="line">        winH = $(<span class="built_in">window</span>).height(),</span><br><span class="line">        <span class="comment">//获取窗口高度</span></span><br><span class="line">        top = $node.offset().top;</span><br><span class="line">        <span class="comment">//获取图片距离窗口顶部偏移高度</span></span><br><span class="line">        <span class="keyword">if</span>(top &lt; winH + scrollH)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//返回init函数</span></span><br><span class="line">    <span class="keyword">return</span>&#123;</span><br><span class="line">        load:init;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line"><span class="comment">//调用懒加载函数,首屏要手动调动</span></span><br><span class="line">lazyLoad.load();</span><br></pre></td></tr></table></figure>
+<p>Zepto就是jQuery的移动端版本, 可以看做是一个轻量级的jQuery<br>注意点:<br>Zepto的设计目的是提供 jQuery 的类似的API，但并不是100%覆盖 jQuery<br>jQuery的底层是通过DOM来实现效果的， zepto.js 是用css3 来实现的；<br>官网下载的zepto,就已经包含了官网所述的默认模块了<br>github上下载的zepto模块需要自己导入</p>
+<p>与图片一样，视频同样可以延迟加载，来达到性能优化的目的。</p>
+<p>正常情况下加载视频，都是使用<video>标签，那么对于一些需要用户自己播放的视频，最好指定<video>标签的preload属性为none，这样浏览器就不会预加载任何视频数据。<br>为了占用空间，我们用poster属性为其占位</video></video></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;video controls preload=<span class="string">"none"</span> poster=<span class="string">"占位图"</span>&gt;</span><br><span class="line">	&lt;source src=<span class="string">"视频资源同名.webm"</span> type=<span class="string">"video/webm"</span>&gt;</span><br><span class="line">	&lt;source src=<span class="string">"视频资源名.mp4"</span> type=<span class="string">"video/mp4"</span>&gt;</span><br><span class="line">&lt;<span class="regexp">/video&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="实现预加载的几种办法"><a href="#实现预加载的几种办法" class="headerlink" title="实现预加载的几种办法"></a>实现预加载的几种办法</h2><p>使用HTML标签<br><img src="http://pic26.nipic.com/20121213/6168183 0044449030002.jpg" style="display:none"><br>使用Image对象</p>
+<script src="./myPreload.js"></script>
+<p>使用XMLHttpRequest对象,<strong>虽然存在跨域问题，但会精细控制预加载过程</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> xmlhttprequest=<span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line"> xmlhttprequest.onreadystatechange=callback;</span><br><span class="line"> xmlhttprequest.onprogress=progressCallback;</span><br><span class="line"> xmlhttprequest.open(<span class="string">"GET"</span>,<span class="string">"http://image.baidu.com/mouse,jpg"</span>,<span class="literal">true</span>);</span><br><span class="line"> xmlhttprequest.send();</span><br><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">callback</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">   <span class="keyword">if</span>(xmlhttprequest.readyState==<span class="number">4</span>&amp;&amp; xmlhttprequest.status==<span class="number">200</span>)&#123;</span><br><span class="line">     <span class="keyword">var</span> responseText=xmlhttprequest.responseText;</span><br><span class="line">   &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"Request was unsuccessful:"</span>+xmlhttprequest.status);</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">progressCallback</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line"> e=e || event;</span><br><span class="line"> <span class="keyword">if</span>(e.lengthComputable)&#123;</span><br><span class="line"> <span class="built_in">console</span>.log(<span class="string">"Received"</span>+e.loaded+<span class="string">"of"</span>+e.total+<span class="string">"bytes"</span>)</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>PreloadJS提供了一种预加载内容的一致方式，以便在HTML应用程序中使用。预加载可以使用HTML标签以及XHR来完成。默认情况下，PreloadJS会尝试使用XHR加载内容，因为它提供了对进度和完成事件的更好支持，但是由于跨域问题，使用基于标记的加载可能更好。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用preload.js</span></span><br><span class="line"><span class="keyword">var</span> queue=<span class="keyword">new</span> createjs.LoadQueue();<span class="comment">//默认是xhr对象，如果是new createjs.LoadQueue(false)是指使用HTML标签，可以跨域</span></span><br><span class="line">queue.on(<span class="string">"complete"</span>,handleComplete,<span class="keyword">this</span>);</span><br><span class="line">queue.loadManifest([</span><br><span class="line">&#123;<span class="attr">id</span>:<span class="string">"myImage"</span>,<span class="attr">src</span>:<span class="string">"http://pic26.nipic.com/20121213/6168183  0044449030002.jpg"</span>&#125;,</span><br><span class="line">&#123;id：<span class="string">"myImage2"</span>，src:<span class="string">"http://pic9.nipic.com/20100814/2839526  1931471581702.jpg"</span>&#125;</span><br><span class="line">]);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleComplete</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> image=queue.getResuLt(<span class="string">"myImage"</span>);<span class="comment">//队列存放资源</span></span><br><span class="line">  <span class="built_in">document</span>.body.appendChild(image);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>两者都是提高页面性能有效的办法，两者主要区别是一个是提前加载，一个是迟缓甚至不加载。<br>懒加载对服务器前端有一定的缓解压力作用，预加载则会增加服务器前端压力。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">前端性能优化</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-详细剖析强缓存和协商缓存" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -951,98 +1046,6 @@
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Dataflow/" rel="tag">Dataflow</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/React/" rel="tag">React</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-React通信方式梳理" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="../../2019/10/26/React%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F%E6%A2%B3%E7%90%86/"
-    >React通信方式梳理（二）</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="../../2019/10/26/React%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F%E6%A2%B3%E7%90%86/" class="article-date">
-  <time datetime="2019-10-25T16:00:00.000Z" itemprop="datePublished">2019-10-26</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="../../categories/%E6%89%93%E6%80%AA%E5%8D%87%E7%BA%A7React/">打怪升级React</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>Welcome to share creative thoughts!</p>
-<h1 id="父组件向子组件通信"><a href="#父组件向子组件通信" class="headerlink" title="父组件向子组件通信"></a>父组件向子组件通信</h1><h1 id="子组件向父组件通信"><a href="#子组件向父组件通信" class="headerlink" title="子组件向父组件通信"></a>子组件向父组件通信</h1><h1 id="跨级组件通信"><a href="#跨级组件通信" class="headerlink" title="跨级组件通信"></a>跨级组件通信</h1><h1 id="没有嵌套关系组件之间的通信"><a href="#没有嵌套关系组件之间的通信" class="headerlink" title="没有嵌套关系组件之间的通信"></a>没有嵌套关系组件之间的通信</h1><p>React数据流动是单向的,父组件向子组件通信也是最常见的;父组件通过props向子组件传递需要的信息Child.jsx</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> PropTypes <span class="keyword">from</span> <span class="string">'prop-types'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">Child</span>(<span class="params">&#123; name &#125;</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello, &#123;name&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Child.propTypes = &#123;</span><br><span class="line">    name: PropTypes.string.isRequired,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> Child <span class="keyword">from</span> <span class="string">'./Child'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &lt;Child name=<span class="string">"Sara"</span> /&gt;</span><br><span class="line">            &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        );</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">export default Parent;</span></span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>子组件向父组件通信<blockquote>
-<p>利用回调函数<br>利用自定义事件机制<br>回调函数<br>实现在子组件中点击隐藏组件按钮可以将自身隐藏的功能</p>
-</blockquote>
-</li>
-</ol>
-<p>观察一下实现方法,可以发现它与传统回调函数的实现方法一样.而且setState一般与回调函数均会成对出现,因为回调函数即是转换内部状态是的常用方法。<br>3. 跨级组件通信</p>
-<blockquote>
-<p>层层组件传递props<br>例如A组件和B组件之间要进行通信,先找到A和B公共的父组件,A先向C组件通信,C组件通过props和B组件通信,此时C组件起的就是中间件的作用<br>使用context<br>context是一个全局变量,像是一个大容器,在任何地方都可以访问到,我们可以把要通信的信息放在context上,然后在其他组件中可以随意取到;<br>但是React官方不建议使用大量context,尽管他可以减少逐层传递,但是当组件结构复杂的时候,我们并不知道context是从哪里传过来的;而且context是一个全局变量,全局变量正是导致应用走向混乱的罪魁祸首.<br>使用context<br>下面例子中的组件关系: ListItem是List的子组件,List是app的子组件</p>
-</blockquote>
-<p>ListItem.jsx</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> PropTypes <span class="keyword">from</span> <span class="string">'prop-types'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListItem</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 子组件声明自己要使用context</span></span><br><span class="line">    <span class="keyword">static</span> contextTypes = &#123;</span><br><span class="line">        color: PropTypes.string,</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> propTypes = &#123;</span><br><span class="line">        value: PropTypes.string,</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123; value &#125; = <span class="keyword">this</span>.props;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;li style=&#123;&#123; <span class="attr">background</span>: <span class="keyword">this</span>.context.color &#125;&#125;&gt;</span><br><span class="line">                &lt;span&gt;&#123;value&#125;&lt;<span class="regexp">/span&gt;</span></span><br><span class="line"><span class="regexp">            &lt;/</span>li&gt;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/React/" rel="tag">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/jsx/" rel="tag">jsx</a></li></ul>
 
 
     </footer>
