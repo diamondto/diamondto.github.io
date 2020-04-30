@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-04-29T22:48:34.036Z</updated>
+  <updated>2020-04-30T16:47:06.368Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>基于视频的人体姿态估计训练成果！——多人密集场景（五一汇报）</title>
+    <link href="http://yoursite.com/2020/05/01/%E5%A4%9A%E4%BA%BA%E5%AF%86%E9%9B%86%E5%9C%BA%E6%99%AF%E4%B8%8B%E2%80%94%E2%80%94%E5%9F%BA%E4%BA%8E%E8%A7%86%E9%A2%91%E7%9A%84%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1%E8%AE%AD%E7%BB%83%E6%88%90%E6%9E%9C%EF%BC%81%20(1)/"/>
+    <id>http://yoursite.com/2020/05/01/%E5%A4%9A%E4%BA%BA%E5%AF%86%E9%9B%86%E5%9C%BA%E6%99%AF%E4%B8%8B%E2%80%94%E2%80%94%E5%9F%BA%E4%BA%8E%E8%A7%86%E9%A2%91%E7%9A%84%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1%E8%AE%AD%E7%BB%83%E6%88%90%E6%9E%9C%EF%BC%81%20(1)/</id>
+    <published>2020-04-30T16:00:00.000Z</published>
+    <updated>2020-04-30T16:47:06.368Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;搞了好久，终于训练出来这张动图，哈哈哈，我好开心啊！&lt;strong&gt;算不算五一劳动节福利！！&lt;/strong&gt;哈哈哈&lt;br&gt;大家一起来体会一下&lt;strong&gt;群魔乱舞&lt;/strong&gt;的ganjiao！&lt;br&gt;&lt;strong&gt;下个目标：手拍一段生活视频，用训练的网络进行动态
+        
+      
+    
+    </summary>
+    
+    
+      <category term="AI多人姿态估计" scheme="http://yoursite.com/categories/AI%E5%A4%9A%E4%BA%BA%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/"/>
+    
+    
+      <category term="AI研究笔记" scheme="http://yoursite.com/tags/AI%E7%A0%94%E7%A9%B6%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="人工智能" scheme="http://yoursite.com/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/"/>
+    
+  </entry>
   
   <entry>
     <title>ABCDE时代，技术是躯体，文化是灵魂！万物可爱、未来已来！</title>
@@ -554,29 +583,6 @@
           &lt;p&gt;问：有多少种css选择器可以对&lt;/p&gt;&lt;p&gt;标签样式产生影响呢？&lt;/p&gt;
 &lt;p&gt;如果详细的进行分析，排列组合有太多种了，太过麻烦。今天学习到一个好方法。&lt;/p&gt;
 &lt;p&gt;行内样式：        即  style = “font-size: 12px”；&lt;br&gt;id选择器：
-        
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>趣谈HTTPS协议_</title>
-    <link href="http://yoursite.com/2020/03/07/%E8%B6%A3%E8%B0%88HTTPS%E5%8D%8F%E8%AE%AE_/"/>
-    <id>http://yoursite.com/2020/03/07/%E8%B6%A3%E8%B0%88HTTPS%E5%8D%8F%E8%AE%AE_/</id>
-    <published>2020-03-07T02:14:51.527Z</published>
-    <updated>2020-03-01T18:47:35.702Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;目录&quot;&gt;&lt;a href=&quot;#目录&quot; class=&quot;headerlink&quot; title=&quot;目录&quot;&gt;&lt;/a&gt;目录&lt;/h1&gt;&lt;h1 id=&quot;HTTP传输数据存在的问题&quot;&gt;&lt;a href=&quot;#HTTP传输数据存在的问题&quot; class=&quot;headerlink&quot;
         
       
     
