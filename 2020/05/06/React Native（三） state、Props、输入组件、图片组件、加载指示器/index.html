@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    React-Native笔记整理（三）—— state、Props、输入组件、图片组件、加载指示器 |  爱产品，爱前端！
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="../../../../css/style.css">
+
+  
+<script src="../../../../js/pace.min.js"></script>
+
+
+  
+
+  
+
+<link rel="alternate" href="atom.xml" title="爱产品，爱前端！" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    <main class="content">
+      <section class="outer">
+  <article id="post-React Native（三） state、Props、输入组件、图片组件、加载指示器" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  React-Native笔记整理（三）—— state、Props、输入组件、图片组件、加载指示器
+</h1>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="" class="article-date">
+  <time datetime="2020-05-05T16:00:00.000Z" itemprop="datePublished">2020-05-06</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../../../categories/%E5%A4%8D%E4%B9%A0%E4%B8%8E%E5%9B%9E%E9%A1%BE/">复习与回顾</a>
+  </div>
+
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">4.4k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">18分钟</span>
+        </span>
+    </span>
+</div>
+
+      
+    </div>
+    
+
+    
+    
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>学习资源：B站、阿里云<br>感谢B站UP主老陈的讲解、小霞会记录下来，每天练习、熟能生巧😁🍓<br>小霞坚信：持久化的好习惯延长人间事物的保质期！😁🍓<br>内心装满知识和道理，就会充满踏实感+幸福感😃😘👍😁🥰🧡💯<br>希望有一天自己可以写出很棒的作品，分享给大家🥰🧡💯</p>
+<h1 id="React-Native-组件状态-state"><a href="#React-Native-组件状态-state" class="headerlink" title="React Native 组件状态 state"></a>React Native 组件状态 state</h1><p>总所周知，React 组件的数据由 <code>props</code> 和 <code>state</code> 两大部分组成。</p>
+<p><code>props</code> 和 <code>state</code> 之间的共同点就是它们都是一个对象或者说一个字典 <code>{}</code>。</p>
+<p>它们之间也有着显著的区别。</p>
+<ul>
+<li><p><code>state</code> 由 React 组件自己内部管理，是可变的。组件可以随时更新 <code>state</code> 的数据，组件外部则无法访问和更新。</p>
+</li>
+<li><p><code>props</code> 是 React 组件的属性，是组件外部传递给组件的数据。对于组件来说，这些数据是不可变的。组件只能读取不能更改。只能由调用组件的外部代码来更改。</p>
+<p><code>props</code> 一般情况下由组件自描述，也就是组件描述自己能够接受哪些数据。但外部可以无视，可以传递比组件自描述更多的数据。至于组件自己用不用，那是组件自己的问题，外部组件无权干涉。</p>
+</li>
+</ul>
+<h2 id="React-Native-组件状态-state-1"><a href="#React-Native-组件状态-state-1" class="headerlink" title="React Native 组件状态 state"></a>React Native 组件状态 state</h2><p>组件状态 state 是一个 <a href="https://www.twle.cn/l/yufei/javascript/javascript-basic-index.html" target="_blank" rel="noopener">JavaScript</a> 对象或字典 <code>{}</code>。</p>
+<h3 id="初始化-state"><a href="#初始化-state" class="headerlink" title="初始化 state"></a>初始化 state</h3><p>在 ES6 时代，组件状态就是组件内部的一个变量。</p>
+<p>初始化的方式有两种：</p>
+<ol>
+<li><p>类的实例属性</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">class</span> <span class="selector-tag">App</span> <span class="selector-tag">extends</span> <span class="selector-tag">React</span><span class="selector-class">.Component</span> &#123;</span><br><span class="line">    state = &#123;</span><br><span class="line">        name: '小霞',</span><br><span class="line">        site: 'www.cpengx.cn'</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在类的构造函数中初始化</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">class</span> <span class="selector-tag">App</span> <span class="selector-tag">extends</span> <span class="selector-tag">React</span><span class="selector-class">.Component</span> &#123;</span><br><span class="line"></span><br><span class="line">    constructor()</span><br><span class="line">    &#123;</span><br><span class="line">        super()</span><br><span class="line">        this.state = &#123;</span><br><span class="line">            name: 'RN教程',</span><br><span class="line">            site: 'https://www.twl.cn'</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="使用-state"><a href="#使用-state" class="headerlink" title="使用 state"></a>使用 state</h3><p>因为 state 是一个对象或者字典，因此读取 <code>state</code> 的值其实就是访问对象的属性。可以通过对象属性语法来访问 state 的值。</p>
+<p>例如通过 <code>this.state.name</code> 访问名称，通过 <code>this.state.site</code> 访问站点网址。</p>
+<p>但 React 中一般通过对象解析语法来访问 state，也就是通过下面的方式来获取 state 的值</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const &#123;name,site&#125; = this.state</span><br></pre></td></tr></table></figure>
+
+<p>这样能保证我们读取的状态值是 <strong>不可变的</strong>。</p>
+<p>例如</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from 'react'</span><br><span class="line">import &#123; Text, View, StyleSheet&#125; from 'react-native'</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">export</span> <span class="selector-tag">default</span> <span class="selector-tag">class</span> <span class="selector-tag">App</span> <span class="selector-tag">extends</span> <span class="selector-tag">React</span><span class="selector-class">.Component</span> &#123;</span><br><span class="line">    state = &#123;</span><br><span class="line">        name: '简单教程',</span><br><span class="line">        site: 'https://www.twle.cn'</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="selector-tag">render</span>() &#123;</span><br><span class="line">        const &#123;name,site&#125; = this.state</span><br><span class="line">        <span class="selector-tag">return</span> (</span><br><span class="line">            &lt;View style=&#123;styles.container&#125;&gt;</span><br><span class="line">                &lt;Text&gt;站点名称：&#123;name&#125;&lt;/Text&gt;</span><br><span class="line">                &lt;Text&gt;站点网址：&#123;site&#125;&lt;/Text&gt;</span><br><span class="line">            &lt;/View&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">const styles = StyleSheet.create (&#123;</span><br><span class="line">   <span class="selector-tag">container</span>: &#123;</span><br><span class="line">      <span class="attribute">margin</span>:<span class="number">10</span></span><br><span class="line">   &#125;,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>运行效果如下</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly93d3cudHdsZS5jbi9zdGF0aWMvdXBsb2FkL2ltZy8yMDE5LzA3LzE3LzIwMTkwNzE3MDY1MzQ1XzQucG5n?x-oss-process=image/format,png" alt="React Native 组件状态 state"></p>
+<h3 id="更新-state"><a href="#更新-state" class="headerlink" title="更新 state"></a>更新 state</h3><p>React 提供了 <code>this.setState({key:value})</code> 函数来更新状态 state。</p>
+<p><code>setState()</code> 函数的参数是一个对象或哈希表/字典，是要更新的键值对。</p>
+<p>例如要把站点名称改成 <code>简单教程，简单编程</code>，则可以如下使用 <code>setState()</code></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">this</span><span class="selector-class">.setState</span>(&#123;<span class="attribute">name</span>:<span class="string">'简单教程，简单编程'</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>例如</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from 'react'</span><br><span class="line">import &#123; Text, View, StyleSheet&#125; from 'react-native'</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">export</span> <span class="selector-tag">default</span> <span class="selector-tag">class</span> <span class="selector-tag">App</span> <span class="selector-tag">extends</span> <span class="selector-tag">React</span><span class="selector-class">.Component</span> &#123;</span><br><span class="line">    state = &#123;</span><br><span class="line">        name: '简单教程',</span><br><span class="line">        site: 'https://www.twle.cn'</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    updateState = () =&gt; &#123;</span><br><span class="line">        const name = this.state.name == '小霞漂亮吗' ? '漂亮！！！' : '好嘞'</span><br><span class="line">        <span class="selector-tag">this</span><span class="selector-class">.setState</span>(&#123;<span class="attribute">name</span>:name&#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="selector-tag">render</span>() &#123;</span><br><span class="line">        const &#123;name,site&#125; = this.state</span><br><span class="line">        <span class="selector-tag">return</span> (</span><br><span class="line">            &lt;View style=&#123;styles.container&#125;&gt;</span><br><span class="line">                &lt;Text onPress=&#123;this.updateState&#125;&gt;站点名称：&#123;name&#125;&lt;/Text&gt;</span><br><span class="line">                &lt;Text&gt;站点网址：&#123;site&#125;&lt;/Text&gt;</span><br><span class="line">            &lt;/View&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">const styles = StyleSheet.create (&#123;</span><br><span class="line">   <span class="selector-tag">container</span>: &#123;</span><br><span class="line">      <span class="attribute">margin</span>:<span class="number">10</span></span><br><span class="line">   &#125;,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>运行</p>
+<h1 id="React-Native-组件属性-props"><a href="#React-Native-组件属性-props" class="headerlink" title="React Native 组件属性 props"></a>React Native 组件属性 props</h1><p>前面章节 <a href="https://www.twle.cn/c/yufei/reactnative/reactnative-basic-state.html" target="_blank" rel="noopener">React Native 组件状态 state</a> 中我们简单的介绍了下 <strong>组件属性 props</strong>。</p>
+<p>本章节我们将详细介绍 <strong>组件属性 props</strong> 以及如何将属性状态 state 和属性组件 props 组合在一起使用。</p>
+<p>组件的调用者可以通过 <strong>属性</strong> 将数据传递给组件，然后组件内部可以通过 <strong>组件属性 props</strong> 来获取调用者传递的数据。</p>
+<p>调用者通过属性传递数据</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;SiteNameComponent onPress=&#123;this.updateState&#125; name=&#123;name&#125; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p>组件内部通过组件属性 <code>props</code> 来获取传递给组件的数据</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const SiteNameComponent = (props) =&gt; &#123;</span><br><span class="line">   <span class="selector-tag">return</span> (</span><br><span class="line">      &lt;<span class="selector-tag">View</span>&gt;</span><br><span class="line">         &lt;Text onPress = &#123;props.onPress&#125;&gt;</span><br><span class="line">            &#123;props.name&#125;</span><br><span class="line">         &lt;/Text&gt;</span><br><span class="line">      &lt;/View&gt;</span><br><span class="line">   )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因为数据可以通过属性来传递，组件可以没有状态，不用状态来保存任何中间数据。对于没有状态的组件，我们称之为 <strong>表现组件</strong>。</p>
+<p>因此我们可以将组件分为两大类：</p>
+<ol>
+<li><p><strong>容器组件</strong></p>
+<p>容器组件是普通的组件，使用 <strong>ES6 类</strong> 来实现，既包括组件属性，也包含 <strong>组件状态</strong>。</p>
+<p>最重要的是 <strong>容器组件有自己的状态和行为处理函数</strong>。</p>
+</li>
+<li><p><strong>纯表现组件</strong></p>
+<p>纯表现组件只用于展现数据，数据来源可以是写死的固定不变的，也可以是通过属性传递给组件的。</p>
+<p>纯表现组件没有自己的内部状态，所有数据都因为外部而变。</p>
+</li>
+</ol>
+<h2 id="容器组件"><a href="#容器组件" class="headerlink" title="容器组件"></a>容器组件</h2><p>容器组件是最普通的组件，使用 ES6 类 来实现，既包括组件属性，也包含组件状态。</p>
+<h3 id="使用原则"><a href="#使用原则" class="headerlink" title="使用原则"></a>使用原则</h3><ol>
+<li>如果一个组件需要更新自己的状态，那么该组件就是容器组件。</li>
+<li>容器组件有着自己的状态 <code>state</code>，也可以通过属性 <code>props</code> 接收外部的数据来更新自己的状态。</li>
+<li>如果不需要保存状态，建议不要使用容器组件。</li>
+</ol>
+<h3 id="范例"><a href="#范例" class="headerlink" title="范例"></a>范例</h3><p>容器组件是最普通的组件， React Native 内置的大部分组件都是容器组件，它们多有一个 state 来保存状态。</p>
+<p>下面的代码，我们使用容器组件来实现站点名称的展示，我们通过属性将外部数据作为初始值传递给组件，然后组件自己内部处理用户的点击。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from 'react'</span><br><span class="line">import &#123; Text, View, StyleSheet,Alert&#125; from 'react-native'</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">class</span> <span class="selector-tag">SiteNameComponent</span> <span class="selector-tag">extends</span> <span class="selector-tag">React</span><span class="selector-class">.Component</span> &#123;</span><br><span class="line"></span><br><span class="line">    constructor(props) &#123;</span><br><span class="line">        <span class="selector-tag">super</span>(<span class="selector-tag">props</span>)</span><br><span class="line">        this.state = &#123; name: props.name &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    updateState = () =&gt; &#123;</span><br><span class="line">        const name = this.state.name == '小霞美' ? '美' : '不美'</span><br><span class="line">        <span class="selector-tag">this</span><span class="selector-class">.setState</span>(&#123;<span class="attribute">name</span>:name&#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="selector-tag">render</span>() &#123;</span><br><span class="line">        const &#123; name &#125; = this.state</span><br><span class="line">        <span class="selector-tag">return</span> (</span><br><span class="line">        &lt;<span class="selector-tag">View</span>&gt;</span><br><span class="line">            &lt;Text onPress=&#123;this.updateState&#125;&gt;&#123;name&#125;&lt;/Text&gt;</span><br><span class="line">        &lt;/View&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">export</span> <span class="selector-tag">default</span> <span class="selector-tag">class</span> <span class="selector-tag">App</span> <span class="selector-tag">extends</span> <span class="selector-tag">React</span><span class="selector-class">.Component</span> &#123;</span><br><span class="line"></span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="selector-tag">return</span> (</span><br><span class="line">            &lt;View style=&#123;styles.container&#125;&gt;</span><br><span class="line">                &lt;SiteNameComponent name=&#123;'小霞美'&#125; /&gt;</span><br><span class="line">            &lt;/View&gt;//这是初始传递的</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const styles = StyleSheet.create (&#123;</span><br><span class="line">   <span class="selector-tag">container</span>: &#123;</span><br><span class="line">      <span class="attribute">margin</span>:<span class="number">10</span></span><br><span class="line">   &#125;,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h1 id="React-Native-输入组件-TextInput"><a href="#React-Native-输入组件-TextInput" class="headerlink" title="React Native 输入组件 TextInput"></a>React Native 输入组件 TextInput</h1><p>输入组件 <code>TextInput</code> 就是让用户输入数据的，比如输入登录有户名，输入登录密码。</p>
+<p>除了简单的单行输入框外，还可以用于输入大量的文本，比如输入用户反馈，输入用户说明等等。</p>
+<p>可以说，React Native 中的输入组件 <code>TextInput</code> 是 <a href="https://www.twle.cn/l/yufei/html/html-basic-index.html" target="_blank" rel="noopener">HTML</a> 中的 <code>和</code> 的结合体。</p>
+<h2 id="React-Native-输入组件-TextInput-1"><a href="#React-Native-输入组件-TextInput-1" class="headerlink" title="React Native - 输入组件 TextInput"></a>React Native - 输入组件 TextInput</h2><p><code>TextInput</code> 组件是 React Native 的内置组件，不需要做额外的安装</p>
+<h3 id="引入组件"><a href="#引入组件" class="headerlink" title="引入组件"></a>引入组件</h3><p>要使用输入组件 TextInput，必须先引入</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &#123; TextInput &#125; from 'react-native'</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用语法"><a href="#使用语法" class="headerlink" title="使用语法"></a>使用语法</h3><p>输入组件 TextInput 是一个可视组件，使用语法如下</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="selector-tag">TextInput</span> </span><br><span class="line">   style = &#123;styles&#125;</span><br><span class="line">   underlineColorAndroid = "&#123;transparent|"</span><br><span class="line">   placeholder = "Email"</span><br><span class="line">   placeholderTextColor = "&#123;#9a73ef&#125;"</span><br><span class="line">   numberOfLines=&#123;1&#125;</span><br><span class="line">   editable=&#123;true|false&#125;</span><br><span class="line"></span><br><span class="line">   keyboardType=&#123;"default"|"number-pad"|"decimal-pad"|</span><br><span class="line">      "numeric"|"email-address"|"phone-pad"&#125;</span><br><span class="line"></span><br><span class="line">   secureTextEntry=&#123;true|false&#125;</span><br><span class="line">   multiline=&#123;true|false&#125;</span><br><span class="line">   returnKeyType = &#123;"done"|"go"|"next"|"search"|"send"&#125;</span><br><span class="line">   autoCapitalize = "none"</span><br><span class="line">   onChangeText = &#123;function(text)&#123;&#125;&#125;/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>看起来属性有点多，我们挑几个通用的常用的做个介绍</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>style</td>
+<td><a href="https://www.twle.cn/c/yufei/reactnative/reactnative-basic-styling.html" target="_blank" rel="noopener">style</a></td>
+<td>用于定制组件的样式</td>
+</tr>
+<tr>
+<td>underlineColorAndroid</td>
+<td>color</td>
+<td>Android 中下划线的颜色，透明则为 <code>transparent</code></td>
+</tr>
+<tr>
+<td>placeholder</td>
+<td>string</td>
+<td>占位符</td>
+</tr>
+<tr>
+<td>placeholderTextColor</td>
+<td>color</td>
+<td>占位符的颜色</td>
+</tr>
+<tr>
+<td>multiline</td>
+<td>bool</td>
+<td>是否多行，默认为单行</td>
+</tr>
+<tr>
+<td>numberOfLines</td>
+<td>number</td>
+<td>设置了 <code>multiline</code> 后要设置的行数</td>
+</tr>
+<tr>
+<td>editable</td>
+<td>bool</td>
+<td>是否可编辑</td>
+</tr>
+<tr>
+<td>keyboardType</td>
+<td>string</td>
+<td>键盘类型，可选的值有 “default”,”number-pad”,”decimal-pad”, “numeric”,”email-address”,”phone-pad”</td>
+</tr>
+<tr>
+<td>secureTextEntry</td>
+<td>bool</td>
+<td>是否属于密码框类型</td>
+</tr>
+<tr>
+<td>returnKeyType</td>
+<td>string</td>
+<td>键盘上的返回键类型，可选的值有 “done”,”go”,”next”,”search”,”send”</td>
+</tr>
+<tr>
+<td>autoCapitalize</td>
+<td>string</td>
+<td>字母大写模式，可选的值有:’none’, ‘sentences’, ‘words’, ‘characters’</td>
+</tr>
+<tr>
+<td>onChangeText</td>
+<td>function</td>
+<td>文本变更后的回调函数，参数为输入框里的文本</td>
+</tr>
+</tbody></table>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>使用 <code>multiline={true}</code> 和 <code>numberOfLines={5}</code> 可以设置输入框为多行模式，但它并不会在外观上显示为多行，需要设置样式属性 <code>height</code> 才会显示为多行。</p>
+<h2 id="范例-1"><a href="#范例-1" class="headerlink" title="范例"></a>范例</h2><p>下面我们使用输入组件 TextInput 实现几个常见的输入框，比如用户名输入框、密码输入框、文本描述输入框。</p>
+<h4 id="App-js"><a href="#App-js" class="headerlink" title="App.js"></a>App.js</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from 'react'</span><br><span class="line">import &#123; View, Text, TouchableOpacity, TextInput, StyleSheet &#125; from 'react-native'</span><br><span class="line">//点击透明度</span><br><span class="line"><span class="selector-tag">class</span> <span class="selector-tag">Inputs</span> <span class="selector-tag">extends</span> <span class="selector-tag">Component</span> &#123;</span><br><span class="line">   state = &#123;</span><br><span class="line">      email: '',</span><br><span class="line">      password: '',</span><br><span class="line">      <span class="selector-tag">intro</span><span class="selector-pseudo">:''</span>,</span><br><span class="line">   &#125;</span><br><span class="line">   handleEmail = (text) =&gt; &#123;</span><br><span class="line">      <span class="selector-tag">this</span><span class="selector-class">.setState</span>(&#123; <span class="attribute">email</span>: text &#125;)</span><br><span class="line">   &#125;</span><br><span class="line">   handlePassword = (text) =&gt; &#123;</span><br><span class="line">      <span class="selector-tag">this</span><span class="selector-class">.setState</span>(&#123; <span class="attribute">password</span>: text &#125;)</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   handleIntro = (text) =&gt; &#123;</span><br><span class="line">      <span class="selector-tag">this</span><span class="selector-class">.setState</span>(&#123; <span class="attribute">intro</span>: text &#125;)</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   register = (email, pass,intro) =&gt; &#123;</span><br><span class="line">      alert('email: ' + email + '\npassword: ' + pass + "\nintro:" + intro)</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="selector-tag">render</span>() &#123;</span><br><span class="line">      return (</span><br><span class="line">         &lt;View style = &#123;styles.container&#125;&gt;</span><br><span class="line">            &lt;<span class="selector-tag">TextInput</span> </span><br><span class="line">               style = &#123;styles.input&#125;</span><br><span class="line">               underlineColorAndroid = "transparent"</span><br><span class="line">               placeholder = "请输入邮箱"</span><br><span class="line">               placeholderTextColor = "#ccc"</span><br><span class="line">               autoCapitalize = "none"</span><br><span class="line">               keyboardType = "email-address"</span><br><span class="line">               returnKeyType = "next"//键盘上的返回值类型    done  go  next   search  send </span><br><span class="line">               onChangeText = &#123;this.handleEmail&#125;/&gt;</span><br><span class="line"></span><br><span class="line">            &lt;<span class="selector-tag">TextInput</span> </span><br><span class="line">               style = &#123;styles.input&#125;</span><br><span class="line">               underlineColorAndroid = "transparent"     //下划线设置透明</span><br><span class="line">               placeholder = "请输入密码"     //占位符</span><br><span class="line">               placeholderTextColor = "#ccc"     </span><br><span class="line">               autoCapitalize = "none"</span><br><span class="line">               returnKeyType = "next"    // 文本变更之后的回调函数，参数为输入框里的文本</span><br><span class="line">               secureTextEntry = &#123;true&#125;     //是否是密码框类型</span><br><span class="line">               onChangeText = &#123;this.handlePassword&#125;/&gt;</span><br><span class="line"></span><br><span class="line">            &lt;<span class="selector-tag">TextInput</span> </span><br><span class="line">               style = &#123;[styles.input,&#123;height:100&#125;]&#125;</span><br><span class="line">               underlineColorAndroid = "transparent"</span><br><span class="line">               placeholder = "请输入描述"</span><br><span class="line">               placeholderTextColor = "#ccc"</span><br><span class="line">               autoCapitalize = "none"</span><br><span class="line">               multiline = &#123;true&#125;  //多行文本</span><br><span class="line">               numberOfLines = &#123;4&#125;    //文字的位置靠上</span><br><span class="line">               textAlignVertical="top"</span><br><span class="line">               returnKeyType="done"</span><br><span class="line">               onChangeText = &#123;this.handleIntro&#125;/&gt;</span><br><span class="line">&#123;<span class="comment">/*封装视图，使它可以正确响应触摸操作*/</span>&#125;</span><br><span class="line">            &lt;<span class="selector-tag">TouchableOpacity</span></span><br><span class="line">               style = &#123;styles.submitButton&#125;</span><br><span class="line">               onPress = &#123;</span><br><span class="line">                  () =&gt; this.register(this.state.email, this.state.password)    //对接后台</span><br><span class="line">               &#125;&gt;</span><br><span class="line">               &lt;Text style = &#123;styles.submitButtonText&#125;&gt;注册&lt;/Text&gt;</span><br><span class="line">            &lt;/TouchableOpacity&gt;</span><br><span class="line">         &lt;/View&gt;</span><br><span class="line">      )</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">export</span> <span class="selector-tag">default</span> <span class="selector-tag">Inputs</span></span><br><span class="line">//APP.js</span><br><span class="line">const styles = StyleSheet.create(&#123;</span><br><span class="line">   <span class="selector-tag">container</span>: &#123;</span><br><span class="line">      <span class="attribute">paddingTop</span>: <span class="number">23</span></span><br><span class="line">   &#125;,</span><br><span class="line">   <span class="selector-tag">input</span>: &#123;</span><br><span class="line">      <span class="attribute">margin</span>: <span class="number">15</span>,</span><br><span class="line">      paddingLeft:<span class="number">8</span>,</span><br><span class="line">      height: <span class="number">40</span>,</span><br><span class="line">      borderColor: <span class="string">'#eeeeee'</span>,</span><br><span class="line">      borderWidth: <span class="number">1</span></span><br><span class="line">   &#125;,</span><br><span class="line">   <span class="selector-tag">submitButton</span>: &#123;</span><br><span class="line">      <span class="attribute">backgroundColor</span>: <span class="string">'#7a42f4'</span>,</span><br><span class="line">      padding: <span class="number">10</span>,</span><br><span class="line">      alignItems:<span class="string">'center'</span>,</span><br><span class="line">      margin: <span class="number">15</span>,</span><br><span class="line">      height: <span class="number">40</span>,</span><br><span class="line">   &#125;,</span><br><span class="line">   <span class="selector-tag">submitButtonText</span>:&#123;</span><br><span class="line">      <span class="attribute">color</span>: <span class="string">'white'</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="React-Native-图片组件-Image"><a href="#React-Native-图片组件-Image" class="headerlink" title="React Native 图片组件 Image"></a>React Native 图片组件 Image</h1><p>原生 iOS 使用 <code>UIImage</code> 来显示一张图片，原生 Android 开发使用 <code>ImageView</code> 来显示图片。</p>
+<p>React Native 对 <code>UIImage</code> 和 <code>ImageView</code> 进行封装，提供了 Image 组件用来显示图片。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly93d3cudHdsZS5jbi9zdGF0aWMvdXBsb2FkL2ltZy8yMDE5LzA3LzE0LzIwMTkwNzE0MTk1NTI0XzQuanBn?x-oss-process=image/format,png" alt="img"></p>
+<p>Image 组件还同时解决了访问网络图片复杂的问题，把显示网络图片给简化了。</p>
+<h2 id="React-Native-图片组件-Image-1"><a href="#React-Native-图片组件-Image-1" class="headerlink" title="React Native 图片组件 Image"></a>React Native 图片组件 Image</h2><p>React Native 内建了图片组件 Image 来显示图片，这个组件既可以显示本地图片，也可以显示网络图片，还可以显示 base64 格式的图片。</p>
+<h3 id="引入组件-1"><a href="#引入组件-1" class="headerlink" title="引入组件"></a>引入组件</h3><p>使用 Image 组件首先需要引入此组件，引入组件语法和引入其它组件的语法相同</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &#123; Image &#125; from 'react-native'</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用组件"><a href="#使用组件" class="headerlink" title="使用组件"></a>使用组件</h3><p>Image 组件的基本使用语法如下</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="selector-tag">Image</span> </span><br><span class="line">   style  = &#123;image_style&#125;</span><br><span class="line">   source = &#123;image_url&#125; </span><br><span class="line">   resizeMode = &#123;"cover"|"contain"|"stretch"|"repeat"|"center"&#125;</span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Image 组件既可以显示本地图片也可以显示网络图片，但它们的语法格式有点不同。</p>
+<p>显示本地图片的语法格式为</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="selector-tag">Image</span> </span><br><span class="line">   style  = &#123;image_style&#125;</span><br><span class="line">   source = &#123;require('./image_path')&#125; </span><br><span class="line">   resizeMode = &#123;"cover"|"contain"|"stretch"|"repeat"|"center"&#125;</span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>显示网络图片的语法格式为</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="selector-tag">Image</span> </span><br><span class="line">   style  = &#123;image_style&#125;</span><br><span class="line">   source=&#123;&#123;uri: 'image_url'&#125;</span><br><span class="line">   resizeMode = &#123;"cover"|"contain"|"stretch"|"repeat"|"center"&#125;</span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>显示 base64 格式的图片的语法格式为</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="selector-tag">Image</span> </span><br><span class="line">   style  = &#123;image_style&#125;</span><br><span class="line">   source=&#123;&#123;uri: 'uri: data:image/png;base64,[image_base64_data]'&#125;</span><br><span class="line">   resizeMode = &#123;"cover"|"contain"|"stretch"|"repeat"|"center"&#125;</span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意： 显示网络图片和显示 base64 格式的图片，<code>style</code> 样式中一定要包含 <code>width</code> 和 <code>height</code> 属性。</p>
+</blockquote>
+<h3 id="使用范例如下"><a href="#使用范例如下" class="headerlink" title="使用范例如下"></a>使用范例如下</h3><p>显示本地图片</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="selector-tag">Image</span></span><br><span class="line">    source=&#123;require('/react-native/img/favicon.png')&#125;</span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>显示网络图片</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="selector-tag">Image</span></span><br><span class="line">    style=&#123;&#123;width: 50, height: 50&#125;&#125;</span><br><span class="line">    source=&#123;&#123;uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'&#125;&#125;</span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>显示 base64 格式图片</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="selector-tag">Image</span></span><br><span class="line">    style=&#123;&#123;width: 66, height: 58&#125;&#125;</span><br><span class="line">    source=&#123;&#123;uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAYAAAA6oTAqAAAAEXRFWHRTb2Z0d2FyZQBwbmdjcnVzaEB1SfMAAABQSURBVGje7dSxCQBACARB+2/ab8BEeQNhFi6WSYzYLYudDQYGBgYGBgYGBgYGBgYGBgZmcvDqYGBgmhivGQYGBgYGBgYGBgYGBgYGBgbmQw+P/eMrC5UTVAAAAABJRU5ErkJggg=='&#125;&#125;</span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><p>Image 组件有很多属性，但常用的且跨平台的属性真心不多，我们列举几个常用的介绍下。</p>
+<ol>
+<li><p><code>style</code> 属性。</p>
+<p>除了默认的跟 <code>相同的属性外，</code> 中的 <code>style</code> 属性还支持一下属性</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>borderTopRightRadius</td>
+<td>number</td>
+<td>设置右上角的圆角度数，默认值为 0</td>
+</tr>
+<tr>
+<td>borderBottomLeftRadius</td>
+<td>number</td>
+<td>设置左下角的圆角度数，默认值为 0</td>
+</tr>
+<tr>
+<td>borderBottomRightRadius</td>
+<td>number</td>
+<td>设置右下角的圆角度数，默认值为 0</td>
+</tr>
+<tr>
+<td>borderTopLeftRadius</td>
+<td>number</td>
+<td>设置左上角的圆角度数，默认值为 0</td>
+</tr>
+<tr>
+<td>borderRadius</td>
+<td>number</td>
+<td>统一设置四个角的圆角度数，默认值为 0</td>
+</tr>
+<tr>
+<td>borderColor</td>
+<td>color</td>
+<td>设置边框的颜色</td>
+</tr>
+<tr>
+<td>borderWidth</td>
+<td>number</td>
+<td>设置边框的宽度，默认值为 0</td>
+</tr>
+<tr>
+<td>backgroundColor</td>
+<td>color</td>
+<td>设置图片组件的背景色</td>
+</tr>
+<tr>
+<td>opacity</td>
+<td>number</td>
+<td>设置图片组件的透明度</td>
+</tr>
+<tr>
+<td>overflow</td>
+<td>string</td>
+<td>当组件超出屏幕宽高时是否可见， ‘visible’ 显示, ‘hidden’ 隐藏</td>
+</tr>
+<tr>
+<td>backfaceVisibility</td>
+<td>string</td>
+<td>定义当组件不面向屏幕时是否可见， ‘visible’ 显示, ‘hidden’ 隐藏</td>
+</tr>
+<tr>
+<td>tintColor</td>
+<td>color</td>
+<td>将所有非透明的图片像素改为此颜色</td>
+</tr>
+<tr>
+<td>resizeMode</td>
+<td>string</td>
+<td>设置图片如何适应图片容器，可选的值有： ‘cover’, ‘contain’, ‘stretch’, ‘repeat’, ‘center’</td>
+</tr>
+</tbody></table>
+</li>
+<li><p><code>source</code> 属性。</p>
+<p><code>source</code> 属性用于设置图片的地址，图片地址可以是本地图片，网络图片和 base64 格式的图片。</p>
+<p>使用方式我们上面已经介绍过了。</p>
+</li>
+<li><p><code>loadingIndicatorSource</code> 属性。</p>
+<p><code>loadingIndicatorSource</code> 属性用于加载网络图片时的 placeholder 图片。也可以说是图片加载指示器。</p>
+<p>它的使用格式和 <code>source</code> 属性一样，但不能是网络图片，只能是本地图片或 base64 格式图片。</p>
+</li>
+<li><p><code>resizeMethod</code> 属性。</p>
+<p><code>resizeMethod</code> 属性用于设置图片如何适配图片组件。默认值为 <code>auto</code>。</p>
+<p>可选的值有： ‘cover’, ‘contain’, ‘stretch’, ‘repeat’, ‘center’    !!!!!!</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>auto</td>
+<td>由系统自己在 <code>resize</code> 或 <code>scale</code> 之间选择</td>
+</tr>
+<tr>
+<td>resize</td>
+<td>显示之前先进行重新调整大小，当图片超出组件太多时建议使用此值</td>
+</tr>
+<tr>
+<td>scale</td>
+<td>缩放图片，当地图片比组件小或者图片和组件差不多大小时使用此值</td>
+</tr>
+</tbody></table>
+<h2 id="范例-1"><a href="#范例-1" class="headerlink" title="范例 1"></a>范例 1</h2><p>下面的代码，我们使用 Image 组件分别显示本地图片、网络图片和 base64 图片。</p>
+<p>你需要将下面的图片下载到项目的根目录下</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly93d3cudHdsZS5jbi9zdGF0aWMvaS9pbWcxLmpwZw?x-oss-process=image/format,png" alt="img"></p>
+<h4 id="App-js-1"><a href="#App-js-1" class="headerlink" title="App.js"></a>App.js</h4><p>ScrollView是滚动图片组件</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from 'react';</span><br><span class="line">import &#123; AppRegistry, View, Image &#125; from 'react-native';</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">export</span> <span class="selector-tag">default</span> <span class="selector-tag">class</span> <span class="selector-tag">App</span> <span class="selector-tag">extends</span> <span class="selector-tag">Component</span> &#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="selector-tag">return</span> (</span><br><span class="line">      &lt;<span class="selector-tag">View</span>&gt;</span><br><span class="line">        &lt;Image            //普通图片设置</span><br><span class="line">          source=&#123;require('./img1.jpg')&#125;</span><br><span class="line">        /&gt;</span><br><span class="line">        &lt;<span class="selector-tag">Image</span></span><br><span class="line">          style=&#123;&#123;margin:10,width: 177, height: 100&#125;&#125;</span><br><span class="line">          source=&#123;&#123;uri: 'https://www.twle.cn/static/i/img1.jpg'&#125;&#125;     //容器模式    网络图片    注意是uri </span><br><span class="line">        /&gt;</span><br><span class="line">        &lt;<span class="selector-tag">Image</span></span><br><span class="line">          style=&#123;&#123;margin:10,width: 66, height: 58&#125;&#125;</span><br><span class="line">          source=&#123;&#123;uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAYAAAA6oTAqAAAAEXRFWHRTb2Z0d2FyZQBwbmdjcnVzaEB1SfMAAABQSURBVGje7dSxCQBACARB+2/ab8BEeQNhFi6WSYzYLYudDQYGBgYGBgYGBgYGBgYGBgZmcvDqYGBgmhivGQYGBgYGBgYGBgYGBgYGBgbmQw+P/eMrC5UTVAAAAABJRU5ErkJggg=='&#125;&#125;</span><br><span class="line">        /&gt;</span><br><span class="line">      &lt;/View&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>显示效果如下</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly93d3cudHdsZS5jbi9zdGF0aWMvdXBsb2FkL2ltZy8yMDE5LzA3LzE0LzIwMTkwNzE0MTk1NTUzXzQuanBn?x-oss-process=image/format,png" alt="React Native 图片组件 Image"></p>
+<h1 id="React-Native-活动指示器组件-ActivityIndicator"><a href="#React-Native-活动指示器组件-ActivityIndicator" class="headerlink" title="React Native 活动指示器组件 ActivityIndicator"></a>React Native 活动指示器组件 ActivityIndicator</h1><p>React Native 中的活动指示器组件 ActivityIndicator 就长下面这样。</p>
+<blockquote>
+<p>嗯，不是全部，只是其中一个转圈圈的。</p>
+</blockquote>
+<p>有一些比较耗时的操作，可能需要用户等待，那么就可以用 <strong>活动指示器组件 ActivityIndicator</strong> 告诉用户你需要等待。</p>
+<p>其实，任何从用户点击开始，不能立刻给予用户反馈的操作，都需要使用 <strong>活动指示器组件 ActivityIndicator</strong> 告诉用户等待片刻。</p>
+<h2 id="React-Native-活动指示器组件-ActivityIndicator-1"><a href="#React-Native-活动指示器组件-ActivityIndicator-1" class="headerlink" title="React Native 活动指示器组件 ActivityIndicator"></a>React Native 活动指示器组件 ActivityIndicator</h2><h3 id="引入组件-2"><a href="#引入组件-2" class="headerlink" title="引入组件"></a>引入组件</h3><p>React Native 中使用 <strong>活动指示器组件 ActivityIndicator</strong> 首先需要引入组件</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &#123; ActivityIndicator &#125; from 'react-native';</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用语法-1"><a href="#使用语法-1" class="headerlink" title="使用语法"></a>使用语法</h3><p><strong>活动指示器组件 ActivityIndicator</strong> 的使用语法和其它大部分组件一样。只不过它是一个自闭合组件，没有任何子元素。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="selector-tag">ActivityIndicator</span></span><br><span class="line">  animating = &#123;true|false&#125;</span><br><span class="line">  color = &#123;'[color]'&#125;</span><br><span class="line">  size = &#123;"large"| "small"&#125; /&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="属性说明"><a href="#属性说明" class="headerlink" title="属性说明"></a>属性说明</h4><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>类型</th>
+<th>是否必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>animating</td>
+<td>boolean</td>
+<td>否</td>
+<td>是否显示活动指示器。默认为 <code>true</code>，<code>false</code> 则表示隐藏</td>
+</tr>
+<tr>
+<td>color</td>
+<td>color</td>
+<td>否</td>
+<td>⭕️ 的颜色，默认情况下，<code>iOS</code> 为灰色，<code>Android</code> 为 <strong>深青色</strong></td>
+</tr>
+<tr>
+<td>size</td>
+<td>string</td>
+<td>否</td>
+<td>只有两个选项 <code>large</code> 和 <code>small</code>，默认是 <code>small</code></td>
+</tr>
+</tbody></table>
+<h2 id="范例1-：-最基本的使用"><a href="#范例1-：-最基本的使用" class="headerlink" title="范例1 ： 最基本的使用"></a>范例1 ： 最基本的使用</h2><p>活动指示器组件 ActivityIndicator 的使用方式还是很简单的。我们修改 <code>App.js</code> 如下就能看到使用效果</p>
+<h4 id="App-js-2"><a href="#App-js-2" class="headerlink" title="App.js"></a>App.js</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from 'react';</span><br><span class="line">import &#123; ActivityIndicator, View, Text, TouchableOpacity, StyleSheet &#125; from 'react-native';</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">class</span> <span class="selector-tag">App</span> <span class="selector-tag">extends</span> <span class="selector-tag">Component</span> &#123;</span><br><span class="line"></span><br><span class="line">   render() &#123;</span><br><span class="line">      <span class="selector-tag">return</span> (</span><br><span class="line">         &lt;View style = &#123;styles.container&#125;&gt;</span><br><span class="line">            &lt;ActivityIndicator style = &#123;styles.activityIndicator&#125;/&gt;</span><br><span class="line">         &lt;/View&gt;</span><br><span class="line">      )</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">export</span> <span class="selector-tag">default</span> <span class="selector-tag">App</span></span><br><span class="line"></span><br><span class="line">const styles = StyleSheet.create (&#123;</span><br><span class="line">   <span class="selector-tag">container</span>: &#123;</span><br><span class="line">      <span class="attribute">marginTop</span>: <span class="number">70</span></span><br><span class="line">   &#125;,</span><br><span class="line">   <span class="selector-tag">activityIndicator</span>: &#123;</span><br><span class="line">      <span class="attribute">flex</span>: <span class="number">1</span>,</span><br><span class="line">      justifyContent: <span class="string">'center'</span>,</span><br><span class="line">      alignItems: <span class="string">'center'</span>,</span><br><span class="line">      height: <span class="number">80</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>演示效果如下</p>
+<p><video width="240" controls src="https://www.twle.cn/static/upload/img/2019/07/14/20190714101430_4.mp4" style="box-sizing: border-box; display: inline-block; vertical-align: baseline;"></video></p>
+<h2 id="范例2-：-指定时间后隐藏"><a href="#范例2-：-指定时间后隐藏" class="headerlink" title="范例2 ： 指定时间后隐藏"></a>范例2 ： 指定时间后隐藏</h2><p>如果需要隐藏 <strong>活动指示器组件 ActivityIndicator</strong> 组件只需要将 <code>animating</code> 设置为 <code>false</code> 即可。</p>
+<p>例如下面的范例，在启动 2 秒后自动隐藏 <strong>活动指示器组件 ActivityIndicator</strong> 组件。在启动 3 秒后继续显示活动指示器。</p>
+<h4 id="App-js-3"><a href="#App-js-3" class="headerlink" title="App.js"></a>App.js</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from 'react';</span><br><span class="line">import &#123; ActivityIndicator, View, Text, TouchableOpacity, StyleSheet &#125; from 'react-native';</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">class</span> <span class="selector-tag">App</span> <span class="selector-tag">extends</span> <span class="selector-tag">Component</span> &#123;</span><br><span class="line">   state = &#123; animating: true &#125;    //   判断逻辑 </span><br><span class="line"></span><br><span class="line">   closeActivityIndicator = () =&gt; &#123;</span><br><span class="line">      setTimeout(() =&gt; this.setState(&#123;animating: false &#125;), 2000)</span><br><span class="line">      setTimeout(() =&gt; this.setState(&#123;animating: true &#125;), 4000)</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   componentDidMount = () =&gt; this.closeActivityIndicator()</span><br><span class="line">   <span class="selector-tag">render</span>() &#123;</span><br><span class="line">      const animating = this.state.animating   </span><br><span class="line">      <span class="selector-tag">return</span> (</span><br><span class="line">         &lt;View style = &#123;styles.container&#125;&gt;</span><br><span class="line">            &lt;ActivityIndicator            //活动指示器，切换animating属性进行显示隐藏切换</span><br><span class="line">               animating = &#123;animating&#125;  //重点！！！</span><br><span class="line">               color = '#bc2b78'</span><br><span class="line">               size = "large"</span><br><span class="line">               style = &#123;styles.activityIndicator&#125;/&gt;</span><br><span class="line">         &lt;/View&gt;</span><br><span class="line">      )</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">export</span> <span class="selector-tag">default</span> <span class="selector-tag">App</span></span><br><span class="line"></span><br><span class="line">const styles = StyleSheet.create (&#123;</span><br><span class="line">   <span class="selector-tag">container</span>: &#123;</span><br><span class="line">      <span class="attribute">flex</span>: <span class="number">1</span>,</span><br><span class="line">      marginTop: <span class="number">70</span></span><br><span class="line">   &#125;,</span><br><span class="line">   <span class="selector-tag">activityIndicator</span>: &#123;</span><br><span class="line">      <span class="attribute">height</span>: <span class="number">80</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+      
+      <!-- reward -->
+      
+      <div id="reward-btn">
+        打赏
+      </div>
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong s>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
+                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+        
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/05/06/React%20Native%EF%BC%88%E4%B8%89%EF%BC%89%20state%E3%80%81Props%E3%80%81%E8%BE%93%E5%85%A5%E7%BB%84%E4%BB%B6%E3%80%81%E5%9B%BE%E7%89%87%E7%BB%84%E4%BB%B6%E3%80%81%E5%8A%A0%E8%BD%BD%E6%8C%87%E7%A4%BA%E5%99%A8/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/React-Native%E7%AC%94%E8%AE%B0%E6%95%B4%E7%90%86/" rel="tag">React-Native笔记整理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E5%B8%B8%E7%94%A8%E9%9C%80%E6%B1%82%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E6%B1%87%E6%80%BB/" rel="tag">常用需求解决方案汇总</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+      <a href="../%E6%8A%80%E8%83%BD%E5%8F%A0%E5%8A%A0+%E8%A7%86%E9%87%8E%E7%A0%B4%E5%9C%88+%E5%88%A0%E7%B9%81%E5%B0%B1%E7%AE%80+%E7%8B%AC%E7%AB%8B%E6%80%9D%E8%80%83+%E4%BF%9D%E6%8C%81%E5%88%9D%E5%BF%83/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            阿里面试总结（七）——技能叠加+视野破圈+删繁就简+独立思考+保持初心
+          
+        </div>
+      </a>
+    
+    
+      <a href="../React%20Native%20%E5%8A%A8%E7%94%BB%20Animated%E3%80%81%E5%BC%80%E5%85%B3%E3%80%81%E7%8A%B6%E6%80%81%E6%A0%8F%E3%80%81%E9%80%89%E6%8B%A9%E5%99%A8%E7%BB%84%E4%BB%B6%E3%80%81%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">React-Native笔记整理（四）—— 动画 Animated、开关、状态栏、选择器组件、网络请求</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        notify: 'false',
+        verify: 'false',
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2020
+        Wangqiuxia
+      </li>
+      <li>
+        
+        Powered by
+        
+        
+        <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+    <aside class="sidebar">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="../../../../index.html"><img src="/images/ayer-side.svg" alt="爱产品，爱前端！"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../index.html">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../tags/%E6%8A%80%E6%9C%AF/">小程序</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../http:/shenyu-vip.lofter.com">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../https:/v.xiumi.us/stage/v5/4IeLH/197507179">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="../../../../atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="../../../../images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="../../../../images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="../../../../js/jquery-2.0.3.min.js"></script>
+
+
+<script src="../../../../js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="../../../../js/lazyload.min.js"></script>
+
+
+<script src="../../../../js/busuanzi-2.3.pure.min.js"></script>
+
+
+<script src="../../../../js/share.js"></script>
+
+
+
+<script src="../../../../fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['做一个有情怀懂产品的程序媛！','业精于勤荒于嬉！行成于思毁于随！','越努力越幸运'],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script src="../../../../js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+
+<script src="../../../../js/ayer.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=1436709403&auto=1&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+  </div>
+</body>
+
+</html>

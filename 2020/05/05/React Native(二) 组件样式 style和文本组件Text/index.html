@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    React-Native笔记整理（二）——组件样式Style和文本组件Text |  爱产品，爱前端！
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="../../../../css/style.css">
+
+  
+<script src="../../../../js/pace.min.js"></script>
+
+
+  
+
+  
+
+<link rel="alternate" href="atom.xml" title="爱产品，爱前端！" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    <main class="content">
+      <section class="outer">
+  <article id="post-React Native(二) 组件样式 style和文本组件Text" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  React-Native笔记整理（二）——组件样式Style和文本组件Text
+</h1>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="" class="article-date">
+  <time datetime="2020-05-04T16:00:00.000Z" itemprop="datePublished">2020-05-05</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../../../categories/%E5%A4%8D%E4%B9%A0%E4%B8%8E%E5%9B%9E%E9%A1%BE/">复习与回顾</a>
+  </div>
+
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">3.4k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">14分钟</span>
+        </span>
+    </span>
+</div>
+
+      
+    </div>
+    
+
+    
+    
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>学习资源：B站、阿里云<br>感谢B站UP主老陈的讲解、小霞会记录下来，每天练习、熟能生巧🍓<br>小霞坚信：持久化的好习惯延长人间事物的保质期！😁🍓<br>内心装满知识和道理，就会充满踏实感+幸福感😘👍🧡💯<br>希望有一天自己可以写出很棒的作品，分享给大家🧡💯</p>
+<h1 id="React-Native-组件样式-style"><a href="#React-Native-组件样式-style" class="headerlink" title="React Native 组件样式 style"></a>React Native 组件样式 style</h1><p>我们知道，在 <a href="https://www.twle.cn/l/yufei/html/html-basic-index.html" target="_blank" rel="noopener">HTML</a> 中可以通过标签的 <code>style</code> 属性定义样式，也可以通过 `` 标签来定义样式。</p>
+<p>React Native 也可以通过组件的 <code>style</code> 属性来定义组件的布局和外观，也可以通过 <code>StyleSheet</code> 来定义组件的外观。</p>
+<p>React Native 的基础语言是 <a href="https://www.twle.cn/l/yufei/javascript/javascript-basic-index.html" target="_blank" rel="noopener">JavaScript</a>，React Native <code>style</code> 的属性是 JavaScript 的一个键值对 <strong>对象</strong>。键是 CSS 的样式名，值是 CSS 的值。</p>
+<blockquote>
+<p>理解这一点很重要，不然你不能理解为什么 <code>style</code> 有两个大括号<br>注意是双括号，驼峰命名</p>
+</blockquote>
+<ol>
+<li><p>通过 style 属性定义视图组件 <code>View</code> 的背景色</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;View style = &#123;&#123;backgroundColor:'#333333'&#125;&#125;&gt;&lt;/View&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过 <code>StyleSheet</code> 组件定义视图组件 <code>View</code> 的背景色</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const styles = StyleSheet.create (&#123;</span><br><span class="line">   <span class="selector-tag">v</span>: &#123;</span><br><span class="line">        <span class="attribute">backgroundColor</span>:<span class="string">'red'</span>    </span><br><span class="line">   &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>然后把 <code>styles.txt</code> 作为组件属性 <code>style</code> 的值</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;View style =&#123;styles.v&#125;&gt;&lt;/View&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="sytle-样式属性命名法"><a href="#sytle-样式属性命名法" class="headerlink" title="sytle 样式属性命名法"></a>sytle 样式属性命名法</h3><p>而且 React Native 中的所有布局和外观都借鉴 <a href="https://www.twle.cn/l/yufei/css/css-basic-index.html" target="_blank" rel="noopener">CSS2</a> 和 <a href="https://www.twle.cn/l/yufei/css3/css-css3-index.html" target="_blank" rel="noopener">CSS3</a>，它们的最大区别，就是 React Native 采用 <strong>驼峰命名法</strong>，把所有的 <strong>中划线 (<code>-</code>)</strong> 去掉然后把中划线后面的首字母大写。</p>
+<p>例如要定义背景色，在 CSS 中的语法如下</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">background-color</span><span class="selector-pseudo">:red</span></span><br></pre></td></tr></table></figure>
+
+<p>在 React Native 中的写法如下</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">backgroundColor</span><span class="selector-pseudo">:"red"</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="单位"><a href="#单位" class="headerlink" title="单位"></a>单位</h3><p>React Native 所有的外观都是没有单位的。或者说你可以理解它们的默认单位都是 <strong>像素</strong>。</p>
+<h3 id="样式覆盖与优先级"><a href="#样式覆盖与优先级" class="headerlink" title="样式覆盖与优先级"></a>样式覆盖与优先级</h3><p>React Native 支持样式的覆盖，覆盖语法其实就是合并多个字典/对象的值，覆盖语法如下</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;View style =&#123;[styles.v,&#123;backgroundColor:'#333333'&#125;]&#125;&gt;&lt;/View&gt;</span><br></pre></td></tr></table></figure>
+
+<p>样式覆盖其实就是把所有的样式对象放到一个数组里 <code>[]</code> ，越是右边，优先级越高，这个和 HTML 中的 <code>class</code> 优先级是一样的。</p>
+<h3 id="样式继承"><a href="#样式继承" class="headerlink" title="样式继承"></a>样式继承</h3><p>React Native 中是没有样式继承的，每一个组件都要单独设置样式。例如下面的代码</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;View style =&#123;[styles.txt,&#123;color:'#333333'&#125;]&#125;</span><br><span class="line">&lt;Text&gt;简单教程&lt;/Text&gt;</span><br><span class="line">&lt;/View&gt;</span><br></pre></td></tr></table></figure>
+
+<p>运行之后你会发现，文本的颜色没有任何改变，还是它默认的黑色。</p>
+<h3 id="所有-style-属性"><a href="#所有-style-属性" class="headerlink" title="所有 style 属性"></a>所有 style 属性</h3><p>所有的 <code>style</code> 可以使用的布局和外观的属性，可以参考 <a href="https://facebook.github.io/react-native/docs/view-style-props" target="_blank" rel="noopener">View Style Props</a> 和 <a href="https://facebook.github.io/react-native/docs/text-style-props" target="_blank" rel="noopener">Text Style Props</a></p>
+<h2 id="范例"><a href="#范例" class="headerlink" title="范例"></a>范例</h2><p>下面的代码，我们通过 <code>StyleSheet</code> 定义一个通用样式，通过视图组件属性 <code>style</code> 定义自己的独有样式<br>注意文本没有样式继承，每一个组件要单独设置样式</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from 'react'</span><br><span class="line">import &#123;View, StyleSheet &#125; from 'react-native'</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">export</span> <span class="selector-tag">default</span> <span class="selector-tag">class</span> <span class="selector-tag">App</span> <span class="selector-tag">extends</span> <span class="selector-tag">React</span><span class="selector-class">.Component</span> &#123;</span><br><span class="line">   render() &#123;</span><br><span class="line">      <span class="selector-tag">return</span> (</span><br><span class="line">         &lt;View style=&#123;styles.container&#125;&gt;   //没有样式继承的，每一个组件都要单独设置样式</span><br><span class="line">            &lt;View style=&#123;styles.card&#125;&gt;&lt;/View&gt;   //这是直接设置样式对象</span><br><span class="line">            &lt;View style=&#123;&#123;marginTop:8,marginBottom:8,height:100,backgroundColor:'blue'&#125;&#125;&gt;&lt;/View&gt;</span><br><span class="line">            &lt;View style=&#123;[styles.card, &#123;backgroundColor:'yellow'&#125;]&#125;&gt;&lt;/View&gt;    //创建样式对象</span><br><span class="line">         &lt;/View&gt;</span><br><span class="line">      );   //  合并多个样式对象时，同样的设置，右边的优先级高！应该是黄色。请看下图！</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const styles = StyleSheet.create (&#123;     //样式表</span><br><span class="line">   <span class="selector-tag">container</span>: &#123;</span><br><span class="line">      <span class="attribute">flex</span>:<span class="number">1</span>,    //占据所有位置</span><br><span class="line">      padding:<span class="number">8</span>,</span><br><span class="line">      backgroundColor:<span class="string">'#eeeeee'</span></span><br><span class="line">   &#125;,</span><br><span class="line"></span><br><span class="line">   <span class="selector-tag">card</span>: &#123;</span><br><span class="line">      <span class="attribute">height</span>:<span class="number">100</span>,</span><br><span class="line">      backgroundColor:<span class="string">'#ffffff'</span>,  </span><br><span class="line">   &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>运行效果如下</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly93d3cudHdsZS5jbi9zdGF0aWMvdXBsb2FkL2ltZy8yMDE5LzA3LzE4LzIwMTkwNzE4MDc1MDQ5XzQucG5n?x-oss-process=image/format,png" alt="img"></p>
+<h1 id="使用Flexbox布局"><a href="#使用Flexbox布局" class="headerlink" title="使用Flexbox布局"></a>使用Flexbox布局</h1><p>本文档贡献者：<a href="https://github.com/search?q=sunnylqm%40qq.com+in%3Aemail&type=Users" target="_blank" rel="noopener">sunnylqm</a>(98.94%), <a href="https://github.com/search?q=lijason1121%40users.noreply.github.com+in%3Aemail&type=Users" target="_blank" rel="noopener">lijason1121</a>(1.06%)我们在 React Native 中使用 flexbox 规则来指定某个组件的子元素的布局。Flexbox 可以在不同屏幕尺寸上提供一致的布局结构。一般来说，使用<code>flexDirection</code>、<code>alignItems</code>和 <code>justifyContent</code>三个样式属性就已经能满足大多数布局需求。译注：这里有一份<a href="http://weibo.com/1712131295/CoRnElNkZ?ref=collection&type=comment" target="_blank" rel="noopener">简易布局图解</a>，可以给你一个大概的印象。React Native 中的 Flexbox 的工作原理和 web 上的 CSS 基本一致，当然也存在少许差异。首先是默认值不同：<code>flexDirection</code>的默认值是<code>column</code>而不是<code>row</code>，而<code>flex</code>也只能指定一个数字值。Flex<a href="https://reactnative.cn/docs/flexbox/layout-props#flex" target="_blank" rel="noopener"><code>flex</code></a> 属性决定元素在主轴上如何<strong>填满</strong>可用区域。整个区域会根据每个元素设置的flex属性值被分割成多个部分。在下面的例子中，在设置了<code>flex: 1</code>的容器view中，有红色，黄色和绿色三个子view。红色view设置了<code>flex: 1</code>，黄色view设置了<code>flex: 2</code>，绿色view设置了<code>flex: 3</code>。<strong>1+2+3 = 6</strong>，这意味着红色view占据整个区域的<code>1/6</code>，黄色view占据整个区域的<code>2/6</code>，绿色view占据整个区域的<code>3/6</code>。</p>
+<h2 id="FlexBox布局整理"><a href="#FlexBox布局整理" class="headerlink" title="FlexBox布局整理"></a>FlexBox布局整理</h2><h3 id="Flex基本概念"><a href="#Flex基本概念" class="headerlink" title="Flex基本概念"></a>Flex基本概念</h3><p>在flex容器中默认存在两条轴，水平主轴（main axis）和垂直的交叉轴（cross axis），这是默认的设置，你可以自主改变主轴和交叉轴。</p>
+<p>在容器中的每个单元块被称为flex item，每个项目占据的主轴空间为（main size），占据的交叉轴的空间称为（cross size）。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMDUzNTk5LTlkZDQ1MDY5ZTBmOGY5MDYucG5n?x-oss-process=image/format,png" alt="img"></p>
+<p>flex容器.png</p>
+<h3 id="Flex容器属性"><a href="#Flex容器属性" class="headerlink" title="Flex容器属性"></a>Flex容器属性</h3><p><a href="https://www.jianshu.com/p/5053807b7fcd" target="_blank" rel="noopener">RN  flex布局解析</a></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flex-direction || flex-wrap || flex-flow || justify-content || align-items || align-content</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">水平排列，水平平均分布，竖直居中</span><br><span class="line">：flex:<span class="number">1</span>；flexDirection：“row”；justifyContent：“space-between”；alignitems：“center”</span><br></pre></td></tr></table></figure>
+
+<h4 id="flex-direction-决定主轴的方向"><a href="#flex-direction-决定主轴的方向" class="headerlink" title="flex-direction: 决定主轴的方向"></a>flex-direction: 决定主轴的方向</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">    <span class="attribute">flex-direction</span>: row | row-reverse | column | column-reverse;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>默认值：row，主轴为水平方向，起点在左端。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMDUzNTk5LTFmNmVkNDM2NmEyMWM5MTMucG5n?x-oss-process=image/format,png" alt="img"></p>
+<p>flex-row.png</p>
+<p>row-reverse:主轴为水平方向，起点在右端</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMDUzNTk5LTgxMTMwMDljYWZkZGVjZTYucG5n?x-oss-process=image/format,png" alt="img"></p>
+<p>flex-row-reverse.png</p>
+<p>column:主轴为垂直方向，起点在上沿</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMDUzNTk5LWM3ZDhmNGM3MDdiODZhOTgucG5n?x-oss-process=image/format,png" alt="img"></p>
+<p>flex-column.png</p>
+<p>column-reverse: 主轴为垂直方向，起点在下沿</p>
+<h4 id="flex-wrap-决定容器内项目是否换行"><a href="#flex-wrap-决定容器内项目是否换行" class="headerlink" title="flex-wrap:决定容器内项目是否换行"></a>flex-wrap:决定容器内项目是否换行</h4><p>默认情况下，项目都排在主轴线上，使用flex-wrap可实现项目的换行</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">    <span class="attribute">flex-wrap</span>: nowrap | wrap | wrap-reverse;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>默认值： nowrap不换行，即当主轴尺寸固定时，当空间不足时，项目尺寸会随之调整而不会挤到下一行</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMDUzNTk5LWMyNjc4MmYxN2ViMmM0OGYucG5n?x-oss-process=image/format,png" alt="img"></p>
+<p>flex-nowrap.png</p>
+<p>wrap: 项目主轴总尺寸超出容器时换行，第一行在上方</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMDUzNTk5LTg2NjQxNGRhNTYxNDBmYzEucG5n?x-oss-process=image/format,png" alt="img"></p>
+<p>flex-wrap.png</p>
+<p>wrap-reverse:换行，第一行在下方</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMDUzNTk5LTI2NTE3ZjNkOWM4MjllZGEucG5n?x-oss-process=image/format,png" alt="img"></p>
+<p>flex-wrap-reverse.png</p>
+<ol>
+<li>flex-flow: flex-direction 和 flex-wrap的简写形式</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">    <span class="attribute">flex-flow</span>: &lt;flex-direction&gt; || &lt;flex-wrap&gt;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>justify-content: 定义了项目在主轴的对齐方式。</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">    <span class="attribute">justify-content</span>: flex-start | flex-end | center | space-between | space-around;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>建立在主轴为水平方向时测试，即flex-direction: row</p>
+<p>默认值：flex-start 左对齐</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMDUzNTk5LTlkNGFjMWY5ZmQyZDZhNTUucG5n?x-oss-process=image/format,png" alt="img"></p>
+<p>flex-start.png</p>
+<p>flex-end:右对齐</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMDUzNTk5LTY1ZmFhNzNlMjA1MjgwYzcucG5n?x-oss-process=image/format,png" alt="img"></p>
+<p>flex-end.png</p>
+<p>center：居中</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMDUzNTk5LTNiNDhlMjBhZTQ5YzU2MWQucG5n?x-oss-process=image/format,png" alt="img"></p>
+<p>flex-center.png</p>
+<p>space-between:两端对齐，项目之间的间隔相等，即剩余空间等分成间隙</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMDUzNTk5LTIyYzg1ZGExYWY1MzZlOTMucG5n?x-oss-process=image/format,png" alt="img"></p>
+<p>flex-space-between.png</p>
+<p>space-around：每个项目两侧的间隔相等，所以项目之间的间隔比项目与边缘的间隔大一倍。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMDUzNTk5LTkxNGE4ZTRmMjU1MzdkYWEucG5n?x-oss-process=image/format,png" alt="img"></p>
+<p>flex-space-around.png</p>
+<ol>
+<li>align-items：定义了项目在交叉轴上的对齐方式</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">    <span class="attribute">align-item</span>: flex-start | flex-end | center | baseline | stretch;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>建立在主轴为水平方向时测试，即flex-direction: row</p>
+<p>默认值为stretch即如果项目未设置高度或者设为auto，将占满整个容器的高度。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMDUzNTk5LWI2ZmVmMTQ4NGU4NGM3NjAuanBn?x-oss-process=image/format,png" alt="img"></p>
+<p>align-items-stretch.jpg</p>
+<p>假设容器高度设置为100px，而项目都没有设置高度的情况下，则项目的高度也为100px。</p>
+<p>flex-start：交叉轴的起点对齐</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMDUzNTk5LWM1MWQ1YjA2ZWI5NGQ5YzguanBn?x-oss-process=image/format,png" alt="img"></p>
+<p>align-items-flex-start.jpg</p>
+<p>假设容器高度设置为100px，而项目分别为20px，40px，60px，80px，100px，则如上图显示。</p>
+<p>flex-end：交叉轴的终点对齐</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMDUzNTk5LWNlYWZkOTQxYmI0ZDNlYzAuanBn?x-oss-process=image/format,png" alt="img"></p>
+<p>align-items-flex-end.jpg</p>
+<p>center:交叉轴的中心对齐</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMDUzNTk5LTFjZGE0MzY1MTQ3MmNiMzEuanBn?x-oss-process=image/format,png" alt="img"></p>
+<p>align-items-center.jpg</p>
+<p>baseline：项目的第一行文字的基线对齐</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMDUzNTk5LWM2ZmQ4MzVlYjU0MmVkZTEuanBn?x-oss-process=image/format,png" alt="img"></p>
+<p>align-items-baseline.jpg</p>
+<p>以文字的底部为主，仔细看图可以理解。</p>
+<ol>
+<li>align-content:定义了多轴线的对齐方式，如果项目只有一根轴线，那么该属性将不起作用</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">    <span class="attribute">align-content</span>: flex-start | flex-end | center | space-between | space-around</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个可以这样理解：</p>
+<p>当你flex-wrap设置为nowrap的时候，容器仅存在一根轴线，因为项目不会换行，就不会产生多条轴线。</p>
+<p>当你flex-wrap设置为wrap的时候，容器可能会出现多条轴线，这时候你就需要去设置多条轴线之间的对齐方式了。</p>
+<p>建立在主轴为水平方向时测试，即flex-direction:row,flex-wrap: wrap</p>
+<p>默认值为stretch，看下图的图就很好理解了</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMDUzNTk5LWZlMzkxOTlmNTYwMjVkOWIuanBn?x-oss-process=image/format,png" alt="img"></p>
+<p>align-content-stretch.jpg</p>
+<p>从图可以看出又三条轴线（因为容器宽度有限），当值为stretch时会三条轴线平分容器的垂直方向上的空间。</p>
+<p>值得注意的是，虽然在每条轴线上项目的默认值也为stretch，但是由于我每个项目我都设置了高度，所以它3并没有撑开整个容器。如果项目不设置高度的话就会变成下面这样：</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMDUzNTk5LTFlZTM3NGQ4NDhmZTMzMmIuanBn?x-oss-process=image/format,png" alt="img"></p>
+<p>align-content-stretch1.jpg</p>
+<p>这个我在前面也有提到（align-items），这里重点还是理解三条轴线会评分垂直轴上的空间。</p>
+<p>flex-start：轴线全部在交叉轴上的起点对齐</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMDUzNTk5LTVkOTgxODg3ZWJhMzA0MTIuanBn?x-oss-process=image/format,png" alt="img"></p>
+<p>align-content-flex-start.jpg</p>
+<p>flex-end:轴线全部在交叉轴上的终点对齐</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMDUzNTk5LWJiNGM1MDlmMTRmM2VmYWMuanBn?x-oss-process=image/format,png" alt="img"></p>
+<p>align-content-flex-end.jpg</p>
+<p>center：轴线全部在交叉轴上的中间对齐</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMDUzNTk5LWIzODkxM2U2YTBlYWI4YjMuanBn?x-oss-process=image/format,png" alt="img"></p>
+<p>align-content-center.jpg</p>
+<p>space-between: 轴线两端对齐，之间的间隔相等，即剩余空间等分成间隙。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMDUzNTk5LWExMmRmZDRjMmMxM2Q0NTUuanBn?x-oss-process=image/format,png" alt="img"></p>
+<p>align-content-space-between.jpg</p>
+<p>space-around：每个轴线两侧的间隔相等，所以轴线之间的间隔比轴线与边缘的间隔大一倍。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMDUzNTk5LTQyNTZlNzQwNmFhYzQ5NmEuanBn?x-oss-process=image/format,png" alt="img"></p>
+<p>align-content-space-around.jpg</p>
+<p>到这里关于容器上的所有属性都讲完了</p>
+<h3 id="alignItems"><a href="#alignItems" class="headerlink" title="alignItems"></a>alignItems</h3><ul>
+<li>flex-start</li>
+<li>flex-end</li>
+<li>center</li>
+<li>stretch</li>
+</ul>
+<h3 id="alignSelf"><a href="#alignSelf" class="headerlink" title="alignSelf"></a>alignSelf</h3><ul>
+<li>auto</li>
+<li>flex-start</li>
+<li>flex-end</li>
+<li>center</li>
+<li>stretch</li>
+</ul>
+<h3 id="borderBottomWidth"><a href="#borderBottomWidth" class="headerlink" title="borderBottomWidth"></a>borderBottomWidth</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="borderLeftWidth"><a href="#borderLeftWidth" class="headerlink" title="borderLeftWidth"></a>borderLeftWidth</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="borderRightWidth"><a href="#borderRightWidth" class="headerlink" title="borderRightWidth"></a>borderRightWidth</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="borderTopWidth"><a href="#borderTopWidth" class="headerlink" title="borderTopWidth"></a>borderTopWidth</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="borderWidth"><a href="#borderWidth" class="headerlink" title="borderWidth"></a>borderWidth</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="bottom"><a href="#bottom" class="headerlink" title="bottom"></a>bottom</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="flex"><a href="#flex" class="headerlink" title="flex"></a>flex</h3><p>flex在RN中只能为整数值</p>
+<h3 id="flexBasis"><a href="#flexBasis" class="headerlink" title="flexBasis"></a>flexBasis</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="flexDirection"><a href="#flexDirection" class="headerlink" title="flexDirection"></a>flexDirection</h3><ul>
+<li>row</li>
+<li>row-reverse</li>
+<li>column</li>
+<li>column-reverse</li>
+</ul>
+<h3 id="flexGrow"><a href="#flexGrow" class="headerlink" title="flexGrow"></a>flexGrow</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="flexShrink"><a href="#flexShrink" class="headerlink" title="flexShrink"></a>flexShrink</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="flexWrap"><a href="#flexWrap" class="headerlink" title="flexWrap"></a>flexWrap</h3><ul>
+<li>wrap</li>
+<li>nowrap</li>
+</ul>
+<h3 id="height"><a href="#height" class="headerlink" title="height"></a>height</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="justifyContent"><a href="#justifyContent" class="headerlink" title="justifyContent"></a>justifyContent</h3><ul>
+<li>flex-start</li>
+<li>felx-end</li>
+<li>center</li>
+<li>space-between</li>
+<li>space-around</li>
+</ul>
+<h3 id="left"><a href="#left" class="headerlink" title="left"></a>left</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="margin"><a href="#margin" class="headerlink" title="margin"></a>margin</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="marginBottom"><a href="#marginBottom" class="headerlink" title="marginBottom"></a>marginBottom</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="marginHorizontal"><a href="#marginHorizontal" class="headerlink" title="marginHorizontal"></a>marginHorizontal</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="marginTop"><a href="#marginTop" class="headerlink" title="marginTop"></a>marginTop</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="marginVertical"><a href="#marginVertical" class="headerlink" title="marginVertical"></a>marginVertical</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="maxHeight"><a href="#maxHeight" class="headerlink" title="maxHeight"></a>maxHeight</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="maxWidth"><a href="#maxWidth" class="headerlink" title="maxWidth"></a>maxWidth</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="minHeight"><a href="#minHeight" class="headerlink" title="minHeight"></a>minHeight</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="minWidth"><a href="#minWidth" class="headerlink" title="minWidth"></a>minWidth</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="overflow"><a href="#overflow" class="headerlink" title="overflow"></a>overflow</h3><ul>
+<li>visible</li>
+<li>hidden</li>
+<li>scroll</li>
+</ul>
+<h3 id="padding"><a href="#padding" class="headerlink" title="padding"></a>padding</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="paddingBottom"><a href="#paddingBottom" class="headerlink" title="paddingBottom"></a>paddingBottom</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="paddingHorizontal"><a href="#paddingHorizontal" class="headerlink" title="paddingHorizontal"></a>paddingHorizontal</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="paddingLeft"><a href="#paddingLeft" class="headerlink" title="paddingLeft"></a>paddingLeft</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="paddingTop"><a href="#paddingTop" class="headerlink" title="paddingTop"></a>paddingTop</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="paddingVertical"><a href="#paddingVertical" class="headerlink" title="paddingVertical"></a>paddingVertical</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="position"><a href="#position" class="headerlink" title="position"></a>position</h3><ul>
+<li>absolute</li>
+<li>relative</li>
+</ul>
+<h3 id="right"><a href="#right" class="headerlink" title="right"></a>right</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="top"><a href="#top" class="headerlink" title="top"></a>top</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="width"><a href="#width" class="headerlink" title="width"></a>width</h3><ul>
+<li>number</li>
+</ul>
+<h3 id="zIndex"><a href="#zIndex" class="headerlink" title="zIndex"></a>zIndex</h3><ul>
+<li>number</li>
+</ul>
+<h1 id="React-Native-文本组件-Text"><a href="#React-Native-文本组件-Text" class="headerlink" title="React Native 文本组件 Text"></a>React Native 文本组件 Text</h1><p>在 React Native 中如果要显示一段文本，可以使用 React Native 内置的文本组件 ``。</p>
+<p>文本组件 <code>Text</code> 只能用来显示文本，如果要显示网页，可以使用网页组件 <code>WebView</code>。</p>
+<p>虽然文本组件可能将部分文本显示为电话号码或者网址等可以点击的样子，但毕竟有限。没有 WebView 来的强大。</p>
+<h2 id="React-Native-文本组件-Text-1"><a href="#React-Native-文本组件-Text-1" class="headerlink" title="React Native 文本组件 Text"></a>React Native 文本组件 Text</h2><h3 id="引入组件"><a href="#引入组件" class="headerlink" title="引入组件"></a>引入组件</h3><p>使用文本组件 Text 之前先要引入它</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &#123; Text &#125; from 'react-native';</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用语法"><a href="#使用语法" class="headerlink" title="使用语法"></a>使用语法</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="selector-tag">Text</span></span><br><span class="line">   color="#333333"</span><br><span class="line">   lineHeight="12"</span><br><span class="line">   fontSize="12" &gt;简单教程&lt;/Text&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="属性说明"><a href="#属性说明" class="headerlink" title="属性说明"></a>属性说明</h3><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>类型</th>
+<th>是否必填</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>selectable</td>
+<td>bool</td>
+<td>false</td>
+<td>是否可选中，<code>true</code> 为真，<code>false</code> 为否</td>
+</tr>
+<tr>
+<td>numberOfLines</td>
+<td>number</td>
+<td>false</td>
+<td>用于在计算文本布局（包括换行）后使用省略号截断文本，使得总行数不超过此数字</td>
+</tr>
+<tr>
+<td>ellipsizeMode</td>
+<td>string</td>
+<td>false</td>
+<td>如果设置了 <code>numberOfLines</code>，那么该属性用于设置文本如何被截断</td>
+</tr>
+<tr>
+<td>dataDetectorType</td>
+<td>string</td>
+<td>false</td>
+<td>用于设置如何转换文本中的某些子文本</td>
+</tr>
+<tr>
+<td>color</td>
+<td>color</td>
+<td>否</td>
+<td>用于设置文本的颜色</td>
+</tr>
+<tr>
+<td>fontFamily</td>
+<td>string</td>
+<td>否</td>
+<td>用于设置文本的字体</td>
+</tr>
+<tr>
+<td>fontSize</td>
+<td>number</td>
+<td>否</td>
+<td>用于设置文字的大小</td>
+</tr>
+<tr>
+<td>fontStyle</td>
+<td>string</td>
+<td>否</td>
+<td>用于设置文字是否倾斜，<code>normal</code> 正常，<code>italic</code> 倾斜，默认为 <code>normal</code></td>
+</tr>
+<tr>
+<td>fontWeight</td>
+<td>string</td>
+<td>否</td>
+<td>文字的粗细，可以设置的值有: ‘normal’, ‘bold’, ‘100’, ‘200’, ‘300’, ‘400’, ‘500’, ‘600’, ‘700’, ‘800’, ‘900’</td>
+</tr>
+<tr>
+<td>lineHeight</td>
+<td>number</td>
+<td>否</td>
+<td>用于设置文本的行高</td>
+</tr>
+<tr>
+<td>textAlign</td>
+<td>string</td>
+<td>否</td>
+<td>用于设置文本的对其方式，可选的值有 ‘auto’, ‘left’, ‘right’, ‘center’, ‘justify’。Android 下只有 <code>left</code> 即使设置了其它值扔就是 <code>left</code></td>
+</tr>
+<tr>
+<td>textDecorationLine</td>
+<td>string</td>
+<td>否</td>
+<td>用于设置文本的下划线类型，可选的值有 ‘none’, ‘underline’, ‘line-through’, ‘underline line-through’</td>
+</tr>
+<tr>
+<td>textShadowColor</td>
+<td>color</td>
+<td>否</td>
+<td>用于设置文本的阴影色</td>
+</tr>
+<tr>
+<td>textShadowOffset</td>
+<td>object</td>
+<td>否</td>
+<td>用于设置阴影的偏移量，格式为 <code>{width: number,height: number}</code></td>
+</tr>
+<tr>
+<td>textShadowRadius</td>
+<td>number</td>
+<td>否</td>
+<td>用于设置阴影的圆角度。</td>
+</tr>
+<tr>
+<td>letterSpacing</td>
+<td>number</td>
+<td>否</td>
+<td>用于设置字与字之间的距离</td>
+</tr>
+<tr>
+<td>textTransform</td>
+<td>string</td>
+<td>否</td>
+<td>用于设置文本转换格式，可选的值有 ‘none’, ‘uppercase’, ‘lowercase’, ‘capitalize’</td>
+</tr>
+</tbody></table>
+<h3 id="组件嵌套"><a href="#组件嵌套" class="headerlink" title="组件嵌套"></a>组件嵌套</h3><p>文本组件可以嵌套另一个组件，被嵌套的组件会继承父级的文本组件的样式和属性。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="selector-tag">Text</span></span><br><span class="line">   color="#333333"</span><br><span class="line">   lineHeight="12"</span><br><span class="line">   fontSize="12" &gt;简单教程</span><br><span class="line">      &lt;<span class="selector-tag">Text</span></span><br><span class="line">         fontSize="11"</span><br><span class="line">         &gt;简单编程&lt;/Text&gt;</span><br><span class="line">&lt;/Text&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="范例-1"><a href="#范例-1" class="headerlink" title="范例"></a>范例</h2><p>下面的代码，我们演示了 React Native 文本组件的用法，也演示了文本组件的嵌套语法。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from 'react';</span><br><span class="line">import &#123; View, Text, Image, StyleSheet &#125; from 'react-native'</span><br><span class="line"></span><br><span class="line">const App = () =&gt; &#123;</span><br><span class="line">   <span class="selector-tag">return</span> (</span><br><span class="line">      &lt;View style = &#123;styles.container&#125;&gt;</span><br><span class="line">         &lt;Text style = &#123;styles.text&#125;&gt;</span><br><span class="line">            &lt;Text style = &#123;styles.capitalLetter&#125;&gt;//首字母样式</span><br><span class="line">               简</span><br><span class="line">            &lt;/Text&gt;</span><br><span class="line"></span><br><span class="line">            &lt;<span class="selector-tag">Text</span>&gt;</span><br><span class="line">               单教程</span><br><span class="line">            &lt;/Text&gt;</span><br><span class="line"></span><br><span class="line">            &lt;<span class="selector-tag">Text</span>&gt;</span><br><span class="line">               简单&lt;Text style = &#123;styles.wordBold&#125;&gt;编程&lt;/Text&gt; 简单教程致力于简化 IT 技术的学习难度为使命，</span><br><span class="line">            &lt;/Text&gt;//字体加粗</span><br><span class="line"></span><br><span class="line">            &lt;Text style = &#123;styles.italicText&#125;&gt;通过整合市面上的教程，然后挑选，去除难以理解的部分</span><br><span class="line">            &lt;/Text&gt;   //斜体</span><br><span class="line"></span><br><span class="line">            &lt;Text style = &#123;styles.textShadow&#125;&gt;</span><br><span class="line">               简单教程竟不是孤立存在的，它的成长离不开广大战友们的支持。</span><br><span class="line">            &lt;/Text&gt;</span><br><span class="line">         &lt;/Text&gt;</span><br><span class="line">      &lt;/View&gt;</span><br><span class="line">   )</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">export</span> <span class="selector-tag">default</span> <span class="selector-tag">App</span></span><br><span class="line"></span><br><span class="line">const styles = StyleSheet.create (&#123;</span><br><span class="line">   <span class="selector-tag">container</span>: &#123;</span><br><span class="line">      <span class="attribute">alignItems</span>: <span class="string">'center'</span>,</span><br><span class="line">      marginTop: <span class="number">100</span>,</span><br><span class="line">      padding: <span class="number">20</span></span><br><span class="line">   &#125;,</span><br><span class="line">   <span class="selector-tag">text</span>: &#123;</span><br><span class="line">      <span class="attribute">color</span>: <span class="string">'#41cdf4'</span>,</span><br><span class="line">   &#125;,</span><br><span class="line">   <span class="selector-tag">capitalLetter</span>: &#123;</span><br><span class="line">      <span class="attribute">color</span>: <span class="string">'red'</span>,</span><br><span class="line">      fontSize: <span class="number">20</span></span><br><span class="line">   &#125;,</span><br><span class="line">   <span class="selector-tag">wordBold</span>: &#123;</span><br><span class="line">      <span class="attribute">fontWeight</span>: <span class="string">'bold'</span>,</span><br><span class="line">      color: <span class="string">'black'</span></span><br><span class="line">   &#125;,</span><br><span class="line">   <span class="selector-tag">italicText</span>: &#123;</span><br><span class="line">      <span class="attribute">color</span>: <span class="string">'#37859b'</span>,</span><br><span class="line">      fontStyle: <span class="string">'italic'</span></span><br><span class="line">   &#125;,</span><br><span class="line">   <span class="selector-tag">textShadow</span>: &#123;</span><br><span class="line">      <span class="attribute">textShadowColor</span>: <span class="string">'red'</span>,</span><br><span class="line">      textShadowOffset: &#123; width: <span class="number">2</span>, height: <span class="number">2</span> &#125;,</span><br><span class="line">      <span class="selector-tag">textShadowRadius</span> : 5</span><br><span class="line">   &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>演示效果如下</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly93d3cudHdsZS5jbi9zdGF0aWMvdXBsb2FkL2ltZy8yMDE5LzA3LzIzLzIwMTkwNzIzMDcyNDE5XzQucG5n?x-oss-process=image/format,png" alt="React Native Text 文本组件"></p>
+
+      
+      <!-- reward -->
+      
+      <div id="reward-btn">
+        打赏
+      </div>
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong s>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
+                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+        
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/05/05/React%20Native(%E4%BA%8C)%20%E7%BB%84%E4%BB%B6%E6%A0%B7%E5%BC%8F%20style%E5%92%8C%E6%96%87%E6%9C%AC%E7%BB%84%E4%BB%B6Text/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/React-Native%E7%AC%94%E8%AE%B0%E6%95%B4%E7%90%86/" rel="tag">React-Native笔记整理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E5%B8%B8%E7%94%A8%E9%9C%80%E6%B1%82%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E6%B1%87%E6%80%BB/" rel="tag">常用需求解决方案汇总</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+      <a href="../React-Native%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E7%BB%93%E6%9E%84%E5%88%86%E6%9E%90%E4%B8%8E%E8%A7%86%E5%9B%BE%E6%A1%88%E4%BE%8B%20(1)/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            React-Native学习笔记（一）——结构分析与视图案例
+          
+        </div>
+      </a>
+    
+    
+      <a href="../../04/%E6%B7%B1%E5%85%A5%E6%80%BB%E7%BB%93Leader%E5%AF%B9%E5%B0%8F%E9%9C%9E%E7%9A%84%E7%BB%88%E6%9E%81%E7%81%B5%E9%AD%82%E5%8D%81%E9%97%AE%EF%BC%81%E9%99%84%E4%B8%8A%E5%B0%8F%E9%9C%9E%E5%90%8D%E5%AD%97%E8%A7%A3%E6%9E%90_/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">阿里面试总结（六）——深入总结Leader对小霞的终极灵魂十问！附上小霞生活思考~</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        notify: 'false',
+        verify: 'false',
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2020
+        Wangqiuxia
+      </li>
+      <li>
+        
+        Powered by
+        
+        
+        <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+    <aside class="sidebar">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="../../../../index.html"><img src="/images/ayer-side.svg" alt="爱产品，爱前端！"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../index.html">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../tags/%E6%8A%80%E6%9C%AF/">小程序</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../http:/shenyu-vip.lofter.com">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../https:/v.xiumi.us/stage/v5/4IeLH/197507179">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="../../../../atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="../../../../images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="../../../../images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="../../../../js/jquery-2.0.3.min.js"></script>
+
+
+<script src="../../../../js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="../../../../js/lazyload.min.js"></script>
+
+
+<script src="../../../../js/busuanzi-2.3.pure.min.js"></script>
+
+
+<script src="../../../../js/share.js"></script>
+
+
+
+<script src="../../../../fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['做一个有情怀懂产品的程序媛！','业精于勤荒于嬉！行成于思毁于随！','越努力越幸运'],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script src="../../../../js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+
+<script src="../../../../js/ayer.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=1436709403&auto=1&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+  </div>
+</body>
+
+</html>

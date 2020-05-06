@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    React-Native笔记整理（四）—— 动画 Animated、开关、状态栏、选择器组件、网络请求 |  爱产品，爱前端！
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="../../../../css/style.css">
+
+  
+<script src="../../../../js/pace.min.js"></script>
+
+
+  
+
+  
+
+<link rel="alternate" href="atom.xml" title="爱产品，爱前端！" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    <main class="content">
+      <section class="outer">
+  <article id="post-React Native 动画 Animated、开关、状态栏、选择器组件、网络请求" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  React-Native笔记整理（四）—— 动画 Animated、开关、状态栏、选择器组件、网络请求
+</h1>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="" class="article-date">
+  <time datetime="2020-05-05T16:00:00.000Z" itemprop="datePublished">2020-05-06</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../../../categories/%E5%A4%8D%E4%B9%A0%E4%B8%8E%E5%9B%9E%E9%A1%BE/">复习与回顾</a>
+  </div>
+
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">5.4k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">24分钟</span>
+        </span>
+    </span>
+</div>
+
+      
+    </div>
+    
+
+    
+    
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>学习资源：B站、阿里云<br>感谢B站UP主老陈的讲解、小霞会记录下来，每天练习、熟能生巧😁🍓<br>小霞坚信：持久化的好习惯延长人间事物的保质期！😁🍓<br>内心装满知识和道理，就会充满踏实感+幸福感😃😘👍😁🥰🧡💯<br>希望有一天自己可以写出很棒的作品，分享给大家🥰🧡💯</p>
+<h1 id="React-Native-动画组件-Animated"><a href="#React-Native-动画组件-Animated" class="headerlink" title="React Native 动画组件 Animated"></a>React Native 动画组件 Animated</h1><p><strong>动作</strong> 给予一个物体生命。比如一个石头，是不会动的，除非外力，不然它永远在那里。</p>
+<p>而有生命的物体，会有各种动作，可以从一个地方走到另一个地方，可以模仿其它动物，会吃，会喝，会睡觉。</p>
+<p>App 也一样。如果只是简单的展示，浏览它的人就会觉得枯燥无味。但一定用户的点击有了响应，那就会觉得特别亲切。</p>
+<p>动画是在动作的基础上更上一层，它对开始到结束的动作结果赋予了变化的过程。让使用者可以从视觉感知的看到动作的变化。</p>
+<p>Android 和 iOS 原生自带了超级多的动画，比如 <a href="https://www.twle.cn/l/yufei/android/android-basic-frame-animation.html" target="_blank" rel="noopener">Android 动画</a> 就可以分为三大类：<strong>逐帧动画(Frame)</strong>、 <strong>补间动画(Tween)</strong> 、<strong>属性动画 (Property)</strong>。</p>
+<p>而 iOS 也毫不逊色，通过 <code>Core Animation</code> 提供了 <strong>基础动画(CABasicAnimation)</strong>、<strong>关键帧动画(CAKeyframeAnimation)</strong>、<strong>组动画(CAAnimationGroup)</strong>、<strong>过渡动画(CATransition)</strong>。</p>
+<p>React Native 是一个跨平台的开发环境。既然要跨平台，那就必须通过一种通用的方式把 iOS 和 Android 的动画包装起来。这个包装的结果就是 <strong>动画组件 Animated</strong>。</p>
+<h2 id="React-Native-动画组件-Animated-1"><a href="#React-Native-动画组件-Animated-1" class="headerlink" title="React Native 动画组件 Animated"></a>React Native 动画组件 Animated</h2><p>React Native 动画组件 <code>Animated</code> 是对 Android 和 iOS 动画的封装，以统一的接口的提供了为 React Native 提供了动画功能。</p>
+<p>动画组件 Animated 提供的是一种值动画，也就是属性改变动画。也就是通过动态的不断的改变控件的某个属性的值来达到动画的目的。</p>
+<p>当我们需要创建一个动画时，我们必须先初始化一个值。React Native Animated 组件提供了两种值类型</p>
+<table>
+<thead>
+<tr>
+<th>值类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Animated.Value()</td>
+<td>单个值变化</td>
+</tr>
+<tr>
+<td>Animated.ValueXY()</td>
+<td>两个值变化</td>
+</tr>
+</tbody></table>
+<p>Animated 组件提供了三种类型来控制动画的缓动过程。</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Animated.decay()</td>
+<td>以摩擦力模型来控制动画的缓动，简单的说就是以初始速度开始并逐渐减速到停止</td>
+</tr>
+<tr>
+<td>Animated.spring()</td>
+<td>使用弹簧物理模型来控制动画的缓动</td>
+</tr>
+<tr>
+<td>Animated.timing()</td>
+<td>使用时间来控制动画的缓动</td>
+</tr>
+</tbody></table>
+<p>默认情况下， React Native 只能对以下组件提供动画功能</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">Animated</span><span class="selector-class">.Image</span></span><br><span class="line"><span class="selector-tag">Animated</span><span class="selector-class">.ScrollView</span></span><br><span class="line"><span class="selector-tag">Animated</span><span class="selector-class">.Text</span></span><br><span class="line"><span class="selector-tag">Animated</span><span class="selector-class">.View</span></span><br><span class="line"><span class="selector-tag">Animated</span><span class="selector-class">.FlatList</span></span><br><span class="line"><span class="selector-tag">Animated</span><span class="selector-class">.SectionList</span></span><br></pre></td></tr></table></figure>
+
+<p>如果其它组件也需要动画动能，那么需要使用 <code>createAnimatedComponent()</code> 函数来开启动画功能。</p>
+<p>总之，React Native 动画组件 Animated 有点复杂，详细功能可以直接参考文档。</p>
+<h2 id="React-Native-动画组件-Animated-的创建过程"><a href="#React-Native-动画组件-Animated-的创建过程" class="headerlink" title="React Native 动画组件 Animated 的创建过程"></a>React Native 动画组件 Animated 的创建过程</h2><ol>
+<li><p>首先，一般给要创建动画的组件设置一个初始的样式，这个通过 <code>style</code> 属性来解决。</p>
+<p>例如下面的代码为某个 <code>box</code> 组件设置了初始化的 <strong>背景色</strong>、<strong>长</strong> 和 <strong>框</strong>。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const styles = StyleSheet.create(&#123;</span><br><span class="line"></span><br><span class="line">    <span class="selector-tag">box</span>: &#123;</span><br><span class="line">        <span class="attribute">backgroundColor</span>: <span class="string">'blue'</span>,</span><br><span class="line">        width: <span class="number">50</span>,</span><br><span class="line">        height: <span class="number">100</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>其次，在组件即将加载的生命周期函数 <code>componentWillMount()</code> 中初始化动画。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">componentWillMount = () =&gt; &#123;</span><br><span class="line">    this.animatedWidth = new Animated.Value(50)</span><br><span class="line">    this.animatedHeight = new Animated.Value(100)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>初始化动画使用 <code>Animated.Value()</code> 或 <code>Animated.ValueXY()</code> 来实现。</p>
+<p>例如</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">new</span> <span class="selector-tag">Animated</span><span class="selector-class">.Value</span>(50)</span><br></pre></td></tr></table></figure>
+
+<p>这是什么意思呢？ 比如我们要实现动画：<strong>长从 50 变化到 100</strong>。 那么动画初始化的时候就需要把值 <code>50</code> 传递给 <code>Animated.Value(50)</code></p>
+</li>
+<li><p>使用动画类型来定义动画滑动的过程。这个一般包装在某个函数里面</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">animatedBox = () =&gt; &#123;</span><br><span class="line">    <span class="selector-tag">Animated</span><span class="selector-class">.timing</span>(<span class="selector-tag">this</span><span class="selector-class">.animatedWidth</span>, &#123;</span><br><span class="line">        <span class="attribute">toValue</span>: <span class="number">200</span>,</span><br><span class="line">        duration: <span class="number">1000</span></span><br><span class="line">    &#125;)<span class="selector-class">.start</span>()</span><br><span class="line">    <span class="selector-tag">Animated</span><span class="selector-class">.timing</span>(<span class="selector-tag">this</span><span class="selector-class">.animatedHeight</span>, &#123;</span><br><span class="line">        <span class="attribute">toValue</span>: <span class="number">500</span>,</span><br><span class="line">        duration: <span class="number">500</span></span><br><span class="line">    &#125;)<span class="selector-class">.start</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Animated.timing()</code> 用于定义随时间变化的函数。它的函数原型如下</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">static</span> <span class="selector-tag">timing</span>(<span class="selector-tag">value</span>, <span class="selector-tag">config</span>)</span><br></pre></td></tr></table></figure>
+
+<p>各个参数说明如下</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>value</td>
+<td>要实现缓动的值。也就是我们第一步中初始化的动画</td>
+</tr>
+<tr>
+<td>config</td>
+<td>配置动画缓动的各种参数</td>
+</tr>
+</tbody></table>
+<p><code>config</code> 可配置的参数如下</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>toValue</td>
+<td>用于设置动画结束的值</td>
+</tr>
+<tr>
+<td>duration</td>
+<td>动画时长，单位为 <strong>毫秒</strong>，默认值是 <code>500</code>。</td>
+</tr>
+<tr>
+<td>easing</td>
+<td>时间缓动曲线函数。默认值为渐入渐出 <code>Easing.inOut</code> 别名 <code>Easing.ease</code></td>
+</tr>
+<tr>
+<td>delay</td>
+<td>延迟多少毫秒才开始动画，默认值是 <code>0</code></td>
+</tr>
+<tr>
+<td>isInteraction</td>
+<td>此动画是否在 InteractionManager 上创建 “交互句柄”。默认为 <code>true</code></td>
+</tr>
+<tr>
+<td>useNativeDriver</td>
+<td>是否使用原生动画来实现，默认值是 <code>false</code>。</td>
+</tr>
+</tbody></table>
+<p><code>.start()</code> 方法用于开始一个动画。</p>
+</li>
+<li><p>将初始化的动画和属性包装成一个样式。我们后面会用这个样式去覆盖动画组件的默认样式。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const animatedStyle = &#123; width: this.animatedWidth, height: this.animatedHeight &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重点来了，接下来我们要使用 `` 组件定一个自定义动画组件。然后把这个自定义动画组件包裹在想要设置动画的组件里。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;TouchableOpacity style = &#123;styles.container&#125; onPress = &#123;this.animatedBox&#125;&gt;</span><br><span class="line">    &lt;Animated.View style = &#123;[styles.box, animatedStyle]&#125;/&gt;</span><br><span class="line">&lt;/TouchableOpacity&gt;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+   <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">style = &#123;[styles.box, animatedStyle]&#125;</span><br></pre></td></tr></table></figure>
+
+<p>   这两个值是合并的意思，就是 <code>animatedStyle</code> 里设置的样式会覆盖 <code>styles.box</code> 设置的样式。</p>
+<h2 id="范例"><a href="#范例" class="headerlink" title="范例"></a>范例</h2><p>下面的代码，我们使用 <code>Animated</code> 动画组件动态改变视图的 <strong>长</strong> 和 <strong>宽</strong>。</p>
+<p>相关代码逻辑我们前面已经讲述了，我们就不再详细展开，直接上代码.</p>
+<h4 id="App-js"><a href="#App-js" class="headerlink" title="App.js"></a>App.js</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from 'react'</span><br><span class="line">import &#123; View, StyleSheet, Animated, TouchableOpacity &#125; from 'react-native'      //记得导入！</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">class</span> <span class="selector-tag">App</span> <span class="selector-tag">extends</span> <span class="selector-tag">Component</span> &#123;    </span><br><span class="line">   UNSAVE_componentWillMount = () =&gt; &#123;     //官方最新的名字</span><br><span class="line">      this.animatedWidth = new Animated.Value(50)    //创建对象动画属性  默认宽度50</span><br><span class="line">      this.animatedHeight = new Animated.Value(100)</span><br><span class="line">   &#125;</span><br><span class="line">   animatedBox = () =&gt; &#123;      //点击后，设置动画的变化</span><br><span class="line">      <span class="selector-tag">Animated</span><span class="selector-class">.timing</span>(<span class="selector-tag">this</span><span class="selector-class">.animatedWidth</span>, &#123;</span><br><span class="line">         <span class="attribute">toValue</span>: <span class="number">200</span>,     //变化的终点和过程</span><br><span class="line">         duration: <span class="number">1000</span></span><br><span class="line">      &#125;)<span class="selector-class">.start</span>()</span><br><span class="line">      <span class="selector-tag">Animated</span><span class="selector-class">.timing</span>(<span class="selector-tag">this</span><span class="selector-class">.animatedHeight</span>, &#123;</span><br><span class="line">         <span class="attribute">toValue</span>: <span class="number">500</span>,</span><br><span class="line">         duration: <span class="number">500</span>     //ms  </span><br><span class="line">         &#125;)<span class="selector-class">.start</span>()</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="selector-tag">render</span>() &#123;</span><br><span class="line">      const animatedStyle = &#123;</span><br><span class="line">            <span class="selector-tag">width</span>: <span class="selector-tag">this</span><span class="selector-class">.animatedWidth</span>, </span><br><span class="line">            <span class="selector-tag">height</span>: <span class="selector-tag">this</span><span class="selector-class">.animatedHeight</span> &#125;</span><br><span class="line">      <span class="selector-tag">return</span> (</span><br><span class="line">         &lt;<span class="selector-tag">TouchableOpacity</span> </span><br><span class="line">            style = &#123;styles.container&#125; </span><br><span class="line">            onPress = &#123;this.animatedBox&#125;&gt;</span><br><span class="line">            &lt;Animated.View style = &#123;[styles.box, animatedStyle]&#125;/&gt;    //数组放置两个样式对象，会自行合并</span><br><span class="line">         &lt;/TouchableOpacity&gt;</span><br><span class="line">      )</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">export</span> <span class="selector-tag">default</span> <span class="selector-tag">App</span></span><br><span class="line"></span><br><span class="line">const styles = StyleSheet.create(&#123;</span><br><span class="line">   <span class="selector-tag">container</span>: &#123;</span><br><span class="line">      <span class="attribute">justifyContent</span>: <span class="string">'center'</span>,</span><br><span class="line">      alignItems: <span class="string">'center'</span></span><br><span class="line">   &#125;,</span><br><span class="line">   <span class="selector-tag">box</span>: &#123;</span><br><span class="line">      <span class="attribute">backgroundColor</span>: <span class="string">'blue'</span>,</span><br><span class="line">      width: <span class="number">50</span>,</span><br><span class="line">      height: <span class="number">100</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>运行效果如下</p>
+<p><video width="320" controls src="https://www.twle.cn/static/upload/img/2019/07/14/20190714131228_4.mp4" style="box-sizing: border-box; display: inline-block; vertical-align: baseline;"></video></p>
+<p>当我们第一次点击的时候就会出现动画，当第二次点击的时候就不会出现了，因为这时候 <code>TouchableOpacity</code> 的长宽已经和动画结束时的值时一样的了。</p>
+<h1 id="React-Native-开关组件-Switch"><a href="#React-Native-开关组件-Switch" class="headerlink" title="React Native 开关组件 Switch"></a>React Native 开关组件 Switch</h1><p>如果要在两个值之间切换，或者要在两个状态之间切换，我们可以使用 React Native 提供的 <strong>开关组件 Switch</strong>。</p>
+<p>开关组件，顾名思义，就像我们日常电灯的开关一样：<strong>按一下开，再按一下关，再按一下又开</strong>。</p>
+<p><strong>开关组件 Switch</strong> 在 Android 端的样式如下</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly93d3cudHdsZS5jbi9zdGF0aWMvdXBsb2FkL2ltZy8yMDE5LzA3LzEyLzIwMTkwNzEyMDcyODI4XzQucG5n?x-oss-process=image/format,png" alt="React Native 开关组件 Switch on"></p>
+<h2 id="React-Native-开关组件-Switch-1"><a href="#React-Native-开关组件-Switch-1" class="headerlink" title="React Native 开关组件 Switch"></a>React Native 开关组件 Switch</h2><h3 id="引入组件"><a href="#引入组件" class="headerlink" title="引入组件"></a>引入组件</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &#123; Switch &#125; from 'react-native'</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用语法"><a href="#使用语法" class="headerlink" title="使用语法"></a>使用语法</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="selector-tag">Switch</span></span><br><span class="line">   onValueChange = &#123;function(value)&#123;&#125;&#125;</span><br><span class="line">   thumbColor    = &#123;color&#125;</span><br><span class="line">   trackColor    = &#123;&#123;false:color,true:color&#125;&#125;</span><br><span class="line">   onChange      = &#123;function(event)&#123;&#125;&#125;</span><br><span class="line">   value         = &#123;true|false&#125;/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Switch 只有两个值 <code>true</code> 和 <code>false</code>，都是布尔类型。</p>
+<ul>
+<li><code>true</code> 表示开关的 <strong>开</strong>状态。</li>
+<li><code>false</code> 表示开关的 <strong>关</strong> 状态，默认值。</li>
+</ul>
+<p>这两个值是固定的，我们不能变更。</p>
+<p>如果我们要改变开关的初始状态，可以使用 <code>value</code> 属性来设置初始值，不过只能设置为 <code>true</code> 或 <code>false</code>。</p>
+<blockquote>
+<p>注意：<code>value</code> 是必填属性，如果不设置，开关的状态看起来用于处于 <strong>关</strong> 状态。</p>
+</blockquote>
+<p>Switch 还有两个事件回调函数 <code>onValueChange</code> 和 <code>onChange</code>。前者当开关的值发生改变时触发，参数是 <strong>开关变更后的新值</strong>。 后者当用户尝试改变开关状态时触发，参数是 <strong>事件</strong>。</p>
+<p>开关的外观基本是固定的，我们不能改变，唯一能做的就是改变颜色。这里有三个颜色可以改变，一个是导轨的颜色，分为 <strong>开</strong> 状态下导轨的颜色和 <strong>关</strong> 状态下导轨的颜色。还有一个是 <strong>滑块</strong> 的颜色。</p>
+<p>因此，如果你要设置导轨的颜色，需要传递一个对象，格式如下</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="attribute">false</span>:color,true:color&#125;</span><br></pre></td></tr></table></figure>
+
+<p>例如</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="attribute">false</span>:<span class="string">'#eeeeee'</span>,true:<span class="string">'#333333'</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当开关处于开状态下时的导轨颜色为 <code>#333333</code>，处于关状态下时的颜色为 <code>#eeeeee</code>。</p>
+<h2 id="范例-1-：-最基本的使用"><a href="#范例-1-：-最基本的使用" class="headerlink" title="范例 1 ： 最基本的使用"></a>范例 1 ： 最基本的使用</h2><p>React Native Switch 最基本的使用，仅仅作为状态展示组件，那么只需要一个属性即可，那就是 <code>value</code> 用于设置开关的初始值。</p>
+<h4 id="App-js-1"><a href="#App-js-1" class="headerlink" title="App.js"></a>App.js</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from 'react'</span><br><span class="line">import &#123; View, Text, Switch, StyleSheet &#125; from 'react-native'</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">export</span> <span class="selector-tag">default</span> <span class="selector-tag">class</span> <span class="selector-tag">App</span>  <span class="selector-tag">extends</span> <span class="selector-tag">Component</span> &#123;</span><br><span class="line">    constructor() &#123;</span><br><span class="line">        <span class="selector-tag">super</span>();</span><br><span class="line">        this.label = &#123;false:'关',true:'开'&#125;</span><br><span class="line">        this.state = &#123;</span><br><span class="line">            <span class="selector-tag">switch1Value</span>: <span class="selector-tag">true</span>,    </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="selector-tag">render</span>() &#123;</span><br><span class="line">        return (</span><br><span class="line">            &lt;View style = &#123;styles.container&#125;&gt;</span><br><span class="line">                &lt;<span class="selector-tag">Switch</span>  </span><br><span class="line">                    value= &#123;this.state.switch1Value&#125;    //只能显示值，下面会写函数来控制</span><br><span class="line">                /&gt;</span><br><span class="line">                &lt;<span class="selector-tag">View</span>&gt;</span><br><span class="line">                    &lt;Text&gt;Switch 当前的状态是：&#123;this.label[this.state.switch1Value]&#125;&lt;/Text&gt;</span><br><span class="line">                &lt;/View&gt;</span><br><span class="line">            &lt;/View&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const styles = StyleSheet.create (&#123;</span><br><span class="line">    <span class="selector-tag">container</span>: &#123;</span><br><span class="line">        <span class="attribute">flex</span>: <span class="number">1</span>,</span><br><span class="line">        alignItems: <span class="string">'center'</span>,</span><br><span class="line">        marginTop: <span class="number">100</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>运行效果如下，这时候无论怎么切换状态，都是处于 <strong>开</strong> 的状态。</p>
+<p><video width="240" controls src="https://www.twle.cn/static/upload/img/2019/07/12/20190712073358_4.mp4" style="box-sizing: border-box; display: inline-block; vertical-align: baseline;"></video></p>
+<h2 id="范例-1-：-可响应状态变更"><a href="#范例-1-：-可响应状态变更" class="headerlink" title="范例 1 ： 可响应状态变更"></a>范例 1 ： 可响应状态变更</h2><p>Switch 组件如果要响应我们的触摸操作，就需要使用 <code>onValueChange</code> 来设置 <code>value</code> 的值。</p>
+<h4 id="App-js-2"><a href="#App-js-2" class="headerlink" title="App.js"></a>App.js</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from 'react'</span><br><span class="line">import &#123; View, Text, Switch, StyleSheet &#125; from 'react-native'</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">export</span> <span class="selector-tag">default</span> <span class="selector-tag">class</span> <span class="selector-tag">App</span>  <span class="selector-tag">extends</span> <span class="selector-tag">Component</span> &#123;</span><br><span class="line">    constructor() &#123;</span><br><span class="line">        <span class="selector-tag">super</span>();</span><br><span class="line">        this.label = &#123;false:'关',true:'开'&#125;</span><br><span class="line">        this.state = &#123;</span><br><span class="line">            <span class="selector-tag">switch1Value</span>: <span class="selector-tag">true</span>,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    toggleSwitch = (value) =&gt; &#123;</span><br><span class="line">        this.setState(&#123;switch1Value: value&#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="selector-tag">render</span>() &#123;</span><br><span class="line">        return (</span><br><span class="line">            &lt;View style = &#123;styles.container&#125;&gt;</span><br><span class="line">                &lt;<span class="selector-tag">Switch</span> </span><br><span class="line">                    onValueChange = &#123;this.toggleSwitch&#125;   //逻辑控制</span><br><span class="line">                    value= &#123;this.state.switch1Value&#125; </span><br><span class="line">                /&gt;</span><br><span class="line">                &lt;View&gt;&lt;Text&gt;Switch 当前的状态是：&#123;this.label[this.state.switch1Value]&#125;&lt;/Text&gt;&lt;/View&gt;</span><br><span class="line">            &lt;/View&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const styles = StyleSheet.create (&#123;</span><br><span class="line">    <span class="selector-tag">container</span>: &#123;</span><br><span class="line">        <span class="attribute">flex</span>: <span class="number">1</span>,</span><br><span class="line">        alignItems: <span class="string">'center'</span>,</span><br><span class="line">        marginTop: <span class="number">100</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="范例3-：定制外观"><a href="#范例3-：定制外观" class="headerlink" title="范例3 ：定制外观"></a>范例3 ：定制外观</h2><p>如果我们还需要对外观的颜色加以定制，可以设置 <code>thumbColor</code> 和 <code>trackColor</code> 。</p>
+<p>比如说我们要将 Switch 的外观定制为下面的样子。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly93d3cudHdsZS5jbi9zdGF0aWMvdXBsb2FkL2ltZy8yMDE5LzA3LzEyLzIwMTkwNzEyMDcyOTAzXzQucG5n?x-oss-process=image/format,png" alt="React Native 开关组件 Switch on"></p>
+<p>可以设置属性</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="selector-tag">Switch</span></span><br><span class="line">   thumbColor    = &#123;"#000000"&#125;</span><br><span class="line">   trackColor    = &#123;&#123;false:"#eeeeee",true:"#999999"&#125;&#125;</span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="App-js-3"><a href="#App-js-3" class="headerlink" title="App.js"></a>App.js</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from 'react'</span><br><span class="line">import &#123; View, Text, Switch, StyleSheet &#125; from 'react-native'</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">export</span> <span class="selector-tag">default</span> <span class="selector-tag">class</span> <span class="selector-tag">App</span>  <span class="selector-tag">extends</span> <span class="selector-tag">Component</span> &#123;</span><br><span class="line">    constructor() &#123;</span><br><span class="line">        <span class="selector-tag">super</span>();</span><br><span class="line">        this.label = &#123;false:'关',true:'开'&#125;</span><br><span class="line">        this.state = &#123;</span><br><span class="line">            <span class="selector-tag">switch1Value</span>: <span class="selector-tag">true</span>,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    toggleSwitch = (value) =&gt; &#123;</span><br><span class="line">        this.setState(&#123;switch1Value: value&#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="selector-tag">render</span>() &#123;</span><br><span class="line">        return (</span><br><span class="line">            &lt;View style = &#123;styles.container&#125;&gt;</span><br><span class="line">                &lt;<span class="selector-tag">Switch</span> </span><br><span class="line">                    thumbColor=&#123;"#000000"&#125;</span><br><span class="line">                    trackColor=&#123;&#123;false:"#eeeeee",true:"#999999"&#125;&#125;</span><br><span class="line">                    onValueChange = &#123;this.toggleSwitch&#125; </span><br><span class="line">                    value= &#123;this.state.switch1Value&#125; </span><br><span class="line">                /&gt;</span><br><span class="line">                &lt;View&gt;&lt;Text&gt;Switch 当前的状态是：&#123;this.label[this.state.switch1Value]&#125;&lt;/Text&gt;&lt;/View&gt;</span><br><span class="line">            &lt;/View&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const styles = StyleSheet.create (&#123;</span><br><span class="line">    <span class="selector-tag">container</span>: &#123;</span><br><span class="line">        <span class="attribute">flex</span>: <span class="number">1</span>,</span><br><span class="line">        alignItems: <span class="string">'center'</span>,</span><br><span class="line">        marginTop: <span class="number">100</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h1 id="React-Native-状态栏组件-StatusBar"><a href="#React-Native-状态栏组件-StatusBar" class="headerlink" title="React Native 状态栏组件 StatusBar"></a>React Native 状态栏组件 StatusBar</h1><p><strong>状态栏 StatusBar</strong> 就是手机屏幕最顶上一个区域，包含 <strong>运营商名称</strong>、<strong>网络情况</strong>、<strong>电池情况那一条</strong>。</p>
+<p>暗色系</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly93d3cudHdsZS5jbi9zdGF0aWMvdXBsb2FkL2ltZy8yMDE5LzA3LzExLzIwMTkwNzExMDgwNTU0XzQucG5n?x-oss-process=image/format,png" alt="React Native  状态栏  StatusBar"></p>
+<p>亮色系</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly93d3cudHdsZS5jbi9zdGF0aWMvdXBsb2FkL2ltZy8yMDE5LzA3LzExLzIwMTkwNzExMDgwNzA0XzQucG5n?x-oss-process=image/format,png" alt="React Native  状态栏  StatusBar"></p>
+<p>在 React Native 中我们可以定制 <strong>状态栏</strong> StatusBar 。当然了，说是定制，无非以下几点</p>
+<ol>
+<li>显示或隐藏状态栏。</li>
+<li>设置主题色：亮色系还是暗色系。</li>
+<li>设置显示或隐藏时是否启用动画。</li>
+</ol>
+<p>React Native 提供了 <code>StatusBar</code> 组件来做上面这些事情，H5控制不了状态栏</p>
+<h2 id="引入组件-1"><a href="#引入组件-1" class="headerlink" title="引入组件"></a>引入组件</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &#123; StatusBar &#125; from 'react-native'</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用语法-1"><a href="#使用语法-1" class="headerlink" title="使用语法"></a>使用语法</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="selector-tag">StatusBar</span> </span><br><span class="line">    barStyle    = "dark-content|light-content" </span><br><span class="line">    hidden      = &#123;true|false&#125;</span><br><span class="line">    animated    = &#123;true|false&#125;</span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>React Native 中的 <code>StatusBar</code> 采用覆盖规则，我们可以在一个页面中定义多个 <code>。 后面定义的</code> 的属性会覆盖前一个 `` 设置的属性。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="selector-tag">View</span>&gt;</span><br><span class="line">  &lt;StatusBar backgroundColor="blue" barStyle="light-content" /&gt;</span><br><span class="line">  &lt;<span class="selector-tag">View</span>&gt;</span><br><span class="line">    &lt;StatusBar hidden=&#123;route.statusBarHidden&#125; /&gt;</span><br><span class="line">    ...</span><br><span class="line">  &lt;/View&gt;</span><br><span class="line">&lt;/View&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="静态方法"><a href="#静态方法" class="headerlink" title="静态方法"></a>静态方法</h2><p>除了可以使用属性来设置状态栏外，React Native 中的 <strong>StatusBar</strong> 还提供了一些静态方法用来设置状态栏。</p>
+<ol>
+<li><p>setHidden()</p>
+<p><code>setHidden()</code> 用于设置显示或隐藏状态栏。</p>
+<p><code>setHidden()</code> 的函数原型如下</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">static</span> <span class="selector-tag">setHidden</span>(<span class="selector-tag">hidden</span>: <span class="selector-tag">boolean</span>, <span class="selector-attr">[animation]</span>: <span class="selector-tag">StatusBarAnimation</span>)</span><br></pre></td></tr></table></figure>
+
+<p>参数说明</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>类型</th>
+<th>是否必填</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>hidden</td>
+<td>boolean</td>
+<td>是</td>
+<td>是否隐藏状态栏，<code>true</code> 是，<code>false</code> 否</td>
+</tr>
+<tr>
+<td>animation</td>
+<td>StatusBarAnimation</td>
+<td>否</td>
+<td>可选，设置显示或隐藏状态改变时的动画。</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>setBarStyle()</p>
+<p><code>setBarStyle()</code> 用于设置状态栏的主题色。</p>
+<p><code>setBarStyle()</code> 的函数原型如下</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">static</span> <span class="selector-tag">setBarStyle</span>(<span class="selector-tag">style</span>: <span class="selector-tag">StatusBarStyle</span>, <span class="selector-attr">[animated]</span>: <span class="selector-tag">boolean</span>)</span><br></pre></td></tr></table></figure>
+
+<p>参数说明</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>类型</th>
+<th>是否必填</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>style</td>
+<td>StatusBarStyle</td>
+<td>是</td>
+<td>要设置的状态栏主题色</td>
+</tr>
+<tr>
+<td>animated</td>
+<td>boolean</td>
+<td>否</td>
+<td>主题色改变时是否动画</td>
+</tr>
+</tbody></table>
+</li>
+</ol>
+<h2 id="枚举常量"><a href="#枚举常量" class="headerlink" title="枚举常量"></a>枚举常量</h2><ol>
+<li><p>StatusBarStyle</p>
+<p><code>StatusBarStyle</code> 枚举常量定义了状态栏可用的主题色.</p>
+<p>值说明</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>default</td>
+<td>默认主题色，iOS 上是 <code>dark-content</code> ，Android 是 <code>light-content</code></td>
+</tr>
+<tr>
+<td>light-content</td>
+<td>暗色的背景，亮色的文字和图标</td>
+</tr>
+<tr>
+<td>dark-content</td>
+<td>亮色的背景，暗色的文字和图标( Android 要求 API &gt;= 23 )</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>StatusBarAnimation</p>
+<p><code>StatusBarAnimation</code> 枚举常量定义了状态栏可用的动画效果。</p>
+<p>值说明</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>none</td>
+<td>默认，没有动画效果</td>
+</tr>
+<tr>
+<td>fade</td>
+<td>渐隐渐现动画效果</td>
+</tr>
+<tr>
+<td>slide</td>
+<td>渐入渐出动画效果</td>
+</tr>
+</tbody></table>
+</li>
+</ol>
+<h2 id="范例-1"><a href="#范例-1" class="headerlink" title="范例"></a>范例</h2><h3 id="范例-1"><a href="#范例-1" class="headerlink" title="范例 1"></a>范例 1</h3><p>下面的代码，我们设置状态栏 StatusBar 的主题色为 <strong>暗色系</strong>，同时显示状态栏。</p>
+<h4 id="App-js-4"><a href="#App-js-4" class="headerlink" title="App.js"></a>App.js</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from 'react';</span><br><span class="line">import &#123; StatusBar &#125; from 'react-native'</span><br><span class="line"></span><br><span class="line">const App = () =&gt; &#123;</span><br><span class="line">   <span class="selector-tag">return</span> (</span><br><span class="line">      &lt;StatusBar barStyle = "dark-content" hidden=&#123;false&#125; /&gt;</span><br><span class="line">   )</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">export</span> <span class="selector-tag">default</span> <span class="selector-tag">App</span></span><br></pre></td></tr></table></figure>
+
+<p>运行效果如下</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly93d3cudHdsZS5jbi9zdGF0aWMvdXBsb2FkL2ltZy8yMDE5LzA3LzExLzIwMTkwNzExMDgwNzMzXzQucG5n?x-oss-process=image/format,png" alt="React Native  状态栏  StatusBar"></p>
+<h3 id="范例2"><a href="#范例2" class="headerlink" title="范例2"></a>范例2</h3><p>下面的代码，我们使用脚本来控制状态栏的显示和隐藏，使用脚本来控制状态栏的主题色</p>
+<h4 id="App-js-5"><a href="#App-js-5" class="headerlink" title="App.js"></a>App.js</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from 'react';</span><br><span class="line">import &#123;View, Text, StatusBar, StyleSheet, TouchableOpacity&#125; from 'react-native'</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">class</span> <span class="selector-tag">App</span> <span class="selector-tag">extends</span> <span class="selector-tag">Component</span> &#123;</span><br><span class="line"></span><br><span class="line">   state = &#123;</span><br><span class="line">      <span class="selector-tag">hidden</span><span class="selector-pseudo">:false</span>,</span><br><span class="line">      <span class="selector-tag">barStyle</span><span class="selector-pseudo">:'default'</span></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">    changeHidden = () =&gt;&#123;</span><br><span class="line">      var hidden = this.state.hidden ? false : true;       //显示还是隐藏的操作，可操作全屏还是刘海澜</span><br><span class="line">        <span class="selector-tag">this</span><span class="selector-class">.setState</span>(&#123; <span class="attribute">hidden</span>: hidden &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    changeBarStyle = () =&gt;&#123;</span><br><span class="line">      var  barStyle = this.state.barStyle == 'light-content' ? 'dark-content' : 'light-content';   //暗色还是亮色  </span><br><span class="line">        this.setState(&#123; barStyle: barStyle &#125;)     //调用函数 </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="selector-tag">render</span>() &#123;</span><br><span class="line">      return (</span><br><span class="line">         &lt;<span class="selector-tag">View</span>&gt;</span><br><span class="line">            &lt;StatusBar barStyle = &#123;this.state.barStyle&#125; hidden=&#123;this.state.hidden&#125; /&gt;       //显示还是隐藏</span><br><span class="line">            &lt;TouchableOpacity style=&#123;styles.button&#125; onPress = &#123;this.changeHidden&#125;&gt;    //按钮 </span><br><span class="line">               &lt;Text&gt;显示或隐藏&lt;/Text&gt;</span><br><span class="line">           &lt;/TouchableOpacity&gt;</span><br><span class="line">           &lt;TouchableOpacity style=&#123;styles.button&#125; onPress = &#123;this.changeBarStyle&#125;&gt;</span><br><span class="line">               &lt;Text&gt;改变主题色&lt;/Text&gt;       </span><br><span class="line">           &lt;/TouchableOpacity&gt;</span><br><span class="line">        &lt;/View&gt;</span><br><span class="line">      )</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">export</span> <span class="selector-tag">default</span> <span class="selector-tag">App</span></span><br><span class="line"></span><br><span class="line">const styles = StyleSheet.create (&#123;</span><br><span class="line">    <span class="selector-tag">button</span>: &#123;</span><br><span class="line">        <span class="attribute">backgroundColor</span>: <span class="string">'#4ba37b'</span>,</span><br><span class="line">        width: <span class="number">100</span>,</span><br><span class="line">        borderRadius: <span class="number">50</span>,</span><br><span class="line">        alignItems: <span class="string">'center'</span>,</span><br><span class="line">        marginTop: <span class="number">100</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>演示效果如下</p>
+<p><video width="240" controls src="https://www.twle.cn/static/upload/img/2019/07/11/20190711080818_4.mp4" style="box-sizing: border-box; display: inline-block; vertical-align: baseline;"></video></p>
+<p>大家知道为什么隐藏的时候有一条黑色的条吗？</p>
+<p>那是因为实体机是全屏手机，顶部的中央有一个 <strong>摄像头</strong>。</p>
+<h1 id="React-Native-滚动视图-ScrollView"><a href="#React-Native-滚动视图-ScrollView" class="headerlink" title="React Native 滚动视图 ScrollView"></a>React Native 滚动视图 ScrollView</h1><p>低头一族的我们，每天花大把大把的时间拉啊拉啊。当屏幕的内容超过一屏时，我们很熟练的往上拉一点就可以看到剩下的内容了，这时候右边还会滚动条告诉我们这是可以往上拉的。</p>
+<p><video controls src="https://www.twle.cn/static/upload/img/2019/07/09/20190709203738_4.mp4" style="box-sizing: border-box; display: inline-block; vertical-align: baseline;"></video></p>
+<p>这看起来很简单的内容，并不是每个 React Native 组件天生都自带的。并不是每个组件要显示的内容超过一屏时可以往上拉。</p>
+<p>那个我们所熟悉的组件之母 `` 就不支持这种操作。</p>
+<p>例如下面的代码，我们在一个 `` 中显示一组 <strong>语言</strong> 时，超过的部分就被截掉了。</p>
+<h4 id="App-js-6"><a href="#App-js-6" class="headerlink" title="App.js"></a>App.js</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from 'react';</span><br><span class="line">import &#123; Text, View, StyleSheet&#125; from 'react-native';</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">class</span> <span class="selector-tag">App</span> <span class="selector-tag">extends</span> <span class="selector-tag">Component</span> &#123;</span><br><span class="line">   state = &#123;</span><br><span class="line">      languages: [</span><br><span class="line">         &#123;'name': 'Python', 'id': 1&#125;,</span><br><span class="line">         &#123;'name': 'Perl', 'id': 2&#125;,</span><br><span class="line">         &#123;'name': 'PHP', 'id': 3&#125;,</span><br><span class="line">         &#123;'name': 'Ruby', 'id': 4&#125;,</span><br><span class="line">         &#123;'name': 'Scala', 'id': 5&#125;,</span><br><span class="line">         &#123;'name': 'JavaScript', 'id': 6&#125;,</span><br><span class="line">         &#123;'name': 'Rust', 'id': 7&#125;,</span><br><span class="line">         &#123;'name': 'Go', 'id': 8&#125;,</span><br><span class="line">         &#123;'name': 'Java', 'id': 9&#125;,</span><br><span class="line">         &#123;'name': 'C++', 'id': 10&#125;,</span><br><span class="line">         &#123;'name': 'C', 'id': 11&#125;,</span><br><span class="line">         &#123;'name': 'Awk', 'id': 12&#125;,</span><br><span class="line">         &#123;'name': 'Sed', 'id': 13&#125;,</span><br><span class="line">         &#123;'name': 'TypeScript', 'id': 14&#125;,</span><br><span class="line">         &#123;'name': 'C#', 'id': 15&#125;,</span><br><span class="line">         &#123;'name': 'F#', 'id': 16&#125;,</span><br><span class="line">         &#123;'name': 'CSS', 'id': 17&#125;,</span><br><span class="line">         &#123;'name': 'HTML', 'id': 18&#125;,</span><br><span class="line">         &#123;'name': 'React Native', 'id': 19&#125;</span><br><span class="line">      ]</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="selector-tag">render</span>() &#123;</span><br><span class="line">      return (</span><br><span class="line">         &lt;View style=&#123;styles.list&#125;&gt;</span><br><span class="line">            &#123;</span><br><span class="line">               this.state.languages.map((item, index) =&gt; (</span><br><span class="line">                  &lt;View key = &#123;item.id&#125; style = &#123;styles.item&#125;&gt;</span><br><span class="line">                     &lt;Text&gt;&#123;item.name&#125;&lt;/Text&gt;</span><br><span class="line">                  &lt;/View&gt;</span><br><span class="line">               ))</span><br><span class="line">            &#125;</span><br><span class="line">         &lt;/View&gt;</span><br><span class="line">      )</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">export</span> <span class="selector-tag">default</span> <span class="selector-tag">App</span></span><br><span class="line"></span><br><span class="line">const styles = StyleSheet.create (&#123;</span><br><span class="line"></span><br><span class="line">   <span class="selector-tag">list</span>: &#123;</span><br><span class="line">      <span class="attribute">backgroundColor</span>:<span class="string">'#eeeeee'</span>,</span><br><span class="line">   &#125;,</span><br><span class="line">   <span class="selector-tag">item</span>: &#123;</span><br><span class="line">      <span class="attribute">flexDirection</span>: <span class="string">'row'</span>,</span><br><span class="line">      justifyContent: <span class="string">'space-between'</span>,</span><br><span class="line">      alignItems: <span class="string">'center'</span>,</span><br><span class="line">      padding: <span class="number">30</span>,</span><br><span class="line">      marginBottom: <span class="number">8</span>,</span><br><span class="line">      backgroundColor: <span class="string">'#ffffff'</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>运行效果图如下，不管我们怎么卖力的拉啊拉，<code>Go</code> 语言下面的那些语言始终是看不到的。</p>
+<p><video controls src="https://www.twle.cn/static/upload/img/2019/07/09/20190709203718_4.mp4" style="box-sizing: border-box; display: inline-block; vertical-align: baseline;"></video></p>
+<p>为了解决这个问题，为了解决那些不支持滚动的组件内容超过一屏的问题,滚动视图组件诞生了！</p>
+<h2 id="ScrollView-滚动视图组件"><a href="#ScrollView-滚动视图组件" class="headerlink" title="ScrollView 滚动视图组件"></a>ScrollView 滚动视图组件</h2><p>滚动视图组件，顾名思义，就是当内容超过指定的高度时会可以通过滑动来显示，右边还会显示滚动条。</p>
+<p>使用很简单，只要包括在要滚动的组件外面就可以了。</p>
+<p>例如上面那个范例，我们只需要做一点点的修改</p>
+<h4 id="App-js-7"><a href="#App-js-7" class="headerlink" title="App.js"></a>App.js</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from 'react';</span><br><span class="line">import &#123; Text, View, ScrollView, StyleSheet&#125; from 'react-native';</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">class</span> <span class="selector-tag">App</span> <span class="selector-tag">extends</span> <span class="selector-tag">Component</span> &#123;</span><br><span class="line">   state = &#123;</span><br><span class="line">      languages: [</span><br><span class="line">         &#123;'name': 'Python', 'id': 1&#125;,</span><br><span class="line">         &#123;'name': 'Perl', 'id': 2&#125;,</span><br><span class="line">         &#123;'name': 'PHP', 'id': 3&#125;,</span><br><span class="line">         &#123;'name': 'Ruby', 'id': 4&#125;,</span><br><span class="line">         &#123;'name': 'Scala', 'id': 5&#125;,</span><br><span class="line">         &#123;'name': 'JavaScript', 'id': 6&#125;,</span><br><span class="line">         &#123;'name': 'Rust', 'id': 7&#125;,</span><br><span class="line">         &#123;'name': 'Go', 'id': 8&#125;,</span><br><span class="line">         &#123;'name': 'Java', 'id': 9&#125;,</span><br><span class="line">         &#123;'name': 'C++', 'id': 10&#125;,</span><br><span class="line">         &#123;'name': 'C', 'id': 11&#125;,</span><br><span class="line">         &#123;'name': 'Awk', 'id': 12&#125;,</span><br><span class="line">         &#123;'name': 'Sed', 'id': 13&#125;,</span><br><span class="line">         &#123;'name': 'TypeScript', 'id': 14&#125;,</span><br><span class="line">         &#123;'name': 'C#', 'id': 15&#125;,</span><br><span class="line">         &#123;'name': 'F#', 'id': 16&#125;,</span><br><span class="line">         &#123;'name': 'CSS', 'id': 17&#125;,</span><br><span class="line">         &#123;'name': 'HTML', 'id': 18&#125;,</span><br><span class="line">         &#123;'name': 'React Native', 'id': 19&#125;</span><br><span class="line">      ]</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="selector-tag">render</span>() &#123;</span><br><span class="line">      return (</span><br><span class="line">         &lt;View style=&#123;styles.list&#125;&gt;</span><br><span class="line">            &lt;<span class="selector-tag">ScrollView</span>&gt;</span><br><span class="line">               &#123;</span><br><span class="line">                  this.state.languages.map((item, index) =&gt; (</span><br><span class="line">                     &lt;View key = &#123;item.id&#125; style = &#123;styles.item&#125;&gt;</span><br><span class="line">                        &lt;Text&gt;&#123;item.name&#125;&lt;/Text&gt;</span><br><span class="line">                     &lt;/View&gt;</span><br><span class="line">                  ))</span><br><span class="line">               &#125;</span><br><span class="line">            &lt;/ScrollView&gt;</span><br><span class="line">         &lt;/View&gt;</span><br><span class="line">      )</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">export</span> <span class="selector-tag">default</span> <span class="selector-tag">App</span></span><br><span class="line"></span><br><span class="line">const styles = StyleSheet.create (&#123;</span><br><span class="line"></span><br><span class="line">   <span class="selector-tag">list</span>: &#123;</span><br><span class="line">      <span class="attribute">backgroundColor</span>:<span class="string">'#eeeeee'</span>,</span><br><span class="line">   &#125;,</span><br><span class="line">   <span class="selector-tag">item</span>: &#123;</span><br><span class="line">      <span class="attribute">flexDirection</span>: <span class="string">'row'</span>,</span><br><span class="line">      justifyContent: <span class="string">'space-between'</span>,</span><br><span class="line">      alignItems: <span class="string">'center'</span>,</span><br><span class="line">      padding: <span class="number">30</span>,</span><br><span class="line">      marginBottom: <span class="number">8</span>,</span><br><span class="line">      backgroundColor: <span class="string">'#ffffff'</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>运行效果如下</p>
+<p><video controls src="https://www.twle.cn/static/upload/img/2019/07/09/20190709203738_4.mp4" style="box-sizing: border-box; display: inline-block; vertical-align: baseline;"></video></p>
+<p>通过上下滑动视图，我们就可以看到所有的语言了。</p>
+<h1 id="React-Native-选择器-Picker"><a href="#React-Native-选择器-Picker" class="headerlink" title="React Native 选择器 Picker"></a>React Native 选择器 Picker</h1><p>如果要从多个 <strong>已知的选项</strong> 中选择一个，那么可以使用 React Native 内置的 <strong>选择器</strong>。</p>
+<p>选择器类似于 <a href="https://www.twle.cn/l/yufei/html/html-basic-forms.html" target="_blank" rel="noopener">HTML 中的 select 标签</a> </p>
+<p>选择器默认显示如下</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly93d3cudHdsZS5jbi9zdGF0aWMvdXBsb2FkL2ltZy8yMDE5LzA3LzEwLzIwMTkwNzEwMjAwNjMzXzQucG5n?x-oss-process=image/format,png" alt="React Native 选择器 Picker"></p>
+<p>当被点击时显示如下</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly93d3cudHdsZS5jbi9zdGF0aWMvdXBsb2FkL2ltZy8yMDE5LzA3LzEwLzIwMTkwNzEwMjAwNzUyXzQucG5n?x-oss-process=image/format,png" alt="React Native 选择器 Picker"></p>
+<h2 id="引入组件-2"><a href="#引入组件-2" class="headerlink" title="引入组件"></a>引入组件</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &#123; Picker &#125; from 'react-native'</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用语法-2"><a href="#使用语法-2" class="headerlink" title="使用语法"></a>使用语法</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="selector-tag">Picker</span> </span><br><span class="line">   selectedValue = "male"</span><br><span class="line">   onValueChange = &#123;updateUser&#125; &gt;</span><br><span class="line">   &lt;Picker.Item label = "男"   value = "male" /&gt;</span><br><span class="line">   &lt;Picker.Item label = "女"   value = "female" /&gt;</span><br><span class="line">   &lt;Picker.Item label = "其它"  value = "other" /&gt;</span><br><span class="line">&lt;/Picker&gt;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>selectedValue</td>
+<td>用于设置默认的选中项目</td>
+</tr>
+<tr>
+<td>onValueChange</td>
+<td>用于设置选中项变更时的触发操作</td>
+</tr>
+</tbody></table>
+<h3 id="onValueChange-属性"><a href="#onValueChange-属性" class="headerlink" title="onValueChange 属性"></a><code>onValueChange</code> 属性</h3><p><code>onValueChange</code> 属性用于设置选项变更时触发的操作。</p>
+<p><code>onValueChange</code> 属性的触发的事件原型如下</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">function</span>(<span class="selector-tag">itemValue</span>,<span class="selector-tag">itemPosition</span>) &#123;</span><br><span class="line">// 具体的处理逻辑</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>itemValue</td>
+<td>选中项 `` 的 <code>value</code> 值</td>
+</tr>
+<tr>
+<td>itemPosition</td>
+<td>选中项 `` 的位置，第一个位置为 <code>0</code></td>
+</tr>
+</tbody></table>
+<h2 id="选项"><a href="#选项" class="headerlink" title="选项"></a>选项</h2><p>用于设置每一个选项，使用语法如下</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Picker.Item label = "男"   value = "male" /&gt;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>label</td>
+<td>用于设置显示出来的名称</td>
+</tr>
+<tr>
+<td>value</td>
+<td>用于设置选项的值</td>
+</tr>
+</tbody></table>
+<h2 id="范例-2"><a href="#范例-2" class="headerlink" title="范例"></a>范例</h2><p>下面的范例，当我们点击 <strong>请选择性别</strong> 时会弹出一个框用于提供性别选择。</p>
+<h4 id="App-js-8"><a href="#App-js-8" class="headerlink" title="App.js"></a>App.js</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from 'react';</span><br><span class="line">import &#123; View, Text, Picker, StyleSheet &#125; from 'react-native'       </span><br><span class="line"></span><br><span class="line"><span class="selector-tag">class</span> <span class="selector-tag">App</span> <span class="selector-tag">extends</span> <span class="selector-tag">Component</span> &#123;</span><br><span class="line"></span><br><span class="line">   users = [       //列表</span><br><span class="line">      &#123;<span class="attribute">label</span>: <span class="string">'请选择性别'</span>,value:<span class="string">''</span>&#125;,</span><br><span class="line">      &#123;<span class="attribute">label</span>: <span class="string">'男'</span>,value:<span class="string">'male'</span>&#125;,</span><br><span class="line">      &#123;<span class="attribute">label</span>: <span class="string">'女'</span>,value:<span class="string">'female'</span>&#125;,</span><br><span class="line">      &#123;<span class="attribute">label</span>: <span class="string">'其它'</span>,value:<span class="string">'other'</span>&#125;</span><br><span class="line">   ]</span><br><span class="line">   state = &#123;user: ''&#125;        //设置状态</span><br><span class="line">   updateUser = (user) =&gt; &#123;</span><br><span class="line">      <span class="selector-tag">this</span><span class="selector-class">.setState</span>(&#123; <span class="attribute">user</span>: user &#125;)</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="selector-tag">render</span>() &#123;</span><br><span class="line">      return (</span><br><span class="line">         &lt;View style=&#123;styles.container&#125;&gt;</span><br><span class="line">            &lt;Text style = &#123;styles.label&#125;&gt;请选择性别&lt;/Text&gt;</span><br><span class="line">            &lt;<span class="selector-tag">Picker</span> </span><br><span class="line">               selectedValue = &#123;this.state.user&#125;     //选中的值</span><br><span class="line">               onValueChange = &#123;this.updateUser&#125;&gt;    //函数</span><br><span class="line">            &#123;  </span><br><span class="line">               this.users.map((o,index) =&gt;</span><br><span class="line">                  &lt;Picker.Item label=&#123;o.label&#125; value = &#123;o.value&#125;/&gt;         //设置选型  数组用map，遍历循环，0是用户，将每一个用户循环生成</span><br><span class="line">                  //  把值放到选择器组件中，自动生成选项</span><br><span class="line">               )</span><br><span class="line">            &#125;</span><br><span class="line">            &lt;/Picker&gt;</span><br><span class="line">            &lt;Text style = &#123;styles.label&#125;&gt;你的选择是&lt;/Text&gt;        //显示标签</span><br><span class="line">            &lt;Text style = &#123;styles.text&#125;&gt;&#123;this.state.user&#125;&lt;/Text&gt;     //显示文本</span><br><span class="line">         &lt;/View&gt;</span><br><span class="line">      )</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">export</span> <span class="selector-tag">default</span> <span class="selector-tag">App</span></span><br><span class="line"></span><br><span class="line">const styles = StyleSheet.create(&#123;</span><br><span class="line"></span><br><span class="line">   <span class="selector-tag">container</span>: &#123;</span><br><span class="line">      <span class="attribute">margin</span>:<span class="number">50</span>,</span><br><span class="line">   &#125;,</span><br><span class="line">   <span class="selector-tag">label</span>: &#123;</span><br><span class="line">      <span class="attribute">fontSize</span>: <span class="number">14</span>,</span><br><span class="line">      color:<span class="string">'#333333'</span></span><br><span class="line">   &#125;,</span><br><span class="line">   <span class="selector-tag">text</span>: &#123;</span><br><span class="line">      <span class="attribute">fontSize</span>: <span class="number">30</span>,</span><br><span class="line">      alignSelf: <span class="string">'center'</span>,</span><br><span class="line">      color: <span class="string">'red'</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h1 id="ReactNative网络请求"><a href="#ReactNative网络请求" class="headerlink" title="ReactNative网络请求"></a>ReactNative网络请求</h1><h3 id="1-GET请求"><a href="#1-GET请求" class="headerlink" title="1.GET请求"></a>1.GET请求</h3><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">requestToTest() &#123;</span><br><span class="line">        <span class="keyword">return</span> fetch(apiURL, &#123;</span><br><span class="line">            method: <span class="string">'GET'</span>,</span><br><span class="line">        &#125;) </span><br><span class="line">        .then(<span class="function">(<span class="params">response</span>) =&gt;</span> response.json())</span><br><span class="line">        .then(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(data);</span><br><span class="line">            <span class="keyword">return</span> data;</span><br><span class="line">        &#125;).catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(err);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-POST请求"><a href="#2-POST请求" class="headerlink" title="2.POST请求"></a>2.POST请求</h3><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">requestToGetApplyId() &#123;</span><br><span class="line">        <span class="keyword">return</span> fetch(apiURL, &#123;</span><br><span class="line">            method: <span class="string">'POST'</span>,</span><br><span class="line">            headers: &#123;</span><br><span class="line">                <span class="string">'Authorization'</span>: <span class="string">'Bearer '</span> + token,</span><br><span class="line">                <span class="string">'Accept'</span>: <span class="string">'application/json'</span>,</span><br><span class="line">                <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>,</span><br><span class="line">            &#125;,</span><br><span class="line">            body: <span class="built_in">JSON</span>.stringify(&#123;</span><br><span class="line">                <span class="string">'name'</span>: <span class="string">'userName'</span>,</span><br><span class="line">                <span class="string">'telephone'</span>: <span class="string">'18088888888'</span></span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;) </span><br><span class="line">        .then(<span class="function">(<span class="params">response</span>) =&gt;</span> response.json())</span><br><span class="line">        .then(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(data);</span><br><span class="line">            <span class="keyword">return</span> data;</span><br><span class="line">        &#125;).catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(err);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-PUT请求"><a href="#3-PUT请求" class="headerlink" title="3.PUT请求"></a>3.PUT请求</h3><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">requestToLogin(account, password) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> fetch(apiURL, &#123;</span><br><span class="line">            method: <span class="string">'PUT'</span>,</span><br><span class="line">            headers: &#123;</span><br><span class="line">                <span class="string">'Accept'</span>: <span class="string">'application/json'</span>,</span><br><span class="line">                <span class="string">"Content-Type"</span>: <span class="string">"application/x-www-form-urlencoded"</span></span><br><span class="line">            &#125;,</span><br><span class="line">            body: <span class="string">`userName=<span class="subst">$&#123;userName&#125;</span>&amp;passWord=<span class="subst">$&#123;passWord&#125;</span>`</span></span><br><span class="line">        &#125;)</span><br><span class="line">        .then(<span class="function">(<span class="params">response</span>) =&gt;</span> response.json())</span><br><span class="line">        .then(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(data);</span><br><span class="line">            <span class="keyword">return</span> data;</span><br><span class="line">        &#125;).catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(err);</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="案例："><a href="#案例：" class="headerlink" title="案例："></a>案例：</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123;Component&#125; from 'react';</span><br><span class="line"><span class="selector-tag">import</span> &#123;</span><br><span class="line">  StyleSheet, </span><br><span class="line">  <span class="selector-tag">Text</span>, </span><br><span class="line">  <span class="selector-tag">Image</span>,</span><br><span class="line">  <span class="selector-tag">View</span></span><br><span class="line">&#125; from 'react-native';</span><br><span class="line"></span><br><span class="line">var REQUEST_URL =</span><br><span class="line">  "https://raw.githubusercontent.com/facebook/react-native/0.51-stable/docs/MoviesExample.json";</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">export</span> <span class="selector-tag">default</span> <span class="selector-tag">class</span> <span class="selector-tag">App</span> <span class="selector-tag">extends</span> <span class="selector-tag">Component</span> &#123;</span><br><span class="line">  constructor(props) &#123;</span><br><span class="line">    <span class="selector-tag">super</span>(<span class="selector-tag">props</span>);</span><br><span class="line">    this.state = &#123;</span><br><span class="line">      <span class="selector-tag">movies</span>: <span class="selector-tag">null</span>,</span><br><span class="line">    &#125;;</span><br><span class="line">    this.fetchData = this.fetchData.bind(this);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="selector-tag">componentDidMount</span>() &#123;</span><br><span class="line">    this.fetchData();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="selector-tag">fetchData</span>() &#123;</span><br><span class="line">    fetch(REQUEST_URL)</span><br><span class="line">      .then((response) =&gt; response.json())</span><br><span class="line">      .then((responseData) =&gt; &#123;</span><br><span class="line">        <span class="selector-tag">this</span><span class="selector-class">.setState</span>(&#123;</span><br><span class="line">          <span class="attribute">movies</span>: responseData.movies,</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="selector-tag">render</span>() &#123;</span><br><span class="line">    if(!this.state.movies) &#123;</span><br><span class="line">      <span class="selector-tag">return</span> <span class="selector-tag">this</span><span class="selector-class">.renderLoadingView</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    var movie = this.state.movies[0];</span><br><span class="line">    <span class="selector-tag">return</span> <span class="selector-tag">this</span><span class="selector-class">.renderMovie</span>(<span class="selector-tag">movie</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="selector-tag">renderLoadingView</span>() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;View style = &#123;styles.container&#125;&gt;</span><br><span class="line">        &lt;Text&gt;loading...&lt;/Text&gt;</span><br><span class="line">      &lt;/View&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="selector-tag">renderMovie</span>(<span class="selector-tag">movie</span>) &#123;</span><br><span class="line">    return(</span><br><span class="line">      &lt;View style = &#123;styles.container&#125;&gt;</span><br><span class="line">        &lt;<span class="selector-tag">Image</span> </span><br><span class="line">          style = &#123;styles.thumbnail&#125;</span><br><span class="line">          source = &#123;&#123;uri: movie.posters.thumbnail&#125;&#125;</span><br><span class="line">        /&gt;</span><br><span class="line"></span><br><span class="line">        &lt;View style = &#123;styles.rightContainer&#125;&gt;</span><br><span class="line">          &lt;Text style = &#123;styles.title&#125;&gt;&#123;movie.title&#125;&lt;/Text&gt;</span><br><span class="line">          &lt;Text style = &#123;styles.year&#125;&gt;&#123;movie.year&#125;&lt;/Text&gt;</span><br><span class="line">        &lt;/View&gt;</span><br><span class="line"></span><br><span class="line">      &lt;/View&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const styles = StyleSheet.create(&#123;</span><br><span class="line">  <span class="selector-tag">container</span>: &#123;</span><br><span class="line">    <span class="attribute">flex</span>: <span class="number">1</span>,</span><br><span class="line">    flexDirection: <span class="string">'row'</span>,</span><br><span class="line">    justifyContent: <span class="string">'center'</span>,</span><br><span class="line">    alignItems: <span class="string">'center'</span>,</span><br><span class="line">    backgroundColor: <span class="string">'#F5FCFF'</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="selector-tag">thumbnail</span>: &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100</span>,</span><br><span class="line">    height: <span class="number">80</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="selector-tag">rightContainer</span>: &#123;</span><br><span class="line">    <span class="attribute">flex</span>: <span class="number">1</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="selector-tag">title</span>: &#123;</span><br><span class="line">    <span class="attribute">fontSize</span>: <span class="number">20</span>,</span><br><span class="line">    marginBottom: <span class="number">8</span>,</span><br><span class="line">    textAlign: <span class="string">'center'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="selector-tag">year</span>: &#123;</span><br><span class="line">    <span class="attribute">textAlign</span>:<span class="string">'center'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+      
+      <!-- reward -->
+      
+      <div id="reward-btn">
+        打赏
+      </div>
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong s>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
+                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+        
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/05/06/React%20Native%20%E5%8A%A8%E7%94%BB%20Animated%E3%80%81%E5%BC%80%E5%85%B3%E3%80%81%E7%8A%B6%E6%80%81%E6%A0%8F%E3%80%81%E9%80%89%E6%8B%A9%E5%99%A8%E7%BB%84%E4%BB%B6%E3%80%81%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/React-Native%E7%AC%94%E8%AE%B0%E6%95%B4%E7%90%86/" rel="tag">React-Native笔记整理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../../../tags/%E5%B8%B8%E7%94%A8%E9%9C%80%E6%B1%82%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E6%B1%87%E6%80%BB/" rel="tag">常用需求解决方案汇总</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+      <a href="../React%20Native%EF%BC%88%E4%B8%89%EF%BC%89%20state%E3%80%81Props%E3%80%81%E8%BE%93%E5%85%A5%E7%BB%84%E4%BB%B6%E3%80%81%E5%9B%BE%E7%89%87%E7%BB%84%E4%BB%B6%E3%80%81%E5%8A%A0%E8%BD%BD%E6%8C%87%E7%A4%BA%E5%99%A8/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            React-Native笔记整理（三）—— state、Props、输入组件、图片组件、加载指示器
+          
+        </div>
+      </a>
+    
+    
+      <a href="../../05/React-Native%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E7%BB%93%E6%9E%84%E5%88%86%E6%9E%90%E4%B8%8E%E8%A7%86%E5%9B%BE%E6%A1%88%E4%BE%8B%20(1)/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">React-Native学习笔记（一）——结构分析与视图案例</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        notify: 'false',
+        verify: 'false',
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2020
+        Wangqiuxia
+      </li>
+      <li>
+        
+        Powered by
+        
+        
+        <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+    <aside class="sidebar">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="../../../../index.html"><img src="/images/ayer-side.svg" alt="爱产品，爱前端！"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../index.html">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../tags/%E6%8A%80%E6%9C%AF/">小程序</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../http:/shenyu-vip.lofter.com">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="../../../../https:/v.xiumi.us/stage/v5/4IeLH/197507179">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="../../../../atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="../../../../images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="../../../../images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="../../../../js/jquery-2.0.3.min.js"></script>
+
+
+<script src="../../../../js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="../../../../js/lazyload.min.js"></script>
+
+
+<script src="../../../../js/busuanzi-2.3.pure.min.js"></script>
+
+
+<script src="../../../../js/share.js"></script>
+
+
+
+<script src="../../../../fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['做一个有情怀懂产品的程序媛！','业精于勤荒于嬉！行成于思毁于随！','越努力越幸运'],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script src="../../../../js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+
+<script src="../../../../js/ayer.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=1436709403&auto=1&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+  </div>
+</body>
+
+</html>
