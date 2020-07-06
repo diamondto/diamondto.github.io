@@ -71,395 +71,6 @@
     
     
     
-    <article id="post-前端开发规范" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="../../2020/05/02/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/"
-    >前端开发规范笔记（阿里）</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="../../2020/05/02/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/" class="article-date">
-  <time datetime="2020-05-01T16:00:00.000Z" itemprop="datePublished">2020-05-02</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="../../categories/%E5%A4%8D%E4%B9%A0%E4%B8%8E%E5%9B%9E%E9%A1%BE/">复习与回顾</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>整理到博客随时查阅，提前做好准备，养好习惯~😃😘👍😁🥰🧡💯<br>学习资源：来自阿里云和B站</p>
-<h1 id="前端代码规范"><a href="#前端代码规范" class="headerlink" title="前端代码规范"></a>前端代码规范</h1><p>Front Standard Guide</p>
-<p><a href="https://blog.csdn.net/ThinkWon/article/details/104390612?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendHotData-61&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendHotData-61" target="_blank" rel="noopener">JAVA知识</a></p>
-<h1 id="前端-JS-项目开发规范"><a href="#前端-JS-项目开发规范" class="headerlink" title="前端 JS 项目开发规范"></a>前端 JS 项目开发规范</h1><p>规范的目的是为了编写高质量的代码，让你的团队成员每天得心情都是愉悦的，大家在一起是快乐的。</p>
-<p>引自《阿里规约》的开头片段：</p>
-<p>现代软件架构的复杂性需要协同开发完成，如何高效地协同呢？无规矩不成方圆，无规范难以协同，比如，制订交通法规表面上是要限制行车权，实际上是保障公众的人身安全，试想如果没有限速，没有红绿灯，谁还敢上路行驶。对软件来说，适当的规范和标准绝不是消灭代码内容的创造性、优雅性，而是限制过度个性化，以一种普遍认可的统一方式一起做事，提升协作效率，降低沟通成本。代码的字里行间流淌的是软件系统的血液，质量的提升是尽可能少踩坑，杜绝踩重复的坑，切实提升系统稳定性，码出质量。</p>
-<h1 id="一、编程规约"><a href="#一、编程规约" class="headerlink" title="一、编程规约"></a>一、编程规约</h1><h3 id="一-命名规范"><a href="#一-命名规范" class="headerlink" title="(一)命名规范"></a>(一)命名规范</h3><h4 id="1-1-1-项目命名"><a href="#1-1-1-项目命名" class="headerlink" title="1.1.1 项目命名"></a>1.1.1 项目命名</h4><p>全部采用小写方式， 以中划线分隔。</p>
-<p>正例：<code>mall-management-system</code></p>
-<p>反例：<code>mall_management-system / mallManagementSystem</code></p>
-<h4 id="1-1-2-目录命名"><a href="#1-1-2-目录命名" class="headerlink" title="1.1.2 目录命名"></a>1.1.2 目录命名</h4><p>全部采用小写方式， 以中划线分隔，有复数结构时，要采用复数命名法， 缩写不用复数</p>
-<p>正例： <code>scripts / styles / components / images / utils / layouts / demo-styles / demo-scripts / img / doc</code></p>
-<p>反例： <code>script / style / demo_scripts / demoStyles / imgs / docs</code></p>
-<p>【特殊】VUE 的项目中的 components 中的组件目录，使用 kebab-case 命名</p>
-<p>正例： <code>head-search / page-loading / authorized / notice-icon</code></p>
-<p>反例： <code>HeadSearch / PageLoading</code></p>
-<p>【特殊】VUE 的项目中的除 components 组件目录外的所有目录也使用 kebab-case 命名<br>正例： <code>page-one / shopping-car / user-management</code></p>
-<p>反例： <code>ShoppingCar / UserManagement</code></p>
-<h4 id="1-1-3-JS、CSS、SCSS、HTML、PNG-文件命名"><a href="#1-1-3-JS、CSS、SCSS、HTML、PNG-文件命名" class="headerlink" title="1.1.3 JS、CSS、SCSS、HTML、PNG 文件命名"></a>1.1.3 JS、CSS、SCSS、HTML、PNG 文件命名</h4><p>全部采用小写方式， 以中划线分隔</p>
-<p>正例： <code>render-dom.js / signup.css / index.html / company-logo.png</code></p>
-<p>反例： <code>renderDom.js / UserManagement.html</code></p>
-<h4 id="1-1-4-命名严谨性"><a href="#1-1-4-命名严谨性" class="headerlink" title="1.1.4 命名严谨性"></a>1.1.4 命名严谨性</h4><p>代码中的命名严禁使用拼音与英文混合的方式，更不允许直接使用中文的方式。 说明：正确的英文拼写和语法可以让阅读者易于理解，避免歧义。注意，即使纯拼音命名方式也要避免采用</p>
-<p>正例：<code>henan / luoyang / rmb 等国际通用的名称，可视同英文。</code></p>
-<p>反例：<code>DaZhePromotion [打折] / getPingfenByName() [评分] / int 某变量 = 3</code></p>
-<p><strong>杜绝完全不规范的缩写，避免望文不知义：</strong></p>
-<p>反例：AbstractClass“缩写”命名成 AbsClass；condition“缩写”命名成 condi，此类随意缩写严重降低了代码的可阅读性。</p>
-<h3 id="二-HTML-规范-（Vue-Template-同样适用）"><a href="#二-HTML-规范-（Vue-Template-同样适用）" class="headerlink" title="(二)HTML 规范 （Vue Template 同样适用）"></a>(二)HTML 规范 （Vue Template 同样适用）</h3><h4 id="1-2-1-HTML-类型"><a href="#1-2-1-HTML-类型" class="headerlink" title="1.2.1 HTML 类型"></a>1.2.1 HTML 类型</h4><p>推荐使用 HTML5 的文档类型申明： .<br>（建议使用 text/html 格式的 HTML。避免使用 XHTML。XHTML 以及它的属性，比如 application/xhtml+xml 在浏览器中的应用支持与优化空间都十分有限）。</p>
-<ul>
-<li>规定字符编码</li>
-<li>IE 兼容模式</li>
-<li>规定字符编码</li>
-<li>doctype 大写</li>
-</ul>
-<p>正例：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"IE=Edge"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Page title<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"images/company-logo.png"</span> <span class="attr">alt</span>=<span class="string">"Company"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="1-2-2-缩进"><a href="#1-2-2-缩进" class="headerlink" title="1.2.2 缩进"></a>1.2.2 缩进</h4><p>缩进使用 2 个空格（一个 tab）</p>
-<p>嵌套的节点应该缩进。</p>
-<h4 id="1-2-3-分块注释"><a href="#1-2-3-分块注释" class="headerlink" title="1.2.3 分块注释"></a>1.2.3 分块注释</h4><p>在每一个块状元素，列表元素和表格元素后，加上一对 HTML 注释。注释格式</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- header 头部 start --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">header</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 图片会把a标签给撑开，所以不用设置a标签的大小 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"images/header.jpg"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">header</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- header 头部 end --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="1-2-4-语义化标签"><a href="#1-2-4-语义化标签" class="headerlink" title="1.2.4 语义化标签"></a>1.2.4 语义化标签</h4><p>HTML5 中新增很多语义化标签，所以优先使用语义化标签，避免一个页面都是 div 或者 p 标签</p>
-<p>正例</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">&lt;header&gt;</span><span class="section">&lt;/header&gt;</span></span><br><span class="line"><span class="section">&lt;footer&gt;</span><span class="section">&lt;/footer&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>反例</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">&lt;div&gt;</span></span><br><span class="line">  <span class="section">&lt;p&gt;</span><span class="section">&lt;/p&gt;</span></span><br><span class="line"><span class="section">&lt;/div&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="1-2-5-引号"><a href="#1-2-5-引号" class="headerlink" title="1.2.5 引号"></a>1.2.5 引号</h4><p>使用双引号(“ “) 而不是单引号(’ ‘) 。</p>
-<p>正例： ``</p>
-<p>反例： ``</p>
-<h3 id="三-CSS-规范"><a href="#三-CSS-规范" class="headerlink" title="(三) CSS 规范"></a>(三) CSS 规范</h3><h4 id="1-3-1-命名"><a href="#1-3-1-命名" class="headerlink" title="1.3.1 命名"></a>1.3.1 命名</h4><ul>
-<li>类名使用小写字母，以中划线分隔</li>
-<li>id 采用驼峰式命名</li>
-<li>scss 中的变量、函数、混合、placeholder 采用驼峰式命名</li>
-</ul>
-<p>ID 和 class 的名称总是使用可以反应元素目的和用途的名称，或其他通用的名称，代替表象和晦涩难懂的名称</p>
-<p>不推荐：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.fw-800</span> &#123;</span><br><span class="line">  <span class="attribute">font-weight</span>: <span class="number">800</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.red</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>推荐:</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.heavy</span> &#123;</span><br><span class="line">  <span class="attribute">font-weight</span>: <span class="number">800</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.important</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="1-3-2-选择器"><a href="#1-3-2-选择器" class="headerlink" title="1.3.2 选择器"></a>1.3.2 选择器</h4><p>1)css 选择器中避免使用标签名<br>从结构、表现、行为分离的原则来看，应该尽量避免 css 中出现 HTML 标签，并且在 css 选择器中出现标签名会存在潜在的问题。</p>
-<p>2)很多前端开发人员写选择器链的时候不使用 直接子选择器（注：直接子选择器和后代选择器的区别）。有时，这可能会导致疼痛的设计问题并且有时候可能会很耗性能。然而，在任何情况下，这是一个非常不好的做法。如果你不写很通用的，需要匹配到 DOM 末端的选择器， 你应该总是考虑直接子选择器。</p>
-<p>不推荐:</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.content</span> <span class="selector-class">.title</span> &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">2rem</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>推荐:</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.content</span> &gt; <span class="selector-class">.title</span> &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">2rem</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="1-3-3-尽量使用缩写属性"><a href="#1-3-3-尽量使用缩写属性" class="headerlink" title="1.3.3 尽量使用缩写属性"></a>1.3.3 尽量使用缩写属性</h4><p>不推荐：</p>
-<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">border-top-style</span>: none;</span><br><span class="line"><span class="attribute">font-family</span>: palatino, georgia, serif;</span><br><span class="line"><span class="attribute">font-size</span>: <span class="number">100%</span>;</span><br><span class="line"><span class="attribute">line-height</span>: <span class="number">1.6</span>;</span><br><span class="line"><span class="attribute">padding-bottom</span>: <span class="number">2em</span>;</span><br><span class="line"><span class="attribute">padding-left</span>: <span class="number">1em</span>;</span><br><span class="line"><span class="attribute">padding-right</span>: <span class="number">1em</span>;</span><br><span class="line"><span class="attribute">padding-top</span>: <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
-
-<p>推荐：</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">border-top: <span class="number">0</span>;</span><br><span class="line">font: <span class="number">100</span>%/<span class="number">1.6</span> palatino, georgia, serif;</span><br><span class="line">padding: <span class="number">0</span> <span class="number">1</span>em <span class="number">2</span>em;</span><br></pre></td></tr></table></figure>
-
-<h4 id="1-3-4-每个选择器及属性独占一行"><a href="#1-3-4-每个选择器及属性独占一行" class="headerlink" title="1.3.4 每个选择器及属性独占一行"></a>1.3.4 每个选择器及属性独占一行</h4><p>不推荐：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">button</span>&#123;</span><br><span class="line">  <span class="attribute">width</span>:<span class="number">100px</span>;<span class="attribute">height</span>:<span class="number">50px</span>;<span class="attribute">color</span>:<span class="number">#fff</span>;<span class="attribute">background</span>:<span class="number">#00a0e9</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>推荐：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">button</span>&#123;</span><br><span class="line">  <span class="attribute">width</span>:<span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">height</span>:<span class="number">50px</span>;</span><br><span class="line">  <span class="attribute">color</span>:<span class="number">#fff</span>;</span><br><span class="line">  <span class="attribute">background</span>:<span class="number">#00a0e9</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="1-3-5-省略0后面的单位"><a href="#1-3-5-省略0后面的单位" class="headerlink" title="1.3.5 省略0后面的单位"></a>1.3.5 省略0后面的单位</h4><p>不推荐：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span>&#123;</span><br><span class="line">  <span class="attribute">padding-bottom</span>: <span class="number">0px</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0em</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>推荐：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span>&#123;</span><br><span class="line">  <span class="attribute">padding-bottom</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="1-3-6-避免使用ID选择器及全局标签选择器防止污染全局样式"><a href="#1-3-6-避免使用ID选择器及全局标签选择器防止污染全局样式" class="headerlink" title="1.3.6 避免使用ID选择器及全局标签选择器防止污染全局样式"></a>1.3.6 避免使用ID选择器及全局标签选择器防止污染全局样式</h4><p>不推荐：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#header</span>&#123;</span><br><span class="line">  <span class="attribute">padding-bottom</span>: <span class="number">0px</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0em</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>推荐：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.header</span>&#123;</span><br><span class="line">  <span class="attribute">padding-bottom</span>: <span class="number">0px</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0em</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="四-LESS-规范"><a href="#四-LESS-规范" class="headerlink" title="(四) LESS 规范"></a>(四) LESS 规范</h3><h4 id="1-4-1-代码组织"><a href="#1-4-1-代码组织" class="headerlink" title="1.4.1 代码组织"></a>1.4.1 代码组织</h4><h5 id="1-将公共less文件放置在style-less-common文件夹"><a href="#1-将公共less文件放置在style-less-common文件夹" class="headerlink" title="1)将公共less文件放置在style/less/common文件夹"></a>1)将公共less文件放置在style/less/common文件夹</h5><p>例:// color.less,common.less</p>
-<h5 id="2-按以下顺序组织"><a href="#2-按以下顺序组织" class="headerlink" title="2)按以下顺序组织"></a>2)按以下顺序组织</h5><p>1、@import;<br>2、变量声明;<br>3、样式声明;</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@import</span> <span class="string">"mixins/size.less"</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable">@default-text-color:</span> <span class="number">#333</span>;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.page</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">960px</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0</span> auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="1-4-2-避免嵌套层级过多"><a href="#1-4-2-避免嵌套层级过多" class="headerlink" title="1.4.2 避免嵌套层级过多"></a>1.4.2 避免嵌套层级过多</h4><p>将嵌套深度限制在3级。对于超过4级的嵌套，给予重新评估。这可以避免出现过于详实的CSS选择器。<br>避免大量的嵌套规则。当可读性受到影响时，将之打断。推荐避免出现多于20行的嵌套规则出现</p>
-<p>不推荐：</p>
-<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">.main</span>&#123;</span><br><span class="line">  <span class="string">.title</span>&#123;</span><br><span class="line">    <span class="string">.name</span>&#123;</span><br><span class="line">       color:<span class="comment">#fff</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>推荐：</p>
-<figure class="highlight hsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.main-<span class="keyword">title</span>&#123;</span><br><span class="line">   .name&#123;</span><br><span class="line">      <span class="keyword">color</span>:<span class="meta">#fff</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="五-Javascript-规范"><a href="#五-Javascript-规范" class="headerlink" title="(五) Javascript 规范"></a>(五) Javascript 规范</h3><h4 id="1-5-1-命名"><a href="#1-5-1-命名" class="headerlink" title="1.5.1 命名"></a>1.5.1 命名</h4><h5 id="1-采用小写驼峰命名-lowerCamelCase，代码中的命名均不能以下划线，也不能以下划线或美元符号结束"><a href="#1-采用小写驼峰命名-lowerCamelCase，代码中的命名均不能以下划线，也不能以下划线或美元符号结束" class="headerlink" title="1) 采用小写驼峰命名 lowerCamelCase，代码中的命名均不能以下划线，也不能以下划线或美元符号结束"></a>1) 采用小写驼峰命名 lowerCamelCase，代码中的命名均不能以下划线，也不能以下划线或美元符号结束</h5><p>反例： <code>_name / name_ / name$</code></p>
-<h5 id="2-方法名、参数名、成员变量、局部变量都统一使用-lowerCamelCase-风格，必须遵从驼峰形式。"><a href="#2-方法名、参数名、成员变量、局部变量都统一使用-lowerCamelCase-风格，必须遵从驼峰形式。" class="headerlink" title="2) 方法名、参数名、成员变量、局部变量都统一使用 lowerCamelCase 风格，必须遵从驼峰形式。"></a>2) 方法名、参数名、成员变量、局部变量都统一使用 lowerCamelCase 风格，必须遵从驼峰形式。</h5><p>正例： <code>localValue / getHttpMessage() / inputUserId</code></p>
-<p><strong><strong>其中 method 方法命名必须是 动词 或者 动词+名词 形式\</strong></strong></p>
-<p>正例：<code>saveShopCarData /openShopCarInfoDialog</code></p>
-<p>反例：<code>save / open / show / go</code></p>
-<p><strong><strong>特此说明，增删查改，详情统一使用如下 5 个单词，不得使用其他（目的是为了统一各个端）\</strong></strong></p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add</span> / <span class="keyword">update</span> / <span class="keyword">delete</span> / detail / <span class="keyword">get</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>附： 函数方法常用的动词:</strong></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">get 获取/<span class="keyword">set</span> 设置,</span><br><span class="line"><span class="keyword">add</span> 增加/remove 删除</span><br><span class="line"><span class="keyword">create</span> 创建/destory 移除</span><br><span class="line"><span class="keyword">start</span> 启动/<span class="keyword">stop</span> 停止</span><br><span class="line"><span class="keyword">open</span> 打开/<span class="keyword">close</span> 关闭,</span><br><span class="line"><span class="keyword">read</span> 读取/write 写入</span><br><span class="line"><span class="keyword">load</span> 载入/<span class="keyword">save</span> 保存,</span><br><span class="line"><span class="keyword">create</span> 创建/destroy 销毁</span><br><span class="line"><span class="keyword">begin</span> 开始/<span class="keyword">end</span> 结束,</span><br><span class="line"><span class="keyword">backup</span> 备份/<span class="keyword">restore</span> 恢复</span><br><span class="line"><span class="keyword">import</span> 导入/<span class="keyword">export</span> 导出,</span><br><span class="line"><span class="keyword">split</span> 分割/<span class="keyword">merge</span> 合并</span><br><span class="line">inject 注入/<span class="keyword">extract</span> 提取,</span><br><span class="line">attach 附着/detach 脱离</span><br><span class="line">bind 绑定/separate 分离,</span><br><span class="line"><span class="keyword">view</span> 查看/browse 浏览</span><br><span class="line">edit 编辑/<span class="keyword">modify</span> 修改,</span><br><span class="line"><span class="keyword">select</span> 选取/mark 标记</span><br><span class="line">copy 复制/paste 粘贴,</span><br><span class="line"><span class="keyword">undo</span> 撤销/<span class="keyword">redo</span> 重做</span><br><span class="line"><span class="keyword">insert</span> 插入/<span class="keyword">delete</span> 移除,</span><br><span class="line"><span class="keyword">add</span> 加入/append 添加</span><br><span class="line">clean 清理/<span class="keyword">clear</span> 清除,</span><br><span class="line"><span class="keyword">index</span> 索引/<span class="keyword">sort</span> 排序</span><br><span class="line">find 查找/<span class="keyword">search</span> 搜索,</span><br><span class="line">increase 增加/decrease 减少</span><br><span class="line">play 播放/pause 暂停,</span><br><span class="line">launch 启动/run 运行</span><br><span class="line">compile 编译/<span class="keyword">execute</span> 执行,</span><br><span class="line">debug 调试/<span class="keyword">trace</span> 跟踪</span><br><span class="line">observe 观察/listen 监听,</span><br><span class="line"><span class="keyword">build</span> 构建/publish 发布</span><br><span class="line"><span class="keyword">input</span> 输入/<span class="keyword">output</span> 输出,</span><br><span class="line"><span class="keyword">encode</span> 编码/<span class="keyword">decode</span> 解码</span><br><span class="line"><span class="keyword">encrypt</span> 加密/<span class="keyword">decrypt</span> 解密,</span><br><span class="line"><span class="keyword">compress</span> 压缩/decompress 解压缩</span><br><span class="line">pack 打包/unpack 解包,</span><br><span class="line"><span class="keyword">parse</span> 解析/emit 生成</span><br><span class="line"><span class="keyword">connect</span> 连接/<span class="keyword">disconnect</span> 断开,</span><br><span class="line">send 发送/receive 接收</span><br><span class="line">download 下载/upload 上传,</span><br><span class="line"><span class="keyword">refresh</span> 刷新/synchronize 同步</span><br><span class="line"><span class="keyword">update</span> 更新/revert 复原,</span><br><span class="line"><span class="keyword">lock</span> 锁定/<span class="keyword">unlock</span> 解锁</span><br><span class="line"><span class="keyword">check</span> <span class="keyword">out</span> 签出/<span class="keyword">check</span> <span class="keyword">in</span> 签入,</span><br><span class="line">submit 提交/<span class="keyword">commit</span> 交付</span><br><span class="line">push 推/pull 拉,</span><br><span class="line">expand 展开/collapse 折叠</span><br><span class="line"><span class="keyword">begin</span> 起始/<span class="keyword">end</span> 结束,</span><br><span class="line"><span class="keyword">start</span> 开始/<span class="keyword">finish</span> 完成</span><br><span class="line">enter 进入/<span class="keyword">exit</span> 退出,</span><br><span class="line"><span class="keyword">abort</span> 放弃/quit 离开</span><br><span class="line">obsolete 废弃/depreciate 废旧,</span><br><span class="line"><span class="keyword">collect</span> 收集/<span class="keyword">aggregate</span> 聚集</span><br></pre></td></tr></table></figure>
-
-<h5 id="3-常量命名全部大写，单词间用下划线隔开，力求语义表达完整清楚，不要嫌名字长。"><a href="#3-常量命名全部大写，单词间用下划线隔开，力求语义表达完整清楚，不要嫌名字长。" class="headerlink" title="3) 常量命名全部大写，单词间用下划线隔开，力求语义表达完整清楚，不要嫌名字长。"></a>3) 常量命名全部大写，单词间用下划线隔开，力求语义表达完整清楚，不要嫌名字长。</h5><p>正例： <code>MAX_STOCK_COUNT</code></p>
-<p>反例： <code>MAX_COUNT</code></p>
-<h4 id="1-5-2-代码格式"><a href="#1-5-2-代码格式" class="headerlink" title="1.5.2 代码格式"></a>1.5.2 代码格式</h4><h5 id="1-使用-2-个空格进行缩进"><a href="#1-使用-2-个空格进行缩进" class="headerlink" title="1) 使用 2 个空格进行缩进"></a>1) 使用 2 个空格进行缩进</h5><p>正例：</p>
-<figure class="highlight gml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="symbol">x</span> &lt; <span class="symbol">y</span>) &#123;</span><br><span class="line">  <span class="symbol">x</span> += <span class="number">10</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="symbol">x</span> += <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="2-不同逻辑、不同语义、不同业务的代码之间插入一个空行分隔开来以提升可读性。"><a href="#2-不同逻辑、不同语义、不同业务的代码之间插入一个空行分隔开来以提升可读性。" class="headerlink" title="2) 不同逻辑、不同语义、不同业务的代码之间插入一个空行分隔开来以提升可读性。"></a>2) 不同逻辑、不同语义、不同业务的代码之间插入一个空行分隔开来以提升可读性。</h5><blockquote>
-<p>说明：任何情形，没有必要插入多个空行进行隔开。</p>
-</blockquote>
-<h4 id="1-5-3-字符串"><a href="#1-5-3-字符串" class="headerlink" title="1.5.3 字符串"></a>1.5.3 字符串</h4><p>统一使用单引号(‘)，不使用双引号(“)。这在创建 HTML 字符串非常有好处：</p>
-<p>正例:</p>
-<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">let str</span> = <span class="string">'foo'</span>;</span><br><span class="line"><span class="attribute">let testDiv</span> = <span class="string">'&lt;div id="test"&gt;&lt;/div&gt;'</span>;</span><br></pre></td></tr></table></figure>
-
-<p>反例:</p>
-<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">let str</span> = <span class="string">'foo'</span>;</span><br><span class="line"><span class="attribute">let testDiv</span> = <span class="string">"&lt;div id='test'&gt;&lt;/div&gt;"</span>;</span><br></pre></td></tr></table></figure>
-
-<h4 id="1-5-4-对象声明"><a href="#1-5-4-对象声明" class="headerlink" title="1.5.4 对象声明"></a>1.5.4 对象声明</h4><h5 id="1-使用字面值创建对象"><a href="#1-使用字面值创建对象" class="headerlink" title="1)使用字面值创建对象"></a>1)使用字面值创建对象</h5><p>正例： <code>let user = {};</code></p>
-<p>反例： <code>let user = new Object();</code></p>
-<h5 id="2-使用字面量来代替对象构造器"><a href="#2-使用字面量来代替对象构造器" class="headerlink" title="2) 使用字面量来代替对象构造器"></a>2) 使用字面量来代替对象构造器</h5><p>正例：</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var<span class="built_in"> user </span>= &#123;</span><br><span class="line">  age: 0,</span><br><span class="line">  name: 1,</span><br><span class="line">  city: 3</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>反例：</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var<span class="built_in"> user </span>= new Object();</span><br><span class="line">user.age = 0;</span><br><span class="line">user.name = 0;</span><br><span class="line">user.city = 0;</span><br></pre></td></tr></table></figure>
-
-<h4 id="1-5-5-使用-ES6-7"><a href="#1-5-5-使用-ES6-7" class="headerlink" title="1.5.5 使用 ES6,7"></a>1.5.5 使用 ES6,7</h4><p>必须优先使用 ES6,7 中新增的语法糖和函数。这将简化你的程序，并让你的代码更加灵活和可复用。</p>
-<blockquote>
-<p>必须强制使用 ES6, ES7 的新语法，比如箭头函数、await/async ， 解构， let ， for…of 等等</p>
-</blockquote>
-<h4 id="1-5-6-括号"><a href="#1-5-6-括号" class="headerlink" title="1.5.6 括号"></a>1.5.6 括号</h4><p>下列关键字后必须有大括号（即使代码块的内容只有一行）：if, else, for, while, do, switch, try, catch, finally, with。</p>
-<p>正例：</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">if</span> (condition) &#123;</span><br><span class="line">  <span class="selector-tag">doSomething</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>反例：</p>
-<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if (<span class="name">condition</span>) doSomething()<span class="comment">;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="1-5-7-undefined-判断"><a href="#1-5-7-undefined-判断" class="headerlink" title="1.5.7 undefined 判断"></a>1.5.7 undefined 判断</h4><p>永远不要直接使用 undefined 进行变量判断；使用 typeof 和字符串’undefined’对变量进行判断。</p>
-<p>正例：</p>
-<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> person === <span class="string">'undefined'</span>) &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>反例：</p>
-<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="params">(<span class="attr">person</span> === undefined)</span> &#123;</span><br><span class="line">    <span class="string">...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="1-5-8-条件判断和循环最多三层"><a href="#1-5-8-条件判断和循环最多三层" class="headerlink" title="1.5.8 条件判断和循环最多三层"></a>1.5.8 条件判断和循环最多三层</h4><p>条件判断能使用三目运算符和逻辑运算符解决的，就不要使用条件判断，但是谨记不要写太长的三目运算符。如果超过 3 层请抽成函数，并写清楚注释。</p>
-<h4 id="1-5-9-this-的转换命名"><a href="#1-5-9-this-的转换命名" class="headerlink" title="1.5.9 this 的转换命名"></a>1.5.9 this 的转换命名</h4><p>对上下文 this 的引用只能使用’self’来命名</p>
-<h4 id="1-5-10-慎用-console-log"><a href="#1-5-10-慎用-console-log" class="headerlink" title="1.5.10 慎用 console.log"></a>1.5.10 慎用 console.log</h4><p>因 console.log 大量使用会有性能问题，所以在非 webpack 项目中谨慎使用 log 功能</p>
-<h1 id="二、Vue-项目规范"><a href="#二、Vue-项目规范" class="headerlink" title="二、Vue 项目规范"></a>二、Vue 项目规范</h1><h3 id="一-Vue-编码基础"><a href="#一-Vue-编码基础" class="headerlink" title="(一) Vue 编码基础"></a>(一) Vue 编码基础</h3><p>vue 项目规范以 Vue 官方规范 （<a href="https://cn.vuejs.org/v2/style-guide/）" target="_blank" rel="noopener">https://cn.vuejs.org/v2/style-guide/）</a> 中的 A 规范为基础，在其上面进行项目开发，故所有代码均遵守该规范。</p>
-<blockquote>
-<p>请仔仔细细阅读 Vue 官方规范，切记，此为第一步。</p>
-</blockquote>
-<h4 id="2-1-1-组件规范"><a href="#2-1-1-组件规范" class="headerlink" title="2.1.1. 组件规范"></a>2.1.1. 组件规范</h4><h5 id="1-组件名为多个单词。"><a href="#1-组件名为多个单词。" class="headerlink" title="1) 组件名为多个单词。"></a>1) 组件名为多个单词。</h5><p>组件名应该始终是多个单词组成（大于等于 2），且命名规范为<code>KebabCase</code>格式。<br>这样做可以避免跟现有的以及未来的 HTML 元素相冲突，因为所有的 HTML 元素名称都是单个单词的。</p>
-<p>正例：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">export</span> <span class="selector-tag">default</span> &#123;</span><br><span class="line">  <span class="attribute">name</span>: <span class="string">'TodoItem'</span></span><br><span class="line">  // ...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>反例：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">export</span> <span class="selector-tag">default</span> &#123;</span><br><span class="line">  <span class="attribute">name</span>: <span class="string">'Todo'</span>,</span><br><span class="line">  // ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">export</span> <span class="selector-tag">default</span> &#123;</span><br><span class="line">  <span class="attribute">name</span>: <span class="string">'todo-item'</span>,</span><br><span class="line">  // ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="2-组件文件名为-pascal-case-格式"><a href="#2-组件文件名为-pascal-case-格式" class="headerlink" title="2) 组件文件名为 pascal-case 格式"></a>2) 组件文件名为 pascal-case 格式</h5><p>正例：</p>
-<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">components/</span><br><span class="line"><span class="string">|- my-component.vue</span></span><br></pre></td></tr></table></figure>
-
-<p>反例：</p>
-<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">components/</span><br><span class="line"><span class="string">|- myComponent.vue</span></span><br><span class="line"><span class="string">|- MyComponent.vue</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="3-基础组件文件名为-base-开头，使用完整单词而不是缩写。"><a href="#3-基础组件文件名为-base-开头，使用完整单词而不是缩写。" class="headerlink" title="3) 基础组件文件名为 base 开头，使用完整单词而不是缩写。"></a>3) 基础组件文件名为 base 开头，使用完整单词而不是缩写。</h5><p>正例：</p>
-<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">components/</span><br><span class="line"><span class="string">|- base-button.vue</span></span><br><span class="line"><span class="string">|- base-table.vue</span></span><br><span class="line"><span class="string">|- base-icon.vue</span></span><br></pre></td></tr></table></figure>
-
-<p>反例：</p>
-<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">components/</span><br><span class="line"><span class="string">|- MyButton.vue</span></span><br><span class="line"><span class="string">|- VueTable.vue</span></span><br><span class="line"><span class="string">|- Icon.vue</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="4-和父组件紧密耦合的子组件应该以父组件名作为前缀命名"><a href="#4-和父组件紧密耦合的子组件应该以父组件名作为前缀命名" class="headerlink" title="4) 和父组件紧密耦合的子组件应该以父组件名作为前缀命名"></a>4) 和父组件紧密耦合的子组件应该以父组件名作为前缀命名</h5><p>正例：</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">components/</span><br><span class="line">|- todo-<span class="built_in">list</span>.vue</span><br><span class="line">|- todo-<span class="built_in">list</span>-<span class="built_in">item</span>.vue</span><br><span class="line">|- todo-<span class="built_in">list</span>-<span class="built_in">item</span>-button.vue</span><br><span class="line">|- user-profile-options.vue （完整单词）</span><br></pre></td></tr></table></figure>
-
-<p>反例：</p>
-<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">components/</span><br><span class="line"><span class="string">|- TodoList.vue</span></span><br><span class="line"><span class="string">|- TodoItem.vue</span></span><br><span class="line"><span class="string">|- TodoButton.vue</span></span><br><span class="line"><span class="string">|- UProfOpts.vue （使用了缩写）</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="5-在-Template-模版中使用组件，应使用-PascalCase-模式，并且使用自闭合组件。"><a href="#5-在-Template-模版中使用组件，应使用-PascalCase-模式，并且使用自闭合组件。" class="headerlink" title="5) 在 Template 模版中使用组件，应使用 PascalCase 模式，并且使用自闭合组件。"></a>5) 在 Template 模版中使用组件，应使用 PascalCase 模式，并且使用自闭合组件。</h5><p>正例：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 在单文件组件、字符串模板和 JSX 中 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">MyComponent</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">Row</span>&gt;</span><span class="tag">&lt;<span class="name">table</span> <span class="attr">:column</span>=<span class="string">"data"</span>/&gt;</span><span class="tag">&lt;/<span class="name">Row</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>反例：</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;my-component /&gt; &lt;row&gt;&lt;table <span class="symbol">:column=<span class="string">"data"</span>/&gt;&lt;/row&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="6-组件的-data-必须是一个函数"><a href="#6-组件的-data-必须是一个函数" class="headerlink" title="6) 组件的 data 必须是一个函数"></a>6) 组件的 data 必须是一个函数</h5><p>当在组件中使用 data 属性的时候 (除了 new Vue 外的任何地方)，它的值必须是返回一个对象的函数。 因为如果直接是一个对象的话，子组件之间的属性值会互相影响。</p>
-<p>正例：</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="builtin-name">export</span><span class="built_in"> default </span>&#123;</span><br><span class="line">  data () &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      name: <span class="string">'jack'</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>反例：</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="builtin-name">export</span><span class="built_in"> default </span>&#123;</span><br><span class="line">  data: &#123;</span><br><span class="line">    name: <span class="string">'jack'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="7-Prop-定义应该尽量详细"><a href="#7-Prop-定义应该尽量详细" class="headerlink" title="7) Prop 定义应该尽量详细"></a>7) Prop 定义应该尽量详细</h5><ul>
-<li>必须使用 camelCase 驼峰命名</li>
-<li>必须指定类型</li>
-<li>必须加上注释，表明其含义</li>
-<li>必须加上 required 或者 default，两者二选其一</li>
-<li>如果有业务需要，必须加上 validator 验证</li>
-</ul>
-<p>正例：</p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"> props: &#123;</span><br><span class="line">  <span class="comment">// 组件状态，用于控制组件的颜色</span></span><br><span class="line">   status: &#123;</span><br><span class="line">     <span class="keyword">type</span>: <span class="built_in">String</span>,</span><br><span class="line">     required: <span class="literal">true</span>,</span><br><span class="line">     validator: <span class="function"><span class="keyword">function</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> [</span><br><span class="line">         <span class="string">'succ'</span>,</span><br><span class="line">         <span class="string">'info'</span>,</span><br><span class="line">         <span class="string">'error'</span></span><br><span class="line">       ].indexOf(value) !== <span class="number">-1</span></span><br><span class="line">     &#125;</span><br><span class="line">   &#125;,</span><br><span class="line">    <span class="comment">// 用户级别，用于显示皇冠个数</span></span><br><span class="line">   userLevel：&#123;</span><br><span class="line">      <span class="keyword">type</span>: <span class="built_in">String</span>,</span><br><span class="line">      required: <span class="literal">true</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="8-为组件样式设置作用域"><a href="#8-为组件样式设置作用域" class="headerlink" title="8) 为组件样式设置作用域"></a>8) 为组件样式设置作用域</h5><p>正例：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"btn btn-close"</span>&gt;</span>X<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 使用 `scoped` 特性 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">scoped</span>&gt;</span></span><br><span class="line"><span class="css">  <span class="selector-class">.btn-close</span> &#123;</span></span><br><span class="line">    background-color: red;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>反例：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"btn btn-close"</span>&gt;</span>X<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 没有使用 `scoped` 特性 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">  <span class="selector-class">.btn-close</span> &#123;</span></span><br><span class="line">    background-color: red;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="9-如果特性元素较多，应该主动换行。"><a href="#9-如果特性元素较多，应该主动换行。" class="headerlink" title="9) 如果特性元素较多，应该主动换行。"></a>9) 如果特性元素较多，应该主动换行。</h5><p>正例：</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;MyComponent <span class="attribute">foo</span>=<span class="string">"a"</span> <span class="attribute">bar</span>=<span class="string">"b"</span> <span class="attribute">baz</span>=<span class="string">"c"</span></span><br><span class="line">    <span class="attribute">foo</span>=<span class="string">"a"</span> <span class="attribute">bar</span>=<span class="string">"b"</span> <span class="attribute">baz</span>=<span class="string">"c"</span></span><br><span class="line">    <span class="attribute">foo</span>=<span class="string">"a"</span> <span class="attribute">bar</span>=<span class="string">"b"</span> <span class="attribute">baz</span>=<span class="string">"c"</span></span><br><span class="line"> /&gt;</span><br></pre></td></tr></table></figure>
-
-<p>反例：</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;MyComponent <span class="attribute">foo</span>=<span class="string">"a"</span> <span class="attribute">bar</span>=<span class="string">"b"</span> <span class="attribute">baz</span>=<span class="string">"c"</span> <span class="attribute">foo</span>=<span class="string">"a"</span> <span class="attribute">bar</span>=<span class="string">"b"</span> <span class="attribute">baz</span>=<span class="string">"c"</span> <span class="attribute">foo</span>=<span class="string">"a"</span> <span class="attribute">bar</span>=<span class="string">"b"</span> <span class="attribute">baz</span>=<span class="string">"c"</span> <span class="attribute">foo</span>=<span class="string">"a"</span> <span class="attribute">bar</span>=<span class="string">"b"</span> <span class="attribute">baz</span>=<span class="string">"c"</span>/&gt;</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-1-2-模板中使用简单的表达式"><a href="#2-1-2-模板中使用简单的表达式" class="headerlink" title="2.1.2. 模板中使用简单的表达式"></a>2.1.2. 模板中使用简单的表达式</h4><p>组件模板应该只包含简单的表达式，复杂的表达式则应该重构为计算属性或方法。复杂表达式会让你的模板变得不那么声明式。我们应该尽量描述应该出现的是什么，而非如何计算那个值。而且计算属性和方法使得代码可以重用。</p>
-<p>正例：</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">&lt;template&gt;</span></span><br><span class="line">  <span class="symbol">&lt;p&gt;</span>&#123;&#123; normalizedFullName &#125;&#125;&lt;/<span class="keyword">p</span>&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">// 复杂表达式已经移入一个计算属性</span><br><span class="line">computed: &#123;</span><br><span class="line">  normalizedFullName: <span class="function"><span class="keyword">function</span> <span class="params">()</span> &#123;</span></span><br><span class="line">    <span class="keyword">return</span> this.fullName.<span class="keyword">split</span>(<span class="string">' '</span>).<span class="keyword">map</span>(<span class="function"><span class="keyword">function</span> <span class="params">(word)</span> &#123;</span></span><br><span class="line">      <span class="keyword">return</span> word[<span class="number">0</span>].toUpperCase() + word.slice(<span class="number">1</span>)</span><br><span class="line">    &#125;).<span class="keyword">join</span>(<span class="string">' '</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>反例：</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">&lt;template&gt;</span></span><br><span class="line">  <span class="symbol">&lt;p&gt;</span></span><br><span class="line">       &#123;&#123;</span><br><span class="line">          fullName.<span class="keyword">split</span>(<span class="string">' '</span>).<span class="keyword">map</span>(<span class="function"><span class="keyword">function</span> <span class="params">(word)</span> &#123;</span></span><br><span class="line">             <span class="keyword">return</span> word[<span class="number">0</span>].toUpperCase() + word.slice(<span class="number">1</span>)</span><br><span class="line">           &#125;).<span class="keyword">join</span>(<span class="string">' '</span>)</span><br><span class="line">        &#125;&#125;</span><br><span class="line">  &lt;/<span class="keyword">p</span>&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-1-3-指令都使用缩写形式"><a href="#2-1-3-指令都使用缩写形式" class="headerlink" title="2.1.3 指令都使用缩写形式"></a>2.1.3 指令都使用缩写形式</h4><p>指令推荐都使用缩写形式，(用 : 表示 v-bind: 、用 @ 表示 v-on: 和用 # 表示 v-slot:)</p>
-<p>正例：</p>
-<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;input</span><br><span class="line">  <span class="meta">@input</span>=<span class="string">"onInput"</span></span><br><span class="line">  <span class="meta">@focus</span>=<span class="string">"onFocus"</span></span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-
-<p>反例：</p>
-<figure class="highlight hsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="keyword">input</span></span><br><span class="line">  v-<span class="keyword">on</span>:<span class="keyword">input</span>=<span class="string">"onInput"</span></span><br><span class="line">  @focus=<span class="string">"onFocus"</span></span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-1-4-标签顺序保持一致"><a href="#2-1-4-标签顺序保持一致" class="headerlink" title="2.1.4 标签顺序保持一致"></a>2.1.4 标签顺序保持一致</h4><p>单文件组件应该总是让标签顺序保持为 `</p>
-<p>正例：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span>...<span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span>...<span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span>...<span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>反例：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span>...<span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span>...<span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span>...<span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="2-1-5-必须为-v-for-设置键值-key"><a href="#2-1-5-必须为-v-for-设置键值-key" class="headerlink" title="2.1.5 必须为 v-for 设置键值 key"></a>2.1.5 必须为 v-for 设置键值 key</h4><h4 id="2-1-6-v-show-与-v-if-选择"><a href="#2-1-6-v-show-与-v-if-选择" class="headerlink" title="2.1.6 v-show 与 v-if 选择"></a>2.1.6 v-show 与 v-if 选择</h4><p>如果运行时，需要非常频繁地切换，使用 v-show ；如果在运行时，条件很少改变，使用 v-if。</p>
-<h4 id="2-1-7-script-标签内部结构顺序"><a href="#2-1-7-script-标签内部结构顺序" class="headerlink" title="2.1.7 script 标签内部结构顺序"></a>2.1.7 script 标签内部结构顺序</h4><p>components &gt; props &gt; data &gt; computed &gt; watch &gt; filter &gt; 钩子函数（钩子函数按其执行顺序） &gt; methods</p>
-<h4 id="2-1-8-Vue-Router-规范"><a href="#2-1-8-Vue-Router-规范" class="headerlink" title="2.1.8 Vue Router 规范"></a>2.1.8 Vue Router 规范</h4><h5 id="1-页面跳转数据传递使用路由参数"><a href="#1-页面跳转数据传递使用路由参数" class="headerlink" title="1) 页面跳转数据传递使用路由参数"></a>1) 页面跳转数据传递使用路由参数</h5><p>页面跳转，例如 A 页面跳转到 B 页面，需要将 A 页面的数据传递到 B 页面，推荐使用 路由参数进行传参，而不是将需要传递的数据保存 vuex，然后在 B 页面取出 vuex 的数据，因为如果在 B 页面刷新会导致 vuex 数据丢失，导致 B 页面无法正常显示数据。</p>
-<p>正例：</p>
-<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span><span class="built_in"> id</span> = <span class="string">' 123'</span>;</span><br><span class="line">this.<span class="variable">$router</span>.push(&#123;<span class="built_in"> name</span>: <span class="string">'userCenter'</span>, query: &#123;<span class="built_in"> id</span>:<span class="built_in"> id</span> &#125; &#125;);</span><br></pre></td></tr></table></figure>
-
-<h5 id="2-使用路由懒加载（延迟加载）机制"><a href="#2-使用路由懒加载（延迟加载）机制" class="headerlink" title="2) 使用路由懒加载（延迟加载）机制"></a>2) 使用路由懒加载（延迟加载）机制</h5><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    path: <span class="string">'/uploadAttachment'</span>,</span><br><span class="line">    name: <span class="string">'uploadAttachment'</span>,</span><br><span class="line">    meta: &#123;</span><br><span class="line">      title: <span class="string">'上传附件'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    component: <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="string">'@/view/components/uploadAttachment/index.vue'</span>)</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
-
-<h5 id="3-router-中的命名规范"><a href="#3-router-中的命名规范" class="headerlink" title="3) router 中的命名规范"></a>3) router 中的命名规范</h5><p>path、childrenPoints 命名规范采用<code>kebab-case</code>命名规范（尽量vue文件的目录结构保持一致，因为目录、文件名都是<code>kebab-case</code>，这样很方便找到对应的文件）</p>
-<p>name 命名规范采用<code>KebabCase</code>命名规范且和component组件名保持一致！（因为要保持keep-alive特性，keep-alive按照component的name进行缓存，所以两者必须高度保持一致）</p>
-<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 动态加载</span></span><br><span class="line">export const reload = [</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">path</span>: <span class="string">'/reload'</span>,</span><br><span class="line">    <span class="keyword">name</span>: <span class="string">'reload'</span>,</span><br><span class="line">    component: Main,</span><br><span class="line">    meta: &#123;</span><br><span class="line">      <span class="built_in">title</span>: <span class="string">'动态加载'</span>,</span><br><span class="line">      icon: <span class="string">'icon iconfont'</span></span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    children: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="built_in">path</span>: <span class="string">'/reload/smart-reload-list'</span>,</span><br><span class="line">        <span class="keyword">name</span>: <span class="string">'SmartReloadList'</span>,</span><br><span class="line">        meta: &#123;</span><br><span class="line">          <span class="built_in">title</span>: <span class="string">'SmartReload'</span>,</span><br><span class="line">          childrenPoints: [</span><br><span class="line">            &#123;</span><br><span class="line">              <span class="built_in">title</span>: <span class="string">'查询'</span>,</span><br><span class="line">              <span class="keyword">name</span>: <span class="string">'smart-reload-search'</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">              <span class="built_in">title</span>: <span class="string">'执行reload'</span>,</span><br><span class="line">              <span class="keyword">name</span>: <span class="string">'smart-reload-update'</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">              <span class="built_in">title</span>: <span class="string">'查看执行结果'</span>,</span><br><span class="line">              <span class="keyword">name</span>: <span class="string">'smart-reload-result'</span></span><br><span class="line">            &#125;</span><br><span class="line">          ]</span><br><span class="line">        &#125;,</span><br><span class="line">        component: () =&gt;</span><br><span class="line">          <span class="keyword">import</span>('@/views/reload/smart-reload/smart-reload-list.vue')</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
-
-<h5 id="4-router-中的-path-命名规范"><a href="#4-router-中的-path-命名规范" class="headerlink" title="4) router 中的 path 命名规范"></a>4) router 中的 path 命名规范</h5><p>path除了采用<code>kebab-case</code>命名规范以外，必须以 / 开头，即使是children里的path也要以 / 开头。如下示例</p>
-<ul>
-<li><p>目的：</p>
-</li>
-</ul>
-<p>经常有这样的场景：某个页面有问题，要立刻找到这个vue文件，如果不用以/开头，path为parent和children组成的，可能经常需要在router文件里搜索多次才能找到，而如果以/开头，则能立刻搜索到对应的组件<br>*</p>
-<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    path: <span class="string">'/file'</span>,</span><br><span class="line">    name: <span class="string">'File'</span>,</span><br><span class="line">    component: Main,</span><br><span class="line">    meta: &#123;</span><br><span class="line">      title: <span class="string">'文件服务'</span>,</span><br><span class="line">      icon: <span class="string">'ios-cloud-upload'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    children: [</span><br><span class="line">      &#123;</span><br><span class="line">        path: <span class="string">'/file/file-list'</span>,</span><br><span class="line">        name: <span class="string">'FileList'</span>,</span><br><span class="line">        component: <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="string">'@/views/file/file-list.vue'</span>)</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        path: <span class="string">'/file/file-add'</span>,</span><br><span class="line">        name: <span class="string">'FileAdd'</span>,</span><br><span class="line">        component: <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="string">'@/views/file/file-add.vue'</span>)</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        path: <span class="string">'/file/file-update'</span>,</span><br><span class="line">        name: <span class="string">'FileUpdate'</span>,</span><br><span class="line">        component: <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="string">'@/views/file/file-update.vue'</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="二-Vue-项目目录规范"><a href="#二-Vue-项目目录规范" class="headerlink" title="(二) Vue 项目目录规范"></a>(二) Vue 项目目录规范</h3><h4 id="2-2-1-基础"><a href="#2-2-1-基础" class="headerlink" title="2.2.1 基础"></a>2.2.1 基础</h4><p>vue 项目中的所有命名一定要与后端命名统一。</p>
-<p>比如权限：后端 privilege, 前端无论 router , store, api 等都必须使用 privielege 单词！</p>
-<h4 id="2-2-2-使用-Vue-cli-脚手架"><a href="#2-2-2-使用-Vue-cli-脚手架" class="headerlink" title="2.2.2 使用 Vue-cli 脚手架"></a>2.2.2 使用 Vue-cli 脚手架</h4><p>使用 vue-cli3 来初始化项目，项目名按照上面的命名规范。</p>
-<h4 id="2-2-3-目录说明"><a href="#2-2-3-目录说明" class="headerlink" title="2.2.3 目录说明"></a>2.2.3 目录说明</h4><p>目录名按照上面的命名规范，其中 components 组件用大写驼峰，其余除 components 组件目录外的所有目录均使用 kebab-case 命名。</p>
-<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">src                               源码目录</span><br><span class="line">|<span class="string">-- api                              所有api接口</span></span><br><span class="line">|<span class="string">-- assets                           静态资源，images, icons, styles等</span></span><br><span class="line">|<span class="string">-- components                       公用组件</span></span><br><span class="line">|<span class="string">-- config                           配置信息</span></span><br><span class="line">|<span class="string">-- constants                        常量信息，项目所有Enum, 全局常量等</span></span><br><span class="line">|<span class="string">-- directives                       自定义指令</span></span><br><span class="line">|<span class="string">-- filters                          过滤器，全局工具</span></span><br><span class="line">|<span class="string">-- datas                            模拟数据，临时存放</span></span><br><span class="line">|<span class="string">-- lib                              外部引用的插件存放及修改文件</span></span><br><span class="line">|<span class="string">-- mock                             模拟接口，临时存放</span></span><br><span class="line">|<span class="string">-- plugins                          插件，全局使用</span></span><br><span class="line">|<span class="string">-- router                           路由，统一管理</span></span><br><span class="line">|<span class="string">-- store                            vuex, 统一管理</span></span><br><span class="line">|<span class="string">-- themes                           自定义样式主题</span></span><br><span class="line">|<span class="string">-- views                            视图目录</span></span><br><span class="line">|<span class="string">   </span>|<span class="string">-- role                             role模块名</span></span><br><span class="line">|<span class="string">   </span>|<span class="string">-- </span>|<span class="string">-- role-list.vue                    role列表页面</span></span><br><span class="line">|<span class="string">   </span>|<span class="string">-- </span>|<span class="string">-- role-add.vue                     role新建页面</span></span><br><span class="line">|<span class="string">   </span>|<span class="string">-- </span>|<span class="string">-- role-update.vue                  role更新页面</span></span><br><span class="line">|<span class="string">   </span>|<span class="string">-- </span>|<span class="string">-- index.less                      role模块样式</span></span><br><span class="line">|<span class="string">   </span>|<span class="string">-- </span>|<span class="string">-- components                      role模块通用组件文件夹</span></span><br><span class="line">|<span class="string">   </span>|<span class="string">-- employee                         employee模块</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="1-api-目录"><a href="#1-api-目录" class="headerlink" title="1) api 目录"></a>1) api 目录</h5><ul>
-<li>文件、变量命名要与后端保持一致。</li>
-<li>此目录对应后端 API 接口，按照后端一个 controller 一个 api js 文件。若项目较大时，可以按照业务划分子目录，并与后端保持一致。</li>
-<li>api 中的方法名字要与后端 api url 尽量保持语义高度一致性。</li>
-<li>对于 api 中的每个方法要添加注释，注释与后端 swagger 文档保持一致。</li>
-</ul>
-<p>正例：</p>
-<p>后端 url： EmployeeController.java</p>
-<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta-keyword">/employee/</span>add</span><br><span class="line"><span class="meta-keyword">/employee/</span>delete<span class="class">/&#123;id&#125;</span></span><br><span class="line"><span class="class"><span class="meta-keyword">/employee/</span>update</span></span><br></pre></td></tr></table></figure>
-
-<p>前端： employee.js</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 添加员工</span></span><br><span class="line">addEmployee:<span class="function"> (<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">  return post<span class="constructor">Axios('<span class="operator">/</span><span class="params">employee</span><span class="operator">/</span><span class="params">add</span>', <span class="params">data</span>)</span></span><br><span class="line">&#125;,</span><br><span class="line"><span class="comment">// 更新员工信息</span></span><br><span class="line">updateEmployee:<span class="function"> (<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">  return post<span class="constructor">Axios('<span class="operator">/</span><span class="params">employee</span><span class="operator">/</span><span class="params">update</span>', <span class="params">data</span>)</span></span><br><span class="line">&#125;,</span><br><span class="line">  <span class="comment">// 删除员工</span></span><br><span class="line">deleteEmployee:<span class="function"> (<span class="params">employeeId</span>) =&gt;</span> &#123;</span><br><span class="line">  return post<span class="constructor">Axios('<span class="operator">/</span><span class="params">employee</span><span class="operator">/</span><span class="params">delete</span><span class="operator">/</span>' + <span class="params">employeeId</span>)</span></span><br><span class="line"> &#125;,</span><br></pre></td></tr></table></figure>
-
-<h5 id="2-assets-目录"><a href="#2-assets-目录" class="headerlink" title="2) assets 目录"></a>2) assets 目录</h5><p>assets 为静态资源，里面存放 images, styles, icons 等静态资源，静态资源命名格式为 kebab-case</p>
-<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">|<span class="string">assets</span></span><br><span class="line">|<span class="string">-- icons</span></span><br><span class="line">|<span class="string">-- images</span></span><br><span class="line">|<span class="string">   </span>|<span class="string">-- background-color.png</span></span><br><span class="line">|<span class="string">   </span>|<span class="string">-- upload-header.png</span></span><br><span class="line">|<span class="string">-- styles</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="3-components-目录"><a href="#3-components-目录" class="headerlink" title="3) components 目录"></a>3) components 目录</h5><p>此目录应按照组件进行目录划分，目录命名为 KebabCase，组件命名规则也为 KebabCase</p>
-<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">|<span class="string">components</span></span><br><span class="line">|<span class="string">-- error-log</span></span><br><span class="line">|<span class="string">   </span>|<span class="string">-- index.vue</span></span><br><span class="line">|<span class="string">   </span>|<span class="string">-- index.less</span></span><br><span class="line">|<span class="string">-- markdown-editor</span></span><br><span class="line">|<span class="string">   </span>|<span class="string">-- index.vue</span></span><br><span class="line">|<span class="string">   </span>|<span class="string">-- index.js</span></span><br><span class="line">|<span class="string">-- kebab-case</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="4-constants-目录"><a href="#4-constants-目录" class="headerlink" title="4) constants 目录"></a>4) constants 目录</h5><p>此目录存放项目所有常量，如果常量在 vue 中使用，请使用 vue-enum 插件(<a href="https://www.npmjs.com/package/vue-enum" target="_blank" rel="noopener">https://www.npmjs.com/package/vue-enum</a>)</p>
-<p>目录结构：</p>
-<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">|constants</span></span><br><span class="line"><span class="string">|-- index.js</span></span><br><span class="line"><span class="string">|-- role.js</span></span><br><span class="line"><span class="string">|-- employee.js</span></span><br></pre></td></tr></table></figure>
-
-<p>例子： employee.js</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">export</span> <span class="string">const</span> <span class="string">EMPLOYEE_STATUS</span> <span class="string">=</span> <span class="string">&#123;</span></span><br><span class="line">  <span class="attr">NORMAL:</span> <span class="string">&#123;</span></span><br><span class="line">    <span class="attr">value:</span> <span class="number">1</span><span class="string">,</span></span><br><span class="line">    <span class="attr">desc:</span> <span class="string">'正常'</span></span><br><span class="line">  <span class="string">&#125;,</span></span><br><span class="line">  <span class="attr">DISABLED:</span> <span class="string">&#123;</span></span><br><span class="line">    <span class="attr">value:</span> <span class="number">1</span><span class="string">,</span></span><br><span class="line">    <span class="attr">desc:</span> <span class="string">'禁用'</span></span><br><span class="line">  <span class="string">&#125;,</span></span><br><span class="line">  <span class="attr">DELETED:</span> <span class="string">&#123;</span></span><br><span class="line">    <span class="attr">value:</span> <span class="number">2</span><span class="string">,</span></span><br><span class="line">    <span class="attr">desc:</span> <span class="string">'已删除'</span></span><br><span class="line">  <span class="string">&#125;</span></span><br><span class="line"><span class="string">&#125;;</span></span><br><span class="line"></span><br><span class="line"><span class="string">export</span> <span class="string">const</span> <span class="string">EMPLOYEE_ACCOUNT_TYPE</span> <span class="string">=</span> <span class="string">&#123;</span></span><br><span class="line">  <span class="attr">QQ:</span> <span class="string">&#123;</span></span><br><span class="line">    <span class="attr">value:</span> <span class="number">1</span><span class="string">,</span></span><br><span class="line">    <span class="attr">desc:</span> <span class="string">'QQ登录'</span></span><br><span class="line">  <span class="string">&#125;,</span></span><br><span class="line">  <span class="attr">WECHAT:</span> <span class="string">&#123;</span></span><br><span class="line">    <span class="attr">value:</span> <span class="number">2</span><span class="string">,</span></span><br><span class="line">    <span class="attr">desc:</span> <span class="string">'微信登录'</span></span><br><span class="line">  <span class="string">&#125;,</span></span><br><span class="line">  <span class="attr">DINGDING:</span> <span class="string">&#123;</span></span><br><span class="line">    <span class="attr">value:</span> <span class="number">3</span><span class="string">,</span></span><br><span class="line">    <span class="attr">desc:</span> <span class="string">'钉钉登录'</span></span><br><span class="line">  <span class="string">&#125;,</span></span><br><span class="line">  <span class="attr">USERNAME:</span> <span class="string">&#123;</span></span><br><span class="line">    <span class="attr">value:</span> <span class="number">4</span><span class="string">,</span></span><br><span class="line">    <span class="attr">desc:</span> <span class="string">'用户名密码登录'</span></span><br><span class="line">  <span class="string">&#125;</span></span><br><span class="line"><span class="string">&#125;;</span></span><br><span class="line"></span><br><span class="line"><span class="string">export</span> <span class="string">default</span> <span class="string">&#123;</span></span><br><span class="line">  <span class="string">EMPLOYEE_STATUS,</span></span><br><span class="line">  <span class="string">EMPLOYEE_ACCOUNT_TYPE</span></span><br><span class="line"><span class="string">&#125;;</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="5-router-与-store-目录"><a href="#5-router-与-store-目录" class="headerlink" title="5) router 与 store 目录"></a>5) router 与 store 目录</h5><p>这两个目录一定要将业务进行拆分，不能放到一个 js 文件里。</p>
-<p>router 尽量按照 views 中的结构保持一致</p>
-<p>store 按照业务进行拆分不同的 js 文件</p>
-<h5 id="6-views-目录"><a href="#6-views-目录" class="headerlink" title="6) views 目录"></a>6) views 目录</h5><ul>
-<li>命名要与后端、router、api 等保持一致</li>
-<li>components 中组件要使用 PascalCase 规则</li>
-</ul>
-<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">|<span class="string">-- views                            视图目录</span></span><br><span class="line">|<span class="string">   </span>|<span class="string">-- role                             role模块名</span></span><br><span class="line">|<span class="string">   </span>|<span class="string">   </span>|<span class="string">-- role-list.vue                    role列表页面</span></span><br><span class="line">|<span class="string">   </span>|<span class="string">   </span>|<span class="string">-- role-add.vue                     role新建页面</span></span><br><span class="line">|<span class="string">   </span>|<span class="string">   </span>|<span class="string">-- role-update.vue                  role更新页面</span></span><br><span class="line">|<span class="string">   </span>|<span class="string">   </span>|<span class="string">-- index.less                      role模块样式</span></span><br><span class="line">|<span class="string">   </span>|<span class="string">   </span>|<span class="string">-- components                      role模块通用组件文件夹</span></span><br><span class="line">|<span class="string">   </span>|<span class="string">   </span>|<span class="string">   </span>|<span class="string">-- role-header.vue                        role头部组件</span></span><br><span class="line">|<span class="string">   </span>|<span class="string">   </span>|<span class="string">   </span>|<span class="string">-- role-modal.vue                         role弹出框组件</span></span><br><span class="line">|<span class="string">   </span>|<span class="string">-- employee                         employee模块</span></span><br><span class="line">|<span class="string">   </span>|<span class="string">-- behavior-log                      行为日志log模块</span></span><br><span class="line">|<span class="string">   </span>|<span class="string">-- code-generator                    代码生成器模块</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="2-2-4-注释说明"><a href="#2-2-4-注释说明" class="headerlink" title="2.2.4 注释说明"></a>2.2.4 注释说明</h4><p>整理必须加注释的地方</p>
-<ul>
-<li>公共组件使用说明</li>
-<li>api 目录的接口 js 文件必须加注释</li>
-<li>store 中的 state, mutation, action 等必须加注释</li>
-<li>vue 文件中的 template 必须加注释，若文件较大添加 start end 注释</li>
-<li>vue 文件的 methods，每个 method 必须添加注释</li>
-<li>vue 文件的 data, 非常见单词要加注释</li>
-</ul>
-<h4 id="2-2-5-其他"><a href="#2-2-5-其他" class="headerlink" title="2.2.5 其他"></a>2.2.5 其他</h4><h5 id="1-尽量不要手动操作-DOM"><a href="#1-尽量不要手动操作-DOM" class="headerlink" title="1) 尽量不要手动操作 DOM"></a>1) 尽量不要手动操作 DOM</h5><p>因使用 vue 框架，所以在项目开发中尽量使用 vue 的数据驱动更新 DOM，尽量（不到万不得已）不要手动操作 DOM，包括：增删改 dom 元素、以及更改样式、添加事件等。</p>
-<h5 id="2-删除无用代码"><a href="#2-删除无用代码" class="headerlink" title="2) 删除无用代码"></a>2) 删除无用代码</h5><p>因使用了 git/svn 等代码版本工具，对于无用代码必须及时删除，例如：一些调试的 console 语句、无用的弃用功能代码。</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E4%B8%9A%E5%8A%A1%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90%E4%B8%8E%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/" rel="tag">业务需求分析与开发规范</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98/" rel="tag">项目实战</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
     <article id="post-多人密集场景下——基于视频的人体姿态估计训练成果！ (1)" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -1743,6 +1354,413 @@
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E4%B8%AA%E4%BA%BA%E8%81%8C%E4%B8%9A%E8%A7%84%E5%88%92/" rel="tag">个人职业规划</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E6%9C%AA%E6%9D%A5%E5%8D%81%E5%B9%B4/" rel="tag">未来十年</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-阿里面试总结" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="../../2020/04/17/%E9%98%BF%E9%87%8C%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93/"
+    >阿里面试复盘总结（三）——动画方案+秒杀系统+项目难题</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="../../2020/04/17/%E9%98%BF%E9%87%8C%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93/" class="article-date">
+  <time datetime="2020-04-16T16:00:00.000Z" itemprop="datePublished">2020-04-17</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="../../categories/%E9%98%BF%E9%87%8C%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93/">阿里面试总结</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>Welcome to share creative thoughts!</p>
+<h2 id="一、动画方案"><a href="#一、动画方案" class="headerlink" title="一、动画方案"></a>一、动画方案</h2><p>如何设置一个节日动画，推陈出新，提升用户体验？<strong>（技术选型）</strong></p>
+<p>1.requestAnimationFrame<br>本质：传入的回调函数执行异步任务、属于宏任务队列、由系统刷新率决定回调函数的时间间隔。</p>
+<p><strong>优点：</strong></p>
+<p>系统决定回调函数执行时机，动画更流畅，不掉帧。</p>
+<p>窗口没激活时，动画将停止，节省计算资源。</p>
+<p>存在兼容性问题，自己可以封装。</p>
+<p>按帧对网页动画进行重绘，可以并发渲染。</p>
+<p><strong>动画方案：</strong></p>
+<p>1.大图动画性能消耗大，使用translate3D实现GPU加速。</p>
+<p>2.动画结束、暂停时，切换回2D，取消加速。</p>
+<p>3.按需加载，必要时卸载。</p>
+<p>4.简化函数计算，减少回流、重绘。</p>
+<p>5.采用Web  Workers 开启多线程，提供更好的动画效果。</p>
+<p><strong>用户体验优化：</strong></p>
+<p>1.首屏优先加载，所以图片loaded以后，再启动主动画资源加载。</p>
+<p>2.图片优化：雪碧图、压缩、Base64。</p>
+<p>3.存储DOM变量，减少DOM tree的查找。</p>
+<p>4.限频。</p>
+<p><strong>场景应用：</strong></p>
+<p>1.Three.js+requestAnimationFrame实现3D动态效果。</p>
+<p>2.WebGL+Webpack 。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var globalID;</span><br><span class="line"><span class="function">function <span class="title">animate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="comment">// Do whatever</span></span><br><span class="line">  globalID=requestAnimationFrame(animate);</span><br><span class="line">  <span class="comment">// Do something animate，返回一个ID</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//when ot start</span></span><br><span class="line">  globalID=requestAnimationFrame(animate);</span><br><span class="line"><span class="comment">//when to stop</span></span><br><span class="line">  cancelAnimationFrame(globalID);<span class="comment">//取消回调函数</span></span><br></pre></td></tr></table></figure>
+
+<p>2.setTimeout</p>
+<p>本质：异步任务、宏任务队列、有最小执行时间。</p>
+<p><strong>缺点：</strong></p>
+<p>1.H5标准规定：setTimeout()的第二个参数的最小值（）最短间隔不得低于4毫秒，当我们把延迟时间设置为0，实际上会4毫秒后才把事件推入任务队列。</p>
+<p>2.时间不精准，误差与代码执行时间有关。</p>
+<p>3.队列中所有的代码都要等到JS进程空闲后才能执行，不论它们是如何添加到队列的。</p>
+<p>3.setInterval</p>
+<p>本质：以指定周期调用函数，隔一段时间推入一个事件。异步循环任务。</p>
+<p><strong>缺点：</strong></p>
+<p>事件执行时间不一定准确，有可能当前事件还没有执行完毕，下一个事件来临。</p>
+<p>某些间隔被跳过。</p>
+<p>多个定时器的代码执行之间的间隔可能比预期小。</p>
+<p><strong>解决方案：</strong>使用setTimeout构造轮询可以保证每次轮询的间隔。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(function  fn()&#123;</span><br><span class="line">console.<span class="built_in">log</span>(<span class="string">"我被调用了"</span>);</span><br><span class="line">setTimeout(fn,<span class="number">100</span>);</span><br><span class="line">&#125;,<span class="number">100</span>);</span><br></pre></td></tr></table></figure>
+
+<p>这个模式链式调用了setTimeout()，每次函数执行的时候都会创建一个新的定时器。第二个setTimeout()调用当前执行的函数，并为其设置另外一个定时器。</p>
+<p>这样做的好处是，在前一个定时器代码执行完之前，不会向队列插入新的定时器代码，确保不会有任何缺失的间隔。而且，它可以保证在下一次定时器代码执行前，至少要等待指定的间隔，避免了连续的运行。</p>
+<p><strong>我的延申思考：</strong></p>
+<p>requestIdleCallback()</p>
+<p>1、MDN解释：该方法在浏览器的空闲阶段内调用函数排队。使开发者在主事件循环上执行后台和低优先级工作，而不会影响延迟关键事件，比如动画和输入响应。</p>
+<p>2、利用这个特性做性能优化：在每帧的空闲时间进行数据发送操作，或者低优先级的工作，不会影响动画的性能。</p>
+<p>3、想到的应用：React  Fiber 架构思想：切割长任务，利用空闲时间执行，避免主线程长时间阻塞。</p>
+<p>4、Fiber核心：树的深度遍历变成链表遍历+时间分片+任务调度。</p>
+<p>其他实现方案：</p>
+<p>GSAP:</p>
+<p>优点：</p>
+<p>1、运行速度快，多个动画可以同时执行。</p>
+<p>2、轻量、模块化、按需使用、无需依赖。</p>
+<p>3、零插件依赖。</p>
+<p>4、灵活控制，代码量少，可以设置精确时间控制。</p>
+<p>5、任何对象都可以实现动画。</p>
+<p>6、实现重复：repeat设为-1就OK。</p>
+<h2 id="二、Promise的理解"><a href="#二、Promise的理解" class="headerlink" title="二、Promise的理解"></a>二、Promise的理解</h2><p><strong>优点：</strong></p>
+<p>1、对象状态不受外界影响。状态一旦改变，就不会再变。</p>
+<p>2、解决了回调地狱。</p>
+<p>3、提供统一接口，方便异步操作。</p>
+<p><strong>缺点：</strong></p>
+<p>1、无法中途取消。</p>
+<p>2、处于pending无法知道进展到了哪一个阶段。（刚开始还是要完成）</p>
+<p><strong>流程：观察者模式</strong></p>
+<p>Promise的构造方法接收一个executor()，在new Promise()时就立刻执行这个executor回调</p>
+<p>executor()内部的异步任务被放入宏/微任务队列，等待执行</p>
+<p>then()被执行，收集成功/失败回调，放入成功/失败队列</p>
+<p>executor()的异步任务被执行，触发resolve/reject，从成功/失败队列中取出回调依次执行</p>
+<p>细节问题：</p>
+<p>promise的then()放入了微任务队列。</p>
+<p>Promise 对象的错误具有“冒泡”性质，会一直向后传递，直到被捕获为止。也就是说，错误总是会被下一个 catch 语句捕获。</p>
+<p>如果没有使用 catch 方法指定错误处理的回调函数，Promise对象抛出的错误不会传递到外层代码，即不会有任何反应。</p>
+<p>Node 有一个 unhandledRejection 事件，专门监听未捕获的 reject 错误。</p>
+<p>Catch 方法返回的还是一个 Promise 对象，因此后面还可以接着调用 then 方法。</p>
+<blockquote>
+<p>then 方法</p>
+</blockquote>
+<ul>
+<li><p>1、可以接受两个回调函数作为参数。第一个回调函数是 Promise 对象的状态变为 resolved 时调用，第二个回调函数是<br>Promise 对象的状态变为 rejected 时调用。</p>
+<p>2、第二个函数是可选的，不一定要提供。这两个函数都接受 Promise 对象传出的值作为参数。</p>
+<p>3、采用链式的 then ，可以指定一组按照次序调用的回调函数。这时，前一个回调函数，有可能返回的还是一个 Promise<br>对象（即有异步操作），这时后一个回调函数，就会等待该 Promise 对象的状态发生变化，才会被调用。</p>
+<p>（异步变同步的思路）</p>
+<p>4、then(）回调不是函数时要忽略，否则会导致链式调用中断。</p>
+<p>5、一个Promise依赖于另外一个Promise，异步变同步。简化3的说法</p>
+</li>
+</ul>
+<blockquote>
+<p>异步加载图片：</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">function <span class="title">loadImageAsync</span><span class="params">(url)</span> </span>&#123;</span><br><span class="line"> <span class="keyword">return</span> <span class="keyword">new</span> Promise(function(resolve, reject) &#123; </span><br><span class="line"> var image = <span class="keyword">new</span> Image();</span><br><span class="line">  image.onload = function() &#123;</span><br><span class="line">   resolve(image); </span><br><span class="line">   &#125;;</span><br><span class="line">   image.onerror = function() &#123; </span><br><span class="line">   reject(new Error('Could not load image at ' + url)); </span><br><span class="line">   &#125;;</span><br><span class="line">   image.src = url; </span><br><span class="line">   &#125;); </span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>All方法</p>
+</blockquote>
+<p>1、接受的参数是数组（里面有多个Promise实例）或者具有iterable接口的对象，但必须使返回的成员是promise的实例。</p>
+<p>2、数组中每一项都执行成功才会成功，有一个失败就失败。</p>
+<p>3、可以用到前后端加载数据、解决乱序渲染的问题。</p>
+<p>（数组下标迭代保证了顺序）</p>
+<p>4、异步处理的好帮手，比如ajax请求多个数据，在此之前显示loading图标，使加载全部完成再显示页面，区分懒加载和预加载，看具体场景需求。</p>
+<p>5、即使响应时间不同，也可以保证接受到的数据与原始数据顺序一致。</p>
+<p>6、一个操作需要所有的Promise一起运行才能解决问题。</p>
+<p>Race方法</p>
+<p>1、不管结果成功还是失败，数组中哪一个结果最先执行完成就返回哪个结果。</p>
+<p>2、具体场景还没有想到，业务里有这种需求吗？后续脑补。</p>
+<p>我的延申思考：</p>
+<p>1、Promise解决了异步编程的一些问题，但是链式调用不能取消执行，无法获取执行进度怎么办？</p>
+<p>2、实际开发，我们如何做好状态管理，兼顾好同步和异步的切换？</p>
+<p>3、上述解答可以从其他的框架中挖掘答案。</p>
+<p>方案对比和思考：</p>
+<p>Generator:</p>
+<p>1、generator函数返回一个遍历器对象，是函数的内部指针。</p>
+<p>2、每次调用遍历器对象的next方法，就会返回有value和done两个属性的对象。</p>
+<p>3、value属性表示当前内部状态的值，等于yield语句后面的值。</p>
+<p>4、done属性是布尔值，表示是否遍历结束。</p>
+<p>优点：控制函数的暂停和继续，向外输出结果，下次继续执行可以传入参数。</p>
+<p>缺点：不能自动执行，遇到yield暂停，要手动控制。</p>
+<p>控制Generator函数流程的关键：</p>
+<p>是接受传入的值，并且可以把执行的权力还给程序。</p>
+<blockquote>
+<p>yield*</p>
+</blockquote>
+<p>yield委托，让出迭代控制。</p>
+<p>co:</p>
+<p>返回一个Promise对象，让generator自动执行，类比执行器。</p>
+<p>thunk函数</p>
+<p>自动执行Generator函数。</p>
+<blockquote>
+<p>for  of :</p>
+</blockquote>
+<p>遍历Generator函数运行生成的Iterator对象。</p>
+<p>不用调用next 方法，可以通过break return 暂停遍历。</p>
+<p>实战应用：</p>
+<p>1、购物车每订购一件商品就调用next()实现库存的减一，记录库存状态。</p>
+<p>2、三次抽奖活动，点击按钮调用next()实现次数减一，转动转盘的时候，让按钮禁止点击，转盘结束之后再调用next()进行下一次的抽奖，然后打开按钮的开关，记录按钮状态。</p>
+<p>3、支付场景：付款之后通过定时器询问接口，是否处理完成订单流程。</p>
+<p>4、总结一下就是在中断某一个操作时，要保留当时的状态，下次执行时回到当初的状态，比如我们做饭中途取了一个快递，然后保持菜的状态不改变，取完快递回来，接着做饭。</p>
+<p>由Generator引发的协程原理思考：</p>
+<blockquote>
+<p>协程：</p>
+</blockquote>
+<p>1、协程有自己的上下文和栈，当任务切换时，会将当前的上下文和栈保存到其他地方，再被切回来的时候，恢复之前保存的上下文和栈。</p>
+<p>2、我的理解就是：保留上一次的状态，重新进入时恢复到上次离开的状态。</p>
+<p>3、按需生成返回结果，而不是一次性的return所有的结果。</p>
+<blockquote>
+<p>场景应用：</p>
+</blockquote>
+<p>1、用户登录状态，切换某个页面之后，再次回来，保留上一次的状态。</p>
+<p>2、按需读取大文件，一段段的读取，不用一次遍历整个列表。</p>
+<p>3、类比流的思想，这里还要多学习一下stream的知识。</p>
+<p>4、直接读取大文件容易造成内存溢出，Generator不会造成内存溢出。</p>
+<p>5、使用中还可以向yield中传入值。</p>
+<p>6、协程开销远小于线程，yield让协程暂停，和线程的阻塞有本质的区别。</p>
+<p>7、协程的暂停由程序控制、线程的阻塞状态由操作系统的内核来进行切换。</p>
+<blockquote>
+<p>由Generator引发的Koa中的原理思考：</p>
+</blockquote>
+<p>1、首先执行一次 dispatch(0) 也就是默认返回第一个 app.use 传入的函数， 使用 Promise 函数封装返回。</p>
+<p>2、其中第一个参数是 ctx，第二个参数就是 next 参数，next 每次执行之后都会等于下一个中间件函数，如果下一个中间件函数不为真则返回一个成功的 Promise。</p>
+<p>3、Koa V1  基于Generator   Koa V2 利用async函数。</p>
+<p>4、洋葱模型的执行顺序类似捕获和冒泡的过程。</p>
+<p>5、由堆栈这种先进后出的模型可以类比Koa框架自外到内的Request和由里到外的Response的数据流。</p>
+<p>6、context的保存和传递、中间件的管理、next的实现要深入理解。</p>
+<p>7、源码中调用App.use（）把一个中间件push到一个列表中，每次执行use函数，就在函数数组中添加了一个函数，然后通过compose来遍历整个中间件，最终将context和dispatch(i+1)传给了middleware。</p>
+<p>8、一个中间件不能调用两次next()，调用时类比async函数，此时并不是表示中间件函数执行完毕了，调用了next()之后主程序还可以执行其他代码，类似于让next函数异步处理。（我对源码是这样理解的，有错误请大家指教）</p>
+<p>9、compose将多个中间件函数合并成一个大的中间件函数，然后依次调用单独的每一层。</p>
+<p>10、由compose处理中间件想到了redux，redux是利用数组的reducer对数组参数进行迭代。</p>
+<p>11、Koa的思想是不是继承了Emitter？为了在任意时间处理抛出的异常，订阅了error事件，Koa有一个app-onerror事件输出错误的日志。</p>
+<p>12、error处理有两个层面：APP层面负责log，一次响应过程中的error处理负责排查每次响应的结果。</p>
+<h2 id="三、秒杀活动设计的思考方案"><a href="#三、秒杀活动设计的思考方案" class="headerlink" title="三、秒杀活动设计的思考方案"></a>三、秒杀活动设计的思考方案</h2><blockquote>
+<p>背景：疫情枪口罩</p>
+</blockquote>
+<p>前端设计：防抖、节流减少请求次数、降低服务器压力</p>
+<p>后端设计：Node玩法高级，开启Master+Worker模式</p>
+<p>优点：</p>
+<p>Node本身的特性是单线程、事件驱动、异步非阻塞。</p>
+<p>没有多线程的切换上下文、加锁、销毁等复杂操作，之前博客也接触学习过。</p>
+<p>线程安全、数据读写一致性好。</p>
+<p>缺点：</p>
+<p>单线程无法利用多核CPU</p>
+<p>当时面试想到的方案：</p>
+<p>1、<strong>首先进程通信在本科学过有信号量、共享内存、消息队列、管道、套接字等，不过Node是基于管道实现的。</strong></p>
+<p>2、Node可以跨平台，libuv会针对不同的平台，采用不同的方式实现进程的通信。</p>
+<p>3、开启child_process模块，利用child_process模块直接创建子进程。</p>
+<p>暂时取名叫单线程+多进程模式吧</p>
+<p>（这和H5提出的Web  Worker有异曲同工之妙，相当于另辟蹊径，解决了JS主线程和UI渲染共用一个线程所引发的相互阻塞问题）。</p>
+<p>4、fork线程的开销还是比较大的，是为了利用CPU的资源。</p>
+<p>5、口罩请求打到主进程上面，主进程进行代理，转发到不同端口的子进程上。</p>
+<p>下来思考复盘之后可能出现的问题：</p>
+<p>代理请求转发不友好</p>
+<p>1、操作系统的文件描述符是有限的，维护需要成本。</p>
+<p>2、比如：当客户端连接到主进程的时候，用完了一个操作符，当主进程连接到子进程时，又用掉了一个，从数量上看，代理方案不节省资源。</p>
+<p>解决办法：（办法是查阅Node.js  9.2.3得出的）</p>
+<blockquote>
+<p>句柄传递-去除代理</p>
+</blockquote>
+<p>句柄传递可以代替代理的方案，原理是主进程收到客户端的请求之后，将这个请求直接发送到工作进程，而不是重新与子进程之间建立新的连接来转发数据。（又好像发布订阅模式）<br><img src="https://img-blog.csdnimg.cn/20200419125338865.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200419125357754.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTc3MzYx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>问题来了</p>
+<p>为何通过发送句柄之后，多个进程可以监听到相同的端口而不引起异常？</p>
+<p>官方解答：</p>
+<p>1、因为独立启动的进程中，TCP服务器端socket套接字的文件描述符并不相同，导致监听到相同的端口时会抛出异常。</p>
+<p>2、Node底层对每个端口监听设置了SO_REUSEADDR选项，不同进程可以对相同的网卡和端口进行监听，服务器套接字可以被不同的进程复用。</p>
+<p>3、对于send(）发送的句柄还原出来的服务而言，文件描述符是相同的，所以监听相同的端口不会引起异常。</p>
+<p>4、网络请求向服务器发送时，只有一个幸运的进程可以抢到连接，本质上一个请求的进程对应服务是抢占式的。</p>
+<p>好了，这个问题终于解决啦</p>
+<p>还有可能出现的问题：（简单给出思路和方案，日后再深入分析~）</p>
+<p>1、数据共享？</p>
+<p>答：Node本身不支持数据共享，所以我们要引入第三方Redis缓存，写一个定时脚本，在秒杀还没有开始之前，把口罩的库存数量写到Redis，从Redis拿数据处理。</p>
+<p>2、多人抢一只口罩，库存来不及更新？</p>
+<p>答：使用check-and-set实现乐观锁操作。（这个下去再仔细研究一下）</p>
+<h2 id="四、项目梳理：每个项目选了一个点来切入"><a href="#四、项目梳理：每个项目选了一个点来切入" class="headerlink" title="四、项目梳理：每个项目选了一个点来切入"></a>四、项目梳理：每个项目选了一个点来切入</h2><h2 id="项目一"><a href="#项目一" class="headerlink" title="项目一"></a>项目一</h2><p>问题：给学校水果商店做的小程序，计算金额的时候，浮点数的精度问题。</p>
+<p>举例子： 源自浮点数误差</p>
+<p>0.1+0.2   //0.30000000000000004<br>1-0.9     //0.09999999999999998<br>9007199254740993-9007199254740992  //0<br>Math.pow(2,1023) //8.98846567431158e+307<br>//但是<br>Math.pow(2,1024)  //Infinity<br>0.1 &gt;&gt; 0.0001 1001 1001 1001…（1001无限循环）<br>0.2 &gt;&gt; 0.0011 0011 0011 0011…（0011无限循环）<br>原因分析：</p>
+<p>JavaScript 里的数字是采用 IEEE 754 标准的 64 位双精度浮点数。</p>
+<p>这个规范定义了浮点数的格式，对于64位的浮点数在内存中的表示：</p>
+<p>最高的1位是符号位，接着的11位是指数，剩下的52位为有效数字。</p>
+<p>第0位：符号位， s 表示 ，0表示正数，1表示负数；</p>
+<p>第1位到第11位：储存指数部分， e 表示 ；</p>
+<p>第12位到第63位：储存小数部分（即有效数字），f 表示；</p>
+<p>根本原因：计算机底层只能二进制存储，所有的语言都存在这个问题。</p>
+<blockquote>
+<p>解决办法：</p>
+</blockquote>
+<p>1、引入两个库</p>
+<p>Math.js<br> 适用于JavaScript 和 Node.js </p>
+<p>具有灵活的表达式解析器，支持符号计算。</p>
+<p>配有大量内置函数和常量</p>
+<p>支持大数字(超出安全数的数字)，复数，分数，单位和矩阵的运算。</p>
+<p>decimal.js<br>可以方便 JavaScript 进行十进制类型的任意精度数值计算。</p>
+<p>2调用误差检查函数number.epsilon（）  兼容方法：math.abs(2，-52)</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">function <span class="title">withinErrorMargin</span> <span class="params">(left, right)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Math.<span class="built_in">abs</span>(left - right) &lt; Number.EPSILON</span><br><span class="line">&#125;</span><br><span class="line">withinErrorMargin(<span class="number">0.1</span>+<span class="number">0.2</span>, <span class="number">0.3</span>)</span><br></pre></td></tr></table></figure>
+
+<p>3、自己封装</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 核心方法，实现加减乘除运算，确保不丢失精度</span></span><br><span class="line"><span class="comment">     * 思路：把小数放大为整数（乘），进行算术运算，再缩小为小数（除）</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * @param a &#123;number&#125; 运算数1</span></span><br><span class="line"><span class="comment">     * @param b &#123;number&#125; 运算数2</span></span><br><span class="line"><span class="comment">     * @param op &#123;string&#125; 运算类型，有加减乘除（add/subtract/multiply/divide）</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">function <span class="title">operation</span><span class="params">(a, b, op)</span> </span>&#123;</span><br><span class="line">        var o1 = toInteger(a);</span><br><span class="line">        var o2 = toInteger(b);</span><br><span class="line">        var n1 = o1.num;</span><br><span class="line">        var n2 = o2.num;</span><br><span class="line">        var t1 = o1.times;</span><br><span class="line">        var t2 = o2.times;</span><br><span class="line">        var max = t1 &gt; t2 ? t1 : t2;</span><br><span class="line">        var result = null;</span><br><span class="line">        <span class="keyword">switch</span> (op) &#123;</span><br><span class="line">            case 'add':</span><br><span class="line">                <span class="keyword">if</span> (t1 === t2) &#123; <span class="comment">// 两个小数位数相同</span></span><br><span class="line">                    result = n1 + n2;</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (t1 &gt; t2) &#123; <span class="comment">// o1 小数位 大于 o2</span></span><br><span class="line">                    result = n1 + n2 * (t1 / t2);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123; <span class="comment">// o1 小数位 小于 o2</span></span><br><span class="line">                    result = n1 * (t2 / t1) + n2;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> result / max</span><br><span class="line">            case 'subtract':</span><br><span class="line">                <span class="keyword">if</span> (t1 === t2) &#123;</span><br><span class="line">                    result = n1 - n2;</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (t1 &gt; t2) &#123;</span><br><span class="line">                    result = n1 - n2 * (t1 / t2);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    result = n1 * (t2 / t1) - n2;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> result / max;</span><br><span class="line">            case 'multiply':</span><br><span class="line">                result = (n1 * n2) / (t1 * t2);</span><br><span class="line">                <span class="keyword">return</span> result;</span><br><span class="line">            case 'divide':</span><br><span class="line">                result = (n1 / n2) * (t2 / t1);</span><br><span class="line">                <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 加减乘除的四个接口</span></span><br><span class="line">    <span class="function">function <span class="title">add</span><span class="params">(a, b)</span> </span>&#123;</span><br><span class="line">        return operation(a, b, 'add');</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">function <span class="title">subtract</span><span class="params">(a, b)</span> </span>&#123;</span><br><span class="line">        return operation(a, b, 'subtract');</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">function <span class="title">multiply</span><span class="params">(a, b)</span> </span>&#123;</span><br><span class="line">        return operation(a, b, 'multiply');</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">function <span class="title">divide</span><span class="params">(a, b)</span> </span>&#123;</span><br><span class="line">        return operation(a, b, 'divide');</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// exports</span></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        add: add, <span class="comment">// 加</span></span><br><span class="line">        subtract: subtract, <span class="comment">// 减</span></span><br><span class="line">        multiply: multiply, <span class="comment">// 乘</span></span><br><span class="line">        divide: divide <span class="comment">// 除</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;();</span><br></pre></td></tr></table></figure>
+
+<p>学习反思：</p>
+<p>1、下去学习了千位分隔符（用正则可以解决）的解决办法。</p>
+<p>2、学习了大数相加的办法：转换成字符串进行操作，按位遍历，执行加减乘除，使用变量来保存进位。</p>
+<p>3、了解了底层数据的存储方式。</p>
+<p>4、涉及到金额要格外细心铭感。</p>
+<h2 id="项目二："><a href="#项目二：" class="headerlink" title="项目二："></a>项目二：</h2><p>学习了VUE的框架原理，通过项目有了一些框架体会和思考。</p>
+<p>问题：坑挺多，一般查阅MDN和stackoverflow和社区可以解决bug。</p>
+<p>收获：VUE-Router的源码学习。</p>
+<p>导航守卫的执行过程。</p>
+<p>URL变化逻辑切换不同页面的原理。（出栈入栈）</p>
+<blockquote>
+<p>原理概括分析：</p>
+</blockquote>
+<p>1当点击router-link时，最终会执行router.push(this.history.push）入栈。</p>
+<p>2通过transitionTo做路劲切换，成功的回调会执行pushHash(roote.fullPath</p>
+<p>方法，后面根据路劲变化去做入栈出栈操作，完成pop,place,replace功能。</p>
+<p>3在 history 的初始化中，会设置一个监听器，监听历史栈的变化。</p>
+<p>4当点击浏览器返回按钮的时候，如果已经有 url 被压入历史栈，则会触发 popstate 事件，然后拿到当前要跳转的 hash，执行 transtionTo 方法做一次路径转换。</p>
+<blockquote>
+<p>阅读源码笔记：</p>
+</blockquote>
+<p>1、导航守卫就是发生在路由路径切换时，执行的一系列钩子函数。</p>
+<p>2、这些钩子函数执行的逻辑：首先构造一个队列 queue，这个队列实际上是一个数组。</p>
+<p>3、然后再定义一个迭代器函数 iterator；最后再执行 runQueue 方法执行这个队列。</p>
+<p>4、一个非常经典的异步函数队列化执行的模式，queue 是一个NavigationGuard 类型的数组，源码定义了 step 函数，每次根据 index 从 queue 中取一个 guard，然后执行 fn 函数，并且把 guard 作为参数传入，第二个参数是一个函数，当这个函数执行的时候再递归执行 step 函数，前进到下一个，其实这里的 fn 就是非常经典的 iterator 函数</p>
+<p>5、iterator 函数逻辑就是去执行每一个导航守卫 hook，并传入 route、current 和匿名函数，这些参数对应源码中的 to、from、next。</p>
+<p>6、当执行了匿名函数，会根据一些条件执行 abort 或 next，只有执行 next 的时候，才会前进到下一个导航守卫钩子函数中，这也就是为什么官方文档会说只有执行 next 方法才 resolve 这个钩子函数。</p>
+<p>下面举例一个比较经典的，其他就不上图啦</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 经典的同步执行异步函数</span></span><br><span class="line">  runQueue(<span class="built_in">queue</span>, iterator, () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> postEnterCbs = []</span><br><span class="line">    <span class="keyword">const</span> isValid = () =&gt; <span class="keyword">this</span>.current === route</span><br><span class="line">    <span class="comment">// 当所有异步组件加载完成后，会执行这里的回调，也就是 runQueue 中的 cb()</span></span><br><span class="line">    <span class="comment">// 接下来执行 需要渲染组件的导航守卫钩子</span></span><br><span class="line">    <span class="keyword">const</span> enterGuards = extractEnterGuards(activated, postEnterCbs, isValid)</span><br><span class="line">    <span class="keyword">const</span> <span class="built_in">queue</span> = enterGuards.concat(<span class="keyword">this</span>.router.resolveHooks)</span><br><span class="line">    runQueue(<span class="built_in">queue</span>, iterator, () =&gt; &#123;</span><br><span class="line">    <span class="comment">// 跳转完成</span></span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>.pending !== route) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">abort</span>()</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">this</span>.pending = null</span><br><span class="line">      onComplete(route)</span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>.router.app) &#123;</span><br><span class="line">        <span class="keyword">this</span>.router.app.$nextTick(() =&gt; &#123;</span><br><span class="line">          postEnterCbs.forEach(cb =&gt; &#123;</span><br><span class="line">            cb()</span><br><span class="line">          &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">export</span> function <span class="title">runQueue</span> <span class="params">(<span class="built_in">queue</span>: Array&lt;?NavigationGuard&gt;, fn: Function, cb: Function)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> step = index =&gt; &#123;</span><br><span class="line">  <span class="comment">// 队列中的函数都执行完毕，就执行回调函数</span></span><br><span class="line">    <span class="keyword">if</span> (index &gt;= <span class="built_in">queue</span>.length) &#123;</span><br><span class="line">      cb()</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (<span class="built_in">queue</span>[index]) &#123;</span><br><span class="line">      <span class="comment">// 执行迭代器，用户在钩子函数中执行 next() 回调</span></span><br><span class="line">      <span class="comment">// 回调中判断传参，没有问题就执行 next()，也就是 fn 函数中的第二个参数</span></span><br><span class="line">        fn(<span class="built_in">queue</span>[index], () =&gt; &#123;</span><br><span class="line">          step(index + <span class="number">1</span>)</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        step(index + <span class="number">1</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 取出队列中第一个钩子函数</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="项目三：还在完善中"><a href="#项目三：还在完善中" class="headerlink" title="项目三：还在完善中"></a>项目三：还在完善中</h2><blockquote>
+<p>优化一：封装函数</p>
+</blockquote>
+<p>/*<br>封装的能发ajax请求的函数, 向外暴露的本质是axios</p>
+<ol>
+<li>解决post请求携带参数的问题: 默认是json, 需要转换成urlencode格式</li>
+<li>让请求成功的结果不再是response, 而是response.data的值</li>
+<li>统一处理所有请求的异常错误</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">*/</span><br><span class="line">import axios from 'axios'</span><br><span class="line">import qs from 'qs'</span><br><span class="line">import &#123;message&#125; from 'antd'</span><br><span class="line"><span class="comment">// 添加请求拦截器: 让post请求的请求体格式为urlencoded格式 a=1&amp;b2</span></span><br><span class="line"><span class="comment">// 在真正发请求前执行</span></span><br><span class="line">axios.interceptors.request.use(function (config) &#123;</span><br><span class="line">  <span class="comment">// 得到请求方式和请求体数据</span></span><br><span class="line">  <span class="keyword">const</span> &#123;method, data&#125; = config</span><br><span class="line">  <span class="comment">// 处理post请求, 将data对象转换成query参数格式字符串</span></span><br><span class="line">  if (method.toLowerCase() === 'post' &amp;&amp; typeof data==='object') &#123;</span><br><span class="line">    config.data = qs.stringify(data) <span class="comment">// username=admin&amp;password=admin</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> config</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 添加响应拦截器</span></span><br><span class="line">  <span class="comment">// 功能1: 让请求成功的结果不再是response, 而是response.data的值</span></span><br><span class="line">  <span class="comment">// 功能2: 统一处理所有请求的异常错误</span></span><br><span class="line"><span class="comment">// 在请求返回之后且在我们指定的请求响应回调函数之前</span></span><br><span class="line">axios.interceptors.response.use(function (response) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> response.data <span class="comment">// 返回的结果就会交给我们指定的请求响应的回调</span></span><br><span class="line">  <span class="comment">// return response // 返回的结果就会交给我们指定的请求响应的回调</span></span><br><span class="line">&#125;, function (error) &#123; <span class="comment">// 统一处理所有请求的异常错误</span></span><br><span class="line">  message.error('请求出错 ' + error.message)</span><br><span class="line">  <span class="comment">// return Promise.reject(error);</span></span><br><span class="line">  <span class="comment">// 返回一个pending状态的promise, 中断promise链</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> Promise(() =&gt; &#123;&#125;)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> axios</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>优化二：减少Render次数</p>
+</blockquote>
+<p>Component与PureComponent</p>
+<p> 原因分析：Component存在的问题?</p>
+<p> 父组件重新render(), 子组件也会重新执行render(), 即使没有任何变化</p>
+<p> 解决Component存在的问题</p>
+<p> 原因: 组件的shouldComponentUpdate()默认返回true, 即使数据没有变化render()都会重新执行</p>
+<p> 办法1: 重写shouldComponentUpdate(), 判断如果数据有变化返回true, 否则返回false</p>
+<p> 办法2: 使用PureComponent代替Component</p>
+<p> 办法3：使用React.memo()高阶函数</p>
+<p>PureComponent的基本原理：</p>
+<p>（1）重写实现shouldComponentUpdate()</p>
+<p>（2）对组件的新/旧state和props中的数据进行浅比较, 如果都没有变化, 返回false, 否则返回true</p>
+<p>（3）一旦ShouldComponentUpdate()返回false，就不再执行用于更新的render()</p>
+<blockquote>
+<p>优化三：缓存HTTP请求和数据</p>
+</blockquote>
+<p>原因：</p>
+<p>当用户再次请求相同的搜索内容时，可以不必发送网络请求，从缓存中取。</p>
+<p>思路：</p>
+<p>创建一个资源对象来缓存结果，当每次向网络发出新请求时，检查缓存中有没有上次的相同查询结果，存在就直接返回，不存在再发送网络请求，并将最新的请求数据保存到缓存中。</p>
+<blockquote>
+<p>优化四：用好Key</p>
+</blockquote>
+<p>虚拟DOM的key的地位:</p>
+<p>1、其实key就是一个是虚拟DOM对象的标识, Key把页面上的DOM和虚拟DOM做了一层关联映射。</p>
+<p>2、虚拟DOM是真实DOM在内存中的一个表示。在更新显示时key是一个唯一的标签，就像我们现实生活中的身份证，在生命周期中如果变化了，React会销毁原来的真实DOM，创建新的真实DOM。</p>
+<p>3、当列表数组中的数据发生变化生成新的虚拟DOM后, React会逐层做Diff算法，分为TreeDiff  Component Diff  Element Diff </p>
+<p>（1）key没有变</p>
+<pre><code>item数据没变, 直接使用原来的真实DOM。
+
+item数据变了, 对原来的真实DOM进行数据更新。</code></pre><p>（2）key变了：</p>
+<p>销毁原来的真实DOM, 根据item数据创建新的真实DOM显示。</p>
+<p>(即使item数据没有变)</p>
+<p>4、key为index存在的问题</p>
+<p>（1）添加/删除/排序 =&gt; 产生没有必要的真实DOM更新 ==&gt; 界面效果没问题, 但效率低</p>
+<p>（2）如果item界面还有输入框 =&gt; 产生错误的真实DOM更新 ==&gt; 界面有问题</p>
+<p>5、使用总结：问题的关键就是一定要用唯一属性作为Key</p>
+<p>（1）如果不存在添加/删除/排序/过滤操作, 用index作为keys是可以的。</p>
+<p>（2）列表不可以变动时，可以用index作为key。</p>
+<p>（3）列表添加删除时，可能导致某一部分的商品下标（key）改变被销毁，导致数据错乱或者不必要的重复渲染。</p>
+<p>（4）用唯一属性作为key，比如商品的出厂号码等，在生命周期中唯一不变</p>
+<blockquote>
+<p>优化小细节总结五：</p>
+</blockquote>
+<p>1、JS事件中节流。</p>
+<p>比如即时搜索功能，节流到输入字段结束之后再去请求数据。</p>
+<p>2、避免在map 方法中使用index作为组件的Key。</p>
+<p>3、采用记忆化的React组件：存储复杂函数的计算结果，比如优化三中的缓存组件。</p>
+<p>4、使用Web  Workers扩展任务。</p>
+<p>5、根据需要采用服务端渲染。</p>
+<p>6、在服务器启动Gzip压缩，在Node端安装Compression并调用。</p>
+<blockquote>
+<p>目前计划和挑战：</p>
+</blockquote>
+<p>1、学习移动消息推送中一键免密登录、第三方登录的原理，尝试实现这个功能。</p>
+<p>2、深化前端模块化、工程化的理念和实践，关注智能化的新方向。</p>
+<p>3、学习Flutter技术，做好研究生的深度学习毕设。</p>
+<p>4、关注前端领域、做好T型学习模式，视野要广，对于某方向的技术要好好沉淀，多思考，多锻炼，坚持不懈，做到精益求精。</p>
+<p>5、保持热情和动力、科技改变美丽人生、打造极致体验</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E4%B8%AA%E4%BA%BA%E8%81%8C%E4%B8%9A%E8%A7%84%E5%88%92/" rel="tag">个人职业规划</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E6%80%9D%E8%80%83%E5%A4%8D%E7%9B%98/" rel="tag">思考复盘</a></li></ul>
 
 
     </footer>
